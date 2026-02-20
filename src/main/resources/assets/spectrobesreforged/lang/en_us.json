@@ -1,0 +1,17 @@
+{
+  "itemGroup.spectrobesreforged": "Spectrobes Reforged",
+
+  "block.spectrobesreforged.example_block": "Example Block",
+  "item.spectrobesreforged.example_item": "Example Item",
+
+  "spectrobesreforged.configuration.title": "Spectrobes Reforged Config",
+  "spectrobesreforged.configuration.section.spectrobesreforged.common.toml": "Common Config",
+  "spectrobesreforged.configuration.section.spectrobesreforged.common.toml.title": "Common Config",
+  "spectrobesreforged.configuration.items": "Item List",
+  "spectrobesreforged.configuration.logDirtBlock": "Log Dirt Block",
+  "spectrobesreforged.configuration.magicNumberIntroduction": "Magic Number Text",
+  "spectrobesreforged.configuration.magicNumber": "Magic Number",
+
+  "itemGroup.spectrobes": "Spectrobes",
+  "block.spectrobesreforged.fossil_stone": "Fossil Stone"
+}
