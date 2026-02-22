@@ -1,0 +1,8 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#spectrobesreforged:hot",
+  "features": [
+    "spectrobesreforged:corona_fossil_ore"
+  ],
+  "step": "underground_ores"
+}

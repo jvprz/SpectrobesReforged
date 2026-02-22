@@ -4,6 +4,10 @@
   "block.spectrobesreforged.example_block": "Example Block",
   "item.spectrobesreforged.example_item": "Example Item",
 
+  "tooltip.spectrobesreforged.type.corona": "Corona",
+  "tooltip.spectrobesreforged.type.aurora": "Aurora",
+  "tooltip.spectrobesreforged.type.flash": "Flash",
+
   "spectrobesreforged.configuration.title": "Spectrobes Reforged Config",
   "spectrobesreforged.configuration.section.spectrobesreforged.common.toml": "Common Config",
   "spectrobesreforged.configuration.section.spectrobesreforged.common.toml.title": "Common Config",
@@ -12,6 +16,32 @@
   "spectrobesreforged.configuration.magicNumberIntroduction": "Magic Number Text",
   "spectrobesreforged.configuration.magicNumber": "Magic Number",
 
-  "itemGroup.spectrobes": "Spectrobes",
-  "block.spectrobesreforged.fossil_stone": "Fossil Stone"
+  "itemGroup.spectrobes_blocks": "Spectrobes Blocks",
+  "block.spectrobesreforged.corona_fossil_ore": "Corona Fossil Ore",
+  "block.spectrobesreforged.aurora_fossil_ore": "Aurora Fossil Ore",
+  "block.spectrobesreforged.flash_fossil_ore": "Flash Fossil Ore",
+
+  "itemGroup.spectrobes_fossils": "Spectrobes Fossils",
+  "item.spectrobesreforged.vilar_fossil": "Vilar Fossil",
+  "item.spectrobesreforged.segu_fossil": "Segu Fossil",
+  "item.spectrobesreforged.harumi_fossil": "Harumi Fossil",
+  "item.spectrobesreforged.spiko_fossil": "Spiko Fossil",
+  "item.spectrobesreforged.nagu_fossil": "Nagu Fossil",
+  "item.spectrobesreforged.inkana_fossil": "Inkana Fossil",
+  "item.spectrobesreforged.dongor_fossil": "Dongor Fossil",
+  "item.spectrobesreforged.bartor_fossil": "Bartor Fossil",
+  "item.spectrobesreforged.aoi_fossil": "Aoi Fossil",
+  "item.spectrobesreforged.komainu_fossil": "Komainu Fossil",
+  "item.spectrobesreforged.shakin_fossil": "Shakin Fossil",
+  "item.spectrobesreforged.zoza_fossil": "Zoza Fossil",
+  "item.spectrobesreforged.samukabu_fossil": "Samukabu Fossil",
+  "item.spectrobesreforged.tenkro_fossil": "Tenkro Fossil",
+  "item.spectrobesreforged.grilda_fossil": "Grilda Fossil",
+  "item.spectrobesreforged.gejio_fossil": "Gejio Fossil",
+  "item.spectrobesreforged.kasumi_fossil": "Kasumi Fossil",
+  "item.spectrobesreforged.kubatu_fossil": "Kubatu Fossil",
+  "item.spectrobesreforged.masetto_fossil": "Masetto Fossil",
+  "item.spectrobesreforged.danawa_fossil": "Danawa Fossil",
+  "item.spectrobesreforged.mossari_fossil": "Mossari Fossil",
+  "item.spectrobesreforged.mesa_fossil": "Mesa Fossil"
 }

@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "spectrobesreforged:fossil_stone"
+    "spectrobesreforged:corona_fossil_ore",
+    "spectrobesreforged:aurora_fossil_ore",
+    "spectrobesreforged:flash_fossil_ore"
   ]
 }
