@@ -59,8 +59,8 @@ public final class ModItems {
     public static final DeferredItem<Item> GEJIO_FOSSIL =
             ITEMS.register("gejio_fossil", () -> new FossilItem(SpectrobeType.AURORA, new Item.Properties()));
 
-    public static final DeferredItem<Item> KUBATU_FOSSIL =
-            ITEMS.register("kubatu_fossil", () -> new FossilItem(SpectrobeType.AURORA, new Item.Properties()));
+    public static final DeferredItem<Item> KUBAkU_FOSSIL =
+            ITEMS.register("kubaku_fossil", () -> new FossilItem(SpectrobeType.AURORA, new Item.Properties()));
 
     public static final DeferredItem<Item> MASETTO_FOSSIL =
             ITEMS.register("masetto_fossil", () -> new FossilItem(SpectrobeType.AURORA, new Item.Properties()));

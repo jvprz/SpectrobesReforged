@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import com.jvprz.spectrobesreforged.registry.ModBlocks;
 import com.jvprz.spectrobesreforged.registry.ModItems;
 import com.jvprz.spectrobesreforged.registry.ModTabs;
+import com.jvprz.spectrobesreforged.client.SpectrobesClient;
 import com.mojang.logging.LogUtils;
 
 import net.neoforged.bus.api.IEventBus;
@@ -19,10 +20,13 @@ public class SpectrobesReforged {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public SpectrobesReforged(IEventBus modEventBus, ModContainer modContainer) {
-        // Register all deferred registers
+
+        // Registers
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
         ModTabs.register(modEventBus);
+
+        modEventBus.addListener(SpectrobesClient::registerTooltipFactories);
 
         LOGGER.info("Spectrobes Reforged loaded");
     }

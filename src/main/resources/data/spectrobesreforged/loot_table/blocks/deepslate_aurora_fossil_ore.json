@@ -44,7 +44,7 @@
         { "type": "minecraft:item", "name": "spectrobesreforged:bartor_fossil",  "weight": 1 },
         { "type": "minecraft:item", "name": "spectrobesreforged:grilda_fossil",  "weight": 1 },
         { "type": "minecraft:item", "name": "spectrobesreforged:gejio_fossil",   "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:kubatu_fossil",  "weight": 1 },
+        { "type": "minecraft:item", "name": "spectrobesreforged:kubaku_fossil",  "weight": 1 },
         { "type": "minecraft:item", "name": "spectrobesreforged:masetto_fossil", "weight": 1 }
       ]
     }

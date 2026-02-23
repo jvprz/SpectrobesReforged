@@ -4,6 +4,7 @@
   "block.spectrobesreforged.example_block": "Example Block",
   "item.spectrobesreforged.example_item": "Example Item",
 
+  "tooltip.spectrobesreforged.type_line": "Type: %s",
   "tooltip.spectrobesreforged.type.corona": "Corona",
   "tooltip.spectrobesreforged.type.aurora": "Aurora",
   "tooltip.spectrobesreforged.type.flash": "Flash",
@@ -42,7 +43,7 @@
   "item.spectrobesreforged.grilda_fossil": "Grilda Fossil",
   "item.spectrobesreforged.gejio_fossil": "Gejio Fossil",
   "item.spectrobesreforged.kasumi_fossil": "Kasumi Fossil",
-  "item.spectrobesreforged.kubatu_fossil": "Kubatu Fossil",
+  "item.spectrobesreforged.kubaku_fossil": "Kubaku Fossil",
   "item.spectrobesreforged.masetto_fossil": "Masetto Fossil",
   "item.spectrobesreforged.danawa_fossil": "Danawa Fossil",
   "item.spectrobesreforged.mossari_fossil": "Mossari Fossil",

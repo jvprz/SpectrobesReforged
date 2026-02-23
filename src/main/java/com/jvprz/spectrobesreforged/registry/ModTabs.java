@@ -54,7 +54,7 @@ public final class ModTabs {
                         output.accept(ModItems.GEJIO_FOSSIL.get());
                         output.accept(ModItems.KASUMI_FOSSIL.get());
                         output.accept(ModItems.SAMUKABU_FOSSIL.get());
-                        output.accept(ModItems.KUBATU_FOSSIL.get());
+                        output.accept(ModItems.KUBAkU_FOSSIL.get());
                         output.accept(ModItems.MASETTO_FOSSIL.get());
                         output.accept(ModItems.DANAWA_FOSSIL.get());
                         output.accept(ModItems.TENKRO_FOSSIL.get());
