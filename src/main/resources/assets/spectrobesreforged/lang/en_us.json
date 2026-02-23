@@ -20,6 +20,9 @@
   "block.spectrobesreforged.corona_fossil_ore": "Corona Fossil Ore",
   "block.spectrobesreforged.aurora_fossil_ore": "Aurora Fossil Ore",
   "block.spectrobesreforged.flash_fossil_ore": "Flash Fossil Ore",
+  "block.spectrobesreforged.deepslate_corona_fossil_ore": "Deepslate Corona Fossil Ore",
+  "block.spectrobesreforged.deepslate_aurora_fossil_ore": "Deepslate Aurora Fossil Ore",
+  "block.spectrobesreforged.deepslate_flash_fossil_ore": "Deepslate Flash Fossil Ore",
 
   "itemGroup.spectrobes_fossils": "Spectrobes Fossils",
   "item.spectrobesreforged.vilar_fossil": "Vilar Fossil",

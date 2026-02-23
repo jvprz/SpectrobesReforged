@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "spectrobesreforged:block/fossil_stone"
+    "all": "spectrobesreforged:block/flash_fossil_ore"
   }
 }

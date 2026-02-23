@@ -19,7 +19,7 @@ public final class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS =
             DeferredRegister.createBlocks(SpectrobesReforged.MODID);
 
-    // Fossil ores (same look, different drops)
+    // Fossil ores
     public static final DeferredBlock<Block> CORONA_FOSSIL_ORE =
             BLOCKS.register("corona_fossil_ore",
                     () -> new FossilOreBlock(
@@ -52,6 +52,43 @@ public final class ModBlocks {
                                     .mapColor(MapColor.STONE)
                                     .strength(1.5f, 6.0f)
                                     .sound(SoundType.STONE)
+                                    .requiresCorrectToolForDrops()
+                    )
+            );
+
+    // Deepslate fossil ores
+    public static final DeferredBlock<Block> DEEPSLATE_CORONA_FOSSIL_ORE =
+            BLOCKS.register("deepslate_corona_fossil_ore",
+                    () -> new FossilOreBlock(
+                            SpectrobeType.CORONA,
+                            BlockBehaviour.Properties.of()
+                                    .mapColor(MapColor.DEEPSLATE)
+                                    .strength(3.0f, 6.0f) // deepslate suele ser más duro
+                                    .sound(SoundType.DEEPSLATE)
+                                    .requiresCorrectToolForDrops()
+                    )
+            );
+
+    public static final DeferredBlock<Block> DEEPSLATE_AURORA_FOSSIL_ORE =
+            BLOCKS.register("deepslate_aurora_fossil_ore",
+                    () -> new FossilOreBlock(
+                            SpectrobeType.AURORA,
+                            BlockBehaviour.Properties.of()
+                                    .mapColor(MapColor.DEEPSLATE)
+                                    .strength(3.0f, 6.0f)
+                                    .sound(SoundType.DEEPSLATE)
+                                    .requiresCorrectToolForDrops()
+                    )
+            );
+
+    public static final DeferredBlock<Block> DEEPSLATE_FLASH_FOSSIL_ORE =
+            BLOCKS.register("deepslate_flash_fossil_ore",
+                    () -> new FossilOreBlock(
+                            SpectrobeType.FLASH,
+                            BlockBehaviour.Properties.of()
+                                    .mapColor(MapColor.DEEPSLATE)
+                                    .strength(3.0f, 6.0f)
+                                    .sound(SoundType.DEEPSLATE)
                                     .requiresCorrectToolForDrops()
                     )
             );

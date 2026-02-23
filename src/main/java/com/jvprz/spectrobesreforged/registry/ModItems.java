@@ -99,6 +99,15 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> FLASH_FOSSIL_ORE_ITEM =
             ITEMS.registerSimpleBlockItem("flash_fossil_ore", ModBlocks.FLASH_FOSSIL_ORE);
 
+    public static final DeferredItem<BlockItem> DEEPSLATE_CORONA_FOSSIL_ORE_ITEM =
+            ITEMS.registerSimpleBlockItem("deepslate_corona_fossil_ore", ModBlocks.DEEPSLATE_CORONA_FOSSIL_ORE);
+
+    public static final DeferredItem<BlockItem> DEEPSLATE_AURORA_FOSSIL_ORE_ITEM =
+            ITEMS.registerSimpleBlockItem("deepslate_aurora_fossil_ore", ModBlocks.DEEPSLATE_AURORA_FOSSIL_ORE);
+
+    public static final DeferredItem<BlockItem> DEEPSLATE_FLASH_FOSSIL_ORE_ITEM =
+            ITEMS.registerSimpleBlockItem("deepslate_flash_fossil_ore", ModBlocks.DEEPSLATE_FLASH_FOSSIL_ORE);
+
     public static void register(IEventBus modEventBus) {
         ITEMS.register(modEventBus);
     }

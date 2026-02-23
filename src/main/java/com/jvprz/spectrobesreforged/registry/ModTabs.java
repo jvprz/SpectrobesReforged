@@ -26,6 +26,9 @@ public final class ModTabs {
                         output.accept(ModItems.CORONA_FOSSIL_ORE_ITEM.get());
                         output.accept(ModItems.AURORA_FOSSIL_ORE_ITEM.get());
                         output.accept(ModItems.FLASH_FOSSIL_ORE_ITEM.get());
+                        output.accept(ModItems.DEEPSLATE_CORONA_FOSSIL_ORE_ITEM.get());
+                        output.accept(ModItems.DEEPSLATE_AURORA_FOSSIL_ORE_ITEM.get());
+                        output.accept(ModItems.DEEPSLATE_FLASH_FOSSIL_ORE_ITEM.get());
                     })
                     .build());
 

@@ -3,6 +3,9 @@
   "values": [
     "spectrobesreforged:corona_fossil_ore",
     "spectrobesreforged:aurora_fossil_ore",
-    "spectrobesreforged:flash_fossil_ore"
+    "spectrobesreforged:flash_fossil_ore",
+    "spectrobesreforged:deepslate_corona_fossil_ore",
+    "spectrobesreforged:deepslate_aurora_fossil_ore",
+    "spectrobesreforged:deepslate_flash_fossil_ore"
   ]
 }

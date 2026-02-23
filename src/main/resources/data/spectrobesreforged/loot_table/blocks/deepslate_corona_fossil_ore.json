@@ -1,0 +1,53 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "predicates": {
+              "minecraft:enchantments": [
+                { "enchantments": "minecraft:silk_touch", "levels": { "min": 1 } }
+              ]
+            }
+          }
+        },
+        { "condition": "minecraft:survives_explosion" }
+      ],
+      "entries": [
+        { "type": "minecraft:item", "name": "spectrobesreforged:deepslate_corona_fossil_ore" }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "predicates": {
+                "minecraft:enchantments": [
+                  { "enchantments": "minecraft:silk_touch", "levels": { "min": 1 } }
+                ]
+              }
+            }
+          }
+        },
+        { "condition": "minecraft:survives_explosion" }
+      ],
+      "entries": [
+        { "type": "minecraft:item", "name": "spectrobesreforged:vilar_fossil",   "weight": 1 },
+        { "type": "minecraft:item", "name": "spectrobesreforged:inkana_fossil",  "weight": 1 },
+        { "type": "minecraft:item", "name": "spectrobesreforged:dongor_fossil",  "weight": 1 },
+        { "type": "minecraft:item", "name": "spectrobesreforged:komainu_fossil", "weight": 1 },
+        { "type": "minecraft:item", "name": "spectrobesreforged:zoza_fossil",    "weight": 1 },
+        { "type": "minecraft:item", "name": "spectrobesreforged:danawa_fossil",  "weight": 1 },
+        { "type": "minecraft:item", "name": "spectrobesreforged:tenkro_fossil",  "weight": 1 },
+        { "type": "minecraft:item", "name": "spectrobesreforged:mesa_fossil",    "weight": 1 }
+      ]
+    }
+  ]
+}
