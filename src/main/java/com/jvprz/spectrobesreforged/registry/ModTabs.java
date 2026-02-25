@@ -63,6 +63,27 @@ public final class ModTabs {
                     })
                     .build());
 
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> SPECTROBES_MINERALS_TAB =
+            CREATIVE_MODE_TABS.register("spectrobes_minerals", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.spectrobes_minerals"))
+                    .withTabsBefore(CreativeModeTabs.COMBAT)
+                    .icon(() -> ModItems.POWER_C.get().getDefaultInstance())
+                    .displayItems((parameters, output) -> {
+                        output.accept(ModItems.POWER_C.get());
+                        output.accept(ModItems.POWER_B.get());
+                        output.accept(ModItems.POWER_A.get());
+                        output.accept(ModItems.POWER_A_PLUS.get());
+                        output.accept(ModItems.DEFENSE_C.get());
+                        output.accept(ModItems.DEFENSE_B.get());
+                        output.accept(ModItems.DEFENSE_A.get());
+                        output.accept(ModItems.DEFENSE_A_PLUS.get());
+                        output.accept(ModItems.HEALTH_C.get());
+                        output.accept(ModItems.HEALTH_B.get());
+                        output.accept(ModItems.HEALTH_A.get());
+                        output.accept(ModItems.HEALTH_A_PLUS.get());
+                    })
+                    .build());
+
     public static void register(IEventBus modEventBus) {
         CREATIVE_MODE_TABS.register(modEventBus);
     }

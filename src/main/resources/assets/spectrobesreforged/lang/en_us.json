@@ -47,5 +47,19 @@
   "item.spectrobesreforged.masetto_fossil": "Masetto Fossil",
   "item.spectrobesreforged.danawa_fossil": "Danawa Fossil",
   "item.spectrobesreforged.mossari_fossil": "Mossari Fossil",
-  "item.spectrobesreforged.mesa_fossil": "Mesa Fossil"
+  "item.spectrobesreforged.mesa_fossil": "Mesa Fossil",
+
+  "itemGroup.spectrobes_minerals": "Spectrobes Minerals",
+  "item.spectrobesreforged.power_c": "Power C",
+  "item.spectrobesreforged.power_b": "Power B",
+  "item.spectrobesreforged.power_a": "Power A",
+  "item.spectrobesreforged.power_a_plus": "Power A+",
+  "item.spectrobesreforged.defense_c": "Defense C",
+  "item.spectrobesreforged.defense_b": "Defense B",
+  "item.spectrobesreforged.defense_a": "Defense A",
+  "item.spectrobesreforged.defense_a_plus": "Defense A+",
+  "item.spectrobesreforged.health_c": "Health C",
+  "item.spectrobesreforged.health_b": "Health B",
+  "item.spectrobesreforged.health_a": "Health A",
+  "item.spectrobesreforged.health_a_plus": "Health A+"
 }

@@ -108,6 +108,43 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> DEEPSLATE_FLASH_FOSSIL_ORE_ITEM =
             ITEMS.registerSimpleBlockItem("deepslate_flash_fossil_ore", ModBlocks.DEEPSLATE_FLASH_FOSSIL_ORE);
 
+    // Minerals
+    public static final DeferredItem<Item> POWER_C =
+            ITEMS.registerSimpleItem("power_c", new Item.Properties());
+
+    public static final DeferredItem<Item> POWER_B =
+            ITEMS.registerSimpleItem("power_b", new Item.Properties());
+
+    public static final DeferredItem<Item> POWER_A =
+            ITEMS.registerSimpleItem("power_a", new Item.Properties());
+
+    public static final DeferredItem<Item> POWER_A_PLUS =
+            ITEMS.registerSimpleItem("power_a_plus", new Item.Properties());
+
+    public static final DeferredItem<Item> DEFENSE_C =
+            ITEMS.registerSimpleItem("defense_c", new Item.Properties());
+
+    public static final DeferredItem<Item> DEFENSE_B=
+            ITEMS.registerSimpleItem("defense_b", new Item.Properties());
+
+    public static final DeferredItem<Item> DEFENSE_A =
+            ITEMS.registerSimpleItem("defense_a", new Item.Properties());
+
+    public static final DeferredItem<Item> DEFENSE_A_PLUS =
+            ITEMS.registerSimpleItem("defense_a_plus", new Item.Properties());
+
+    public static final DeferredItem<Item> HEALTH_C =
+            ITEMS.registerSimpleItem("health_c", new Item.Properties());
+
+    public static final DeferredItem<Item> HEALTH_B =
+            ITEMS.registerSimpleItem("health_b", new Item.Properties());
+
+    public static final DeferredItem<Item> HEALTH_A =
+            ITEMS.registerSimpleItem("health_a", new Item.Properties());
+
+    public static final DeferredItem<Item> HEALTH_A_PLUS =
+            ITEMS.registerSimpleItem("health_a_plus", new Item.Properties());
+
     public static void register(IEventBus modEventBus) {
         ITEMS.register(modEventBus);
     }
