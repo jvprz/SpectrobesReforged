@@ -84,6 +84,16 @@ public final class ModTabs {
                     })
                     .build());
 
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> SPECTROBES_SPAWN_EGG_TAB =
+            CREATIVE_MODE_TABS.register("spectrobes_spawn_egg", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.spectrobes_spawn_egg"))
+                    .withTabsBefore(CreativeModeTabs.COMBAT)
+                    .icon(() -> ModItems.KOMAINU_SPAWN_EGG.get().getDefaultInstance())
+                    .displayItems((parameters, output) -> {
+                        output.accept(ModItems.KOMAINU_SPAWN_EGG.get());
+                    })
+                    .build());
+
     public static void register(IEventBus modEventBus) {
         CREATIVE_MODE_TABS.register(modEventBus);
     }

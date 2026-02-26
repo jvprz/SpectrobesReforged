@@ -11,6 +11,9 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.Rarity;
+
 public final class ModItems {
     private ModItems() {}
 
@@ -144,6 +147,17 @@ public final class ModItems {
 
     public static final DeferredItem<Item> HEALTH_A_PLUS =
             ITEMS.registerSimpleItem("health_a_plus", new Item.Properties());
+
+    // spawn egg
+    public static final DeferredItem<Item> KOMAINU_SPAWN_EGG =
+            ITEMS.register("komainu_spawn_egg",
+                    () -> new SpawnEggItem(
+                            ModEntities.KOMAINU.get(),
+                            0xC63A6D, // color base (ajusta)
+                            0x44D7D2, // manchas (ajusta)
+                            new Item.Properties()
+                    )
+            );
 
     public static void register(IEventBus modEventBus) {
         ITEMS.register(modEventBus);

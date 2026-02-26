@@ -35,11 +35,6 @@ public class FossilItem extends Item {
         ));
     }
 
-    @Override
-    public Optional<TooltipComponent> getTooltipImage(ItemStack stack) {
-        return Optional.of(new TypeTooltipComponent(type));
-    }
-
     private static String typeKey(SpectrobeType t) {
         return switch (t) {
             case AURORA -> "tooltip.spectrobesreforged.type.aurora";
