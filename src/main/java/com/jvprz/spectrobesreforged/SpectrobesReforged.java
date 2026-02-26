@@ -1,12 +1,12 @@
 // src/main/java/com/jvprz/spectrobesreforged/SpectrobesReforged.java
 package com.jvprz.spectrobesreforged;
 
+import com.jvprz.spectrobesreforged.content.prizmod.SpectrobeManager;
+import com.jvprz.spectrobesreforged.content.prizmod.SpectrobeSpeciesRegistry;
+import com.jvprz.spectrobesreforged.registry.*;
+import net.neoforged.neoforge.common.NeoForge;
 import org.slf4j.Logger;
 
-import com.jvprz.spectrobesreforged.registry.ModBlocks;
-import com.jvprz.spectrobesreforged.registry.ModItems;
-import com.jvprz.spectrobesreforged.registry.ModTabs;
-import com.jvprz.spectrobesreforged.registry.ModEntities;
 import com.jvprz.spectrobesreforged.client.ClientEvents;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import com.jvprz.spectrobesreforged.common.CommonEvents;
@@ -28,11 +28,18 @@ public class SpectrobesReforged {
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
         ModTabs.register(modEventBus);
+        ModAttachments.register(modEventBus);
 
-        // RENDERER (Cliente)
-        modEventBus.addListener(net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers.class, ClientEvents::registerRenderers);
+        NeoForge.EVENT_BUS.addListener(ModEvents::onRegisterCommands);
+        NeoForge.EVENT_BUS.addListener(ModSpectrobeAutoSpawn::onPlayerLoggedIn);
+        NeoForge.EVENT_BUS.addListener(ModSpectrobeAutoSpawn::onPlayerRespawn);
+        NeoForge.EVENT_BUS.addListener(ModSpectrobeAutoSpawn::onPlayerChangedDimension);
+        NeoForge.EVENT_BUS.addListener(ModSpectrobePortalGuard::onEntityTravelToDimension);
+        NeoForge.EVENT_BUS.addListener(ModSpectrobeFollowGuard::onPlayerTick);
 
-        // ATRIBUTOS (Común/Servidor) - ESTO ARREGLA EL NULLPOINTEREXCEPTION
+        SpectrobeSpeciesRegistry.registerBaby("komainu", SpectrobeManager::spawnKomainu);
+
+        modEventBus.addListener(ClientEvents::registerRenderers);
         modEventBus.addListener(CommonEvents::registerAttributes);
 
         LOGGER.info("Spectrobes Reforged loaded");
