@@ -5,6 +5,7 @@ import com.jvprz.spectrobesreforged.SpectrobesReforged;
 import com.jvprz.spectrobesreforged.content.SpectrobeType;
 import com.jvprz.spectrobesreforged.content.item.FossilItem;
 
+import com.jvprz.spectrobesreforged.content.item.PrizmodItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
@@ -158,6 +159,10 @@ public final class ModItems {
                             new Item.Properties()
                     )
             );
+
+    public static final DeferredItem<Item> PRIZMOD =
+            ITEMS.register("prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
 
     public static void register(IEventBus modEventBus) {
         ITEMS.register(modEventBus);

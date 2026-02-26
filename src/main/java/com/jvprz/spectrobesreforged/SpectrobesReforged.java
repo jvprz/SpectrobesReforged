@@ -29,6 +29,7 @@ public class SpectrobesReforged {
         ModItems.register(modEventBus);
         ModTabs.register(modEventBus);
         ModAttachments.register(modEventBus);
+        ModMenus.register(modEventBus);
 
         NeoForge.EVENT_BUS.addListener(ModEvents::onRegisterCommands);
         NeoForge.EVENT_BUS.addListener(ModSpectrobeAutoSpawn::onPlayerLoggedIn);
@@ -41,6 +42,7 @@ public class SpectrobesReforged {
 
         modEventBus.addListener(ClientEvents::registerRenderers);
         modEventBus.addListener(CommonEvents::registerAttributes);
+        modEventBus.addListener(ClientEvents::registerScreens);
 
         LOGGER.info("Spectrobes Reforged loaded");
     }
