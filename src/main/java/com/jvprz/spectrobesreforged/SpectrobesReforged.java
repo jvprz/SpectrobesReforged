@@ -3,8 +3,10 @@ package com.jvprz.spectrobesreforged;
 
 import com.jvprz.spectrobesreforged.content.prizmod.SpectrobeManager;
 import com.jvprz.spectrobesreforged.content.prizmod.SpectrobeSpeciesRegistry;
+import com.jvprz.spectrobesreforged.network.S2CPrizmodSnapshot;
 import com.jvprz.spectrobesreforged.registry.*;
 import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.slf4j.Logger;
 
 import com.jvprz.spectrobesreforged.client.ClientEvents;
@@ -39,6 +41,8 @@ public class SpectrobesReforged {
         NeoForge.EVENT_BUS.addListener(ModSpectrobeFollowGuard::onPlayerTick);
 
         SpectrobeSpeciesRegistry.registerBaby("komainu", SpectrobeManager::spawnKomainu);
+
+        modEventBus.addListener(com.jvprz.spectrobesreforged.network.ModNetwork::register);
 
         modEventBus.addListener(ClientEvents::registerRenderers);
         modEventBus.addListener(CommonEvents::registerAttributes);
