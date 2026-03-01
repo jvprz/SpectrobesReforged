@@ -63,8 +63,21 @@
   "item.spectrobesreforged.health_a": "Health A",
   "item.spectrobesreforged.health_a_plus": "Health A+",
 
-  "itemGroup.spectrobes_spawn_egg": "Spectrobes Spawn Eggs",
-  "item.spectrobesreforged.komainu_spawn_egg": "Komainu Spawn Egg",
-
-  "item.spectrobesreforged.prizmod": "Prizmod"
+  "itemGroup.spectrobes_tools": "Spectrobes Tools",
+  "item.spectrobesreforged.white_prizmod": "White Prizmod",
+  "item.spectrobesreforged.light_gray_prizmod": "Light Gray Prizmod",
+  "item.spectrobesreforged.gray_prizmod": "Gray Prizmod",
+  "item.spectrobesreforged.black_prizmod": "Black Prizmod",
+  "item.spectrobesreforged.brown_prizmod": "Brown Prizmod",
+  "item.spectrobesreforged.red_prizmod": "Red Prizmod",
+  "item.spectrobesreforged.orange_prizmod": "Orange Prizmod",
+  "item.spectrobesreforged.yellow_prizmod": "Yellow Prizmod",
+  "item.spectrobesreforged.lime_prizmod": "Lime Prizmod",
+  "item.spectrobesreforged.green_prizmod": "Green Prizmod",
+  "item.spectrobesreforged.cyan_prizmod": "Cyan Prizmod",
+  "item.spectrobesreforged.light_blue_prizmod": "Light Blue Prizmod",
+  "item.spectrobesreforged.blue_prizmod": "Blue Prizmod",
+  "item.spectrobesreforged.purple_prizmod": "Purple Prizmod",
+  "item.spectrobesreforged.magenta_prizmod": "Magenta Prizmod",
+  "item.spectrobesreforged.pink_prizmod": "Pink Prizmod"
 }

@@ -84,13 +84,28 @@ public final class ModTabs {
                     })
                     .build());
 
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> SPECTROBES_SPAWN_EGG_TAB =
-            CREATIVE_MODE_TABS.register("spectrobes_spawn_egg", () -> CreativeModeTab.builder()
-                    .title(Component.translatable("itemGroup.spectrobes_spawn_egg"))
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> SPECTROBES_TOOLS_TAB =
+            CREATIVE_MODE_TABS.register("spectrobes_tools", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.spectrobes_tools"))
                     .withTabsBefore(CreativeModeTabs.COMBAT)
-                    .icon(() -> ModItems.KOMAINU_SPAWN_EGG.get().getDefaultInstance())
+                    .icon(() -> ModItems.LIGHT_GRAY_PRIZMOD.get().getDefaultInstance())
                     .displayItems((parameters, output) -> {
-                        output.accept(ModItems.KOMAINU_SPAWN_EGG.get());
+                        output.accept(ModItems.WHITE_PRIZMOD.get());
+                        output.accept(ModItems.LIGHT_GRAY_PRIZMOD.get());
+                        output.accept(ModItems.GRAY_PRIZMOD.get());
+                        output.accept(ModItems.BLACK_PRIZMOD.get());
+                        output.accept(ModItems.BROWN_PRIZMOD.get());
+                        output.accept(ModItems.RED_PRIZMOD.get());
+                        output.accept(ModItems.ORANGE_PRIZMOD.get());
+                        output.accept(ModItems.YELLOW_PRIZMOD.get());
+                        output.accept(ModItems.LIME_PRIZMOD.get());
+                        output.accept(ModItems.GREEN_PRIZMOD.get());
+                        output.accept(ModItems.CYAN_PRIZMOD.get());
+                        output.accept(ModItems.LIGHT_BLUE_PRIZMOD.get());
+                        output.accept(ModItems.BLUE_PRIZMOD.get());
+                        output.accept(ModItems.PURPLE_PRIZMOD.get());
+                        output.accept(ModItems.MAGENTA_PRIZMOD.get());
+                        output.accept(ModItems.PINK_PRIZMOD.get());
                     })
                     .build());
 
