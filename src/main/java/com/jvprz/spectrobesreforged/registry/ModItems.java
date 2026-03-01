@@ -149,19 +149,69 @@ public final class ModItems {
     public static final DeferredItem<Item> HEALTH_A_PLUS =
             ITEMS.registerSimpleItem("health_a_plus", new Item.Properties());
 
-    // spawn egg
-    public static final DeferredItem<Item> KOMAINU_SPAWN_EGG =
-            ITEMS.register("komainu_spawn_egg",
-                    () -> new SpawnEggItem(
-                            ModEntities.KOMAINU.get(),
-                            0xC63A6D, // color base (ajusta)
-                            0x44D7D2, // manchas (ajusta)
-                            new Item.Properties()
-                    )
-            );
+    // Tools
+    public static final DeferredItem<Item> WHITE_PRIZMOD =
+            ITEMS.register("white_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
 
-    public static final DeferredItem<Item> PRIZMOD =
-            ITEMS.register("prizmod",
+    public static final DeferredItem<Item> LIGHT_GRAY_PRIZMOD =
+            ITEMS.register("light_gray_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> GRAY_PRIZMOD =
+            ITEMS.register("gray_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> BLACK_PRIZMOD =
+            ITEMS.register("black_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> BROWN_PRIZMOD =
+            ITEMS.register("brown_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> RED_PRIZMOD =
+            ITEMS.register("red_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> ORANGE_PRIZMOD =
+            ITEMS.register("orange_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> YELLOW_PRIZMOD =
+            ITEMS.register("yellow_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> LIME_PRIZMOD =
+            ITEMS.register("lime_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> GREEN_PRIZMOD =
+            ITEMS.register("green_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> CYAN_PRIZMOD =
+            ITEMS.register("cyan_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> LIGHT_BLUE_PRIZMOD =
+            ITEMS.register("light_blue_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> BLUE_PRIZMOD =
+            ITEMS.register("blue_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> PURPLE_PRIZMOD =
+            ITEMS.register("purple_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> MAGENTA_PRIZMOD =
+            ITEMS.register("magenta_prizmod",
+                    () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> PINK_PRIZMOD =
+            ITEMS.register("pink_prizmod",
                     () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
 
     public static void register(IEventBus modEventBus) {
