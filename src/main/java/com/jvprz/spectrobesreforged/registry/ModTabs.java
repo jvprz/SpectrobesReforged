@@ -7,8 +7,10 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 public final class ModTabs {
@@ -69,18 +71,9 @@ public final class ModTabs {
                     .withTabsBefore(CreativeModeTabs.COMBAT)
                     .icon(() -> ModItems.POWER_C.get().getDefaultInstance())
                     .displayItems((parameters, output) -> {
-                        output.accept(ModItems.POWER_C.get());
-                        output.accept(ModItems.POWER_B.get());
-                        output.accept(ModItems.POWER_A.get());
-                        output.accept(ModItems.POWER_A_PLUS.get());
-                        output.accept(ModItems.DEFENSE_C.get());
-                        output.accept(ModItems.DEFENSE_B.get());
-                        output.accept(ModItems.DEFENSE_A.get());
-                        output.accept(ModItems.DEFENSE_A_PLUS.get());
-                        output.accept(ModItems.HEALTH_C.get());
-                        output.accept(ModItems.HEALTH_B.get());
-                        output.accept(ModItems.HEALTH_A.get());
-                        output.accept(ModItems.HEALTH_A_PLUS.get());
+                        for (DeferredItem<Item> mineral : ModItems.ALL_MINERALS) {
+                            output.accept(mineral.get());
+                        }
                     })
                     .build());
 
