@@ -99,6 +99,7 @@ public final class ModTabs {
                         output.accept(ModItems.PURPLE_PRIZMOD.get());
                         output.accept(ModItems.MAGENTA_PRIZMOD.get());
                         output.accept(ModItems.PINK_PRIZMOD.get());
+                        output.accept(ModItems.INCUBATOR.get());
                     })
                     .build());
 

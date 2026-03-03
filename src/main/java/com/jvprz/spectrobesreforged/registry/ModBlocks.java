@@ -5,6 +5,7 @@ import com.jvprz.spectrobesreforged.SpectrobesReforged;
 import com.jvprz.spectrobesreforged.content.SpectrobeType;
 import com.jvprz.spectrobesreforged.content.block.FossilOreBlock;
 
+import com.jvprz.spectrobesreforged.content.block.IncubatorBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -90,6 +91,16 @@ public final class ModBlocks {
                                     .strength(3.0f, 6.0f)
                                     .sound(SoundType.DEEPSLATE)
                                     .requiresCorrectToolForDrops()
+                    )
+            );
+
+    public static final DeferredBlock<Block> INCUBATOR =
+            BLOCKS.register("incubator",
+                    () -> new IncubatorBlock(BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.METAL)
+                            .strength(2.0F)
+                            .sound(SoundType.METAL)
+                            .noOcclusion()
                     )
             );
 

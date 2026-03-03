@@ -114,6 +114,9 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> DEEPSLATE_FLASH_FOSSIL_ORE_ITEM =
             ITEMS.registerSimpleBlockItem("deepslate_flash_fossil_ore", ModBlocks.DEEPSLATE_FLASH_FOSSIL_ORE);
 
+    public static final DeferredItem<BlockItem> INCUBATOR =
+            ITEMS.registerSimpleBlockItem("incubator", ModBlocks.INCUBATOR);
+
     // Minerals
     private static final boolean MAX = true;
     private static final boolean VAL = false;
