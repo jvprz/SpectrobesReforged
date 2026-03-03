@@ -13,7 +13,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.Rarity;
 
 import java.util.List;
@@ -24,7 +23,7 @@ public final class ModItems {
     public static final DeferredRegister.Items ITEMS =
             DeferredRegister.createItems(SpectrobesReforged.MODID);
 
-    // 🔴 CORONA
+    // CORONA
     public static final DeferredItem<Item> VILAR_FOSSIL =
             ITEMS.register("vilar_fossil", () -> new FossilItem(SpectrobeType.CORONA, new Item.Properties()));
 
@@ -50,7 +49,7 @@ public final class ModItems {
             ITEMS.register("mesa_fossil", () -> new FossilItem(SpectrobeType.CORONA, new Item.Properties()));
 
 
-    // 🟢 AURORA
+    // AURORA
     public static final DeferredItem<Item> SEGU_FOSSIL =
             ITEMS.register("segu_fossil", () -> new FossilItem(SpectrobeType.AURORA, new Item.Properties()));
 
@@ -73,7 +72,7 @@ public final class ModItems {
             ITEMS.register("masetto_fossil", () -> new FossilItem(SpectrobeType.AURORA, new Item.Properties()));
 
 
-    // 🔵 FLASH
+    // FLASH
     public static final DeferredItem<Item> HARUMI_FOSSIL =
             ITEMS.register("harumi_fossil", () -> new FossilItem(SpectrobeType.FLASH, new Item.Properties()));
 
@@ -394,16 +393,8 @@ public final class ModItems {
                             "This mineral has the power to change a Spectrobe to custom color pattern 2!"));
 
     public static final List<DeferredItem<Item>> ALL_MINERALS = List.of(
-            POWER_C, POWER_B, POWER_A, POWER_A_PLUS,
-            DEFENSE_C, DEFENSE_B, DEFENSE_A, DEFENSE_A_PLUS,
-            HEALTH_C, HEALTH_B, HEALTH_A, HEALTH_A_PLUS,
-            AGATE, LAZULI, GRAPHITE, GARNET, ONYX, TOPAZ,
-            JADE, AMBER, ZIRCON, OPAL, COBALT, CITRINE,
-            FLUORITE, CORAL,
-            SYLVITE, SPINAL, AZURITE, QUARTZ,
-            URANIUM, TITANIUM, CHROME,
-            PLATINUM, PEARL,
-            SAPPHIRE, EMERALD, RUBY, DIAMOND, GOLD,
+            POWER_C, POWER_B, POWER_A, POWER_A_PLUS, DEFENSE_C, DEFENSE_B, DEFENSE_A, DEFENSE_A_PLUS, HEALTH_C, HEALTH_B, HEALTH_A, HEALTH_A_PLUS, AGATE, LAZULI, GRAPHITE, GARNET, ONYX, TOPAZ,
+            JADE, AMBER, ZIRCON, OPAL, COBALT, CITRINE, FLUORITE, CORAL, SYLVITE, SPINAL, AZURITE, QUARTZ, URANIUM, TITANIUM, CHROME, PLATINUM, PEARL, SAPPHIRE, EMERALD, RUBY, DIAMOND, GOLD,
             EVOLVE, CHROMA_0, CHROMA_1, CHROMA_2
     );
 
