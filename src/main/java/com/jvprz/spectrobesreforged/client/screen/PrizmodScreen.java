@@ -1,5 +1,6 @@
 package com.jvprz.spectrobesreforged.client.screen;
 
+import com.jvprz.spectrobesreforged.SpectrobesReforged;
 import com.jvprz.spectrobesreforged.client.prizmod.ClientPrizmodState;
 import com.jvprz.spectrobesreforged.client.prizmod.SpectrobeIconRegistry;
 import com.jvprz.spectrobesreforged.content.item.PrizmodMenu;
@@ -7,13 +8,11 @@ import com.jvprz.spectrobesreforged.network.C2SMoveSpectrobe;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
-
-    private static final int SLOT = 24;
-    private static final int PAD = 4;
 
     private static final int BOX_COLS = 6;
     private static final int BOX_ROWS = 4;
@@ -21,24 +20,52 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
     private static final int TEAM_COLS = 2;
     private static final int TEAM_ROWS = 3;
 
-    // Layout cached per-frame (for hit-testing)
+    private static final int TYPE_NONE = -1;
+    private static final int TYPE_BOX  = 0;
+    private static final int TYPE_TEAM = 1;
+    private static final int TYPE_BABY = 2;
+
+    private static final ResourceLocation TEX =
+            ResourceLocation.fromNamespaceAndPath(SpectrobesReforged.MODID, "textures/gui/prizmod.png");
+
+    // tu textura final
+    private static final int TEX_W = 174;
+    private static final int TEX_H = 115;
+
+    // hueco real (hitbox)
+    private static final int SLOT_W = 16;
+    private static final int SLOT_H = 16;
+
+    // inicio-a-inicio entre slots
+    private static final int PAD_X = 3;
+    private static final int PAD_Y = 9;
+
+    // offsets dentro del PNG
+    private static final int INV_OX  = 6;
+    private static final int INV_OY  = 17;
+
+    private static final int TEAM_OX = 132;
+    private static final int TEAM_OY = 17;
+
+    private static final int BABY_OX = 132;
+    private static final int BABY_OY = 92;
+
+    // Layout cached per-frame (for hit-testing) en ABSOLUTO
     private int invX0, invY0, teamX0, teamY0, babyX, babyY;
 
-    // Drag state
+    // “Hand” state (picked up)
     private boolean dragging = false;
-    private int dragFromType = -1;   // 0=BOX, 1=TEAM, 2=BABY
-    private int dragFromIndex = -1;  // index inside type (baby is always 0)
+    private int dragFromType = -1;
+    private int dragFromIndex = -1;
     private ClientPrizmodState.Entry dragEntry = null;
+
+    // Hold-drag (mouse kept pressed) support
+    private boolean holdingMouseDrag = false;
 
     public PrizmodScreen(PrizmodMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
-        this.imageWidth = 320;
-        this.imageHeight = 210;
-    }
-
-    @Override
-    protected void init() {
-        super.init();
+        this.imageWidth = TEX_W;
+        this.imageHeight = TEX_H;
     }
 
     @Override
@@ -47,114 +74,120 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         int baseX = leftPos;
         int baseY = topPos;
 
-        // Background panel
-        g.fill(baseX, baseY, baseX + imageWidth, baseY + imageHeight, 0xCC0B0B0B);
-        g.fill(baseX + 1, baseY + 1, baseX + imageWidth - 1, baseY + imageHeight - 1, 0xCC1A1A1A);
+        // 1) Fondo (tu PNG 174x115)
+        g.blit(TEX, baseX, baseY, 0, 0, imageWidth, imageHeight, TEX_W, TEX_H);
 
-        // Titles
-        g.drawString(font, "PRIZMOD INVENTORY", baseX + 10, baseY + 8, 0xFFFFFF);
-        g.drawString(font, "TEAM", baseX + 210, baseY + 8, 0xFFFFFF);
-        g.drawString(font, "BABY", baseX + 210, baseY + 140, 0xFFFFFF);
+        g.drawString(font, "PRIZMOD",
+                baseX + 7,
+                baseY + 14 - font.lineHeight,
+                0xc2f2b8);
 
-        // Cache layout positions for hit-testing
-        invX0 = baseX + 10;
-        invY0 = baseY + 22;
+        g.drawString(font, "TEAM",
+                baseX + 131,
+                baseY + 14 - font.lineHeight,
+                0xc2f2b8);
 
-        teamX0 = baseX + 210;
-        teamY0 = baseY + 22;
+        // Cache layout para hit-testing (coordenadas absolutas)
+        invX0  = baseX + INV_OX;
+        invY0  = baseY + INV_OY;
 
-        babyX = baseX + 220;
-        babyY = baseY + 155;
+        teamX0 = baseX + TEAM_OX;
+        teamY0 = baseY + TEAM_OY;
 
-        // --- INVENTORY GRID (6x4) ---
+        babyX  = baseX + BABY_OX;
+        babyY  = baseY + BABY_OY;
+
+        // 2) INVENTORY GRID (6x4)
         for (int r = 0; r < BOX_ROWS; r++) {
             for (int c = 0; c < BOX_COLS; c++) {
 
-                int sx = invX0 + c * (SLOT + PAD);
-                int sy = invY0 + r * (SLOT + PAD);
+                int sx = invX0 + c * (SLOT_W + PAD_X);
+                int sy = invY0 + r * (SLOT_H + PAD_Y);
 
                 int idx = r * BOX_COLS + c;
-                boolean selected = dragging && dragFromType == 0 && dragFromIndex == idx;
+                boolean selected = dragging && dragFromType == TYPE_BOX && dragFromIndex == idx;
 
-                drawSlot(g, sx, sy, selected);
+                drawSlotOverlay(g, sx, sy, selected);
 
                 ClientPrizmodState.Entry entry =
                         idx < ClientPrizmodState.BOX.size() ? ClientPrizmodState.BOX.get(idx) : null;
 
-                // If we are dragging this exact entry, don't draw it in-place (feels like "picked up")
                 if (!(selected && dragEntry != null)) {
-                    drawEntry(g, entry, sx, sy);
+                    drawEntry16(g, entry, sx, sy);
                 }
             }
         }
 
-        // --- TEAM GRID (2x3) ---
+        // 3) TEAM GRID (2x3)
         for (int r = 0; r < TEAM_ROWS; r++) {
             for (int c = 0; c < TEAM_COLS; c++) {
 
-                int sx = teamX0 + c * (SLOT + PAD);
-                int sy = teamY0 + r * (SLOT + PAD);
+                int sx = teamX0 + c * (SLOT_W + PAD_X);
+                int sy = teamY0 + r * (SLOT_H + PAD_Y);
 
                 int idx = r * TEAM_COLS + c;
-                boolean selected = dragging && dragFromType == 1 && dragFromIndex == idx;
+                boolean selected = dragging && dragFromType == TYPE_TEAM && dragFromIndex == idx;
 
-                drawSlot(g, sx, sy, selected);
+                drawSlotOverlay(g, sx, sy, selected);
 
                 ClientPrizmodState.Entry entry =
                         idx < ClientPrizmodState.TEAM.size() ? ClientPrizmodState.TEAM.get(idx) : null;
 
                 if (!(selected && dragEntry != null)) {
-                    drawEntry(g, entry, sx, sy);
+                    drawEntry16(g, entry, sx, sy);
                 }
             }
         }
 
-        // --- BABY SLOT (1) ---
-        boolean babySelected = dragging && dragFromType == 2 && dragFromIndex == 0;
-        drawSlot(g, babyX, babyY, babySelected);
+        // 4) BABY SLOT
+        boolean babySelected = dragging && dragFromType == TYPE_BABY && dragFromIndex == 0;
+        drawSlotOverlay(g, babyX, babyY, babySelected);
 
         ClientPrizmodState.Entry baby = ClientPrizmodState.BABY;
         if (!(babySelected && dragEntry != null)) {
-            drawEntry(g, baby, babyX, babyY);
+            drawEntry16(g, baby, babyX, babyY);
         }
     }
 
-    private void drawSlot(GuiGraphics g, int x, int y, boolean selected) {
-        g.fill(x, y, x + SLOT, y + SLOT, 0xCC000000);
-        g.fill(x + 1, y + 1, x + SLOT - 1, y + SLOT - 1, 0xCC2A2A2A);
-
+    private void drawSlotOverlay(GuiGraphics g, int x, int y, boolean selected) {
         if (selected) {
-            g.fill(x, y, x + SLOT, y + SLOT, 0x55FFFF00);
+            g.fill(x, y, x + SLOT_W, y + SLOT_H, 0x55FFFF00);
         }
     }
 
-    private void drawEntry(GuiGraphics g, ClientPrizmodState.Entry entry, int x, int y) {
+    /**
+     * Dibuja SIEMPRE icono 16x16 centrado dentro del hueco (SLOT_W x SLOT_H).
+     */
+    private void drawEntry16(GuiGraphics g, ClientPrizmodState.Entry entry, int slotX, int slotY) {
         if (entry == null) return;
 
-        String species = entry.species() == null ? "" : entry.species();
+        String species = entry.species();
+        if (species == null) return;
 
-        // Only blit icons we actually have (avoid missing-texture for now)
+        int ix = slotX + (SLOT_W - 16) / 2;
+        int iy = slotY + (SLOT_H - 16) / 2;
+
         if (species.equalsIgnoreCase("komainu")) {
             var tex = SpectrobeIconRegistry.icon(species);
-            g.blit(tex, x + 4, y + 4, 0, 0, 16, 16, 16, 16);
+            g.blit(tex, ix, iy, 0, 0, 16, 16, 16, 16);
             return;
         }
 
         String label = species.toLowerCase();
         if (label.length() > 6) label = label.substring(0, 6);
-        g.drawString(font, label, x + 3, y + 8, 0xFFFFFF);
+        g.drawString(font, label, slotX + 2, slotY + (SLOT_H / 2) - 4, 0xFFFFFF);
     }
 
     private boolean isInside(double mx, double my, int x, int y) {
-        return mx >= x && mx <= x + SLOT &&
-                my >= y && my <= y + SLOT;
+        return mx >= x && mx <= x + SLOT_W &&
+                my >= y && my <= y + SLOT_H;
     }
 
     private ClientPrizmodState.Entry getEntry(int type, int index) {
         return switch (type) {
-            case 0 -> (index >= 0 && index < ClientPrizmodState.BOX.size()) ? ClientPrizmodState.BOX.get(index) : null;
-            case 1 -> (index >= 0 && index < ClientPrizmodState.TEAM.size()) ? ClientPrizmodState.TEAM.get(index) : null;
-            case 2 -> ClientPrizmodState.BABY;
+            case TYPE_BOX -> (index >= 0 && index < ClientPrizmodState.BOX.size()) ? ClientPrizmodState.BOX.get(index) : null;
+            case TYPE_TEAM -> (index >= 0 && index < ClientPrizmodState.TEAM.size()) ? ClientPrizmodState.TEAM.get(index) : null;
+            case TYPE_BABY -> ClientPrizmodState.BABY;
             default -> null;
         };
     }
@@ -162,8 +195,8 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
     private int hitBoxIndex(double mx, double my) {
         for (int r = 0; r < BOX_ROWS; r++) {
             for (int c = 0; c < BOX_COLS; c++) {
-                int sx = invX0 + c * (SLOT + PAD);
-                int sy = invY0 + r * (SLOT + PAD);
+                int sx = invX0 + c * (SLOT_W + PAD_X);
+                int sy = invY0 + r * (SLOT_H + PAD_Y);
                 if (isInside(mx, my, sx, sy)) return r * BOX_COLS + c;
             }
         }
@@ -173,8 +206,8 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
     private int hitTeamIndex(double mx, double my) {
         for (int r = 0; r < TEAM_ROWS; r++) {
             for (int c = 0; c < TEAM_COLS; c++) {
-                int sx = teamX0 + c * (SLOT + PAD);
-                int sy = teamY0 + r * (SLOT + PAD);
+                int sx = teamX0 + c * (SLOT_W + PAD_X);
+                int sy = teamY0 + r * (SLOT_H + PAD_Y);
                 if (isInside(mx, my, sx, sy)) return r * TEAM_COLS + c;
             }
         }
@@ -185,73 +218,147 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         return isInside(mx, my, babyX, babyY);
     }
 
+    private int[] hitAny(double mx, double my) {
+        int bi = hitBoxIndex(mx, my);
+        if (bi != -1) return new int[]{TYPE_BOX, bi};
+
+        int ti = hitTeamIndex(mx, my);
+        if (ti != -1) return new int[]{TYPE_TEAM, ti};
+
+        if (hitBaby(mx, my)) return new int[]{TYPE_BABY, 0};
+
+        return new int[]{TYPE_NONE, -1};
+    }
+
+    private boolean isBaby(ClientPrizmodState.Entry e) {
+        return e != null && e.baby();
+    }
+
+    private int firstEmptyTeamSlot() {
+        for (int i = 0; i < 6; i++) {
+            if (i >= ClientPrizmodState.TEAM.size() || ClientPrizmodState.TEAM.get(i) == null) return i;
+        }
+        return -1;
+    }
+
+    private boolean babySlotEmpty() {
+        return ClientPrizmodState.BABY == null;
+    }
+
+    private void quickMove(int fromType, int fromIndex, ClientPrizmodState.Entry e) {
+        if (e == null) return;
+
+        int toType = TYPE_NONE;
+        int toIndex = -1;
+
+        if (isBaby(e)) {
+            if (fromType == TYPE_BABY) {
+                toType = TYPE_BOX;
+                toIndex = 9999;
+            } else {
+                if (babySlotEmpty()) {
+                    toType = TYPE_BABY;
+                    toIndex = 0;
+                } else {
+                    toType = TYPE_BOX;
+                    toIndex = 9999;
+                }
+            }
+        } else {
+            if (fromType == TYPE_BOX) {
+                int slot = firstEmptyTeamSlot();
+                if (slot != -1) {
+                    toType = TYPE_TEAM;
+                    toIndex = slot;
+                } else {
+                    return;
+                }
+            } else if (fromType == TYPE_TEAM) {
+                toType = TYPE_BOX;
+                toIndex = 9999;
+            } else {
+                toType = TYPE_BOX;
+                toIndex = 9999;
+            }
+        }
+
+        PacketDistributor.sendToServer(new C2SMoveSpectrobe(fromType, fromIndex, toType, toIndex));
+    }
+
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
+
+        if (button == 1 && dragging) {
+            dragging = false;
+            holdingMouseDrag = false;
+            dragFromType = -1;
+            dragFromIndex = -1;
+            dragEntry = null;
+            return true;
+        }
+
         if (button != 0) return super.mouseClicked(mouseX, mouseY, button);
 
-        int bi = hitBoxIndex(mouseX, mouseY);
-        if (bi != -1) {
-            var e = getEntry(0, bi);
+        int[] hit = hitAny(mouseX, mouseY);
+        int type = hit[0];
+        int index = hit[1];
+
+        if (type == TYPE_NONE) {
+            return super.mouseClicked(mouseX, mouseY, button);
+        }
+
+        if (hasShiftDown() && !dragging) {
+            ClientPrizmodState.Entry e = getEntry(type, index);
+            quickMove(type, index, e);
+            return true;
+        }
+
+        if (!dragging) {
+            ClientPrizmodState.Entry e = getEntry(type, index);
             if (e != null) {
                 dragging = true;
-                dragFromType = 0;
-                dragFromIndex = bi;
+                holdingMouseDrag = true;
+                dragFromType = type;
+                dragFromIndex = index;
                 dragEntry = e;
             }
             return true;
         }
 
-        int ti = hitTeamIndex(mouseX, mouseY);
-        if (ti != -1) {
-            var e = getEntry(1, ti);
-            if (e != null) {
-                dragging = true;
-                dragFromType = 1;
-                dragFromIndex = ti;
-                dragEntry = e;
-            }
+        if (dragFromType == type && dragFromIndex == index) {
+            holdingMouseDrag = false;
             return true;
         }
 
-        if (hitBaby(mouseX, mouseY)) {
-            var e = getEntry(2, 0);
-            if (e != null) {
-                dragging = true;
-                dragFromType = 2;
-                dragFromIndex = 0;
-                dragEntry = e;
-            }
-            return true;
-        }
+        PacketDistributor.sendToServer(new C2SMoveSpectrobe(dragFromType, dragFromIndex, type, index));
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        dragging = false;
+        holdingMouseDrag = false;
+        dragFromType = -1;
+        dragFromIndex = -1;
+        dragEntry = null;
+
+        return true;
     }
 
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (button == 0 && dragging) {
+        if (button == 0 && dragging && holdingMouseDrag) {
 
-            int toType = -1;
-            int toIndex = -1;
+            int[] hit = hitAny(mouseX, mouseY);
+            int toType = hit[0];
+            int toIndex = hit[1];
 
-            int bi = hitBoxIndex(mouseX, mouseY);
-            if (bi != -1) { toType = 0; toIndex = bi; }
+            if (toType != TYPE_NONE && !(toType == dragFromType && toIndex == dragFromIndex)) {
+                PacketDistributor.sendToServer(new C2SMoveSpectrobe(dragFromType, dragFromIndex, toType, toIndex));
 
-            int ti = hitTeamIndex(mouseX, mouseY);
-            if (ti != -1) { toType = 1; toIndex = ti; }
+                dragging = false;
+                dragFromType = -1;
+                dragFromIndex = -1;
+                dragEntry = null;
+            }
 
-            if (hitBaby(mouseX, mouseY)) { toType = 2; toIndex = 0; }
-
-
-            if (toType != -1 && !(toType == dragFromType && toIndex == dragFromIndex)) {
-                 PacketDistributor.sendToServer(new C2SMoveSpectrobe(dragFromType, dragFromIndex, toType, toIndex));
-             }
-
-            dragging = false;
-            dragFromType = -1;
-            dragFromIndex = -1;
-            dragEntry = null;
-
+            holdingMouseDrag = false;
             return true;
         }
 
@@ -263,7 +370,6 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         this.renderBackground(g, mouseX, mouseY, partialTick);
         super.render(g, mouseX, mouseY, partialTick);
 
-        // Draw dragged icon/text on cursor
         if (dragging && dragEntry != null) {
             String species = dragEntry.species();
 
