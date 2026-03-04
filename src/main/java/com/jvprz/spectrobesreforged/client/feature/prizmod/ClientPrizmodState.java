@@ -11,7 +11,16 @@ public final class ClientPrizmodState {
     public static final List<Entry> TEAM = new ArrayList<>(6);
     public static Entry BABY = null;
 
-    public record Entry(UUID id, String species, boolean baby) {}
+    public static record Entry(
+            UUID id,
+            String species,
+            int color,
+            String stage,
+            int level,
+            int hp,
+            int atk,
+            int def
+    ) {}
 
     public static void setSnapshot(List<Entry> box, List<Entry> team, Entry baby) {
         BOX.clear();

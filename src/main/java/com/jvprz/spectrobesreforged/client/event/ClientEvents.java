@@ -1,6 +1,6 @@
 package com.jvprz.spectrobesreforged.client.event;
 
-import com.jvprz.spectrobesreforged.client.render.KomainuRenderer;
+import com.jvprz.spectrobesreforged.client.render.SpectrobeRenderer;
 import com.jvprz.spectrobesreforged.client.screen.PrizmodScreen;
 import com.jvprz.spectrobesreforged.common.registry.ModBlocks;
 import com.jvprz.spectrobesreforged.common.registry.ModEntities;
@@ -26,7 +26,7 @@ public class ClientEvents {
 
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.KOMAINU.get(),
-                context -> new KomainuRenderer(context));
+                context -> new SpectrobeRenderer(context));
     }
 
     public static void registerScreens(RegisterMenuScreensEvent event) {

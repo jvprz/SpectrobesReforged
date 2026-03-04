@@ -1,3 +1,4 @@
+// src/main/java/com/jvprz/spectrobesreforged/common/network/C2SMoveSpectrobe.java
 package com.jvprz.spectrobesreforged.common.network;
 
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
@@ -43,8 +44,9 @@ public record C2SMoveSpectrobe(int fromType, int fromIndex, int toType, int toIn
     public static void handle(C2SMoveSpectrobe msg, ServerPlayer player) {
         PrizmodData data = player.getData(ModAttachments.PRIZMOD.get());
 
-        var beforeBaby = data.getBabySlot().orElse(null);
+        SpectrobeEntry beforeBaby = data.getBabySlot().orElse(null);
 
+        // Validación básica
         if (msg.fromType < 0 || msg.fromType > 2) return;
         if (msg.toType < 0 || msg.toType > 2) return;
 
@@ -59,12 +61,15 @@ public record C2SMoveSpectrobe(int fromType, int fromIndex, int toType, int toIn
             case 2 -> data.getBabySlot().orElse(null);
             default -> null;
         };
-
         if (moving == null) return;
 
-        // Reglas de slots
-        if (msg.toType == 2 && !moving.baby()) return; // baby slot solo bebés
-        if (msg.toType == 1 && moving.baby()) return;  // team slot solo adultos
+        // Reglas de slots:
+        // - BABY slot (type=2) solo CHILD
+        // - TEAM slot (type=1) NO permite CHILD (solo ADULT/EVOLVED)
+        boolean isChild = moving.isChild();
+
+        if (msg.toType == 2 && !isChild) return;
+        if (msg.toType == 1 && isChild) return;
 
         // Remover del origen
         switch (msg.fromType) {
@@ -81,17 +86,35 @@ public record C2SMoveSpectrobe(int fromType, int fromIndex, int toType, int toIn
             default -> null;
         };
 
-        // Si destino ocupado, lo quitamos del destino
+        // Si destino ocupado, lo quitamos del destino y lo devolvemos al origen (swap)
         if (displaced != null) {
+            // OJO: si el desplazado no cabe en el origen por reglas, cancelamos y revertimos
+            boolean displacedIsChild = displaced.isChild();
+            boolean displacedCanGoToOrigin = switch (msg.fromType) {
+                case 2 -> displacedIsChild;     // origen baby slot solo CHILD
+                case 1 -> !displacedIsChild;    // origen team slot solo NO-CHILD
+                default -> true;                // box acepta todo
+            };
+            if (!displacedCanGoToOrigin) {
+                // revertimos el moving al origen y abortamos
+                switch (msg.fromType) {
+                    case 0 -> data.insertBoxAt(Math.min(msg.fromIndex, data.getBox().size()), moving);
+                    case 1 -> data.setTeamSlot(msg.fromIndex, moving);
+                    case 2 -> data.setBabySlot(moving);
+                }
+                return;
+            }
+
+            // quitar desplazado del destino
             switch (msg.toType) {
                 case 0 -> data.removeFromBox(displaced.id());
                 case 1 -> data.setTeamSlot(msg.toIndex, null);
                 case 2 -> data.setBabySlot(null);
             }
 
-            // Y lo devolvemos al origen (swap)
+            // devolver desplazado al origen
             switch (msg.fromType) {
-                case 0 -> data.insertBoxAt(msg.fromIndex, displaced);
+                case 0 -> data.insertBoxAt(Math.min(msg.fromIndex, data.getBox().size()), displaced);
                 case 1 -> data.setTeamSlot(msg.fromIndex, displaced);
                 case 2 -> data.setBabySlot(displaced);
             }
@@ -104,27 +127,22 @@ public record C2SMoveSpectrobe(int fromType, int fromIndex, int toType, int toIn
             case 2 -> data.setBabySlot(moving);
         }
 
-        var afterBaby = data.getBabySlot().orElse(null);
+        SpectrobeEntry afterBaby = data.getBabySlot().orElse(null);
 
-        boolean changed =
+        boolean babyChanged =
                 (beforeBaby == null && afterBaby != null) ||
                         (beforeBaby != null && afterBaby == null) ||
                         (beforeBaby != null && afterBaby != null && !beforeBaby.id().equals(afterBaby.id()));
 
-        if (changed) {
-            // Quitar el que estuviera (en todas las dimensiones por seguridad)
-            SpectrobeManager
-                    .despawnBabyEverywhere(player.server, player);
+        if (babyChanged) {
+            SpectrobeManager.despawnBabyEverywhere(player.server, player);
 
-            // Si ahora hay bebé equipado, spawnearlo cerca del jugador (en su dimensión actual)
             if (afterBaby != null) {
-                SpectrobeManager
-                        .spawnBaby(player.serverLevel(), player, afterBaby);
+                SpectrobeManager.spawnBaby(player.serverLevel(), player, afterBaby);
             }
         }
 
-        com.jvprz.spectrobesreforged.common.network.ModSnapshotSender.sendSnapshot(player, data);
-
+        // Solo una vez (tenías duplicado)
         ModSnapshotSender.sendSnapshot(player, data);
     }
 }

@@ -5,12 +5,17 @@ import com.jvprz.spectrobesreforged.client.feature.prizmod.ClientPrizmodState;
 import com.jvprz.spectrobesreforged.client.ui.icon.SpectrobeIcons;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.menu.PrizmodMenu;
 import com.jvprz.spectrobesreforged.common.network.C2SMoveSpectrobe;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.neoforged.neoforge.network.PacketDistributor;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
 
@@ -168,7 +173,7 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         int iy = slotY + (SLOT_H - 16) / 2;
 
         if (species.equalsIgnoreCase("komainu")) {
-            var tex = SpectrobeIcons.icon(species);
+            var tex = SpectrobeIcons.icon(species, entry.color());
             g.blit(tex, ix, iy, 0, 0, 16, 16, 16, 16);
             return;
         }
@@ -230,8 +235,8 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         return new int[]{TYPE_NONE, -1};
     }
 
-    private boolean isBaby(ClientPrizmodState.Entry e) {
-        return e != null && e.baby();
+    private boolean isChild(ClientPrizmodState.Entry e) {
+        return e != null && "CHILD".equalsIgnoreCase(e.stage());
     }
 
     private int firstEmptyTeamSlot() {
@@ -251,8 +256,10 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         int toType = TYPE_NONE;
         int toIndex = -1;
 
-        if (isBaby(e)) {
+        if (isChild(e)) {
+            // CHILD -> baby slot
             if (fromType == TYPE_BABY) {
+                // del baby slot a la box (al final)
                 toType = TYPE_BOX;
                 toIndex = 9999;
             } else {
@@ -260,11 +267,13 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
                     toType = TYPE_BABY;
                     toIndex = 0;
                 } else {
+                    // baby slot ocupado -> a la box (al final)
                     toType = TYPE_BOX;
                     toIndex = 9999;
                 }
             }
         } else {
+            // ADULT/EVOLVED -> team
             if (fromType == TYPE_BOX) {
                 int slot = firstEmptyTeamSlot();
                 if (slot != -1) {
@@ -277,6 +286,7 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
                 toType = TYPE_BOX;
                 toIndex = 9999;
             } else {
+                // si alguien intentase quickmove desde baby (no debería pasar con isChild)
                 toType = TYPE_BOX;
                 toIndex = 9999;
             }
@@ -365,6 +375,39 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
+    private List<Component> buildEntryTooltip(ClientPrizmodState.Entry e) {
+        List<Component> lines = new ArrayList<>();
+
+        String key = e.species() == null ? "unknown" : e.species().toLowerCase();
+        lines.add(Component.translatable("spectrobesreforged.spectrobe." + key)
+                .withStyle(ChatFormatting.AQUA));
+
+        lines.add(Component.literal("Stage: ").withStyle(ChatFormatting.GRAY)
+                .append(Component.literal(e.stage()).withStyle(ChatFormatting.WHITE)));
+
+        lines.add(Component.literal("Level: ").withStyle(ChatFormatting.GRAY)
+                .append(Component.literal(String.valueOf(e.level())).withStyle(ChatFormatting.WHITE)));
+
+        lines.add(Component.literal("Variant: ").withStyle(ChatFormatting.DARK_GRAY)
+                .append(Component.literal(String.valueOf(e.color())).withStyle(ChatFormatting.GRAY)));
+
+        int total = e.hp() + e.atk() + e.def();
+
+        lines.add(Component.literal("HP: ").withStyle(ChatFormatting.RED)
+                .append(Component.literal(String.valueOf(e.hp())).withStyle(ChatFormatting.WHITE)));
+
+        lines.add(Component.literal("ATK: ").withStyle(ChatFormatting.GOLD)
+                .append(Component.literal(String.valueOf(e.atk())).withStyle(ChatFormatting.WHITE)));
+
+        lines.add(Component.literal("DEF: ").withStyle(ChatFormatting.BLUE)
+                .append(Component.literal(String.valueOf(e.def())).withStyle(ChatFormatting.WHITE)));
+
+        lines.add(Component.literal("Total: ").withStyle(ChatFormatting.DARK_AQUA)
+                .append(Component.literal(String.valueOf(total)).withStyle(ChatFormatting.AQUA)));
+
+        return lines;
+    }
+
     @Override
     public void render(GuiGraphics g, int mouseX, int mouseY, float partialTick) {
         this.renderBackground(g, mouseX, mouseY, partialTick);
@@ -374,12 +417,27 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
             String species = dragEntry.species();
 
             if (species != null && species.equalsIgnoreCase("komainu")) {
-                var tex = SpectrobeIcons.icon(species);
+                var tex = SpectrobeIcons.icon(species, dragEntry.color());
                 g.blit(tex, mouseX - 8, mouseY - 8, 0, 0, 16, 16, 16, 16);
             } else if (species != null) {
                 String label = species.toLowerCase();
                 if (label.length() > 6) label = label.substring(0, 6);
                 g.drawString(font, label, mouseX - 10, mouseY - 4, 0xFFFFFF);
+            }
+        }
+
+        // Custom tooltip for spectrobe icons (our custom slots)
+        if (!dragging) {
+            int[] hit = hitAny(mouseX, mouseY);
+            int type = hit[0];
+            int index = hit[1];
+
+            if (type != TYPE_NONE) {
+                ClientPrizmodState.Entry hovered = getEntry(type, index);
+                if (hovered != null) {
+                    g.renderTooltip(this.font, buildEntryTooltip(hovered), Optional.empty(), mouseX, mouseY);
+                    return; // evitamos tooltips vanilla
+                }
             }
         }
 

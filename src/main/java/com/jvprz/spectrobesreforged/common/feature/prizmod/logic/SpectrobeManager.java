@@ -1,6 +1,6 @@
 package com.jvprz.spectrobesreforged.common.feature.prizmod.logic;
 
-import com.jvprz.spectrobesreforged.common.content.entity.KomainuEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
 import com.jvprz.spectrobesreforged.common.registry.ModEntities;
 import net.minecraft.core.BlockPos;
@@ -15,8 +15,8 @@ public final class SpectrobeManager {
     private SpectrobeManager() {}
 
     public static void despawnBaby(ServerLevel level, ServerPlayer owner) {
-        var list = level.getEntitiesOfClass(KomainuEntity.class, owner.getBoundingBox().inflate(256));
-        for (KomainuEntity e : list) {
+        var list = level.getEntitiesOfClass(SpectrobeEntity.class, owner.getBoundingBox().inflate(256));
+        for (SpectrobeEntity e : list) {
             var tag = e.getPersistentData();
 
             boolean isPrizmodBaby = tag.getBoolean("PrizmodBaby");
@@ -45,7 +45,7 @@ public final class SpectrobeManager {
     }
 
     public static boolean spawnKomainu(ServerLevel level, ServerPlayer owner, SpectrobeEntry entry) {
-        KomainuEntity komainu = ModEntities.KOMAINU.get().create(level);
+        SpectrobeEntity komainu = ModEntities.KOMAINU.get().create(level);
         if (komainu == null) return false;
 
         Vec3 pos = findSafeSpawnNearPlayer(level, owner);
@@ -104,8 +104,8 @@ public final class SpectrobeManager {
     }
 
     public static boolean hasBabyNearby(ServerLevel level, ServerPlayer owner) {
-        var list = level.getEntitiesOfClass(KomainuEntity.class, owner.getBoundingBox().inflate(64));
-        for (KomainuEntity e : list) {
+        var list = level.getEntitiesOfClass(SpectrobeEntity.class, owner.getBoundingBox().inflate(64));
+        for (SpectrobeEntity e : list) {
             var tag = e.getPersistentData();
             boolean isPrizmodBaby = tag.getBoolean("PrizmodBaby");
             boolean sameOwner = tag.hasUUID("PrizmodOwner") && tag.getUUID("PrizmodOwner").equals(owner.getUUID());

@@ -12,11 +12,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public final class ModEntities {
     private ModEntities() {}
 
-    // Usamos el nombre ENTITIES para que coincida con lo habitual
     public static final DeferredRegister<EntityType<?>> ENTITIES =
             DeferredRegister.create(Registries.ENTITY_TYPE, SpectrobesReforged.MODID);
 
-    // Registro del Komainu
     public static final DeferredHolder<EntityType<?>, EntityType<KomainuEntity>> KOMAINU =
             ENTITIES.register("komainu",
                     () -> EntityType.Builder.of(KomainuEntity::new, MobCategory.CREATURE)
@@ -24,7 +22,6 @@ public final class ModEntities {
                             .build("komainu")
             );
 
-    // Este método se llama desde el constructor de tu clase principal (SpectrobesReforged.java)
     public static void register(IEventBus bus) {
         ENTITIES.register(bus);
     }

@@ -22,7 +22,7 @@ public record S2CPrizmodSnapshot(
             new Type<>(ResourceLocation.fromNamespaceAndPath(
                     SpectrobesReforged.MODID, "prizmod_snapshot"));
 
-    public record Entry(UUID id, String species, boolean baby) {}
+    public record Entry(UUID id, String species, int color, String stage, int level, int hp, int atk, int def) {}
 
     @Override
     public Type<? extends CustomPacketPayload> type() {
@@ -38,36 +38,17 @@ public record S2CPrizmodSnapshot(
                     int boxSize = buf.readVarInt();
                     List<Entry> box = new ArrayList<>(boxSize);
                     for (int i = 0; i < boxSize; i++) {
-                        box.add(new Entry(
-                                buf.readUUID(),
-                                buf.readUtf(),
-                                buf.readBoolean()
-                        ));
+                        box.add(readEntry(buf));
                     }
 
                     int teamSize = buf.readVarInt();
                     List<Entry> team = new ArrayList<>(teamSize);
                     for (int i = 0; i < teamSize; i++) {
                         boolean present = buf.readBoolean();
-                        if (!present) {
-                            team.add(null);
-                        } else {
-                            team.add(new Entry(
-                                    buf.readUUID(),
-                                    buf.readUtf(),
-                                    buf.readBoolean()
-                            ));
-                        }
+                        team.add(present ? readEntry(buf) : null);
                     }
 
-                    Entry baby = null;
-                    if (buf.readBoolean()) {
-                        baby = new Entry(
-                                buf.readUUID(),
-                                buf.readUtf(),
-                                buf.readBoolean()
-                        );
-                    }
+                    Entry baby = buf.readBoolean() ? readEntry(buf) : null;
 
                     return new S2CPrizmodSnapshot(box, team, baby);
                 }
@@ -76,45 +57,69 @@ public record S2CPrizmodSnapshot(
                 public void encode(FriendlyByteBuf buf, S2CPrizmodSnapshot msg) {
 
                     buf.writeVarInt(msg.box.size());
-                    for (var e : msg.box) {
-                        buf.writeUUID(e.id());
-                        buf.writeUtf(e.species());
-                        buf.writeBoolean(e.baby());
-                    }
+                    for (var e : msg.box) writeEntry(buf, e);
 
                     buf.writeVarInt(msg.team.size());
                     for (var e : msg.team) {
                         buf.writeBoolean(e != null);
-                        if (e != null) {
-                            buf.writeUUID(e.id());
-                            buf.writeUtf(e.species());
-                            buf.writeBoolean(e.baby());
-                        }
+                        if (e != null) writeEntry(buf, e);
                     }
 
                     buf.writeBoolean(msg.baby != null);
-                    if (msg.baby != null) {
-                        buf.writeUUID(msg.baby.id());
-                        buf.writeUtf(msg.baby.species());
-                        buf.writeBoolean(msg.baby.baby());
-                    }
+                    if (msg.baby != null) writeEntry(buf, msg.baby);
+                }
+
+                private Entry readEntry(FriendlyByteBuf buf) {
+                    return new Entry(
+                            buf.readUUID(),
+                            buf.readUtf(),
+                            buf.readVarInt(),  // color
+                            buf.readUtf(),     // stage
+                            buf.readVarInt(),  // level
+                            buf.readVarInt(),  // hp
+                            buf.readVarInt(),  // atk
+                            buf.readVarInt()   // def
+                    );
+                }
+
+                private void writeEntry(FriendlyByteBuf buf, Entry e) {
+                    buf.writeUUID(e.id());
+                    buf.writeUtf(e.species());
+                    buf.writeVarInt(e.color());
+                    buf.writeUtf(e.stage());
+                    buf.writeVarInt(e.level());
+                    buf.writeVarInt(e.hp());
+                    buf.writeVarInt(e.atk());
+                    buf.writeVarInt(e.def());
                 }
             };
 
     public static void handle(S2CPrizmodSnapshot msg) {
         Minecraft.getInstance().execute(() -> {
             var box = msg.box.stream()
-                    .map(e -> new ClientPrizmodState.Entry(e.id(), e.species(), e.baby()))
+                    .map(e -> new ClientPrizmodState.Entry(
+                            e.id(), e.species(),
+                            e.color(), e.stage(),
+                            e.level(), e.hp(), e.atk(), e.def()
+                    ))
                     .toList();
 
             var team = msg.team.stream()
                     .map(e -> e == null ? null :
-                            new ClientPrizmodState.Entry(e.id(), e.species(), e.baby()))
+                            new ClientPrizmodState.Entry(
+                                    e.id(), e.species(),
+                                    e.color(), e.stage(),
+                                    e.level(), e.hp(), e.atk(), e.def()
+                            ))
                     .toList();
 
             ClientPrizmodState.Entry baby =
                     msg.baby == null ? null :
-                            new ClientPrizmodState.Entry(msg.baby.id(), msg.baby.species(), msg.baby.baby());
+                            new ClientPrizmodState.Entry(
+                                    msg.baby.id(), msg.baby.species(),
+                                    msg.baby.color(), msg.baby.stage(),
+                                    msg.baby.level(), msg.baby.hp(), msg.baby.atk(), msg.baby.def()
+                            );
 
             ClientPrizmodState.setSnapshot(box, team, baby);
         });
