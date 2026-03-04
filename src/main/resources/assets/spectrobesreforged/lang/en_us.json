@@ -9,6 +9,14 @@
   "tooltip.spectrobesreforged.type.aurora": "Aurora",
   "tooltip.spectrobesreforged.type.flash": "Flash",
 
+  "spectrobe.stage.child": "Child",
+  "spectrobe.stage.adult": "Adult",
+  "spectrobe.stage.evolved": "Evolved",
+
+  "spectrobe.type.corona": "Corona",
+  "spectrobe.type.aurora": "Aurora",
+  "spectrobe.type.flash": "Flash",
+
   "spectrobesreforged.configuration.title": "Spectrobes Reforged Config",
   "spectrobesreforged.configuration.section.spectrobesreforged.common.toml": "Common Config",
   "spectrobesreforged.configuration.section.spectrobesreforged.common.toml.title": "Common Config",
@@ -111,5 +119,8 @@
   "item.spectrobesreforged.blue_prizmod": "Blue Prizmod",
   "item.spectrobesreforged.purple_prizmod": "Purple Prizmod",
   "item.spectrobesreforged.magenta_prizmod": "Magenta Prizmod",
-  "item.spectrobesreforged.pink_prizmod": "Pink Prizmod"
+  "item.spectrobesreforged.pink_prizmod": "Pink Prizmod",
+  "block.spectrobesreforged.incubator": "Incubator",
+
+  "spectrobesreforged.spectrobe.komainu": "Komainu"
 }

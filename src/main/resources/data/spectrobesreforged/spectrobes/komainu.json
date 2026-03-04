@@ -1,0 +1,17 @@
+{
+  "id": 28,
+  "key": "komainu",
+  "type": "corona",
+  "stage": "child",
+  "range": 3,
+  "base_stats": {
+    "hp": 120,
+    "attack": 65,
+    "defense": 55
+  },
+  "textures": [
+    "entity/spectrobe/komainu/komainu_color_0",
+    "entity/spectrobe/komainu/komainu_color_1",
+    "entity/spectrobe/komainu/komainu_color_2"
+  ]
+}
