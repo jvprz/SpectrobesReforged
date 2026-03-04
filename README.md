@@ -1,108 +1,132 @@
-# 🌌 Spectrobes Reforged
+# Spectrobes Reforged
 
-> A modern reimagining of the Spectrobes universe in Minecraft.
-> Built for NeoForge / Minecraft 1.21.1
+Spectrobes Reforged is a fan-made Minecraft mod that reimagines the mechanics and universe of the original *Spectrobes* games within the Minecraft sandbox.
 
----
-
-## ✨ About The Project
-
-Spectrobes Reforged is a fan-made Minecraft mod inspired by the original **Spectrobes** games.
-
-The goal of this project is to recreate and expand the core mechanics of Spectrobes inside Minecraft, including:
-
-- 🦴 Fossil excavation
-- 🌍 Biome-based fossil generation
-- 🔬 Fossil cleaning and revival systems
-- 👾 Spectrobe awakening and team mechanics
-- 🧪 Prizmod storage system
-- 🏗️ Custom blocks, items, and entities
-- 🧠 Expanded gameplay systems inspired by the original titles
-
-This is not just a port — it's a full redesign adapted to Minecraft mechanics.
+The project is built for **NeoForge on Minecraft 1.21.1** and aims to recreate the core gameplay loop of the Spectrobes franchise while adapting it to Minecraft’s systems and world generation.
 
 ---
 
-## 🛠️ Current Features
+## Project Overview
 
-### 🦴 Fossil System
-- Fossil ore blocks generate naturally in the world
-- Fossil types are biome-based:
-  - ☀️ Corona
-  - 🌙 Aurora
-  - ⚡ Flash
-- Breaking fossil ore drops a raw fossil item
-- Custom rarity color formatting in item names
+Spectrobes Reforged is not a direct port of the original games.  
+Instead, it is a reinterpretation designed specifically for Minecraft, integrating Spectrobes-inspired mechanics into the game's existing survival and exploration systems.
 
-### 🧪 Prizmod System
+The long-term goal of the project is to introduce a complete gameplay loop involving fossil discovery, excavation, cleaning, revival, and spectrobe management.
+
+Planned gameplay pillars include:
+
+- Fossil excavation and discovery
+- Biome-driven fossil generation
+- Fossil cleaning and revival mechanics
+- Spectrobe awakening and evolution
+- Team management systems
+- Exploration and world interaction mechanics
+
+---
+
+## Current Features
+
+### Fossil System
+
+- Fossil ore blocks generate naturally in the world.
+- Fossil types are determined by biome categories:
+  - Corona
+  - Aurora
+  - Flash
+- Breaking fossil ore blocks yields raw fossil items.
+- Fossils include rarity-based formatting and categorization.
+
+### Prizmod Storage System
+
+The Prizmod acts as the primary spectrobe management interface.
+
+Features include:
+
 - Box storage system
-- 6-slot team system
-- Baby slot
-- Persistent saved data using custom Codec logic
+- Six-slot active team management
+- Dedicated baby slot
+- Persistent storage using Minecraft Codec-based serialization
+- Drag-and-drop spectrobe management
+- Quick transfer mechanics
+- Stat tooltips and icon rendering
 
-### 🏗️ Custom Blocks
+### Custom Blocks
+
 - Fossil Ore Blocks
 - Incubator Block
-- Custom drops logic
-- Creative mode drop handling fixes
+- Custom drop logic
+- Creative mode drop handling
 
-### 🎨 Custom Assets
+### Custom Assets
+
 - Custom textures
 - Independent item icons
-- Transparent texture fixes
 - Spawn eggs
+- Transparent texture handling
 - Color-coded fossil subtitles
 
 ---
 
-## 🚧 In Development
+## Work in Progress
+
+The following systems are currently under development:
 
 - Spectrobe awakening mechanics
-- First full Spectrobe implementation (Komainu)
-- Battle/team logic
-- Incubator interaction system
-- Krawl nest structures
-- Fossil lab mechanics
+- Initial spectrobe implementation (Komainu)
+- Spectrobe stage system (Child / Adult / Evolved)
+- Combat and team battle systems
+- Incubator interaction mechanics
+- Krawl nest world structures
+- Fossil laboratory mechanics
 - Advanced world generation improvements
 
 ---
 
-## 🧠 Tech Stack
+## Technology Stack
+
+The project is built using the following technologies:
 
 - Java 21
-- NeoForge (1.21.1)
-- Minecraft Codecs (for persistent data)
-- IntelliJ IDEA
-- Gradle
+- NeoForge (Minecraft 1.21.1)
+- GeckoLib (entity animation framework)
+- Minecraft Codec API for persistent data
+- Gradle build system
+- IntelliJ IDEA development environment
 
 ---
 
-## 📦 Installation (Dev)
+## Development Setup
 
-1. Clone the repository
-2. Open in IntelliJ
-3. Run `gradlew genIntellijRuns`
-4. Run the `Client` configuration
+To run the mod in a development environment:
 
----
+1. Clone the repository.
+2. Open the project in IntelliJ IDEA.
+3. Run: ```gradlew genIntellijRuns```
 
-## ⚖️ License
 
-This project is licensed under the MIT License.
-
-See the [LICENSE](LICENSE) file for details.
+4. Launch the **Minecraft Client** run configuration.
 
 ---
 
-## ❤️ Credits
+## License
 
-- Original Spectrobes IP belongs to Disney / Jupiter
-- Mod developed by **JPrimee (@jvprz)**
+This project is licensed under the **MIT License**.
+
+See the `LICENSE` file for full license details.
 
 ---
 
-## ⚠️ Disclaimer
+## Credits
 
-This is a fan-made project.
-No copyright infringement intended.
-All rights to Spectrobes belong to their respective owners.
+Original *Spectrobes* intellectual property is owned by **Disney** and **Jupiter Corporation**.
+
+Spectrobes Reforged is an independent fan project developed by:
+
+**JPrimee (@jvprz)**
+
+---
+
+## Disclaimer
+
+Spectrobes Reforged is a non-commercial fan project.  
+All rights to the original Spectrobes franchise remain with their respective copyright holders.
