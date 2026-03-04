@@ -1,7 +1,7 @@
 package com.jvprz.spectrobesreforged.client.model;
 
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
-import com.jvprz.spectrobesreforged.content.entity.KomainuEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.KomainuEntity;
 import net.minecraft.resources.ResourceLocation;
 import software.bernie.geckolib.model.GeoModel;
 

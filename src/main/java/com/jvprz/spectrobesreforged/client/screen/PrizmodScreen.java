@@ -1,10 +1,10 @@
 package com.jvprz.spectrobesreforged.client.screen;
 
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
-import com.jvprz.spectrobesreforged.client.prizmod.ClientPrizmodState;
-import com.jvprz.spectrobesreforged.client.prizmod.SpectrobeIconRegistry;
-import com.jvprz.spectrobesreforged.content.item.PrizmodMenu;
-import com.jvprz.spectrobesreforged.network.C2SMoveSpectrobe;
+import com.jvprz.spectrobesreforged.client.feature.prizmod.ClientPrizmodState;
+import com.jvprz.spectrobesreforged.client.ui.icon.SpectrobeIcons;
+import com.jvprz.spectrobesreforged.common.feature.prizmod.menu.PrizmodMenu;
+import com.jvprz.spectrobesreforged.common.network.C2SMoveSpectrobe;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -168,7 +168,7 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         int iy = slotY + (SLOT_H - 16) / 2;
 
         if (species.equalsIgnoreCase("komainu")) {
-            var tex = SpectrobeIconRegistry.icon(species);
+            var tex = SpectrobeIcons.icon(species);
             g.blit(tex, ix, iy, 0, 0, 16, 16, 16, 16);
             return;
         }
@@ -374,7 +374,7 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
             String species = dragEntry.species();
 
             if (species != null && species.equalsIgnoreCase("komainu")) {
-                var tex = SpectrobeIconRegistry.icon(species);
+                var tex = SpectrobeIcons.icon(species);
                 g.blit(tex, mouseX - 8, mouseY - 8, 0, 0, 16, 16, 16, 16);
             } else if (species != null) {
                 String label = species.toLowerCase();

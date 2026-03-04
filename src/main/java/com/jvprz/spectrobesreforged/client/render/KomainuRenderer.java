@@ -1,7 +1,7 @@
 package com.jvprz.spectrobesreforged.client.render;
 
 import com.jvprz.spectrobesreforged.client.model.KomainuModel;
-import com.jvprz.spectrobesreforged.content.entity.KomainuEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.KomainuEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
