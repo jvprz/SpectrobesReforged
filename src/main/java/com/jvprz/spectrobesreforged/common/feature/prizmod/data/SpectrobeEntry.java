@@ -1,5 +1,4 @@
 // src/main/java/com/jvprz/spectrobesreforged/common/feature/prizmod/data/SpectrobeEntry.java
-// (Solo si aún NO lo has modificado: esto añade stage y el helper isChild() usado arriba)
 package com.jvprz.spectrobesreforged.common.feature.prizmod.data;
 
 import com.mojang.serialization.Codec;
@@ -48,5 +47,61 @@ public record SpectrobeEntry(
 
     public int total() {
         return hp + atk + def;
+    }
+
+    // =========================
+    // Immutable "with" helpers
+    // =========================
+
+    public SpectrobeEntry withColor(int newColor) {
+        return new SpectrobeEntry(
+                this.id,
+                this.species,
+                newColor,
+                this.stage,
+                this.level,
+                this.hp,
+                this.atk,
+                this.def
+        );
+    }
+
+    public SpectrobeEntry withStage(String newStage) {
+        return new SpectrobeEntry(
+                this.id,
+                this.species,
+                this.color,
+                newStage,
+                this.level,
+                this.hp,
+                this.atk,
+                this.def
+        );
+    }
+
+    public SpectrobeEntry withLevel(int newLevel) {
+        return new SpectrobeEntry(
+                this.id,
+                this.species,
+                this.color,
+                this.stage,
+                newLevel,
+                this.hp,
+                this.atk,
+                this.def
+        );
+    }
+
+    public SpectrobeEntry withStats(int newHp, int newAtk, int newDef) {
+        return new SpectrobeEntry(
+                this.id,
+                this.species,
+                this.color,
+                this.stage,
+                this.level,
+                newHp,
+                newAtk,
+                newDef
+        );
     }
 }

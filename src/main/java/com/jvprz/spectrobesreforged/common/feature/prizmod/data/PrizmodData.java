@@ -124,4 +124,34 @@ public class PrizmodData {
         if (i < 0 || i >= 6) return;
         team.set(i, entryOrNull);
     }
+
+    public boolean updateColorVariant(UUID spectrobeId, int color) {
+        if (spectrobeId == null) return false;
+
+        // BOX
+        for (int i = 0; i < box.size(); i++) {
+            SpectrobeEntry e = box.get(i);
+            if (e != null && spectrobeId.equals(e.id())) {
+                box.set(i, e.withColor(color));
+                return true;
+            }
+        }
+
+        // TEAM (6)
+        for (int i = 0; i < team.size(); i++) {
+            SpectrobeEntry e = team.get(i);
+            if (e != null && spectrobeId.equals(e.id())) {
+                team.set(i, e.withColor(color));
+                return true;
+            }
+        }
+
+        // BABY
+        if (babySlot != null && spectrobeId.equals(babySlot.id())) {
+            babySlot = babySlot.withColor(color);
+            return true;
+        }
+
+        return false;
+    }
 }

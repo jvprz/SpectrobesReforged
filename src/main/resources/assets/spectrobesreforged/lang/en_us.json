@@ -99,9 +99,17 @@
   "item.spectrobesreforged.diamond": "Diamond",
   "item.spectrobesreforged.gold": "Gold",
   "item.spectrobesreforged.evolve": "Evolve",
+
   "item.spectrobesreforged.chroma_0": "Chroma",
+  "tooltip.spectrobesreforged.chroma_0": "Returns a Spectrobe to its original colors.",
   "item.spectrobesreforged.chroma_1": "Chroma",
+  "tooltip.spectrobesreforged.chroma_1": "Changes a Spectrobe to custom color pattern 1.",
   "item.spectrobesreforged.chroma_2": "Chroma",
+  "tooltip.spectrobesreforged.chroma_2": "Changes a Spectrobe to custom color pattern 2.",
+
+  "message.spectrobesreforged.not_your_spectrobe": "This Spectrobe is not yours.",
+  "message.spectrobesreforged.already_color_variant": "This Spectrobe already has color variant %s.",
+  "message.spectrobesreforged.set_color_variant": "Color variant set to %s.",
 
   "itemGroup.spectrobes_tools": "Spectrobes Tools",
   "item.spectrobesreforged.white_prizmod": "White Prizmod",
