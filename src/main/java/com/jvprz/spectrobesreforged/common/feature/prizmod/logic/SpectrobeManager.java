@@ -1,7 +1,10 @@
+// src/main/java/com/jvprz/spectrobesreforged/common/feature/prizmod/logic/SpectrobeManager.java
 package com.jvprz.spectrobesreforged.common.feature.prizmod.logic;
 
 import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpeciesRegistry;
 import com.jvprz.spectrobesreforged.common.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
@@ -38,10 +41,19 @@ public final class SpectrobeManager {
     }
 
     public static boolean spawnBaby(ServerLevel level, ServerPlayer owner, SpectrobeEntry entry) {
-        var spawner = SpectrobeSpeciesRegistry.getBabySpawner(entry.species());
-        if (spawner == null) return false;
 
-        return spawner.spawn(level, owner, entry);
+        String species = entry.species();
+
+        if (species == null) return false;
+
+        switch (species.toLowerCase()) {
+
+            case "komainu":
+                return spawnKomainu(level, owner, entry);
+
+            default:
+                return false;
+        }
     }
 
     public static boolean spawnKomainu(ServerLevel level, ServerPlayer owner, SpectrobeEntry entry) {
@@ -50,8 +62,25 @@ public final class SpectrobeManager {
 
         Vec3 pos = findSafeSpawnNearPlayer(level, owner);
 
+        // Posición + owner
         komainu.moveTo(pos.x, pos.y, pos.z, owner.getYRot(), 0);
         komainu.setOwner(owner);
+
+        // ===== APPLY ENTRY DATA (IMPORTANT) =====
+        // species key (para que el renderer encuentre la species en el registry)
+        komainu.setSpeciesKey(entry.species());
+
+        // stage (si en tu entry lo guardas como String)
+        // fallback seguro si viniera vacío o inválido
+        try {
+            komainu.setStage(SpectrobeStage.valueOf(entry.stage().toUpperCase()));
+        } catch (Exception ignored) {
+            komainu.setStage(SpectrobeStage.CHILD);
+        }
+
+        // texture variant (tu "color" 0/1/2)
+        komainu.setTextureVariant(entry.color());
+        // =======================================
 
         // Marca Prizmod
         komainu.getPersistentData().putBoolean("PrizmodBaby", true);
@@ -78,7 +107,6 @@ public final class SpectrobeManager {
 
                     BlockPos probe = base.offset(dx, 0, dz);
 
-                    // Sube/baja a superficie para evitar spawns bajo tierra
                     BlockPos top = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, probe);
 
                     BlockPos feet = top.above();
@@ -99,7 +127,6 @@ public final class SpectrobeManager {
             }
         }
 
-        // Fallback: al lado del jugador
         return new Vec3(player.getX() + 0.8, player.getY() + 0.1, player.getZ() + 0.8);
     }
 

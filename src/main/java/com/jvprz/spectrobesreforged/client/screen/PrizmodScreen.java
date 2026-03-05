@@ -313,6 +313,15 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         int type = hit[0];
         int index = hit[1];
 
+        if (type == TYPE_NONE && dragging) {
+            dragging = false;
+            holdingMouseDrag = false;
+            dragFromType = -1;
+            dragFromIndex = -1;
+            dragEntry = null;
+            return true;
+        }
+
         if (type == TYPE_NONE) {
             return super.mouseClicked(mouseX, mouseY, button);
         }
@@ -336,7 +345,11 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         }
 
         if (dragFromType == type && dragFromIndex == index) {
+            dragging = false;
             holdingMouseDrag = false;
+            dragFromType = -1;
+            dragFromIndex = -1;
+            dragEntry = null;
             return true;
         }
 
