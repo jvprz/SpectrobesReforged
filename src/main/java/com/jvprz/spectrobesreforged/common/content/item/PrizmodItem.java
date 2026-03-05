@@ -37,6 +37,7 @@ public class PrizmodItem extends Item {
                             e.stage(),
                             e.level(),
                             e.hp(),
+                            e.hpCur(),
                             e.atk(),
                             e.def()
                     ))
@@ -54,6 +55,7 @@ public class PrizmodItem extends Item {
                             e.stage(),
                             e.level(),
                             e.hp(),
+                            e.hpCur(),
                             e.atk(),
                             e.def()
                     ))

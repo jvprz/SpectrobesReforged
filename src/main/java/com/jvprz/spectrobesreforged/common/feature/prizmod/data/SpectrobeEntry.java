@@ -14,6 +14,7 @@ public record SpectrobeEntry(
         String stage, // "CHILD" | "ADULT" | "EVOLVED"
         int level,
         int hp,
+        int hpCur,
         int atk,
         int def
 ) {
@@ -25,6 +26,7 @@ public record SpectrobeEntry(
             Codec.STRING.optionalFieldOf("stage", "CHILD").forGetter(SpectrobeEntry::stage),
             Codec.INT.optionalFieldOf("level", 1).forGetter(SpectrobeEntry::level),
             Codec.INT.optionalFieldOf("hp", 0).forGetter(SpectrobeEntry::hp),
+            Codec.INT.optionalFieldOf("hpCur", -1).forGetter(SpectrobeEntry::hpCur),
             Codec.INT.optionalFieldOf("atk", 0).forGetter(SpectrobeEntry::atk),
             Codec.INT.optionalFieldOf("def", 0).forGetter(SpectrobeEntry::def)
     ).apply(inst, SpectrobeEntry::new));
@@ -39,69 +41,38 @@ public record SpectrobeEntry(
         stage = stage.trim().toUpperCase(Locale.ROOT);
 
         if (level < 1) level = 1;
+
+        if (hp < 0) hp = 0;
+
+        // Si viene “sin hpCur” en saves antiguos => full vida
+        if (hpCur < 0) hpCur = hp;
+
+        // Clamp
+        if (hpCur < 0) hpCur = 0;
+        if (hpCur > hp) hpCur = hp;
     }
 
     public boolean isChild() {
         return "CHILD".equals(stage);
     }
 
+    public boolean isDead() {
+        return hpCur <= 0;
+    }
+
     public int total() {
         return hp + atk + def;
     }
 
-    // =========================
-    // Immutable "with" helpers
-    // =========================
+    public SpectrobeEntry withHpCur(int newHpCur) {
+        return new SpectrobeEntry(id, species, color, stage, level, hp, newHpCur, atk, def);
+    }
+
+    public SpectrobeEntry healFull() {
+        return withHpCur(hp);
+    }
 
     public SpectrobeEntry withColor(int newColor) {
-        return new SpectrobeEntry(
-                this.id,
-                this.species,
-                newColor,
-                this.stage,
-                this.level,
-                this.hp,
-                this.atk,
-                this.def
-        );
-    }
-
-    public SpectrobeEntry withStage(String newStage) {
-        return new SpectrobeEntry(
-                this.id,
-                this.species,
-                this.color,
-                newStage,
-                this.level,
-                this.hp,
-                this.atk,
-                this.def
-        );
-    }
-
-    public SpectrobeEntry withLevel(int newLevel) {
-        return new SpectrobeEntry(
-                this.id,
-                this.species,
-                this.color,
-                this.stage,
-                newLevel,
-                this.hp,
-                this.atk,
-                this.def
-        );
-    }
-
-    public SpectrobeEntry withStats(int newHp, int newAtk, int newDef) {
-        return new SpectrobeEntry(
-                this.id,
-                this.species,
-                this.color,
-                this.stage,
-                this.level,
-                newHp,
-                newAtk,
-                newDef
-        );
+        return new SpectrobeEntry(id, species, newColor, stage, level, hp, hpCur, atk, def);
     }
 }

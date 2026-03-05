@@ -2,6 +2,7 @@ package com.jvprz.spectrobesreforged.common.registry;
 
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.PrizmodData;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
+import com.jvprz.spectrobesreforged.common.network.ModSnapshotSender;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -48,6 +49,27 @@ public final class ModCommands {
                                 )
                         )
         );
+
+        dispatcher.register(
+                Commands.literal("spectrobehealth")
+                        .requires(cs -> cs.hasPermission(2))
+                        .executes(ctx -> {
+                            var source = ctx.getSource();
+                            ServerPlayer player = source.getPlayer();
+                            if (player == null) return 0;
+
+                            PrizmodData data = player.getData(ModAttachments.PRIZMOD.get());
+                            data.healEquippedFull();
+
+                            source.sendSuccess(() -> Component.literal("Spectrobe team healed to full health.")
+                                    .withStyle(ChatFormatting.GREEN), false);
+
+                            // refrescar UI si está abierta
+                            ModSnapshotSender.sendSnapshot(player, data);
+
+                            return 1;
+                        })
+        );
     }
 
     private static int giveSpectrobe(CommandSourceStack source, String speciesRaw, int color) {
@@ -65,9 +87,6 @@ public final class ModCommands {
         UUID id = UUID.randomUUID();
 
         // Defaults for now (until JSON registry is wired):
-        // stage: CHILD
-        // level: 1
-        // stats: komainu base stats (120/65/55) so tooltips are meaningful
         String stage = "CHILD";
         int level = 1;
 
@@ -84,7 +103,8 @@ public final class ModCommands {
                 color,
                 stage,
                 level,
-                hp,
+                hp,   // max hp
+                hp,   // current hp (full)
                 atk,
                 def
         );
@@ -95,9 +115,11 @@ public final class ModCommands {
                 "You have received a " + entry.species() + " in your Prizmod."
         ).withStyle(ChatFormatting.GREEN), false);
 
-        // Optional debug line
         source.sendSuccess(() -> Component.literal("Code: " + entry.id())
                 .withStyle(ChatFormatting.DARK_GRAY), false);
+
+        // refrescar UI si está abierta
+        ModSnapshotSender.sendSnapshot(player, data);
 
         return 1;
     }

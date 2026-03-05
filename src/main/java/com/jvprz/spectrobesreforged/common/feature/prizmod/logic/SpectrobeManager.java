@@ -3,13 +3,12 @@ package com.jvprz.spectrobesreforged.common.feature.prizmod.logic;
 
 import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpeciesRegistry;
 import com.jvprz.spectrobesreforged.common.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
@@ -40,20 +39,15 @@ public final class SpectrobeManager {
         }
     }
 
+    // Si no quieres tocar registry, deja spawnBaby llamando directo a komainu:
     public static boolean spawnBaby(ServerLevel level, ServerPlayer owner, SpectrobeEntry entry) {
+        // KO => no spawnea aunque esté equipado
+        if (entry.hpCur() <= 0) return false;
 
-        String species = entry.species();
-
-        if (species == null) return false;
-
-        switch (species.toLowerCase()) {
-
-            case "komainu":
-                return spawnKomainu(level, owner, entry);
-
-            default:
-                return false;
+        if ("komainu".equalsIgnoreCase(entry.species())) {
+            return spawnKomainu(level, owner, entry);
         }
+        return false;
     }
 
     public static boolean spawnKomainu(ServerLevel level, ServerPlayer owner, SpectrobeEntry entry) {
@@ -62,27 +56,20 @@ public final class SpectrobeManager {
 
         Vec3 pos = findSafeSpawnNearPlayer(level, owner);
 
-        // Posición + owner
         komainu.moveTo(pos.x, pos.y, pos.z, owner.getYRot(), 0);
         komainu.setOwner(owner);
 
-        // ===== APPLY ENTRY DATA (IMPORTANT) =====
-        // species key (para que el renderer encuentre la species en el registry)
-        komainu.setSpeciesKey(entry.species());
-
-        // stage (si en tu entry lo guardas como String)
-        // fallback seguro si viniera vacío o inválido
-        try {
-            komainu.setStage(SpectrobeStage.valueOf(entry.stage().toUpperCase()));
-        } catch (Exception ignored) {
-            komainu.setStage(SpectrobeStage.CHILD);
-        }
-
-        // texture variant (tu "color" 0/1/2)
+        // IMPORTANT: variant/color from entry
         komainu.setTextureVariant(entry.color());
-        // =======================================
 
-        // Marca Prizmod
+        // IMPORTANT: sync "real" entity HP with prizmod HP
+        var maxHpAttr = komainu.getAttribute(Attributes.MAX_HEALTH);
+        if (maxHpAttr != null) maxHpAttr.setBaseValue(Math.max(1, entry.hp()));
+
+        float hpNow = (float) Math.max(0, Math.min(entry.hpCur(), entry.hp()));
+        komainu.setHealth(Math.max(1.0f, hpNow)); // si hpCur==0 no deberíamos spawnear (ya filtrado arriba)
+
+        // Mark Prizmod
         komainu.getPersistentData().putBoolean("PrizmodBaby", true);
         komainu.getPersistentData().putUUID("PrizmodOwner", owner.getUUID());
         komainu.getPersistentData().putUUID("SpectrobeId", entry.id());
@@ -106,7 +93,6 @@ public final class SpectrobeManager {
                     if (dx == 0 && dz == 0) continue;
 
                     BlockPos probe = base.offset(dx, 0, dz);
-
                     BlockPos top = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, probe);
 
                     BlockPos feet = top.above();

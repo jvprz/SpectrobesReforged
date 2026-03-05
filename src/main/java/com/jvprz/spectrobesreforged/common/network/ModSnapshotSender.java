@@ -18,7 +18,7 @@ public final class ModSnapshotSender {
                         e.color(),
                         e.stage(),
                         e.level(),
-                        e.hp(), e.atk(), e.def()
+                        e.hp(), e.hpCur(), e.atk(), e.def()
                 ))
                 .toList();
 
@@ -30,7 +30,7 @@ public final class ModSnapshotSender {
                     e.color(),
                     e.stage(),
                     e.level(),
-                    e.hp(), e.atk(), e.def()
+                    e.hp(), e.hpCur(), e.atk(), e.def()
             )).orElse(null));
         }
 
@@ -40,7 +40,7 @@ public final class ModSnapshotSender {
                         e.color(),
                         e.stage(),
                         e.level(),
-                        e.hp(), e.atk(), e.def()
+                        e.hp(), e.hpCur(), e.atk(), e.def()
                 ))
                 .orElse(null);
 

@@ -18,6 +18,7 @@ public final class ClientPrizmodState {
             String stage,
             int level,
             int hp,
+            int hpCur,
             int atk,
             int def
     ) {}

@@ -154,4 +154,86 @@ public class PrizmodData {
 
         return false;
     }
+
+    public boolean applyDamage(UUID spectrobeId, int dmg) {
+        if (spectrobeId == null || dmg <= 0) return false;
+
+        // BOX
+        for (int i = 0; i < box.size(); i++) {
+            SpectrobeEntry e = box.get(i);
+            if (e != null && spectrobeId.equals(e.id())) {
+                int next = Math.max(0, e.hpCur() - dmg);
+                box.set(i, e.withHpCur(next));
+                return true;
+            }
+        }
+
+        // TEAM
+        for (int i = 0; i < team.size(); i++) {
+            SpectrobeEntry e = team.get(i);
+            if (e != null && spectrobeId.equals(e.id())) {
+                int next = Math.max(0, e.hpCur() - dmg);
+                team.set(i, e.withHpCur(next));
+                return true;
+            }
+        }
+
+        // BABY
+        if (babySlot != null && spectrobeId.equals(babySlot.id())) {
+            int next = Math.max(0, babySlot.hpCur() - dmg);
+            babySlot = babySlot.withHpCur(next);
+            return true;
+        }
+
+        return false;
+    }
+
+    public void healEquippedFull() {
+        // TEAM
+        for (int i = 0; i < team.size(); i++) {
+            SpectrobeEntry e = team.get(i);
+            if (e != null) team.set(i, e.healFull());
+        }
+        // BABY
+        if (babySlot != null) babySlot = babySlot.healFull();
+    }
+
+    // Añade esto dentro de PrizmodData
+
+    public Optional<SpectrobeEntry> findAnywhere(UUID id) {
+        // box
+        for (SpectrobeEntry e : box) if (e.id().equals(id)) return Optional.of(e);
+
+        // team
+        for (SpectrobeEntry e : team) if (e != null && e.id().equals(id)) return Optional.of(e);
+
+        // baby
+        if (babySlot != null && babySlot.id().equals(id)) return Optional.of(babySlot);
+
+        return Optional.empty();
+    }
+
+    public void replaceEntry(UUID id, SpectrobeEntry newEntry) {
+        // box
+        for (int i = 0; i < box.size(); i++) {
+            if (box.get(i).id().equals(id)) {
+                box.set(i, newEntry);
+                return;
+            }
+        }
+
+        // team
+        for (int i = 0; i < team.size(); i++) {
+            var e = team.get(i);
+            if (e != null && e.id().equals(id)) {
+                team.set(i, newEntry);
+                return;
+            }
+        }
+
+        // baby
+        if (babySlot != null && babySlot.id().equals(id)) {
+            babySlot = newEntry;
+        }
+    }
 }

@@ -31,9 +31,6 @@ public class ChromaMineralItem extends Item {
         this.variant = variant;
     }
 
-    /**
-     * Click derecho SOBRE una entidad (como dar comida a un lobo).
-     */
     @Override
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
 
@@ -49,7 +46,6 @@ public class ChromaMineralItem extends Item {
             return InteractionResult.PASS;
         }
 
-        // Solo puedes dárselo a TU Spectrobe
         var owner = spectrobe.getOwner().orElse(null);
         if (owner == null || !owner.getUUID().equals(sp.getUUID())) {
             sp.displayClientMessage(
@@ -90,7 +86,6 @@ public class ChromaMineralItem extends Item {
                 0.02
         );
 
-        // 3) Guardar en Prizmod si este Spectrobe viene del Prizmod
         if (spectrobe.getPersistentData().hasUUID("SpectrobeId")) {
             UUID spectrobeId = spectrobe.getPersistentData().getUUID("SpectrobeId");
 
@@ -98,7 +93,6 @@ public class ChromaMineralItem extends Item {
             data.updateColorVariant(spectrobeId, variant); // <- lo añadimos abajo
         }
 
-        // 4) Consumir item (no en creativo)
         if (!sp.getAbilities().instabuild) {
             stack.shrink(1);
         }

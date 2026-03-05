@@ -160,9 +160,6 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         }
     }
 
-    /**
-     * Dibuja SIEMPRE icono 16x16 centrado dentro del hueco (SLOT_W x SLOT_H).
-     */
     private void drawEntry16(GuiGraphics g, ClientPrizmodState.Entry entry, int slotX, int slotY) {
         if (entry == null) return;
 
@@ -257,9 +254,7 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         int toIndex = -1;
 
         if (isChild(e)) {
-            // CHILD -> baby slot
             if (fromType == TYPE_BABY) {
-                // del baby slot a la box (al final)
                 toType = TYPE_BOX;
                 toIndex = 9999;
             } else {
@@ -267,13 +262,11 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
                     toType = TYPE_BABY;
                     toIndex = 0;
                 } else {
-                    // baby slot ocupado -> a la box (al final)
                     toType = TYPE_BOX;
                     toIndex = 9999;
                 }
             }
         } else {
-            // ADULT/EVOLVED -> team
             if (fromType == TYPE_BOX) {
                 int slot = firstEmptyTeamSlot();
                 if (slot != -1) {
@@ -286,7 +279,6 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
                 toType = TYPE_BOX;
                 toIndex = 9999;
             } else {
-                // si alguien intentase quickmove desde baby (no debería pasar con isChild)
                 toType = TYPE_BOX;
                 toIndex = 9999;
             }
@@ -388,6 +380,15 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
+    private static ChatFormatting hpColor(int cur, int max) {
+        if (max <= 0) return ChatFormatting.GRAY;
+        float pct = (float) cur / (float) max;
+        if (pct <= 0.25f) return ChatFormatting.DARK_RED;
+        if (pct <= 0.50f) return ChatFormatting.RED;
+        if (pct <= 0.75f) return ChatFormatting.YELLOW;
+        return ChatFormatting.GREEN;
+    }
+
     private List<Component> buildEntryTooltip(ClientPrizmodState.Entry e) {
         List<Component> lines = new ArrayList<>();
 
@@ -406,8 +407,13 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
 
         int total = e.hp() + e.atk() + e.def();
 
+        // ✅ HP actual / total
+        int hpMax = e.hp();
+        int hpCur = e.hpCur();
+        ChatFormatting hpFmt = hpColor(hpCur, hpMax);
+
         lines.add(Component.literal("HP: ").withStyle(ChatFormatting.RED)
-                .append(Component.literal(String.valueOf(e.hp())).withStyle(ChatFormatting.WHITE)));
+                .append(Component.literal(hpCur + " / " + hpMax).withStyle(hpFmt)));
 
         lines.add(Component.literal("ATK: ").withStyle(ChatFormatting.GOLD)
                 .append(Component.literal(String.valueOf(e.atk())).withStyle(ChatFormatting.WHITE)));
@@ -449,7 +455,7 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
                 ClientPrizmodState.Entry hovered = getEntry(type, index);
                 if (hovered != null) {
                     g.renderTooltip(this.font, buildEntryTooltip(hovered), Optional.empty(), mouseX, mouseY);
-                    return; // evitamos tooltips vanilla
+                    return;
                 }
             }
         }
