@@ -3,6 +3,8 @@ package com.jvprz.spectrobesreforged.common.feature.prizmod.logic;
 
 import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpecies;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpeciesRegistry;
 import com.jvprz.spectrobesreforged.common.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
@@ -39,48 +41,64 @@ public final class SpectrobeManager {
         }
     }
 
-    // Si no quieres tocar registry, deja spawnBaby llamando directo a komainu:
     public static boolean spawnBaby(ServerLevel level, ServerPlayer owner, SpectrobeEntry entry) {
+        if (entry == null) return false;
+
         // KO => no spawnea aunque esté equipado
         if (entry.hpCur() <= 0) return false;
 
-        if ("komainu".equalsIgnoreCase(entry.species())) {
-            return spawnKomainu(level, owner, entry);
-        }
-        return false;
-    }
+        SpectrobeSpecies species = SpectrobeSpeciesRegistry.getByKey(entry.species());
+        if (species == null) return false;
 
-    public static boolean spawnKomainu(ServerLevel level, ServerPlayer owner, SpectrobeEntry entry) {
-        SpectrobeEntity komainu = ModEntities.KOMAINU.get().create(level);
-        if (komainu == null) return false;
+        SpectrobeEntity spectrobe = ModEntities.SPECTROBE.get().create(level);
+        if (spectrobe == null) return false;
 
         Vec3 pos = findSafeSpawnNearPlayer(level, owner);
 
-        komainu.moveTo(pos.x, pos.y, pos.z, owner.getYRot(), 0);
-        komainu.setOwner(owner);
+        spectrobe.moveTo(pos.x, pos.y, pos.z, owner.getYRot(), 0);
+        spectrobe.setOwner(owner);
 
-        // IMPORTANT: variant/color from entry
-        komainu.setTextureVariant(entry.color());
+        // especie / stage / chroma desde entry
+        spectrobe.setSpeciesKey(entry.species());
+        spectrobe.setStage(parseStage(entry.stage()));
+        spectrobe.setTextureVariant(entry.color());
 
-        // IMPORTANT: sync "real" entity HP with prizmod HP
-        var maxHpAttr = komainu.getAttribute(Attributes.MAX_HEALTH);
-        if (maxHpAttr != null) maxHpAttr.setBaseValue(Math.max(1, entry.hp()));
+        // HP real desde Prizmod
+        var maxHpAttr = spectrobe.getAttribute(Attributes.MAX_HEALTH);
+        if (maxHpAttr != null) {
+            maxHpAttr.setBaseValue(Math.max(1, entry.hp()));
+        }
 
         float hpNow = (float) Math.max(0, Math.min(entry.hpCur(), entry.hp()));
-        komainu.setHealth(Math.max(1.0f, hpNow)); // si hpCur==0 no deberíamos spawnear (ya filtrado arriba)
+        spectrobe.setHealth(Math.max(1.0f, hpNow));
+
+        // Reaplica IA según el stage cargado
+        spectrobe.refreshGoalsForCurrentStage();
 
         // Mark Prizmod
-        komainu.getPersistentData().putBoolean("PrizmodBaby", true);
-        komainu.getPersistentData().putUUID("PrizmodOwner", owner.getUUID());
-        komainu.getPersistentData().putUUID("SpectrobeId", entry.id());
+        spectrobe.getPersistentData().putBoolean("PrizmodBaby", true);
+        spectrobe.getPersistentData().putUUID("PrizmodOwner", owner.getUUID());
+        spectrobe.getPersistentData().putUUID("SpectrobeId", entry.id());
 
-        level.addFreshEntity(komainu);
+        level.addFreshEntity(spectrobe);
 
-        if (!level.noCollision(komainu)) {
-            komainu.teleportTo(owner.getX(), owner.getY() + 0.2, owner.getZ());
+        if (!level.noCollision(spectrobe)) {
+            spectrobe.teleportTo(owner.getX(), owner.getY() + 0.2, owner.getZ());
         }
 
         return true;
+    }
+
+    private static com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage parseStage(String raw) {
+        if (raw == null || raw.isBlank()) {
+            return com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage.CHILD;
+        }
+
+        try {
+            return com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage.valueOf(raw.trim().toUpperCase(java.util.Locale.ROOT));
+        } catch (Exception ignored) {
+            return com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage.CHILD;
+        }
     }
 
     private static Vec3 findSafeSpawnNearPlayer(ServerLevel level, ServerPlayer player) {

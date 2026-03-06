@@ -2,6 +2,8 @@ package com.jvprz.spectrobesreforged.common.registry;
 
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.PrizmodData;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpecies;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpeciesRegistry;
 import com.jvprz.spectrobesreforged.common.network.ModSnapshotSender;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
@@ -15,17 +17,16 @@ import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
-import java.util.List;
 import java.util.UUID;
 
 public final class ModCommands {
     private ModCommands() {}
 
-    // For now only komainu. Later: SpectrobeSpeciesRegistry.allKeys()
-    private static final List<String> SPECIES = List.of("komainu");
-
     private static final SuggestionProvider<CommandSourceStack> SUGGEST_SPECIES =
-            (ctx, builder) -> SharedSuggestionProvider.suggest(SPECIES, builder);
+            (ctx, builder) -> SharedSuggestionProvider.suggest(
+                    SpectrobeSpeciesRegistry.keys(),
+                    builder
+            );
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
 
@@ -34,12 +35,10 @@ public final class ModCommands {
                         .requires(cs -> cs.hasPermission(2))
                         .then(Commands.argument("species", StringArgumentType.word())
                                 .suggests(SUGGEST_SPECIES)
-                                // /givespectrobe <species>
                                 .executes(ctx -> {
                                     String species = StringArgumentType.getString(ctx, "species");
                                     return giveSpectrobe(ctx.getSource(), species, 0);
                                 })
-                                // /givespectrobe <species> <color>
                                 .then(Commands.argument("color", IntegerArgumentType.integer(0, 2))
                                         .executes(ctx -> {
                                             String species = StringArgumentType.getString(ctx, "species");
@@ -64,9 +63,7 @@ public final class ModCommands {
                             source.sendSuccess(() -> Component.literal("Spectrobe team healed to full health.")
                                     .withStyle(ChatFormatting.GREEN), false);
 
-                            // refrescar UI si está abierta
                             ModSnapshotSender.sendSnapshot(player, data);
-
                             return 1;
                         })
         );
@@ -76,37 +73,38 @@ public final class ModCommands {
         ServerPlayer player = source.getPlayer();
         if (player == null) return 0;
 
-        String species = speciesRaw.toLowerCase();
+        String speciesKey = speciesRaw == null ? "" : speciesRaw.trim().toLowerCase(java.util.Locale.ROOT);
+        SpectrobeSpecies species = SpectrobeSpeciesRegistry.getByKey(speciesKey);
 
-        if (!SPECIES.contains(species)) {
-            source.sendFailure(Component.literal("Unknown spectrobe species: " + species));
+        if (species == null) {
+            source.sendFailure(Component.literal("Unknown spectrobe species: " + speciesKey));
             return 0;
         }
 
         PrizmodData data = player.getData(ModAttachments.PRIZMOD.get());
         UUID id = UUID.randomUUID();
 
-        // Defaults for now (until JSON registry is wired):
-        String stage = "CHILD";
+        String stage = species.initialStage().name();
         int level = 1;
 
-        int hp = 0, atk = 0, def = 0;
-        if (species.equals("komainu")) {
-            hp = 120;
-            atk = 65;
-            def = 55;
-        }
+        int hp = species.stats().hp().base();
+        int atk = species.stats().attack().base();
+        int def = species.stats().defense().base();
 
         SpectrobeEntry entry = new SpectrobeEntry(
                 id,
-                species,
+                species.key(),
                 color,
                 stage,
                 level,
-                hp,   // max hp
-                hp,   // current hp (full)
+                hp,
+                hp,
                 atk,
-                def
+                def,
+                0, // mineralsFed
+                0, // mineralHpBonus
+                0, // mineralAtkBonus
+                0  // mineralDefBonus
         );
 
         data.addToBox(entry);
@@ -118,9 +116,7 @@ public final class ModCommands {
         source.sendSuccess(() -> Component.literal("Code: " + entry.id())
                 .withStyle(ChatFormatting.DARK_GRAY), false);
 
-        // refrescar UI si está abierta
         ModSnapshotSender.sendSnapshot(player, data);
-
         return 1;
     }
 }

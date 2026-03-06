@@ -20,7 +20,11 @@ public final class ClientPrizmodState {
             int hp,
             int hpCur,
             int atk,
-            int def
+            int def,
+            int mineralsFed,
+            int mineralHpBonus,
+            int mineralAtkBonus,
+            int mineralDefBonus
     ) {}
 
     public static void setSnapshot(List<Entry> box, List<Entry> team, Entry baby) {

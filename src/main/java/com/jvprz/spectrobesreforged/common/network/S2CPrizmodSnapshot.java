@@ -18,7 +18,7 @@ public record S2CPrizmodSnapshot(
         Entry baby
 ) implements CustomPacketPayload {
 
-    private static final int WIRE_VERSION = 2;
+    private static final int WIRE_VERSION = 3;
 
     public static final Type<S2CPrizmodSnapshot> TYPE =
             new Type<>(ResourceLocation.fromNamespaceAndPath(
@@ -30,10 +30,14 @@ public record S2CPrizmodSnapshot(
             int color,
             String stage,
             int level,
-            int hp,     // max
-            int hpCur,  // current
+            int hp,
+            int hpCur,
             int atk,
-            int def
+            int def,
+            int mineralsFed,
+            int mineralHpBonus,
+            int mineralAtkBonus,
+            int mineralDefBonus
     ) {}
 
     @Override
@@ -52,25 +56,39 @@ public record S2CPrizmodSnapshot(
                     try {
                         int ver = buf.readVarInt();
                         out = switch (ver) {
+                            case 3 -> decodeV3(buf);
                             case 2 -> decodeV2(buf);
                             default -> {
-                                // Si no reconocemos versión, intentamos como V1 (sin header)
                                 buf.readerIndex(start);
                                 yield decodeV1(buf);
                             }
                         };
                     } catch (RuntimeException ex) {
-                        // Fallback: si era un payload viejo (sin version header)
                         buf.readerIndex(start);
                         out = decodeV1(buf);
                     }
 
-                    // CLAVE: aseguramos consumir el payload completo
                     if (buf.readableBytes() > 0) {
                         buf.skipBytes(buf.readableBytes());
                     }
 
                     return out;
+                }
+
+                private S2CPrizmodSnapshot decodeV3(FriendlyByteBuf buf) {
+                    int boxSize = buf.readVarInt();
+                    List<Entry> box = new ArrayList<>(boxSize);
+                    for (int i = 0; i < boxSize; i++) box.add(readEntryV3(buf));
+
+                    int teamSize = buf.readVarInt();
+                    List<Entry> team = new ArrayList<>(teamSize);
+                    for (int i = 0; i < teamSize; i++) {
+                        boolean present = buf.readBoolean();
+                        team.add(present ? readEntryV3(buf) : null);
+                    }
+
+                    Entry baby = buf.readBoolean() ? readEntryV3(buf) : null;
+                    return new S2CPrizmodSnapshot(box, team, baby);
                 }
 
                 private S2CPrizmodSnapshot decodeV2(FriendlyByteBuf buf) {
@@ -89,7 +107,6 @@ public record S2CPrizmodSnapshot(
                     return new S2CPrizmodSnapshot(box, team, baby);
                 }
 
-                // V1 legacy: UUID + species + baby(boolean)
                 private S2CPrizmodSnapshot decodeV1(FriendlyByteBuf buf) {
                     int boxSize = buf.readVarInt();
                     List<Entry> box = new ArrayList<>(boxSize);
@@ -106,17 +123,39 @@ public record S2CPrizmodSnapshot(
                     return new S2CPrizmodSnapshot(box, team, baby);
                 }
 
+                private Entry readEntryV3(FriendlyByteBuf buf) {
+                    return new Entry(
+                            buf.readUUID(),
+                            buf.readUtf(),
+                            buf.readVarInt(),
+                            buf.readUtf(),
+                            buf.readVarInt(),
+                            buf.readVarInt(),
+                            buf.readVarInt(),
+                            buf.readVarInt(),
+                            buf.readVarInt(),
+                            buf.readVarInt(),
+                            buf.readVarInt(),
+                            buf.readVarInt(),
+                            buf.readVarInt()
+                    );
+                }
+
                 private Entry readEntryV2(FriendlyByteBuf buf) {
                     return new Entry(
                             buf.readUUID(),
-                            buf.readUtf(),     // species
-                            buf.readVarInt(),  // color
-                            buf.readUtf(),     // stage
-                            buf.readVarInt(),  // level
-                            buf.readVarInt(),  // hp max
-                            buf.readVarInt(),  // hp cur
-                            buf.readVarInt(),  // atk
-                            buf.readVarInt()   // def
+                            buf.readUtf(),
+                            buf.readVarInt(),
+                            buf.readUtf(),
+                            buf.readVarInt(),
+                            buf.readVarInt(),
+                            buf.readVarInt(),
+                            buf.readVarInt(),
+                            buf.readVarInt(),
+                            0,
+                            0,
+                            0,
+                            0
                     );
                 }
 
@@ -134,27 +173,27 @@ public record S2CPrizmodSnapshot(
                     int atk = 0;
                     int def = 0;
 
-                    return new Entry(id, species, color, stage, level, hp, hpCur, atk, def);
+                    return new Entry(id, species, color, stage, level, hp, hpCur, atk, def, 0, 0, 0, 0);
                 }
 
                 @Override
                 public void encode(FriendlyByteBuf buf, S2CPrizmodSnapshot msg) {
-                    buf.writeVarInt(WIRE_VERSION); // <- header versionado
+                    buf.writeVarInt(WIRE_VERSION);
 
                     buf.writeVarInt(msg.box.size());
-                    for (var e : msg.box) writeEntryV2(buf, e);
+                    for (var e : msg.box) writeEntryV3(buf, e);
 
                     buf.writeVarInt(msg.team.size());
                     for (var e : msg.team) {
                         buf.writeBoolean(e != null);
-                        if (e != null) writeEntryV2(buf, e);
+                        if (e != null) writeEntryV3(buf, e);
                     }
 
                     buf.writeBoolean(msg.baby != null);
-                    if (msg.baby != null) writeEntryV2(buf, msg.baby);
+                    if (msg.baby != null) writeEntryV3(buf, msg.baby);
                 }
 
-                private void writeEntryV2(FriendlyByteBuf buf, Entry e) {
+                private void writeEntryV3(FriendlyByteBuf buf, Entry e) {
                     buf.writeUUID(e.id());
                     buf.writeUtf(e.species() == null ? "" : e.species());
                     buf.writeVarInt(e.color());
@@ -164,6 +203,10 @@ public record S2CPrizmodSnapshot(
                     buf.writeVarInt(e.hpCur());
                     buf.writeVarInt(e.atk());
                     buf.writeVarInt(e.def());
+                    buf.writeVarInt(e.mineralsFed());
+                    buf.writeVarInt(e.mineralHpBonus());
+                    buf.writeVarInt(e.mineralAtkBonus());
+                    buf.writeVarInt(e.mineralDefBonus());
                 }
             };
 
@@ -172,7 +215,8 @@ public record S2CPrizmodSnapshot(
             var box = msg.box.stream()
                     .map(e -> new ClientPrizmodState.Entry(
                             e.id(), e.species(), e.color(), e.stage(), e.level(),
-                            e.hp(), e.hpCur(), e.atk(), e.def()
+                            e.hp(), e.hpCur(), e.atk(), e.def(),
+                            e.mineralsFed(), e.mineralHpBonus(), e.mineralAtkBonus(), e.mineralDefBonus()
                     ))
                     .toList();
 
@@ -180,7 +224,8 @@ public record S2CPrizmodSnapshot(
                     .map(e -> e == null ? null :
                             new ClientPrizmodState.Entry(
                                     e.id(), e.species(), e.color(), e.stage(), e.level(),
-                                    e.hp(), e.hpCur(), e.atk(), e.def()
+                                    e.hp(), e.hpCur(), e.atk(), e.def(),
+                                    e.mineralsFed(), e.mineralHpBonus(), e.mineralAtkBonus(), e.mineralDefBonus()
                             ))
                     .toList();
 
@@ -189,7 +234,9 @@ public record S2CPrizmodSnapshot(
                             new ClientPrizmodState.Entry(
                                     msg.baby.id(), msg.baby.species(), msg.baby.color(),
                                     msg.baby.stage(), msg.baby.level(),
-                                    msg.baby.hp(), msg.baby.hpCur(), msg.baby.atk(), msg.baby.def()
+                                    msg.baby.hp(), msg.baby.hpCur(), msg.baby.atk(), msg.baby.def(),
+                                    msg.baby.mineralsFed(), msg.baby.mineralHpBonus(),
+                                    msg.baby.mineralAtkBonus(), msg.baby.mineralDefBonus()
                             );
 
             ClientPrizmodState.setSnapshot(box, team, baby);

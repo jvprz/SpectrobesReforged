@@ -14,11 +14,19 @@ public final class ModSnapshotSender {
 
         var box = data.getBox().stream()
                 .map(e -> new S2CPrizmodSnapshot.Entry(
-                        e.id(), e.species(),
+                        e.id(),
+                        e.species(),
                         e.color(),
                         e.stage(),
                         e.level(),
-                        e.hp(), e.hpCur(), e.atk(), e.def()
+                        e.hp(),
+                        e.hpCur(),
+                        e.atk(),
+                        e.def(),
+                        e.mineralsFed(),
+                        e.mineralHpBonus(),
+                        e.mineralAtkBonus(),
+                        e.mineralDefBonus()
                 ))
                 .toList();
 
@@ -26,21 +34,37 @@ public final class ModSnapshotSender {
         for (int i = 0; i < 6; i++) {
             var opt = data.getTeamSlot(i);
             team.add(opt.map(e -> new S2CPrizmodSnapshot.Entry(
-                    e.id(), e.species(),
+                    e.id(),
+                    e.species(),
                     e.color(),
                     e.stage(),
                     e.level(),
-                    e.hp(), e.hpCur(), e.atk(), e.def()
+                    e.hp(),
+                    e.hpCur(),
+                    e.atk(),
+                    e.def(),
+                    e.mineralsFed(),
+                    e.mineralHpBonus(),
+                    e.mineralAtkBonus(),
+                    e.mineralDefBonus()
             )).orElse(null));
         }
 
         var baby = data.getBabySlot()
                 .map(e -> new S2CPrizmodSnapshot.Entry(
-                        e.id(), e.species(),
+                        e.id(),
+                        e.species(),
                         e.color(),
                         e.stage(),
                         e.level(),
-                        e.hp(), e.hpCur(), e.atk(), e.def()
+                        e.hp(),
+                        e.hpCur(),
+                        e.atk(),
+                        e.def(),
+                        e.mineralsFed(),
+                        e.mineralHpBonus(),
+                        e.mineralAtkBonus(),
+                        e.mineralDefBonus()
                 ))
                 .orElse(null);
 

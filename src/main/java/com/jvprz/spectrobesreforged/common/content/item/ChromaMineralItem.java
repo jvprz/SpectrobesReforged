@@ -3,9 +3,12 @@ package com.jvprz.spectrobesreforged.common.content.item;
 
 import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.PrizmodData;
+import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
+import com.jvprz.spectrobesreforged.common.network.ModSnapshotSender;
 import com.jvprz.spectrobesreforged.common.registry.ModAttachments;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -16,7 +19,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.TooltipFlag;
 
 import java.util.List;
@@ -35,7 +37,7 @@ public class ChromaMineralItem extends Item {
     public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity target, InteractionHand hand) {
 
         if (player.level().isClientSide) {
-            return InteractionResult.SUCCESS; // animación client-side
+            return InteractionResult.SUCCESS;
         }
 
         if (!(player instanceof ServerPlayer sp) || !(player.level() instanceof ServerLevel sl)) {
@@ -66,7 +68,6 @@ public class ChromaMineralItem extends Item {
             return InteractionResult.CONSUME;
         }
 
-
         spectrobe.setTextureVariant(variant);
 
         sl.playSound(
@@ -90,7 +91,24 @@ public class ChromaMineralItem extends Item {
             UUID spectrobeId = spectrobe.getPersistentData().getUUID("SpectrobeId");
 
             PrizmodData data = sp.getData(ModAttachments.PRIZMOD.get());
-            data.updateColorVariant(spectrobeId, variant); // <- lo añadimos abajo
+
+            boolean updatedColor = data.updateColorVariant(spectrobeId, variant);
+
+            boolean updatedMinerals = false;
+            if (updatedColor) {
+                var found = data.findAnywhere(spectrobeId);
+                if (found.isPresent()) {
+                    SpectrobeEntry entry = found.get();
+                    updatedMinerals = data.replaceEntry(
+                            spectrobeId,
+                            entry.withMineralsFed(entry.mineralsFed() + 1)
+                    );
+                }
+            }
+
+            if (updatedColor || updatedMinerals) {
+                ModSnapshotSender.sendSnapshot(sp, data);
+            }
         }
 
         if (!sp.getAbilities().instabuild) {
@@ -108,7 +126,6 @@ public class ChromaMineralItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-
         tooltip.add(Component.translatable("tooltip.spectrobesreforged.chroma_" + variant)
                 .withStyle(ChatFormatting.GRAY));
 

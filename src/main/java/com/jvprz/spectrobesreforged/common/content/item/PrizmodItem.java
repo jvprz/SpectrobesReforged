@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PrizmodItem extends Item {
@@ -39,13 +39,33 @@ public class PrizmodItem extends Item {
                             e.hp(),
                             e.hpCur(),
                             e.atk(),
-                            e.def()
+                            e.def(),
+                            e.mineralsFed(),
+                            e.mineralHpBonus(),
+                            e.mineralAtkBonus(),
+                            e.mineralDefBonus()
                     ))
                     .toList();
 
-            // Team: por ahora vacío (6 slots)
-            List<S2CPrizmodSnapshot.Entry> team =
-                    Arrays.asList(null, null, null, null, null, null);
+            List<S2CPrizmodSnapshot.Entry> team = new ArrayList<>(6);
+            for (int i = 0; i < 6; i++) {
+                var opt = data.getTeamSlot(i);
+                team.add(opt.map(e -> new S2CPrizmodSnapshot.Entry(
+                        e.id(),
+                        e.species(),
+                        e.color(),
+                        e.stage(),
+                        e.level(),
+                        e.hp(),
+                        e.hpCur(),
+                        e.atk(),
+                        e.def(),
+                        e.mineralsFed(),
+                        e.mineralHpBonus(),
+                        e.mineralAtkBonus(),
+                        e.mineralDefBonus()
+                )).orElse(null));
+            }
 
             S2CPrizmodSnapshot.Entry baby = data.getBabySlot()
                     .map(e -> new S2CPrizmodSnapshot.Entry(
@@ -57,7 +77,11 @@ public class PrizmodItem extends Item {
                             e.hp(),
                             e.hpCur(),
                             e.atk(),
-                            e.def()
+                            e.def(),
+                            e.mineralsFed(),
+                            e.mineralHpBonus(),
+                            e.mineralAtkBonus(),
+                            e.mineralDefBonus()
                     ))
                     .orElse(null);
 

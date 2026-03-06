@@ -4,6 +4,8 @@ import com.jvprz.spectrobesreforged.SpectrobesReforged;
 import com.jvprz.spectrobesreforged.client.feature.prizmod.ClientPrizmodState;
 import com.jvprz.spectrobesreforged.client.ui.icon.SpectrobeIcons;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.menu.PrizmodMenu;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpecies;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpeciesRegistry;
 import com.jvprz.spectrobesreforged.common.network.C2SMoveSpectrobe;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -15,6 +17,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
@@ -164,18 +167,19 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         if (entry == null) return;
 
         String species = entry.species();
-        if (species == null) return;
+        if (species == null || species.isBlank()) return;
 
         int ix = slotX + (SLOT_W - 16) / 2;
         int iy = slotY + (SLOT_H - 16) / 2;
 
-        if (species.equalsIgnoreCase("komainu")) {
+        try {
             var tex = SpectrobeIcons.icon(species, entry.color());
             g.blit(tex, ix, iy, 0, 0, 16, 16, 16, 16);
             return;
+        } catch (Exception ignored) {
         }
 
-        String label = species.toLowerCase();
+        String label = species.toLowerCase(Locale.ROOT);
         if (label.length() > 6) label = label.substring(0, 6);
         g.drawString(font, label, slotX + 2, slotY + (SLOT_H / 2) - 4, 0xFFFFFF);
     }
@@ -392,7 +396,7 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
     private List<Component> buildEntryTooltip(ClientPrizmodState.Entry e) {
         List<Component> lines = new ArrayList<>();
 
-        String key = e.species() == null ? "unknown" : e.species().toLowerCase();
+        String key = e.species() == null ? "unknown" : e.species().toLowerCase(Locale.ROOT);
         lines.add(Component.translatable("spectrobesreforged.spectrobe." + key)
                 .withStyle(ChatFormatting.AQUA));
 
@@ -405,24 +409,88 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         lines.add(Component.literal("Variant: ").withStyle(ChatFormatting.DARK_GRAY)
                 .append(Component.literal(String.valueOf(e.color())).withStyle(ChatFormatting.GRAY)));
 
-        int total = e.hp() + e.atk() + e.def();
+        SpectrobeSpecies species = SpectrobeSpeciesRegistry.getByKey(e.species());
 
-        // ✅ HP actual / total
-        int hpMax = e.hp();
+        int evolveReq = 0;
+
+        int hpBase = e.hp();
+        int atkBase = e.atk();
+        int defBase = e.def();
+
+        int hpCap = e.hp();
+        int atkCap = e.atk();
+        int defCap = e.def();
+
+        if (species != null) {
+            hpBase = species.stats().hp().base();
+            atkBase = species.stats().attack().base();
+            defBase = species.stats().defense().base();
+
+            hpCap = species.stats().hp().max();
+            atkCap = species.stats().attack().max();
+            defCap = species.stats().defense().max();
+
+            if (species.evolution() != null) {
+                evolveReq = species.evolution().mineralsRequired();
+            }
+        }
+
+        int hpNow = e.hp();
+        int atkNow = e.atk();
+        int defNow = e.def();
         int hpCur = e.hpCur();
-        ChatFormatting hpFmt = hpColor(hpCur, hpMax);
+
+        int hpBonus = Math.max(0, hpNow - hpBase);
+        int atkBonus = Math.max(0, atkNow - atkBase);
+        int defBonus = Math.max(0, defNow - defBase);
+
+        boolean hpMaxed = hpNow >= hpCap;
+        boolean atkMaxed = atkNow >= atkCap;
+        boolean defMaxed = defNow >= defCap;
+
+        ChatFormatting hpFmt = hpColor(hpCur, hpNow);
 
         lines.add(Component.literal("HP: ").withStyle(ChatFormatting.RED)
-                .append(Component.literal(hpCur + " / " + hpMax).withStyle(hpFmt)));
+                .append(Component.literal(
+                        hpCur + "/" + hpNow + " (" + hpBase + " + " + hpBonus + " bonus)"
+                ).withStyle(hpFmt))
+                .append(hpMaxed
+                        ? Component.literal(" [MAX]").withStyle(ChatFormatting.GOLD)
+                        : Component.empty()));
 
         lines.add(Component.literal("ATK: ").withStyle(ChatFormatting.GOLD)
-                .append(Component.literal(String.valueOf(e.atk())).withStyle(ChatFormatting.WHITE)));
+                .append(Component.literal(
+                        atkNow + " (" + atkBase + " + " + atkBonus + " bonus)"
+                ).withStyle(ChatFormatting.WHITE))
+                .append(atkMaxed
+                        ? Component.literal(" [MAX]").withStyle(ChatFormatting.GOLD)
+                        : Component.empty()));
 
         lines.add(Component.literal("DEF: ").withStyle(ChatFormatting.BLUE)
-                .append(Component.literal(String.valueOf(e.def())).withStyle(ChatFormatting.WHITE)));
+                .append(Component.literal(
+                        defNow + " (" + defBase + " + " + defBonus + " bonus)"
+                ).withStyle(ChatFormatting.WHITE))
+                .append(defMaxed
+                        ? Component.literal(" [MAX]").withStyle(ChatFormatting.GOLD)
+                        : Component.empty()));
 
+        int total = hpNow + atkNow + defNow;
         lines.add(Component.literal("Total: ").withStyle(ChatFormatting.DARK_AQUA)
                 .append(Component.literal(String.valueOf(total)).withStyle(ChatFormatting.AQUA)));
+
+        if (evolveReq > 0) {
+            if (e.mineralsFed() >= evolveReq) {
+                lines.add(Component.literal("Evolve: ")
+                        .withStyle(ChatFormatting.LIGHT_PURPLE)
+                        .append(Component.literal("READY")
+                                .withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD)));
+            } else {
+                lines.add(Component.literal("Evolve: ")
+                        .withStyle(ChatFormatting.LIGHT_PURPLE)
+                        .append(Component.literal(e.mineralsFed() + "/" + evolveReq + " minerals")
+                                .withStyle(ChatFormatting.YELLOW)));
+            }
+        }
 
         return lines;
     }
@@ -435,13 +503,15 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         if (dragging && dragEntry != null) {
             String species = dragEntry.species();
 
-            if (species != null && species.equalsIgnoreCase("komainu")) {
-                var tex = SpectrobeIcons.icon(species, dragEntry.color());
-                g.blit(tex, mouseX - 8, mouseY - 8, 0, 0, 16, 16, 16, 16);
-            } else if (species != null) {
-                String label = species.toLowerCase();
-                if (label.length() > 6) label = label.substring(0, 6);
-                g.drawString(font, label, mouseX - 10, mouseY - 4, 0xFFFFFF);
+            if (species != null && !species.isBlank()) {
+                try {
+                    var tex = SpectrobeIcons.icon(species, dragEntry.color());
+                    g.blit(tex, mouseX - 8, mouseY - 8, 0, 0, 16, 16, 16, 16);
+                } catch (Exception ignored) {
+                    String label = species.toLowerCase(Locale.ROOT);
+                    if (label.length() > 6) label = label.substring(0, 6);
+                    g.drawString(font, label, mouseX - 10, mouseY - 4, 0xFFFFFF);
+                }
             }
         }
 

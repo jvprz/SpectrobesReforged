@@ -26,7 +26,7 @@ public final class SpectrobeDamageEvents {
         if (!tag.hasUUID("SpectrobeId")) return;
 
         float raw = event.getAmount();
-        int dmg = Math.max(1, (int)Math.ceil(raw));
+        int dmg = Math.max(1, (int) Math.ceil(raw));
 
         UUID ownerId = tag.getUUID("PrizmodOwner");
         UUID spectrobeId = tag.getUUID("SpectrobeId");
@@ -43,17 +43,7 @@ public final class SpectrobeDamageEvents {
 
         int hpCurNew = Math.max(0, entry.hpCur() - dmg);
 
-        data.replaceEntry(entry.id(), new SpectrobeEntry(
-                entry.id(),
-                entry.species(),
-                entry.color(),
-                entry.stage(),
-                entry.level(),
-                entry.hp(),
-                hpCurNew,
-                entry.atk(),
-                entry.def()
-        ));
+        data.replaceEntry(entry.id(), entry.withHpCur(hpCurNew));
 
         spectrobe.setHealth(Math.max(0f, hpCurNew));
 
@@ -65,16 +55,6 @@ public final class SpectrobeDamageEvents {
     }
 
     private static SpectrobeEntry updated(SpectrobeEntry e, int hpCurNew) {
-        return new SpectrobeEntry(
-                e.id(),
-                e.species(),
-                e.color(),
-                e.stage(),
-                e.level(),
-                e.hp(),
-                hpCurNew,
-                e.atk(),
-                e.def()
-        );
+        return e.withHpCur(hpCurNew);
     }
 }
