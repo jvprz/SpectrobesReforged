@@ -1,0 +1,41 @@
+{
+	"id": 31,
+	"key": "shakin",
+	"type": "flash",
+	"stage": "child",
+	"range": 3,
+	"stats": {
+		"hp": {
+			"base": 72,
+			"max": 125,
+			"increment": 6
+		},
+		"attack": {
+			"base": 65,
+			"max": 145,
+			"increment": 10
+		},
+		"defense": {
+			"base": 40,
+			"max": 115,
+			"increment": 9
+		},
+		"move_speed": 4,
+		"charge_speed": 0,
+		"support": {
+			"attack": 0,
+			"defense": 0,
+			"speed": 0,
+			"charge": 0
+		}
+	},
+	"evolution": {
+		"to": "shakor",
+		"minerals_required": 4
+	},
+	"textures": [
+		"entity/spectrobe/shakin/shakin_color_0",
+		"entity/spectrobe/shakin/shakin_color_1",
+		"entity/spectrobe/shakin/shakin_color_2"
+	]
+}
