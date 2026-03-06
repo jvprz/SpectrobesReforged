@@ -1,14 +1,18 @@
 package com.jvprz.spectrobesreforged.common.event;
 
 import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.loader.SpectrobeSpeciesLoader;
 import com.jvprz.spectrobesreforged.common.registry.ModEntities;
-import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 
 public class CommonEvents {
-    @SubscribeEvent
+
     public static void registerAttributes(EntityAttributeCreationEvent event) {
-        // Esto vincula los atributos que escribiste en KomainuEntity con el registro
-        event.put(ModEntities.KOMAINU.get(), SpectrobeEntity.createAttributes().build());
+        event.put(ModEntities.SPECTROBE.get(), SpectrobeEntity.createAttributes().build());
+    }
+
+    public static void registerReloadListeners(AddReloadListenerEvent event) {
+        event.addListener(new SpectrobeSpeciesLoader());
     }
 }

@@ -1,12 +1,16 @@
+// src/main/java/com/jvprz/spectrobesreforged/common/feature/prizmod/logic/SpectrobeManager.java
 package com.jvprz.spectrobesreforged.common.feature.prizmod.logic;
 
 import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpecies;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpeciesRegistry;
 import com.jvprz.spectrobesreforged.common.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
@@ -38,33 +42,63 @@ public final class SpectrobeManager {
     }
 
     public static boolean spawnBaby(ServerLevel level, ServerPlayer owner, SpectrobeEntry entry) {
-        var spawner = SpectrobeSpeciesRegistry.getBabySpawner(entry.species());
-        if (spawner == null) return false;
+        if (entry == null) return false;
 
-        return spawner.spawn(level, owner, entry);
-    }
+        // KO => no spawnea aunque esté equipado
+        if (entry.hpCur() <= 0) return false;
 
-    public static boolean spawnKomainu(ServerLevel level, ServerPlayer owner, SpectrobeEntry entry) {
-        SpectrobeEntity komainu = ModEntities.KOMAINU.get().create(level);
-        if (komainu == null) return false;
+        SpectrobeSpecies species = SpectrobeSpeciesRegistry.getByKey(entry.species());
+        if (species == null) return false;
+
+        SpectrobeEntity spectrobe = ModEntities.SPECTROBE.get().create(level);
+        if (spectrobe == null) return false;
 
         Vec3 pos = findSafeSpawnNearPlayer(level, owner);
 
-        komainu.moveTo(pos.x, pos.y, pos.z, owner.getYRot(), 0);
-        komainu.setOwner(owner);
+        spectrobe.moveTo(pos.x, pos.y, pos.z, owner.getYRot(), 0);
+        spectrobe.setOwner(owner);
 
-        // Marca Prizmod
-        komainu.getPersistentData().putBoolean("PrizmodBaby", true);
-        komainu.getPersistentData().putUUID("PrizmodOwner", owner.getUUID());
-        komainu.getPersistentData().putUUID("SpectrobeId", entry.id());
+        // especie / stage / chroma desde entry
+        spectrobe.setSpeciesKey(entry.species());
+        spectrobe.setStage(parseStage(entry.stage()));
+        spectrobe.setTextureVariant(entry.color());
 
-        level.addFreshEntity(komainu);
+        // HP real desde Prizmod
+        var maxHpAttr = spectrobe.getAttribute(Attributes.MAX_HEALTH);
+        if (maxHpAttr != null) {
+            maxHpAttr.setBaseValue(Math.max(1, entry.hp()));
+        }
 
-        if (!level.noCollision(komainu)) {
-            komainu.teleportTo(owner.getX(), owner.getY() + 0.2, owner.getZ());
+        float hpNow = (float) Math.max(0, Math.min(entry.hpCur(), entry.hp()));
+        spectrobe.setHealth(Math.max(1.0f, hpNow));
+
+        // Reaplica IA según el stage cargado
+        spectrobe.refreshGoalsForCurrentStage();
+
+        // Mark Prizmod
+        spectrobe.getPersistentData().putBoolean("PrizmodBaby", true);
+        spectrobe.getPersistentData().putUUID("PrizmodOwner", owner.getUUID());
+        spectrobe.getPersistentData().putUUID("SpectrobeId", entry.id());
+
+        level.addFreshEntity(spectrobe);
+
+        if (!level.noCollision(spectrobe)) {
+            spectrobe.teleportTo(owner.getX(), owner.getY() + 0.2, owner.getZ());
         }
 
         return true;
+    }
+
+    private static com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage parseStage(String raw) {
+        if (raw == null || raw.isBlank()) {
+            return com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage.CHILD;
+        }
+
+        try {
+            return com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage.valueOf(raw.trim().toUpperCase(java.util.Locale.ROOT));
+        } catch (Exception ignored) {
+            return com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage.CHILD;
+        }
     }
 
     private static Vec3 findSafeSpawnNearPlayer(ServerLevel level, ServerPlayer player) {
@@ -77,8 +111,6 @@ public final class SpectrobeManager {
                     if (dx == 0 && dz == 0) continue;
 
                     BlockPos probe = base.offset(dx, 0, dz);
-
-                    // Sube/baja a superficie para evitar spawns bajo tierra
                     BlockPos top = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, probe);
 
                     BlockPos feet = top.above();
@@ -99,7 +131,6 @@ public final class SpectrobeManager {
             }
         }
 
-        // Fallback: al lado del jugador
         return new Vec3(player.getX() + 0.8, player.getY() + 0.1, player.getZ() + 0.8);
     }
 

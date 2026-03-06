@@ -2,6 +2,7 @@
 package com.jvprz.spectrobesreforged.common.registry;
 
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
+import com.jvprz.spectrobesreforged.common.content.item.ChromaMineralItem;
 import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeType;
 import com.jvprz.spectrobesreforged.common.content.item.FossilItem;
 
@@ -379,21 +380,24 @@ public final class ModItems {
 
     public static final DeferredItem<Item> CHROMA_0 =
             ITEMS.register("chroma_0",
-                    () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
-                            0, VAL, 0, VAL, 0, VAL,
-                            "This mineral has the power to return a Spectrobe to its original colors!"));
+                    () -> new ChromaMineralItem(
+                            new Item.Properties().rarity(Rarity.RARE),
+                            0
+                    ));
 
     public static final DeferredItem<Item> CHROMA_1 =
             ITEMS.register("chroma_1",
-                    () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
-                            0, VAL, 0, VAL, 0, VAL,
-                            "This mineral has the power to change a Spectrobe to custom color pattern 1!"));
+                    () -> new ChromaMineralItem(
+                            new Item.Properties().rarity(Rarity.RARE),
+                            1
+                    ));
 
     public static final DeferredItem<Item> CHROMA_2 =
             ITEMS.register("chroma_2",
-                    () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
-                            0, VAL, 0, VAL, 0, VAL,
-                            "This mineral has the power to change a Spectrobe to custom color pattern 2!"));
+                    () -> new ChromaMineralItem(
+                            new Item.Properties().rarity(Rarity.RARE),
+                            2
+                    ));
 
     public static final List<DeferredItem<Item>> ALL_MINERALS = List.of(
             POWER_C, POWER_B, POWER_A, POWER_A_PLUS, DEFENSE_C, DEFENSE_B, DEFENSE_A, DEFENSE_A_PLUS, HEALTH_C, HEALTH_B, HEALTH_A, HEALTH_A_PLUS, AGATE, LAZULI, GRAPHITE, GARNET, ONYX, TOPAZ,

@@ -25,7 +25,7 @@ public class ClientEvents {
     }
 
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntities.KOMAINU.get(),
+        event.registerEntityRenderer(ModEntities.SPECTROBE.get(),
                 context -> new SpectrobeRenderer(context));
     }
 

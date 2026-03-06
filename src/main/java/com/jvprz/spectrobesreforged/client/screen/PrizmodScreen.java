@@ -4,6 +4,8 @@ import com.jvprz.spectrobesreforged.SpectrobesReforged;
 import com.jvprz.spectrobesreforged.client.feature.prizmod.ClientPrizmodState;
 import com.jvprz.spectrobesreforged.client.ui.icon.SpectrobeIcons;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.menu.PrizmodMenu;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpecies;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpeciesRegistry;
 import com.jvprz.spectrobesreforged.common.network.C2SMoveSpectrobe;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -15,6 +17,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
@@ -160,25 +163,23 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         }
     }
 
-    /**
-     * Dibuja SIEMPRE icono 16x16 centrado dentro del hueco (SLOT_W x SLOT_H).
-     */
     private void drawEntry16(GuiGraphics g, ClientPrizmodState.Entry entry, int slotX, int slotY) {
         if (entry == null) return;
 
         String species = entry.species();
-        if (species == null) return;
+        if (species == null || species.isBlank()) return;
 
         int ix = slotX + (SLOT_W - 16) / 2;
         int iy = slotY + (SLOT_H - 16) / 2;
 
-        if (species.equalsIgnoreCase("komainu")) {
+        try {
             var tex = SpectrobeIcons.icon(species, entry.color());
             g.blit(tex, ix, iy, 0, 0, 16, 16, 16, 16);
             return;
+        } catch (Exception ignored) {
         }
 
-        String label = species.toLowerCase();
+        String label = species.toLowerCase(Locale.ROOT);
         if (label.length() > 6) label = label.substring(0, 6);
         g.drawString(font, label, slotX + 2, slotY + (SLOT_H / 2) - 4, 0xFFFFFF);
     }
@@ -257,9 +258,7 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         int toIndex = -1;
 
         if (isChild(e)) {
-            // CHILD -> baby slot
             if (fromType == TYPE_BABY) {
-                // del baby slot a la box (al final)
                 toType = TYPE_BOX;
                 toIndex = 9999;
             } else {
@@ -267,13 +266,11 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
                     toType = TYPE_BABY;
                     toIndex = 0;
                 } else {
-                    // baby slot ocupado -> a la box (al final)
                     toType = TYPE_BOX;
                     toIndex = 9999;
                 }
             }
         } else {
-            // ADULT/EVOLVED -> team
             if (fromType == TYPE_BOX) {
                 int slot = firstEmptyTeamSlot();
                 if (slot != -1) {
@@ -286,7 +283,6 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
                 toType = TYPE_BOX;
                 toIndex = 9999;
             } else {
-                // si alguien intentase quickmove desde baby (no debería pasar con isChild)
                 toType = TYPE_BOX;
                 toIndex = 9999;
             }
@@ -313,6 +309,15 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         int type = hit[0];
         int index = hit[1];
 
+        if (type == TYPE_NONE && dragging) {
+            dragging = false;
+            holdingMouseDrag = false;
+            dragFromType = -1;
+            dragFromIndex = -1;
+            dragEntry = null;
+            return true;
+        }
+
         if (type == TYPE_NONE) {
             return super.mouseClicked(mouseX, mouseY, button);
         }
@@ -336,7 +341,11 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         }
 
         if (dragFromType == type && dragFromIndex == index) {
+            dragging = false;
             holdingMouseDrag = false;
+            dragFromType = -1;
+            dragFromIndex = -1;
+            dragEntry = null;
             return true;
         }
 
@@ -375,10 +384,19 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
+    private static ChatFormatting hpColor(int cur, int max) {
+        if (max <= 0) return ChatFormatting.GRAY;
+        float pct = (float) cur / (float) max;
+        if (pct <= 0.25f) return ChatFormatting.DARK_RED;
+        if (pct <= 0.50f) return ChatFormatting.RED;
+        if (pct <= 0.75f) return ChatFormatting.YELLOW;
+        return ChatFormatting.GREEN;
+    }
+
     private List<Component> buildEntryTooltip(ClientPrizmodState.Entry e) {
         List<Component> lines = new ArrayList<>();
 
-        String key = e.species() == null ? "unknown" : e.species().toLowerCase();
+        String key = e.species() == null ? "unknown" : e.species().toLowerCase(Locale.ROOT);
         lines.add(Component.translatable("spectrobesreforged.spectrobe." + key)
                 .withStyle(ChatFormatting.AQUA));
 
@@ -391,19 +409,88 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         lines.add(Component.literal("Variant: ").withStyle(ChatFormatting.DARK_GRAY)
                 .append(Component.literal(String.valueOf(e.color())).withStyle(ChatFormatting.GRAY)));
 
-        int total = e.hp() + e.atk() + e.def();
+        SpectrobeSpecies species = SpectrobeSpeciesRegistry.getByKey(e.species());
+
+        int evolveReq = 0;
+
+        int hpBase = e.hp();
+        int atkBase = e.atk();
+        int defBase = e.def();
+
+        int hpCap = e.hp();
+        int atkCap = e.atk();
+        int defCap = e.def();
+
+        if (species != null) {
+            hpBase = species.stats().hp().base();
+            atkBase = species.stats().attack().base();
+            defBase = species.stats().defense().base();
+
+            hpCap = species.stats().hp().max();
+            atkCap = species.stats().attack().max();
+            defCap = species.stats().defense().max();
+
+            if (species.evolution() != null) {
+                evolveReq = species.evolution().mineralsRequired();
+            }
+        }
+
+        int hpNow = e.hp();
+        int atkNow = e.atk();
+        int defNow = e.def();
+        int hpCur = e.hpCur();
+
+        int hpBonus = Math.max(0, hpNow - hpBase);
+        int atkBonus = Math.max(0, atkNow - atkBase);
+        int defBonus = Math.max(0, defNow - defBase);
+
+        boolean hpMaxed = hpNow >= hpCap;
+        boolean atkMaxed = atkNow >= atkCap;
+        boolean defMaxed = defNow >= defCap;
+
+        ChatFormatting hpFmt = hpColor(hpCur, hpNow);
 
         lines.add(Component.literal("HP: ").withStyle(ChatFormatting.RED)
-                .append(Component.literal(String.valueOf(e.hp())).withStyle(ChatFormatting.WHITE)));
+                .append(Component.literal(
+                        hpCur + "/" + hpNow + " (" + hpBase + " + " + hpBonus + " bonus)"
+                ).withStyle(hpFmt))
+                .append(hpMaxed
+                        ? Component.literal(" [MAX]").withStyle(ChatFormatting.GOLD)
+                        : Component.empty()));
 
         lines.add(Component.literal("ATK: ").withStyle(ChatFormatting.GOLD)
-                .append(Component.literal(String.valueOf(e.atk())).withStyle(ChatFormatting.WHITE)));
+                .append(Component.literal(
+                        atkNow + " (" + atkBase + " + " + atkBonus + " bonus)"
+                ).withStyle(ChatFormatting.WHITE))
+                .append(atkMaxed
+                        ? Component.literal(" [MAX]").withStyle(ChatFormatting.GOLD)
+                        : Component.empty()));
 
         lines.add(Component.literal("DEF: ").withStyle(ChatFormatting.BLUE)
-                .append(Component.literal(String.valueOf(e.def())).withStyle(ChatFormatting.WHITE)));
+                .append(Component.literal(
+                        defNow + " (" + defBase + " + " + defBonus + " bonus)"
+                ).withStyle(ChatFormatting.WHITE))
+                .append(defMaxed
+                        ? Component.literal(" [MAX]").withStyle(ChatFormatting.GOLD)
+                        : Component.empty()));
 
+        int total = hpNow + atkNow + defNow;
         lines.add(Component.literal("Total: ").withStyle(ChatFormatting.DARK_AQUA)
                 .append(Component.literal(String.valueOf(total)).withStyle(ChatFormatting.AQUA)));
+
+        if (evolveReq > 0) {
+            if (e.mineralsFed() >= evolveReq) {
+                lines.add(Component.literal("Evolve: ")
+                        .withStyle(ChatFormatting.LIGHT_PURPLE)
+                        .append(Component.literal("READY")
+                                .withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD)));
+            } else {
+                lines.add(Component.literal("Evolve: ")
+                        .withStyle(ChatFormatting.LIGHT_PURPLE)
+                        .append(Component.literal(e.mineralsFed() + "/" + evolveReq + " minerals")
+                                .withStyle(ChatFormatting.YELLOW)));
+            }
+        }
 
         return lines;
     }
@@ -416,13 +503,15 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         if (dragging && dragEntry != null) {
             String species = dragEntry.species();
 
-            if (species != null && species.equalsIgnoreCase("komainu")) {
-                var tex = SpectrobeIcons.icon(species, dragEntry.color());
-                g.blit(tex, mouseX - 8, mouseY - 8, 0, 0, 16, 16, 16, 16);
-            } else if (species != null) {
-                String label = species.toLowerCase();
-                if (label.length() > 6) label = label.substring(0, 6);
-                g.drawString(font, label, mouseX - 10, mouseY - 4, 0xFFFFFF);
+            if (species != null && !species.isBlank()) {
+                try {
+                    var tex = SpectrobeIcons.icon(species, dragEntry.color());
+                    g.blit(tex, mouseX - 8, mouseY - 8, 0, 0, 16, 16, 16, 16);
+                } catch (Exception ignored) {
+                    String label = species.toLowerCase(Locale.ROOT);
+                    if (label.length() > 6) label = label.substring(0, 6);
+                    g.drawString(font, label, mouseX - 10, mouseY - 4, 0xFFFFFF);
+                }
             }
         }
 
@@ -436,7 +525,7 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
                 ClientPrizmodState.Entry hovered = getEntry(type, index);
                 if (hovered != null) {
                     g.renderTooltip(this.font, buildEntryTooltip(hovered), Optional.empty(), mouseX, mouseY);
-                    return; // evitamos tooltips vanilla
+                    return;
                 }
             }
         }

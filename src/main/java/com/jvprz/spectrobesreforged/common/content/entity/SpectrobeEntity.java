@@ -1,9 +1,6 @@
 // src/main/java/com/jvprz/spectrobesreforged/common/content/entity/SpectrobeEntity.java
 package com.jvprz.spectrobesreforged.common.content.entity;
 
-import java.util.Optional;
-import java.util.UUID;
-
 import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -11,21 +8,32 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
-
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.*;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public abstract class SpectrobeEntity extends PathfinderMob implements GeoEntity {
+import java.util.Optional;
+import java.util.UUID;
+
+public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
 
     /* =========================
        Synced Data (CLIENT <-> SERVER)
@@ -56,7 +64,7 @@ public abstract class SpectrobeEntity extends PathfinderMob implements GeoEntity
     private UUID ownerUUID;
 
     public void setOwner(Player player) {
-        this.ownerUUID = player.getUUID();
+        this.ownerUUID = player == null ? null : player.getUUID();
     }
 
     public Optional<Player> getOwner() {
@@ -68,27 +76,26 @@ public abstract class SpectrobeEntity extends PathfinderMob implements GeoEntity
        Constructor
        ========================= */
 
-    protected SpectrobeEntity(EntityType<? extends PathfinderMob> type, Level level) {
+    public SpectrobeEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
     }
 
     /**
-     * Identificador de especie por defecto para esta entidad.
-     * Ej: "komainu"
+     * Default neutro. La especie real debe venir del spawn / Prizmod / NBT.
      */
-    protected abstract String getDefaultSpeciesKey();
+    protected String getDefaultSpeciesKey() {
+        return "unknown";
+    }
 
     /**
-     * Stage inicial por defecto (si aún no lo cargas del JSON).
-     * Luego puedes setearlo al spawnear según SpectrobeSpecies.initialStage().
+     * Stage por defecto si todavía no se ha asignado desde datos reales.
      */
     protected SpectrobeStage getDefaultStage() {
         return SpectrobeStage.CHILD;
     }
 
     /**
-     * Rango válido de variantes de textura.
-     * Si siempre son 3, esto se queda en 3. Si algún día cambias, aquí.
+     * Por ahora todos los child usan 3 variantes cromáticas.
      */
     protected int getTextureVariantCount() {
         return 3;
@@ -145,7 +152,7 @@ public abstract class SpectrobeEntity extends PathfinderMob implements GeoEntity
 
     private static String safeKey(String key) {
         if (key == null) return "unknown";
-        String k = key.trim().toLowerCase();
+        String k = key.trim().toLowerCase(java.util.Locale.ROOT);
         return k.isEmpty() ? "unknown" : k;
     }
 
@@ -155,15 +162,13 @@ public abstract class SpectrobeEntity extends PathfinderMob implements GeoEntity
 
     @Override
     protected void registerGoals() {
-        // Goals base comunes
         this.goalSelector.addGoal(1, new FloatGoal(this));
-
-        // Goals según stage
         configureStageGoals(getStage());
     }
 
     protected void configureStageGoals(SpectrobeStage stage) {
         if (stage == null) stage = SpectrobeStage.CHILD;
+
         switch (stage) {
             case CHILD -> configureChildGoals();
             case ADULT -> configureAdultGoals();
@@ -172,8 +177,7 @@ public abstract class SpectrobeEntity extends PathfinderMob implements GeoEntity
     }
 
     /**
-     * IA base para CHILD (tu IA de Komainu actual).
-     * Todos los spectrobes en forma CHILD la heredan.
+     * IA común para todos los child.
      */
     protected void configureChildGoals() {
         this.goalSelector.addGoal(2, new FollowOwnerSideGoal(this, 1.2));
@@ -182,19 +186,26 @@ public abstract class SpectrobeEntity extends PathfinderMob implements GeoEntity
     }
 
     /**
-     * Por ahora ADULT hereda lo mismo que CHILD.
-     * Más adelante puedes añadir combate, protección, etc.
+     * Por ahora ADULT usa la misma IA que CHILD.
      */
     protected void configureAdultGoals() {
         configureChildGoals();
     }
 
     /**
-     * Por ahora EVOLVED hereda lo mismo que ADULT.
-     * Más adelante puedes añadir skills/habilidades especiales.
+     * Por ahora EVOLVED usa la misma IA que ADULT.
      */
     protected void configureEvolvedGoals() {
         configureAdultGoals();
+    }
+
+    /**
+     * Reaplica IA al cambiar stage en runtime.
+     */
+    public void refreshGoalsForCurrentStage() {
+        this.goalSelector.getAvailableGoals().clear();
+        this.targetSelector.getAvailableGoals().clear();
+        registerGoals();
     }
 
     /* =========================
@@ -204,8 +215,11 @@ public abstract class SpectrobeEntity extends PathfinderMob implements GeoEntity
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "main", 0, state -> {
-            if (state.isMoving()) state.setAnimation(WALK);
-            else state.setAnimation(IDLE);
+            if (state.isMoving()) {
+                state.setAnimation(WALK);
+            } else {
+                state.setAnimation(IDLE);
+            }
             return PlayState.CONTINUE;
         }));
     }
@@ -223,7 +237,9 @@ public abstract class SpectrobeEntity extends PathfinderMob implements GeoEntity
     public void addAdditionalSaveData(CompoundTag tag) {
         super.addAdditionalSaveData(tag);
 
-        if (ownerUUID != null) tag.putUUID("Owner", ownerUUID);
+        if (ownerUUID != null) {
+            tag.putUUID("Owner", ownerUUID);
+        }
 
         tag.putString("SpeciesKey", getSpeciesKey());
         tag.putInt("TextureVariant", getTextureVariant());
@@ -234,10 +250,17 @@ public abstract class SpectrobeEntity extends PathfinderMob implements GeoEntity
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
 
-        if (tag.hasUUID("Owner")) ownerUUID = tag.getUUID("Owner");
+        if (tag.hasUUID("Owner")) {
+            ownerUUID = tag.getUUID("Owner");
+        }
 
-        if (tag.contains("SpeciesKey")) setSpeciesKey(tag.getString("SpeciesKey"));
-        if (tag.contains("TextureVariant")) setTextureVariant(tag.getInt("TextureVariant"));
+        if (tag.contains("SpeciesKey")) {
+            setSpeciesKey(tag.getString("SpeciesKey"));
+        }
+
+        if (tag.contains("TextureVariant")) {
+            setTextureVariant(tag.getInt("TextureVariant"));
+        }
 
         if (tag.contains("Stage")) {
             try {
@@ -249,7 +272,7 @@ public abstract class SpectrobeEntity extends PathfinderMob implements GeoEntity
     }
 
     /* =========================
-       Auto-asignar owner + defaults al spawnear
+       Spawn defaults
        ========================= */
 
     @Override
@@ -261,19 +284,20 @@ public abstract class SpectrobeEntity extends PathfinderMob implements GeoEntity
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, reason, spawnData);
 
         if (!this.level().isClientSide) {
-            // Defaults si vienen vacíos (por seguridad)
-            if ("unknown".equals(getSpeciesKey())) setSpeciesKey(getDefaultSpeciesKey());
+            if ("unknown".equals(getSpeciesKey())) {
+                setSpeciesKey(getDefaultSpeciesKey());
+            }
 
-            // Variante aleatoria (0..count-1) para eggs/command
             if (reason == MobSpawnType.SPAWN_EGG || reason == MobSpawnType.COMMAND) {
                 int count = Math.max(1, getTextureVariantCount());
                 setTextureVariant(this.random.nextInt(count));
             }
 
-            // Owner cercano al spawnear por egg/command
             if (ownerUUID == null && (reason == MobSpawnType.SPAWN_EGG || reason == MobSpawnType.COMMAND)) {
                 Player nearest = this.level().getNearestPlayer(this, 6.0);
-                if (nearest != null) setOwner(nearest);
+                if (nearest != null) {
+                    setOwner(nearest);
+                }
             }
         }
 
@@ -313,7 +337,6 @@ public abstract class SpectrobeEntity extends PathfinderMob implements GeoEntity
         public void tick() {
             if (owner == null) return;
 
-            // Si está muy lejos, teleporta
             if (mob.distanceTo(owner) > 20.0F) {
                 mob.teleportTo(owner.getX(), owner.getY(), owner.getZ());
                 return;
@@ -322,9 +345,8 @@ public abstract class SpectrobeEntity extends PathfinderMob implements GeoEntity
             if (--recalcTime <= 0) {
                 recalcTime = 10;
 
-                // Posición lateral al jugador
                 Vec3 look = owner.getLookAngle().normalize();
-                Vec3 side = new Vec3(-look.z, 0, look.x); // perpendicular
+                Vec3 side = new Vec3(-look.z, 0, look.x);
 
                 Vec3 targetPos = owner.position().add(side.scale(1.5));
 

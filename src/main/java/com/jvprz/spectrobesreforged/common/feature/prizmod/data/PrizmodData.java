@@ -19,12 +19,10 @@ public class PrizmodData {
     }
 
     public static final Codec<PrizmodData> CODEC = RecordCodecBuilder.create(inst -> inst.group(
-            // BOX: lista completa
             SpectrobeEntry.CODEC.listOf()
                     .optionalFieldOf("box", List.of())
                     .forGetter(d -> d.box),
 
-            // TEAM: guardamos solo ocupados PERO con índice
             TeamSlot.CODEC.listOf()
                     .optionalFieldOf("team", List.of())
                     .forGetter(d -> {
@@ -36,7 +34,6 @@ public class PrizmodData {
                         return out;
                     }),
 
-            // BABY
             SpectrobeEntry.CODEC.optionalFieldOf("babySlot")
                     .forGetter(d -> Optional.ofNullable(d.babySlot))
     ).apply(inst, (boxList, teamSlots, babyOpt) -> {
@@ -44,11 +41,9 @@ public class PrizmodData {
         PrizmodData d = new PrizmodData();
         d.box.addAll(boxList);
 
-        // reconstruimos team a 6 slots (nulls)
         d.team.clear();
         d.team.addAll(Collections.nCopies(6, null));
 
-        // reinsertamos en su slot real
         for (TeamSlot ts : teamSlots) {
             int i = ts.slot();
             if (i >= 0 && i < 6) {
@@ -82,7 +77,6 @@ public class PrizmodData {
         return box.stream().anyMatch(e -> e.id().equals(id));
     }
 
-    // helpers por índice (drag/drop)
     public SpectrobeEntry getBoxAt(int index) {
         if (index < 0 || index >= box.size()) return null;
         return box.get(index);
@@ -123,5 +117,126 @@ public class PrizmodData {
     public void setTeamSlot(int i, SpectrobeEntry entryOrNull) {
         if (i < 0 || i >= 6) return;
         team.set(i, entryOrNull);
+    }
+
+    // ===== BUSQUEDA / REEMPLAZO =====
+
+    public Optional<SpectrobeEntry> findAnywhere(UUID id) {
+        if (id == null) return Optional.empty();
+
+        for (SpectrobeEntry e : box) {
+            if (e != null && id.equals(e.id())) return Optional.of(e);
+        }
+
+        for (SpectrobeEntry e : team) {
+            if (e != null && id.equals(e.id())) return Optional.of(e);
+        }
+
+        if (babySlot != null && id.equals(babySlot.id())) {
+            return Optional.of(babySlot);
+        }
+
+        return Optional.empty();
+    }
+
+    public boolean replaceEntry(UUID id, SpectrobeEntry newEntry) {
+        if (id == null || newEntry == null) return false;
+
+        for (int i = 0; i < box.size(); i++) {
+            SpectrobeEntry e = box.get(i);
+            if (e != null && id.equals(e.id())) {
+                box.set(i, newEntry);
+                return true;
+            }
+        }
+
+        for (int i = 0; i < team.size(); i++) {
+            SpectrobeEntry e = team.get(i);
+            if (e != null && id.equals(e.id())) {
+                team.set(i, newEntry);
+                return true;
+            }
+        }
+
+        if (babySlot != null && id.equals(babySlot.id())) {
+            babySlot = newEntry;
+            return true;
+        }
+
+        return false;
+    }
+
+    // ===== CAMBIOS COMUNES =====
+
+    public boolean updateColorVariant(UUID spectrobeId, int color) {
+        Optional<SpectrobeEntry> found = findAnywhere(spectrobeId);
+        if (found.isEmpty()) return false;
+        return replaceEntry(spectrobeId, found.get().withColor(color));
+    }
+
+    public boolean applyDamage(UUID spectrobeId, int dmg) {
+        if (spectrobeId == null || dmg <= 0) return false;
+
+        Optional<SpectrobeEntry> found = findAnywhere(spectrobeId);
+        if (found.isEmpty()) return false;
+
+        SpectrobeEntry e = found.get();
+        int next = Math.max(0, e.hpCur() - dmg);
+        return replaceEntry(spectrobeId, e.withHpCur(next));
+    }
+
+    public boolean healFull(UUID spectrobeId) {
+        Optional<SpectrobeEntry> found = findAnywhere(spectrobeId);
+        if (found.isEmpty()) return false;
+        return replaceEntry(spectrobeId, found.get().healFull());
+    }
+
+    public boolean updateStage(UUID spectrobeId, String newStage) {
+        Optional<SpectrobeEntry> found = findAnywhere(spectrobeId);
+        if (found.isEmpty()) return false;
+        return replaceEntry(spectrobeId, found.get().withStage(newStage));
+    }
+
+    public boolean updateStats(UUID spectrobeId, int hp, int hpCur, int atk, int def) {
+        Optional<SpectrobeEntry> found = findAnywhere(spectrobeId);
+        if (found.isEmpty()) return false;
+        return replaceEntry(spectrobeId, found.get().withStats(hp, hpCur, atk, def));
+    }
+
+    public boolean addMineralsFed(UUID spectrobeId, int amount) {
+        if (spectrobeId == null || amount <= 0) return false;
+
+        Optional<SpectrobeEntry> found = findAnywhere(spectrobeId);
+        if (found.isEmpty()) return false;
+
+        SpectrobeEntry e = found.get();
+        return replaceEntry(spectrobeId, e.withMineralsFed(e.mineralsFed() + amount));
+    }
+
+    public boolean updateMineralBonuses(UUID spectrobeId, int hpBonus, int atkBonus, int defBonus) {
+        Optional<SpectrobeEntry> found = findAnywhere(spectrobeId);
+        if (found.isEmpty()) return false;
+
+        SpectrobeEntry e = found.get();
+        return replaceEntry(spectrobeId, e.withMineralBonuses(hpBonus, atkBonus, defBonus));
+    }
+
+    public boolean applyMineral(UUID spectrobeId, int addHp, int addAtk, int addDef) {
+        Optional<SpectrobeEntry> found = findAnywhere(spectrobeId);
+        if (found.isEmpty()) return false;
+
+        SpectrobeEntry e = found.get();
+        return replaceEntry(spectrobeId, e.applyMineralBonuses(addHp, addAtk, addDef));
+    }
+
+    public void healEquippedFull() {
+        for (int i = 0; i < team.size(); i++) {
+            SpectrobeEntry e = team.get(i);
+            if (e != null) team.set(i, e.healFull());
+        }
+
+        if (babySlot != null) {
+            babySlot = babySlot.healFull();
+        }
     }
 }
