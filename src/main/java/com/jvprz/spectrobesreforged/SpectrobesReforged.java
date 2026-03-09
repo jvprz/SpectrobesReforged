@@ -36,6 +36,7 @@ public class SpectrobesReforged {
         NeoForge.EVENT_BUS.addListener(CommonEvents::registerReloadListeners);
 
         modEventBus.addListener(com.jvprz.spectrobesreforged.common.network.ModNetwork::register);
+        modEventBus.addListener(ClientEvents::onClientSetup);
         modEventBus.addListener(ClientEvents::registerRenderers);
         modEventBus.addListener(ClientEvents::registerScreens);
 

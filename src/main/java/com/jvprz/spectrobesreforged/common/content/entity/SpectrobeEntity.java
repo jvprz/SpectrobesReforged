@@ -30,6 +30,7 @@ import software.bernie.geckolib.animation.PlayState;
 import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
+import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -48,6 +49,12 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
     private static final EntityDataAccessor<String> STAGE =
             SynchedEntityData.defineId(SpectrobeEntity.class, EntityDataSerializers.STRING);
 
+    private static final EntityDataAccessor<Boolean> RANGE_PAUSED =
+            SynchedEntityData.defineId(SpectrobeEntity.class, EntityDataSerializers.BOOLEAN);
+
+    private static final EntityDataAccessor<Integer> RANGE_PAUSE_TICKS =
+            SynchedEntityData.defineId(SpectrobeEntity.class, EntityDataSerializers.INT);
+
     /* =========================
        Animaciones
        ========================= */
@@ -62,6 +69,16 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
        ========================= */
 
     private UUID ownerUUID;
+
+    /* =========================
+       Pause / range circle state
+       ========================= */
+
+    private double pausedX;
+    private double pausedY;
+    private double pausedZ;
+
+    public static final int DEFAULT_RANGE_PAUSE_TICKS = 60; // 3 segundos
 
     public void setOwner(Player player) {
         this.ownerUUID = player == null ? null : player.getUUID();
@@ -80,23 +97,14 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
         super(type, level);
     }
 
-    /**
-     * Default neutro. La especie real debe venir del spawn / Prizmod / NBT.
-     */
     protected String getDefaultSpeciesKey() {
         return "unknown";
     }
 
-    /**
-     * Stage por defecto si todavía no se ha asignado desde datos reales.
-     */
     protected SpectrobeStage getDefaultStage() {
         return SpectrobeStage.CHILD;
     }
 
-    /**
-     * Por ahora todos los child usan 3 variantes cromáticas.
-     */
     protected int getTextureVariantCount() {
         return 3;
     }
@@ -114,6 +122,8 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
         builder.define(SPECIES_KEY, safeKey(getDefaultSpeciesKey()));
         builder.define(TEXTURE_VARIANT, 0);
         builder.define(STAGE, getDefaultStage().name());
+        builder.define(RANGE_PAUSED, false);
+        builder.define(RANGE_PAUSE_TICKS, 0);
     }
 
     /* =========================
@@ -150,9 +160,54 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
         this.entityData.set(STAGE, (stage == null ? SpectrobeStage.CHILD : stage).name());
     }
 
+    public boolean isRangePaused() {
+        return this.entityData.get(RANGE_PAUSED);
+    }
+
+    public void setRangePaused(boolean paused) {
+        this.entityData.set(RANGE_PAUSED, paused);
+    }
+
+    public int getRangePauseTicks() {
+        return this.entityData.get(RANGE_PAUSE_TICKS);
+    }
+
+    public void setRangePauseTicks(int ticks) {
+        this.entityData.set(RANGE_PAUSE_TICKS, Math.max(0, ticks));
+    }
+
+    public boolean shouldRenderRangeCircle() {
+        return isRangePaused() && getRangePauseTicks() > 0;
+    }
+
+    public Vec3 getPausedCenter() {
+        return new Vec3(pausedX, pausedY, pausedZ);
+    }
+
+    public void triggerRangePause() {
+        triggerRangePause(DEFAULT_RANGE_PAUSE_TICKS);
+    }
+
+    public void triggerRangePause(int ticks) {
+        this.pausedX = getX();
+        this.pausedY = getY();
+        this.pausedZ = getZ();
+
+        setRangePaused(true);
+        setRangePauseTicks(ticks);
+
+        getNavigation().stop();
+        setDeltaMovement(Vec3.ZERO);
+    }
+
+    public void stopRangePause() {
+        setRangePaused(false);
+        setRangePauseTicks(0);
+    }
+
     private static String safeKey(String key) {
         if (key == null) return "unknown";
-        String k = key.trim().toLowerCase(java.util.Locale.ROOT);
+        String k = key.trim().toLowerCase(Locale.ROOT);
         return k.isEmpty() ? "unknown" : k;
     }
 
@@ -176,36 +231,48 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
         }
     }
 
-    /**
-     * IA común para todos los child.
-     */
     protected void configureChildGoals() {
-        this.goalSelector.addGoal(2, new FollowOwnerSideGoal(this, 1.2));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new HoldRangePauseGoal(this));
+        this.goalSelector.addGoal(3, new FollowOwnerSideGoal(this, 1.2));
+        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
     }
 
-    /**
-     * Por ahora ADULT usa la misma IA que CHILD.
-     */
     protected void configureAdultGoals() {
         configureChildGoals();
     }
 
-    /**
-     * Por ahora EVOLVED usa la misma IA que ADULT.
-     */
     protected void configureEvolvedGoals() {
         configureAdultGoals();
     }
 
-    /**
-     * Reaplica IA al cambiar stage en runtime.
-     */
     public void refreshGoalsForCurrentStage() {
         this.goalSelector.getAvailableGoals().clear();
         this.targetSelector.getAvailableGoals().clear();
         registerGoals();
+    }
+
+    /* =========================
+       Tick
+       ========================= */
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (!level().isClientSide && isRangePaused()) {
+            int ticks = getRangePauseTicks();
+
+            if (ticks > 0) {
+                setRangePauseTicks(ticks - 1);
+                getNavigation().stop();
+                setDeltaMovement(Vec3.ZERO);
+            }
+
+            if (getRangePauseTicks() <= 0) {
+                stopRangePause();
+            }
+        }
     }
 
     /* =========================
@@ -244,6 +311,12 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
         tag.putString("SpeciesKey", getSpeciesKey());
         tag.putInt("TextureVariant", getTextureVariant());
         tag.putString("Stage", getStage().name());
+
+        tag.putBoolean("RangePaused", isRangePaused());
+        tag.putInt("RangePauseTicks", getRangePauseTicks());
+        tag.putDouble("PausedX", pausedX);
+        tag.putDouble("PausedY", pausedY);
+        tag.putDouble("PausedZ", pausedZ);
     }
 
     @Override
@@ -269,6 +342,18 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
                 setStage(SpectrobeStage.CHILD);
             }
         }
+
+        if (tag.contains("RangePaused")) {
+            setRangePaused(tag.getBoolean("RangePaused"));
+        }
+
+        if (tag.contains("RangePauseTicks")) {
+            setRangePauseTicks(tag.getInt("RangePauseTicks"));
+        }
+
+        if (tag.contains("PausedX")) pausedX = tag.getDouble("PausedX");
+        if (tag.contains("PausedY")) pausedY = tag.getDouble("PausedY");
+        if (tag.contains("PausedZ")) pausedZ = tag.getDouble("PausedZ");
     }
 
     /* =========================
@@ -305,8 +390,48 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
     }
 
     /* =========================
-       Goal personalizado (follow owner side)
+       Goals personalizados
        ========================= */
+
+    private static class HoldRangePauseGoal extends Goal {
+
+        private final SpectrobeEntity mob;
+
+        public HoldRangePauseGoal(SpectrobeEntity mob) {
+            this.mob = mob;
+        }
+
+        @Override
+        public boolean canUse() {
+            return mob.isRangePaused();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return mob.isRangePaused() && mob.getRangePauseTicks() > 0;
+        }
+
+        @Override
+        public void start() {
+            mob.getNavigation().stop();
+        }
+
+        @Override
+        public void tick() {
+            mob.getNavigation().stop();
+            mob.setDeltaMovement(Vec3.ZERO);
+
+            Vec3 center = mob.getPausedCenter();
+            if (mob.distanceToSqr(center.x, center.y, center.z) > 0.09D) {
+                mob.teleportTo(center.x, center.y, center.z);
+            }
+        }
+
+        @Override
+        public void stop() {
+            mob.getNavigation().stop();
+        }
+    }
 
     private static class FollowOwnerSideGoal extends Goal {
 
@@ -322,6 +447,8 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
 
         @Override
         public boolean canUse() {
+            if (mob.isRangePaused()) return false;
+
             this.owner = mob.getOwner().orElse(null);
             if (owner == null) return false;
             return mob.distanceTo(owner) > 3.0F;
@@ -329,13 +456,14 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
 
         @Override
         public boolean canContinueToUse() {
+            if (mob.isRangePaused()) return false;
             if (owner == null || !owner.isAlive()) return false;
             return mob.distanceTo(owner) > 2.0F;
         }
 
         @Override
         public void tick() {
-            if (owner == null) return;
+            if (owner == null || mob.isRangePaused()) return;
 
             if (mob.distanceTo(owner) > 20.0F) {
                 mob.teleportTo(owner.getX(), owner.getY(), owner.getZ());

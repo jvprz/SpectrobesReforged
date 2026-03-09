@@ -44,7 +44,6 @@ public final class SpectrobeManager {
     public static boolean spawnBaby(ServerLevel level, ServerPlayer owner, SpectrobeEntry entry) {
         if (entry == null) return false;
 
-        // KO => no spawnea aunque esté equipado
         if (entry.hpCur() <= 0) return false;
 
         SpectrobeSpecies species = SpectrobeSpeciesRegistry.getByKey(entry.species());
@@ -58,12 +57,10 @@ public final class SpectrobeManager {
         spectrobe.moveTo(pos.x, pos.y, pos.z, owner.getYRot(), 0);
         spectrobe.setOwner(owner);
 
-        // especie / stage / chroma desde entry
         spectrobe.setSpeciesKey(entry.species());
         spectrobe.setStage(parseStage(entry.stage()));
         spectrobe.setTextureVariant(entry.color());
 
-        // HP real desde Prizmod
         var maxHpAttr = spectrobe.getAttribute(Attributes.MAX_HEALTH);
         if (maxHpAttr != null) {
             maxHpAttr.setBaseValue(Math.max(1, entry.hp()));
@@ -72,10 +69,8 @@ public final class SpectrobeManager {
         float hpNow = (float) Math.max(0, Math.min(entry.hpCur(), entry.hp()));
         spectrobe.setHealth(Math.max(1.0f, hpNow));
 
-        // Reaplica IA según el stage cargado
         spectrobe.refreshGoalsForCurrentStage();
 
-        // Mark Prizmod
         spectrobe.getPersistentData().putBoolean("PrizmodBaby", true);
         spectrobe.getPersistentData().putUUID("PrizmodOwner", owner.getUUID());
         spectrobe.getPersistentData().putUUID("SpectrobeId", entry.id());
@@ -87,6 +82,23 @@ public final class SpectrobeManager {
         }
 
         return true;
+    }
+
+    public static SpectrobeEntity findActiveBaby(ServerLevel level, ServerPlayer owner) {
+        var list = level.getEntitiesOfClass(SpectrobeEntity.class, owner.getBoundingBox().inflate(64));
+
+        for (SpectrobeEntity e : list) {
+            var tag = e.getPersistentData();
+
+            boolean isPrizmodBaby = tag.getBoolean("PrizmodBaby");
+            boolean sameOwner = tag.hasUUID("PrizmodOwner") && tag.getUUID("PrizmodOwner").equals(owner.getUUID());
+
+            if (isPrizmodBaby && sameOwner) {
+                return e;
+            }
+        }
+
+        return null;
     }
 
     private static com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage parseStage(String raw) {
