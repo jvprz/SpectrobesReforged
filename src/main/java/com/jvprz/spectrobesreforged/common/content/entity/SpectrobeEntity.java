@@ -1,4 +1,3 @@
-// src/main/java/com/jvprz/spectrobesreforged/common/content/entity/SpectrobeEntity.java
 package com.jvprz.spectrobesreforged.common.content.entity;
 
 import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage;
@@ -36,10 +35,6 @@ import java.util.UUID;
 
 public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
 
-    /* =========================
-       Synced Data (CLIENT <-> SERVER)
-       ========================= */
-
     private static final EntityDataAccessor<String> SPECIES_KEY =
             SynchedEntityData.defineId(SpectrobeEntity.class, EntityDataSerializers.STRING);
 
@@ -55,43 +50,22 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
     private static final EntityDataAccessor<Integer> RANGE_PAUSE_TICKS =
             SynchedEntityData.defineId(SpectrobeEntity.class, EntityDataSerializers.INT);
 
-    /* =========================
-       Animaciones
-       ========================= */
-
     private static final RawAnimation IDLE = RawAnimation.begin().thenLoop("idle");
     private static final RawAnimation WALK = RawAnimation.begin().thenLoop("walk");
+    private static final RawAnimation SNIFF = RawAnimation.begin().thenLoop("sniff");
 
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
-    /* =========================
-       Owner
-       ========================= */
-
     private UUID ownerUUID;
-
-    /* =========================
-       Pause / range circle state
-       ========================= */
 
     private double pausedX;
     private double pausedY;
     private double pausedZ;
 
-    public static final int DEFAULT_RANGE_PAUSE_TICKS = 60; // 3 segundos
+    public static final int DEFAULT_RANGE_PAUSE_TICKS = 66;
 
-    public void setOwner(Player player) {
-        this.ownerUUID = player == null ? null : player.getUUID();
-    }
-
-    public Optional<Player> getOwner() {
-        if (ownerUUID == null) return Optional.empty();
-        return Optional.ofNullable(level().getPlayerByUUID(ownerUUID));
-    }
-
-    /* =========================
-       Constructor
-       ========================= */
+    private boolean clientScanHasTarget = false;
+    private boolean lastSniffingState = false;
 
     public SpectrobeEntity(EntityType<? extends PathfinderMob> type, Level level) {
         super(type, level);
@@ -125,10 +99,6 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
         builder.define(RANGE_PAUSED, false);
         builder.define(RANGE_PAUSE_TICKS, 0);
     }
-
-    /* =========================
-       API de species / textura / stage
-       ========================= */
 
     public String getSpeciesKey() {
         return this.entityData.get(SPECIES_KEY);
@@ -205,15 +175,35 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
         setRangePauseTicks(0);
     }
 
+    public void setOwner(Player player) {
+        this.ownerUUID = player == null ? null : player.getUUID();
+    }
+
+    public Optional<Player> getOwner() {
+        if (ownerUUID == null) return Optional.empty();
+        return Optional.ofNullable(level().getPlayerByUUID(ownerUUID));
+    }
+
+    public void setClientScanHasTarget(boolean hasTarget) {
+        if (!level().isClientSide) {
+            return;
+        }
+        this.clientScanHasTarget = hasTarget;
+    }
+
+    public boolean isClientScanDetecting() {
+        return level().isClientSide && clientScanHasTarget;
+    }
+
+    private boolean isSniffingNow() {
+        return this.isRangePaused() && this.isClientScanDetecting();
+    }
+
     private static String safeKey(String key) {
         if (key == null) return "unknown";
         String k = key.trim().toLowerCase(Locale.ROOT);
         return k.isEmpty() ? "unknown" : k;
     }
-
-    /* =========================
-       Goals (IA) por stage
-       ========================= */
 
     @Override
     protected void registerGoals() {
@@ -252,13 +242,13 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
         registerGoals();
     }
 
-    /* =========================
-       Tick
-       ========================= */
-
     @Override
     public void tick() {
         super.tick();
+
+        if (level().isClientSide && !isRangePaused()) {
+            clientScanHasTarget = false;
+        }
 
         if (!level().isClientSide && isRangePaused()) {
             int ticks = getRangePauseTicks();
@@ -275,18 +265,27 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
         }
     }
 
-    /* =========================
-       Animaciones
-       ========================= */
-
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "main", 0, state -> {
+            boolean sniffing = isSniffingNow();
+
+            if (sniffing != lastSniffingState) {
+                state.getController().forceAnimationReset();
+                lastSniffingState = sniffing;
+            }
+
+            if (isRangePaused()) {
+                state.setAnimation(sniffing ? SNIFF : IDLE);
+                return PlayState.CONTINUE;
+            }
+
             if (state.isMoving()) {
                 state.setAnimation(WALK);
             } else {
                 state.setAnimation(IDLE);
             }
+
             return PlayState.CONTINUE;
         }));
     }
@@ -295,10 +294,6 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return cache;
     }
-
-    /* =========================
-       Guardado NBT
-       ========================= */
 
     @Override
     public void addAdditionalSaveData(CompoundTag tag) {
@@ -356,10 +351,6 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
         if (tag.contains("PausedZ")) pausedZ = tag.getDouble("PausedZ");
     }
 
-    /* =========================
-       Spawn defaults
-       ========================= */
-
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level,
                                         DifficultyInstance difficulty,
@@ -389,12 +380,7 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
         return data;
     }
 
-    /* =========================
-       Goals personalizados
-       ========================= */
-
     private static class HoldRangePauseGoal extends Goal {
-
         private final SpectrobeEntity mob;
 
         public HoldRangePauseGoal(SpectrobeEntity mob) {
@@ -434,7 +420,6 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
     }
 
     private static class FollowOwnerSideGoal extends Goal {
-
         private final SpectrobeEntity mob;
         private final double speed;
         private Player owner;
@@ -475,7 +460,6 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
 
                 Vec3 look = owner.getLookAngle().normalize();
                 Vec3 side = new Vec3(-look.z, 0, look.x);
-
                 Vec3 targetPos = owner.position().add(side.scale(1.5));
 
                 mob.getNavigation().moveTo(
