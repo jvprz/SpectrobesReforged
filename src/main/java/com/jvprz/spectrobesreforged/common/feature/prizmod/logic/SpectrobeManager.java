@@ -117,33 +117,59 @@ public final class SpectrobeManager {
         BlockPos base = player.blockPosition();
 
         int[] rs = {1, 2, 3};
+
         for (int r : rs) {
             for (int dx = -r; dx <= r; dx++) {
                 for (int dz = -r; dz <= r; dz++) {
                     if (dx == 0 && dz == 0) continue;
 
                     BlockPos probe = base.offset(dx, 0, dz);
-                    BlockPos top = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, probe);
 
-                    BlockPos feet = top.above();
-                    BlockPos head = feet.above();
+                    // Buscar una posición cómoda cerca de la altura actual del jugador
+                    for (int dy = 2; dy >= -3; dy--) {
+                        BlockPos feet = probe.offset(0, dy, 0);
+                        BlockPos below = feet.below();
+                        BlockPos head = feet.above();
 
-                    BlockState belowState = level.getBlockState(feet.below());
-                    BlockState feetState = level.getBlockState(feet);
-                    BlockState headState = level.getBlockState(head);
+                        BlockState belowState = level.getBlockState(below);
+                        BlockState feetState = level.getBlockState(feet);
+                        BlockState headState = level.getBlockState(head);
 
-                    boolean hasFloor = belowState.isSolid();
-                    boolean airFeet = feetState.getCollisionShape(level, feet).isEmpty();
-                    boolean airHead = headState.getCollisionShape(level, head).isEmpty();
+                        boolean hasFloor = belowState.isSolidRender(level, below);
+                        boolean airFeet = feetState.getCollisionShape(level, feet).isEmpty();
+                        boolean airHead = headState.getCollisionShape(level, head).isEmpty();
 
-                    if (hasFloor && airFeet && airHead) {
-                        return Vec3.atBottomCenterOf(feet);
+                        if (hasFloor && airFeet && airHead) {
+                            // Evitar posiciones demasiado altas o bajas respecto al jugador
+                            if (Math.abs(feet.getY() - base.getY()) <= 2) {
+                                return Vec3.atBottomCenterOf(feet);
+                            }
+                        }
                     }
                 }
             }
         }
 
-        return new Vec3(player.getX() + 0.8, player.getY() + 0.1, player.getZ() + 0.8);
+        // Fallback: intenta cerca del jugador a su misma altura
+        for (int dy = 2; dy >= -3; dy--) {
+            BlockPos feet = base.offset(1, dy, 1);
+            BlockPos below = feet.below();
+            BlockPos head = feet.above();
+
+            BlockState belowState = level.getBlockState(below);
+            BlockState feetState = level.getBlockState(feet);
+            BlockState headState = level.getBlockState(head);
+
+            boolean hasFloor = belowState.isSolidRender(level, below);
+            boolean airFeet = feetState.getCollisionShape(level, feet).isEmpty();
+            boolean airHead = headState.getCollisionShape(level, head).isEmpty();
+
+            if (hasFloor && airFeet && airHead) {
+                return Vec3.atBottomCenterOf(feet);
+            }
+        }
+
+        return player.position().add(1.0, 0.0, 1.0);
     }
 
     public static boolean hasBabyNearby(ServerLevel level, ServerPlayer owner) {

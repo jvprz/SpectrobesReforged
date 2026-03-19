@@ -224,8 +224,8 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
     protected void configureChildGoals() {
         this.goalSelector.addGoal(2, new HoldRangePauseGoal(this));
         this.goalSelector.addGoal(3, new FollowOwnerSideGoal(this, 1.2));
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(4, new SpectrobeLookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(5, new SpectrobeRandomLookAroundGoal(this));
     }
 
     protected void configureAdultGoals() {
@@ -234,6 +234,50 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
 
     protected void configureEvolvedGoals() {
         configureAdultGoals();
+    }
+
+    private static class SpectrobeLookAtPlayerGoal extends LookAtPlayerGoal {
+        private final SpectrobeEntity spectrobe;
+
+        public SpectrobeLookAtPlayerGoal(SpectrobeEntity spectrobe, Class<? extends Player> lookAtType, float lookDistance) {
+            super(spectrobe, lookAtType, lookDistance);
+            this.spectrobe = spectrobe;
+        }
+
+        @Override
+        public boolean canUse() {
+            return !spectrobe.isRangePaused() && super.canUse();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return !spectrobe.isRangePaused() && super.canContinueToUse();
+        }
+
+        @Override
+        public void stop() {
+            super.stop();
+            spectrobe.setXRot(0.0F);
+        }
+    }
+
+    private static class SpectrobeRandomLookAroundGoal extends RandomLookAroundGoal {
+        private final SpectrobeEntity spectrobe;
+
+        public SpectrobeRandomLookAroundGoal(SpectrobeEntity spectrobe) {
+            super(spectrobe);
+            this.spectrobe = spectrobe;
+        }
+
+        @Override
+        public boolean canUse() {
+            return !spectrobe.isRangePaused() && super.canUse();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return !spectrobe.isRangePaused() && super.canContinueToUse();
+        }
     }
 
     public void refreshGoalsForCurrentStage() {

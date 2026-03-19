@@ -115,6 +115,38 @@ public final class ModItems {
     public static final DeferredItem<BlockItem> DEEPSLATE_FLASH_FOSSIL_ORE_ITEM =
             ITEMS.registerSimpleBlockItem("deepslate_flash_fossil_ore", ModBlocks.DEEPSLATE_FLASH_FOSSIL_ORE);
 
+    public static final DeferredItem<Item> C_MINERAL_ORE =
+            ITEMS.register("c_mineral_ore",
+                    () -> new BlockItem(ModBlocks.C_MINERAL_ORE.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> B_MINERAL_ORE =
+            ITEMS.register("b_mineral_ore",
+                    () -> new BlockItem(ModBlocks.B_MINERAL_ORE.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> A_MINERAL_ORE =
+            ITEMS.register("a_mineral_ore",
+                    () -> new BlockItem(ModBlocks.A_MINERAL_ORE.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> A_PLUS_MINERAL_ORE =
+            ITEMS.register("a_plus_mineral_ore",
+                    () -> new BlockItem(ModBlocks.A_PLUS_MINERAL_ORE.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> DEEPSLATE_C_MINERAL_ORE =
+            ITEMS.register("deepslate_c_mineral_ore",
+                    () -> new BlockItem(ModBlocks.DEEPSLATE_C_MINERAL_ORE.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> DEEPSLATE_B_MINERAL_ORE =
+            ITEMS.register("deepslate_b_mineral_ore",
+                    () -> new BlockItem(ModBlocks.DEEPSLATE_B_MINERAL_ORE.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> DEEPSLATE_A_MINERAL_ORE =
+            ITEMS.register("deepslate_a_mineral_ore",
+                    () -> new BlockItem(ModBlocks.DEEPSLATE_A_MINERAL_ORE.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> DEEPSLATE_A_PLUS_MINERAL_ORE =
+            ITEMS.register("deepslate_a_plus_mineral_ore",
+                    () -> new BlockItem(ModBlocks.DEEPSLATE_A_PLUS_MINERAL_ORE.get(), new Item.Properties()));
+
     public static final DeferredItem<BlockItem> INCUBATOR =
             ITEMS.registerSimpleBlockItem("incubator", ModBlocks.INCUBATOR);
 

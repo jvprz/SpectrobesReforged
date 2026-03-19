@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "spectrobesreforged:power_b"
+    },
+    {
+      "item": "spectrobesreforged:defense_b"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "spectrobesreforged:lazuli"
+  }
+}

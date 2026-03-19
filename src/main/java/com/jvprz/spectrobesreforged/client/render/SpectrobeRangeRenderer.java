@@ -60,15 +60,24 @@ public final class SpectrobeRangeRenderer {
     private static final int FOSSIL_TRIGGER_COOLDOWN_TICKS = 8;
     private static final int ACTIVE_HINT_HOLD_TICKS = 20;
 
+    private static final Vector3f FOSSIL_HINT_COLOR = new Vector3f(1.0f, 0.55f, 0.1f);
+    private static final Vector3f MINERAL_HINT_COLOR = new Vector3f(0.45f, 0.85f, 1.0f);
+
     private static final Map<UUID, Integer> RANGE_START_TICK = new HashMap<>();
     private static final Map<UUID, Integer> LAST_PARTICLE_TICK = new HashMap<>();
     private static final Map<UUID, Integer> LAST_FOSSIL_SCAN_TICK = new HashMap<>();
     private static final Map<UUID, List<BlockPos>> DETECTED_FOSSILS = new HashMap<>();
+    private static final Map<UUID, Map<BlockPos, ScanTargetType>> DETECTED_TARGET_TYPES = new HashMap<>();
     private static final Map<UUID, Map<BlockPos, Integer>> LAST_FOSSIL_TRIGGER_TICK = new HashMap<>();
     private static final Map<UUID, Map<BlockPos, Integer>> ACTIVE_FOSSIL_HINT_TICKS = new HashMap<>();
     private static final Map<UUID, Integer> LAST_ACTIVE_HINT_TICK = new HashMap<>();
 
     private SpectrobeRangeRenderer() {}
+
+    private enum ScanTargetType {
+        FOSSIL,
+        MINERAL
+    }
 
     @SubscribeEvent
     public static void renderRange(RenderLevelStageEvent event) {
@@ -105,6 +114,7 @@ public final class SpectrobeRangeRenderer {
                 LAST_PARTICLE_TICK.remove(uuid);
                 LAST_FOSSIL_SCAN_TICK.remove(uuid);
                 DETECTED_FOSSILS.remove(uuid);
+                DETECTED_TARGET_TYPES.remove(uuid);
                 LAST_FOSSIL_TRIGGER_TICK.remove(uuid);
                 ACTIVE_FOSSIL_HINT_TICKS.remove(uuid);
                 LAST_ACTIVE_HINT_TICK.remove(uuid);
@@ -222,6 +232,7 @@ public final class SpectrobeRangeRenderer {
                 LAST_PARTICLE_TICK.remove(uuid);
                 LAST_FOSSIL_SCAN_TICK.remove(uuid);
                 DETECTED_FOSSILS.remove(uuid);
+                DETECTED_TARGET_TYPES.remove(uuid);
                 LAST_FOSSIL_TRIGGER_TICK.remove(uuid);
                 ACTIVE_FOSSIL_HINT_TICKS.remove(uuid);
                 LAST_ACTIVE_HINT_TICK.remove(uuid);
@@ -270,6 +281,7 @@ public final class SpectrobeRangeRenderer {
         int radiusCeil = Mth.ceil(radius);
 
         LinkedHashSet<BlockPos> foundSet = new LinkedHashSet<>();
+        Map<BlockPos, ScanTargetType> foundTypes = new HashMap<>();
 
         for (int dx = -radiusCeil; dx <= radiusCeil; dx++) {
             for (int dz = -radiusCeil; dz <= radiusCeil; dz++) {
@@ -281,9 +293,13 @@ public final class SpectrobeRangeRenderer {
                 for (int dy = 0; dy <= FOSSIL_SCAN_DEPTH; dy++) {
                     BlockPos pos = center.offset(dx, -dy, dz);
                     BlockState state = level.getBlockState(pos);
+                    ScanTargetType type = getTrackedTargetType(state);
 
-                    if (isTrackedFossil(state)) {
-                        foundSet.add(pos.immutable());
+                    if (type != null) {
+                        BlockPos immutablePos = pos.immutable();
+                        foundSet.add(immutablePos);
+                        foundTypes.put(immutablePos, type);
+
                         if (foundSet.size() >= MAX_FOSSIL_HINT_POSITIONS) {
                             break;
                         }
@@ -301,6 +317,7 @@ public final class SpectrobeRangeRenderer {
         }
 
         DETECTED_FOSSILS.put(uuid, new ArrayList<>(foundSet));
+        DETECTED_TARGET_TYPES.put(uuid, foundTypes);
     }
 
     private static boolean hasDetectedFossils(SpectrobeEntity spectrobe) {
@@ -308,14 +325,30 @@ public final class SpectrobeRangeRenderer {
         return fossils != null && !fossils.isEmpty();
     }
 
-    private static boolean isTrackedFossil(BlockState state) {
+    private static ScanTargetType getTrackedTargetType(BlockState state) {
         String id = String.valueOf(BuiltInRegistries.BLOCK.getKey(state.getBlock()));
-        return id.equals("spectrobesreforged:corona_fossil_ore")
+
+        if (id.equals("spectrobesreforged:corona_fossil_ore")
                 || id.equals("spectrobesreforged:aurora_fossil_ore")
                 || id.equals("spectrobesreforged:flash_fossil_ore")
                 || id.equals("spectrobesreforged:deepslate_corona_fossil_ore")
                 || id.equals("spectrobesreforged:deepslate_aurora_fossil_ore")
-                || id.equals("spectrobesreforged:deepslate_flash_fossil_ore");
+                || id.equals("spectrobesreforged:deepslate_flash_fossil_ore")) {
+            return ScanTargetType.FOSSIL;
+        }
+
+        if (id.equals("spectrobesreforged:c_mineral_ore")
+                || id.equals("spectrobesreforged:b_mineral_ore")
+                || id.equals("spectrobesreforged:a_mineral_ore")
+                || id.equals("spectrobesreforged:a_plus_mineral_ore")
+                || id.equals("spectrobesreforged:deepslate_c_mineral_ore")
+                || id.equals("spectrobesreforged:deepslate_b_mineral_ore")
+                || id.equals("spectrobesreforged:deepslate_a_mineral_ore")
+                || id.equals("spectrobesreforged:deepslate_a_plus_mineral_ore")) {
+            return ScanTargetType.MINERAL;
+        }
+
+        return null;
     }
 
     private static void detectFossilsOnSweep(ClientLevel level, SpectrobeEntity spectrobe, float sweepAngle) {
@@ -371,9 +404,25 @@ public final class SpectrobeRangeRenderer {
             return;
         }
 
+        Map<BlockPos, ScanTargetType> detectedTypes = DETECTED_TARGET_TYPES.get(spectrobe.getUUID());
+
         for (Map.Entry<BlockPos, Integer> entry : activeHints.entrySet()) {
             BlockPos surfacePos = entry.getKey();
             int ticksLeft = entry.getValue();
+
+            ScanTargetType type = null;
+
+            if (detectedTypes != null) {
+                for (Map.Entry<BlockPos, ScanTargetType> detectedEntry : detectedTypes.entrySet()) {
+                    BlockPos detectedPos = detectedEntry.getKey();
+                    if (detectedPos.getX() == surfacePos.getX() && detectedPos.getZ() == surfacePos.getZ()) {
+                        type = detectedEntry.getValue();
+                        break;
+                    }
+                }
+            }
+
+            Vector3f color = type == ScanTargetType.MINERAL ? MINERAL_HINT_COLOR : FOSSIL_HINT_COLOR;
 
             float life = ticksLeft / (float) ACTIVE_HINT_HOLD_TICKS;
             float lifeEased = life * life;
@@ -389,7 +438,7 @@ public final class SpectrobeRangeRenderer {
                 double vz = (level.random.nextDouble() - 0.5D) * 0.004D;
 
                 level.addParticle(
-                        new DustParticleOptions(new Vector3f(1.0f, 0.55f, 0.1f), scale),
+                        new DustParticleOptions(color, scale),
                         px, py, pz,
                         vx, vy, vz
                 );
