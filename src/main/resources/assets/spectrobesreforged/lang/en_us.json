@@ -143,5 +143,7 @@
   "spectrobesreforged.spectrobe.shakin": "Shakin",
 
   "key.categories.spectrobesreforged":  "Spectrobes Reforged",
-  "key.spectrobesreforged.range_scan": "Scan"
+  "key.spectrobesreforged.range_scan": "Scan",
+
+  "itemGroup.spectrobes_spawn_eggs": "Spectrobes Spawn Eggs"
 }

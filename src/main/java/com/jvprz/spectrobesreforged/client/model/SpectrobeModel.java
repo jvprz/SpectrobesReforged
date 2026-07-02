@@ -17,7 +17,7 @@ public class SpectrobeModel extends GeoModel<SpectrobeEntity> {
         String key = entity.getSpeciesKey();
         return ResourceLocation.fromNamespaceAndPath(
                 SpectrobesReforged.MODID,
-                "geo/" + key + ".geo.json"
+                "geo/entity/spectrobe/" + key + ".geo.json"
         );
     }
 
@@ -37,7 +37,7 @@ public class SpectrobeModel extends GeoModel<SpectrobeEntity> {
         String key = entity.getSpeciesKey();
         return ResourceLocation.fromNamespaceAndPath(
                 SpectrobesReforged.MODID,
-                "animations/spectrobe/" + key + "/" + key + ".animation.json"
+                "animations/entity/spectrobe/" + key + ".animation.json"
         );
     }
 
@@ -50,7 +50,7 @@ public class SpectrobeModel extends GeoModel<SpectrobeEntity> {
         }
 
         GeoBone head = this.getAnimationProcessor().getBone("head");
-        if (head == null) return; // 🔑 modelos sin head → ignorar
+        if (head == null) return;
 
         EntityModelData modelData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
         if (modelData == null) return;

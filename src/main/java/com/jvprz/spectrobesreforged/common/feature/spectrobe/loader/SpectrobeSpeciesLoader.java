@@ -18,7 +18,7 @@ public class SpectrobeSpeciesLoader extends SimpleJsonResourceReloadListener {
     private static final Gson GSON = new Gson();
 
     public SpectrobeSpeciesLoader() {
-        super(GSON, "spectrobes");
+        super(GSON, "entity/spectrobe");
     }
 
     @Override
