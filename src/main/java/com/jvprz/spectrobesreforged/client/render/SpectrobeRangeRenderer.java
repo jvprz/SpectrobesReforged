@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -31,6 +32,9 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import com.jvprz.spectrobesreforged.common.registry.ModSounds;
+import net.minecraft.sounds.SoundSource;
 
 @EventBusSubscriber(modid = SpectrobesReforged.MODID, value = Dist.CLIENT)
 public final class SpectrobeRangeRenderer {
@@ -128,7 +132,20 @@ public final class SpectrobeRangeRenderer {
                 continue;
             }
 
-            int startTick = RANGE_START_TICK.computeIfAbsent(uuid, id -> spectrobe.tickCount);
+            int startTick = RANGE_START_TICK.computeIfAbsent(uuid, id -> {
+                mc.level.playLocalSound(
+                        spectrobe.getX(),
+                        spectrobe.getY(),
+                        spectrobe.getZ(),
+                        ModSounds.SCANNER_OPEN.get(),
+                        SoundSource.PLAYERS,
+                        0.25F,
+                        0.55F,
+                        false
+                );
+
+                return spectrobe.tickCount;
+            });
             float time = (spectrobe.tickCount - startTick) + partialTick;
 
             double maxRadius = species.range() * 2.0D;
@@ -395,6 +412,36 @@ public final class SpectrobeRangeRenderer {
 
             perFossilCooldown.put(surfacePos.immutable(), gameTick);
             activeHints.put(surfacePos.immutable(), ACTIVE_HINT_HOLD_TICKS);
+
+            ScanTargetType type = null;
+            Map<BlockPos, ScanTargetType> detectedTypes = DETECTED_TARGET_TYPES.get(uuid);
+
+            if (detectedTypes != null) {
+                for (Map.Entry<BlockPos, ScanTargetType> detectedEntry : detectedTypes.entrySet()) {
+                    BlockPos detectedPos = detectedEntry.getKey();
+
+                    if (detectedPos.getX() == surfacePos.getX()
+                            && detectedPos.getZ() == surfacePos.getZ()) {
+                        type = detectedEntry.getValue();
+                        break;
+                    }
+                }
+            }
+
+            float pitch = type == ScanTargetType.MINERAL
+                    ? 1.18F + (level.random.nextFloat() * 0.08F)
+                    : 0.95F + (level.random.nextFloat() * 0.10F);
+
+            level.playLocalSound(
+                    surfacePos.getX() + 0.5D,
+                    surfacePos.getY() + 0.5D,
+                    surfacePos.getZ() + 0.5D,
+                    ModSounds.SCANNER_FOUND.get(),
+                    SoundSource.PLAYERS,
+                    0.75F,
+                    pitch,
+                    false
+            );
         }
     }
 
