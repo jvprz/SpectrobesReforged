@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "spectrobesreforged:block/c_mineral_ore"
+  }
+}

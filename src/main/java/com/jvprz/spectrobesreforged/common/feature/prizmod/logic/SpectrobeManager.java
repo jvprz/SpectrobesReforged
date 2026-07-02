@@ -44,7 +44,6 @@ public final class SpectrobeManager {
     public static boolean spawnBaby(ServerLevel level, ServerPlayer owner, SpectrobeEntry entry) {
         if (entry == null) return false;
 
-        // KO => no spawnea aunque esté equipado
         if (entry.hpCur() <= 0) return false;
 
         SpectrobeSpecies species = SpectrobeSpeciesRegistry.getByKey(entry.species());
@@ -58,12 +57,10 @@ public final class SpectrobeManager {
         spectrobe.moveTo(pos.x, pos.y, pos.z, owner.getYRot(), 0);
         spectrobe.setOwner(owner);
 
-        // especie / stage / chroma desde entry
         spectrobe.setSpeciesKey(entry.species());
         spectrobe.setStage(parseStage(entry.stage()));
         spectrobe.setTextureVariant(entry.color());
 
-        // HP real desde Prizmod
         var maxHpAttr = spectrobe.getAttribute(Attributes.MAX_HEALTH);
         if (maxHpAttr != null) {
             maxHpAttr.setBaseValue(Math.max(1, entry.hp()));
@@ -72,10 +69,8 @@ public final class SpectrobeManager {
         float hpNow = (float) Math.max(0, Math.min(entry.hpCur(), entry.hp()));
         spectrobe.setHealth(Math.max(1.0f, hpNow));
 
-        // Reaplica IA según el stage cargado
         spectrobe.refreshGoalsForCurrentStage();
 
-        // Mark Prizmod
         spectrobe.getPersistentData().putBoolean("PrizmodBaby", true);
         spectrobe.getPersistentData().putUUID("PrizmodOwner", owner.getUUID());
         spectrobe.getPersistentData().putUUID("SpectrobeId", entry.id());
@@ -87,6 +82,23 @@ public final class SpectrobeManager {
         }
 
         return true;
+    }
+
+    public static SpectrobeEntity findActiveBaby(ServerLevel level, ServerPlayer owner) {
+        var list = level.getEntitiesOfClass(SpectrobeEntity.class, owner.getBoundingBox().inflate(64));
+
+        for (SpectrobeEntity e : list) {
+            var tag = e.getPersistentData();
+
+            boolean isPrizmodBaby = tag.getBoolean("PrizmodBaby");
+            boolean sameOwner = tag.hasUUID("PrizmodOwner") && tag.getUUID("PrizmodOwner").equals(owner.getUUID());
+
+            if (isPrizmodBaby && sameOwner) {
+                return e;
+            }
+        }
+
+        return null;
     }
 
     private static com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage parseStage(String raw) {
@@ -105,33 +117,59 @@ public final class SpectrobeManager {
         BlockPos base = player.blockPosition();
 
         int[] rs = {1, 2, 3};
+
         for (int r : rs) {
             for (int dx = -r; dx <= r; dx++) {
                 for (int dz = -r; dz <= r; dz++) {
                     if (dx == 0 && dz == 0) continue;
 
                     BlockPos probe = base.offset(dx, 0, dz);
-                    BlockPos top = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, probe);
 
-                    BlockPos feet = top.above();
-                    BlockPos head = feet.above();
+                    // Buscar una posición cómoda cerca de la altura actual del jugador
+                    for (int dy = 2; dy >= -3; dy--) {
+                        BlockPos feet = probe.offset(0, dy, 0);
+                        BlockPos below = feet.below();
+                        BlockPos head = feet.above();
 
-                    BlockState belowState = level.getBlockState(feet.below());
-                    BlockState feetState = level.getBlockState(feet);
-                    BlockState headState = level.getBlockState(head);
+                        BlockState belowState = level.getBlockState(below);
+                        BlockState feetState = level.getBlockState(feet);
+                        BlockState headState = level.getBlockState(head);
 
-                    boolean hasFloor = belowState.isSolid();
-                    boolean airFeet = feetState.getCollisionShape(level, feet).isEmpty();
-                    boolean airHead = headState.getCollisionShape(level, head).isEmpty();
+                        boolean hasFloor = belowState.isSolidRender(level, below);
+                        boolean airFeet = feetState.getCollisionShape(level, feet).isEmpty();
+                        boolean airHead = headState.getCollisionShape(level, head).isEmpty();
 
-                    if (hasFloor && airFeet && airHead) {
-                        return Vec3.atBottomCenterOf(feet);
+                        if (hasFloor && airFeet && airHead) {
+                            // Evitar posiciones demasiado altas o bajas respecto al jugador
+                            if (Math.abs(feet.getY() - base.getY()) <= 2) {
+                                return Vec3.atBottomCenterOf(feet);
+                            }
+                        }
                     }
                 }
             }
         }
 
-        return new Vec3(player.getX() + 0.8, player.getY() + 0.1, player.getZ() + 0.8);
+        // Fallback: intenta cerca del jugador a su misma altura
+        for (int dy = 2; dy >= -3; dy--) {
+            BlockPos feet = base.offset(1, dy, 1);
+            BlockPos below = feet.below();
+            BlockPos head = feet.above();
+
+            BlockState belowState = level.getBlockState(below);
+            BlockState feetState = level.getBlockState(feet);
+            BlockState headState = level.getBlockState(head);
+
+            boolean hasFloor = belowState.isSolidRender(level, below);
+            boolean airFeet = feetState.getCollisionShape(level, feet).isEmpty();
+            boolean airHead = headState.getCollisionShape(level, head).isEmpty();
+
+            if (hasFloor && airFeet && airHead) {
+                return Vec3.atBottomCenterOf(feet);
+            }
+        }
+
+        return player.position().add(1.0, 0.0, 1.0);
     }
 
     public static boolean hasBabyNearby(ServerLevel level, ServerPlayer owner) {

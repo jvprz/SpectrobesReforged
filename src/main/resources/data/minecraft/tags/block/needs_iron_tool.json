@@ -6,6 +6,15 @@
     "spectrobesreforged:flash_fossil_ore",
     "spectrobesreforged:deepslate_corona_fossil_ore",
     "spectrobesreforged:deepslate_aurora_fossil_ore",
-    "spectrobesreforged:deepslate_flash_fossil_ore"
+    "spectrobesreforged:deepslate_flash_fossil_ore",
+
+    "spectrobesreforged:c_mineral_ore",
+    "spectrobesreforged:b_mineral_ore",
+    "spectrobesreforged:a_mineral_ore",
+    "spectrobesreforged:a_plus_mineral_ore",
+    "spectrobesreforged:deepslate_c_mineral_ore",
+    "spectrobesreforged:deepslate_b_mineral_ore",
+    "spectrobesreforged:deepslate_a_mineral_ore",
+    "spectrobesreforged:deepslate_a_plus_mineral_ore"
   ]
 }

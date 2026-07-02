@@ -1,4 +1,3 @@
-// src/main/java/com/jvprz/spectrobesreforged/SpectrobesReforged.java
 package com.jvprz.spectrobesreforged;
 
 import com.jvprz.spectrobesreforged.client.event.ClientEvents;
@@ -18,13 +17,17 @@ public class SpectrobesReforged {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     public SpectrobesReforged(IEventBus modEventBus, ModContainer modContainer) {
+
+        // Registries
         ModEntities.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModItems.register(modEventBus);
         ModTabs.register(modEventBus);
         ModAttachments.register(modEventBus);
         ModMenus.register(modEventBus);
+        ModSounds.register(modEventBus);
 
+        // NeoForge events
         NeoForge.EVENT_BUS.addListener(ModEvents::onRegisterCommands);
         NeoForge.EVENT_BUS.addListener(ModSpectrobeAutoSpawn::onPlayerLoggedIn);
         NeoForge.EVENT_BUS.addListener(ModSpectrobeAutoSpawn::onPlayerRespawn);
@@ -32,10 +35,12 @@ public class SpectrobesReforged {
         NeoForge.EVENT_BUS.addListener(ModSpectrobePortalGuard::onEntityTravelToDimension);
         NeoForge.EVENT_BUS.addListener(ModSpectrobeFollowGuard::onPlayerTick);
 
+        // Mod events
         modEventBus.addListener(CommonEvents::registerAttributes);
         NeoForge.EVENT_BUS.addListener(CommonEvents::registerReloadListeners);
 
         modEventBus.addListener(com.jvprz.spectrobesreforged.common.network.ModNetwork::register);
+        modEventBus.addListener(ClientEvents::onClientSetup);
         modEventBus.addListener(ClientEvents::registerRenderers);
         modEventBus.addListener(ClientEvents::registerScreens);
 

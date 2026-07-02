@@ -4,6 +4,7 @@ import com.jvprz.spectrobesreforged.common.feature.prizmod.data.PrizmodData;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.logic.SpectrobeManager;
 
+import com.jvprz.spectrobesreforged.common.network.ModSnapshotSender;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerRespawnEvent;
@@ -15,7 +16,10 @@ public final class ModSpectrobeAutoSpawn {
 
     public static void onPlayerLoggedIn(PlayerLoggedInEvent event) {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
-        scheduleRefresh(player);
+        //scheduleRefresh(player);
+
+        PrizmodData data = player.getData(ModAttachments.PRIZMOD.get());
+        ModSnapshotSender.sendSnapshot(player, data);
     }
 
     public static void onPlayerRespawn(PlayerRespawnEvent event) {

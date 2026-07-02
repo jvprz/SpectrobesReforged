@@ -1,0 +1,12 @@
+{
+  "scanner_open": {
+    "sounds": [
+      "spectrobesreforged:scanner_open"
+    ]
+  },
+  "scanner_found": {
+    "sounds": [
+      "spectrobesreforged:scanner_found"
+    ]
+  }
+}

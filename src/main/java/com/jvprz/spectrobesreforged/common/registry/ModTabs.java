@@ -25,12 +25,22 @@ public final class ModTabs {
                     .withTabsBefore(CreativeModeTabs.COMBAT)
                     .icon(() -> ModItems.CORONA_FOSSIL_ORE_ITEM.get().getDefaultInstance())
                     .displayItems((parameters, output) -> {
+
                         output.accept(ModItems.CORONA_FOSSIL_ORE_ITEM.get());
-                        output.accept(ModItems.AURORA_FOSSIL_ORE_ITEM.get());
-                        output.accept(ModItems.FLASH_FOSSIL_ORE_ITEM.get());
                         output.accept(ModItems.DEEPSLATE_CORONA_FOSSIL_ORE_ITEM.get());
+                        output.accept(ModItems.AURORA_FOSSIL_ORE_ITEM.get());
                         output.accept(ModItems.DEEPSLATE_AURORA_FOSSIL_ORE_ITEM.get());
+                        output.accept(ModItems.FLASH_FOSSIL_ORE_ITEM.get());
                         output.accept(ModItems.DEEPSLATE_FLASH_FOSSIL_ORE_ITEM.get());
+
+                        output.accept(ModItems.C_MINERAL_ORE.get());
+                        output.accept(ModItems.DEEPSLATE_C_MINERAL_ORE.get());
+                        output.accept(ModItems.B_MINERAL_ORE.get());
+                        output.accept(ModItems.DEEPSLATE_B_MINERAL_ORE.get());
+                        output.accept(ModItems.A_MINERAL_ORE.get());
+                        output.accept(ModItems.DEEPSLATE_A_MINERAL_ORE.get());
+                        output.accept(ModItems.A_PLUS_MINERAL_ORE.get());
+                        output.accept(ModItems.DEEPSLATE_A_PLUS_MINERAL_ORE.get());
                     })
                     .build());
 
@@ -100,6 +110,18 @@ public final class ModTabs {
                         output.accept(ModItems.MAGENTA_PRIZMOD.get());
                         output.accept(ModItems.PINK_PRIZMOD.get());
                         output.accept(ModItems.INCUBATOR.get());
+                    })
+                    .build());
+
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> SPECTROBES_SPAWN_EGGS_TAB =
+            CREATIVE_MODE_TABS.register("spectrobes_spawn_eggs", () -> CreativeModeTab.builder()
+                    .title(Component.translatable("itemGroup.spectrobes_spawn_eggs"))
+                    .withTabsBefore(CreativeModeTabs.COMBAT)
+                    .icon(() -> ModItems.BLOVA_SPAWN_EGG.get().getDefaultInstance())
+                    .displayItems((parameters, output) -> {
+
+                        output.accept(ModItems.BLOVA_SPAWN_EGG.get());
+
                     })
                     .build());
 

@@ -1,0 +1,41 @@
+{
+  "id": 10,
+  "key": "spiko",
+  "type": "aurora",
+  "stage": "child",
+  "range": 3,
+  "stats": {
+    "hp": {
+      "base": 65,
+      "max": 140,
+      "increment": 8
+    },
+    "attack": {
+      "base": 75,
+      "max": 175,
+      "increment": 10
+    },
+    "defense": {
+      "base": 30,
+      "max": 95,
+      "increment": 8
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "spikan",
+    "minerals_required": 3
+  },
+  "textures": [
+    "entity/spectrobe/komainu/spiko_color_0",
+    "entity/spectrobe/komainu/spiko_color_1",
+    "entity/spectrobe/komainu/spiko_color_2"
+  ]
+}

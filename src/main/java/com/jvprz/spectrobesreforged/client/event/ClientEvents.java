@@ -1,5 +1,6 @@
 package com.jvprz.spectrobesreforged.client.event;
 
+import com.jvprz.spectrobesreforged.client.render.KrawlRenderer;
 import com.jvprz.spectrobesreforged.client.render.SpectrobeRenderer;
 import com.jvprz.spectrobesreforged.client.screen.PrizmodScreen;
 import com.jvprz.spectrobesreforged.common.registry.ModBlocks;
@@ -25,8 +26,15 @@ public class ClientEvents {
     }
 
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntities.SPECTROBE.get(),
-                context -> new SpectrobeRenderer(context));
+        event.registerEntityRenderer(
+                ModEntities.SPECTROBE.get(),
+                SpectrobeRenderer::new
+        );
+
+        event.registerEntityRenderer(
+                ModEntities.KRAWL.get(),
+                KrawlRenderer::new
+        );
     }
 
     public static void registerScreens(RegisterMenuScreensEvent event) {

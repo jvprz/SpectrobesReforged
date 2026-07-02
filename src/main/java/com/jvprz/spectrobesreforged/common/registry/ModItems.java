@@ -2,12 +2,10 @@
 package com.jvprz.spectrobesreforged.common.registry;
 
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
-import com.jvprz.spectrobesreforged.common.content.item.ChromaMineralItem;
+import com.jvprz.spectrobesreforged.common.content.item.*;
+import com.jvprz.spectrobesreforged.common.feature.krawl.KrawlRegistry;
 import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeType;
-import com.jvprz.spectrobesreforged.common.content.item.FossilItem;
 
-import com.jvprz.spectrobesreforged.common.content.item.MineralItem;
-import com.jvprz.spectrobesreforged.common.content.item.PrizmodItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
@@ -114,6 +112,38 @@ public final class ModItems {
 
     public static final DeferredItem<BlockItem> DEEPSLATE_FLASH_FOSSIL_ORE_ITEM =
             ITEMS.registerSimpleBlockItem("deepslate_flash_fossil_ore", ModBlocks.DEEPSLATE_FLASH_FOSSIL_ORE);
+
+    public static final DeferredItem<Item> C_MINERAL_ORE =
+            ITEMS.register("c_mineral_ore",
+                    () -> new BlockItem(ModBlocks.C_MINERAL_ORE.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> B_MINERAL_ORE =
+            ITEMS.register("b_mineral_ore",
+                    () -> new BlockItem(ModBlocks.B_MINERAL_ORE.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> A_MINERAL_ORE =
+            ITEMS.register("a_mineral_ore",
+                    () -> new BlockItem(ModBlocks.A_MINERAL_ORE.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> A_PLUS_MINERAL_ORE =
+            ITEMS.register("a_plus_mineral_ore",
+                    () -> new BlockItem(ModBlocks.A_PLUS_MINERAL_ORE.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> DEEPSLATE_C_MINERAL_ORE =
+            ITEMS.register("deepslate_c_mineral_ore",
+                    () -> new BlockItem(ModBlocks.DEEPSLATE_C_MINERAL_ORE.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> DEEPSLATE_B_MINERAL_ORE =
+            ITEMS.register("deepslate_b_mineral_ore",
+                    () -> new BlockItem(ModBlocks.DEEPSLATE_B_MINERAL_ORE.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> DEEPSLATE_A_MINERAL_ORE =
+            ITEMS.register("deepslate_a_mineral_ore",
+                    () -> new BlockItem(ModBlocks.DEEPSLATE_A_MINERAL_ORE.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> DEEPSLATE_A_PLUS_MINERAL_ORE =
+            ITEMS.register("deepslate_a_plus_mineral_ore",
+                    () -> new BlockItem(ModBlocks.DEEPSLATE_A_PLUS_MINERAL_ORE.get(), new Item.Properties()));
 
     public static final DeferredItem<BlockItem> INCUBATOR =
             ITEMS.registerSimpleBlockItem("incubator", ModBlocks.INCUBATOR);
@@ -469,6 +499,13 @@ public final class ModItems {
     public static final DeferredItem<Item> PINK_PRIZMOD =
             ITEMS.register("pink_prizmod",
                     () -> new PrizmodItem(new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> BLOVA_SPAWN_EGG =
+            ITEMS.register("blova_spawn_egg",
+                    () -> new KrawlSpawnEggItem(
+                            KrawlRegistry.getByKey("blova"),
+                            new Item.Properties().stacksTo(64)
+                    ));
 
     public static void register(IEventBus modEventBus) {
         ITEMS.register(modEventBus);
