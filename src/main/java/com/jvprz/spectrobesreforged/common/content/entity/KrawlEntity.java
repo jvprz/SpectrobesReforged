@@ -4,6 +4,7 @@ import com.jvprz.spectrobesreforged.common.feature.krawl.*;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -414,6 +415,11 @@ public class KrawlEntity extends PathfinderMob implements GeoEntity {
                     return PlayState.CONTINUE;
                 }
         ));
+    }
+
+    @Override
+    public SoundSource getSoundSource() {
+        return SoundSource.HOSTILE;
     }
 
     @Override

@@ -8,10 +8,10 @@ import java.util.function.Supplier;
 
 public final class KrawlSoundHelper {
 
-    private static final float DEFAULT_VOLUME = 0.85F;
-    private static final float ATTACK_VOLUME = 0.95F;
-    private static final float HURT_VOLUME = 0.9F;
-    private static final float DEATH_VOLUME = 1.0F;
+    private static final float DEFAULT_VOLUME = 0.35F;
+    private static final float ATTACK_VOLUME = 0.45F;
+    private static final float HURT_VOLUME = 0.45F;
+    private static final float DEATH_VOLUME = 0.55F;
 
     private KrawlSoundHelper() {
     }

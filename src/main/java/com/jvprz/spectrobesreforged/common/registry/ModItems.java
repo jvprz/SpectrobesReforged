@@ -514,6 +514,13 @@ public final class ModItems {
                             new Item.Properties().stacksTo(64)
                     ));
 
+    public static final DeferredItem<Item> BLOVANT_SPAWN_EGG =
+            ITEMS.register("blovant_spawn_egg",
+                    () -> new KrawlSpawnEggItem(
+                            "blovant",
+                            new Item.Properties().stacksTo(64)
+                    ));
+
     public static void register(IEventBus modEventBus) {
         ITEMS.register(modEventBus);
     }
