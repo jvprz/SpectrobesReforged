@@ -503,7 +503,14 @@ public final class ModItems {
     public static final DeferredItem<Item> BLOVA_SPAWN_EGG =
             ITEMS.register("blova_spawn_egg",
                     () -> new KrawlSpawnEggItem(
-                            KrawlRegistry.getByKey("blova"),
+                            "blova",
+                            new Item.Properties().stacksTo(64)
+                    ));
+
+    public static final DeferredItem<Item> VIBLOVA_SPAWN_EGG =
+            ITEMS.register("viblova_spawn_egg",
+                    () -> new KrawlSpawnEggItem(
+                            "viblova",
                             new Item.Properties().stacksTo(64)
                     ));
 

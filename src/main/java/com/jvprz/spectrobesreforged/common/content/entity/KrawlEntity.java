@@ -44,6 +44,9 @@ public class KrawlEntity extends PathfinderMob implements GeoEntity {
     private static final EntityDataAccessor<Float> VOICE_PITCH =
             SynchedEntityData.defineId(KrawlEntity.class, EntityDataSerializers.FLOAT);
 
+    private static final EntityDataAccessor<String> KRAWL_KEY =
+            SynchedEntityData.defineId(KrawlEntity.class, EntityDataSerializers.STRING);
+
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
     private String krawlKey;
@@ -63,6 +66,7 @@ public class KrawlEntity extends PathfinderMob implements GeoEntity {
         super.defineSynchedData(builder);
         builder.define(ATTACK_TICKS, 0);
         builder.define(VOICE_PITCH, 1.0F);
+        builder.define(KRAWL_KEY, "");
     }
 
     public int getAttackTicks() {
@@ -115,6 +119,14 @@ public class KrawlEntity extends PathfinderMob implements GeoEntity {
     }
 
     public KrawlDefinition getDefinition() {
+
+        String syncedKey = this.entityData.get(KRAWL_KEY);
+
+        if (!syncedKey.isBlank() && !syncedKey.equals(krawlKey)) {
+            krawlKey = syncedKey;
+            definition = null;
+        }
+
         if (definition == null && krawlKey != null) {
             definition = KrawlRegistry.getByKey(krawlKey);
         }
@@ -149,6 +161,7 @@ public class KrawlEntity extends PathfinderMob implements GeoEntity {
 
         this.definition = definition;
         this.krawlKey = definition.key();
+        this.entityData.set(KRAWL_KEY, definition.key());
 
         applyDefinitionStats();
         refreshDimensions();
