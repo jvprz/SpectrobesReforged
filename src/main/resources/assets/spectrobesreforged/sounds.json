@@ -8,5 +8,38 @@
     "sounds": [
       "spectrobesreforged:scanner_found"
     ]
+  },
+
+  "entity.krawl.idle": {
+    "sounds": [
+      "spectrobesreforged:entity/krawl/idle_1",
+      "spectrobesreforged:entity/krawl/idle_2",
+      "spectrobesreforged:entity/krawl/idle_3",
+      "spectrobesreforged:entity/krawl/idle_4"
+    ]
+  },
+  "entity.krawl.attack": {
+    "sounds": [
+      "spectrobesreforged:entity/krawl/attack_1",
+      "spectrobesreforged:entity/krawl/attack_2",
+      "spectrobesreforged:entity/krawl/attack_3",
+      "spectrobesreforged:entity/krawl/attack_4"
+    ]
+  },
+  "entity.krawl.hurt": {
+    "sounds": [
+      "spectrobesreforged:entity/krawl/hurt_1",
+      "spectrobesreforged:entity/krawl/hurt_2",
+      "spectrobesreforged:entity/krawl/hurt_3",
+      "spectrobesreforged:entity/krawl/hurt_4"
+    ]
+  },
+  "entity.krawl.death": {
+    "sounds": [
+      "spectrobesreforged:entity/krawl/death_1",
+      "spectrobesreforged:entity/krawl/death_2",
+      "spectrobesreforged:entity/krawl/death_3",
+      "spectrobesreforged:entity/krawl/death_4"
+    ]
   }
 }

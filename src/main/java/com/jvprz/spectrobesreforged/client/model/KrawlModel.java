@@ -29,11 +29,11 @@ public class KrawlModel extends GeoModel<KrawlEntity> {
 
     @Override
     public ResourceLocation getAnimationResource(KrawlEntity entity) {
-        String key = entity.getDefinition().key();
-
         return ResourceLocation.fromNamespaceAndPath(
                 SpectrobesReforged.MODID,
-                "animations/entity/krawl/" + key + ".animation.json"
+                "animations/entity/krawl/" +
+                        entity.getDefinition().key() +
+                        ".animation.json"
         );
     }
 }

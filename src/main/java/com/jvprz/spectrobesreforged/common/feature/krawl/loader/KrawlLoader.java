@@ -47,6 +47,16 @@ public class KrawlLoader extends SimpleJsonResourceReloadListener {
                         json.get("rank").getAsString().toUpperCase()
                 );
 
+                // Entity
+                JsonObject entityJson = json.getAsJsonObject("entity");
+
+                KrawlEntityData entity = new KrawlEntityData(
+                        entityJson.get("width").getAsFloat(),
+                        entityJson.get("height").getAsFloat(),
+                        entityJson.get("eye_height").getAsFloat()
+                );
+
+                // Stats
                 JsonObject statsJson = json.getAsJsonObject("stats");
 
                 KrawlStats stats = new KrawlStats(
@@ -59,6 +69,7 @@ public class KrawlLoader extends SimpleJsonResourceReloadListener {
                         statsJson.get("knockback_resistance").getAsDouble()
                 );
 
+                // AI
                 JsonObject aiJson = json.getAsJsonObject("ai");
 
                 KrawlAiData ai = new KrawlAiData(
@@ -70,6 +81,7 @@ public class KrawlLoader extends SimpleJsonResourceReloadListener {
                         aiJson.get("break_blocks").getAsBoolean()
                 );
 
+                // Spawn
                 JsonObject spawnJson = json.getAsJsonObject("spawn");
                 JsonObject lightJson = spawnJson.getAsJsonObject("light_level");
 
@@ -82,6 +94,7 @@ public class KrawlLoader extends SimpleJsonResourceReloadListener {
                         lightJson.get("max").getAsInt()
                 );
 
+                // Combat
                 JsonObject combatJson = json.getAsJsonObject("combat");
 
                 KrawlCombatData combat = new KrawlCombatData(
@@ -89,6 +102,7 @@ public class KrawlLoader extends SimpleJsonResourceReloadListener {
                         combatJson.get("attack_interval").getAsInt()
                 );
 
+                // Egg
                 JsonObject eggJson = json.getAsJsonObject("egg");
 
                 KrawlEggData egg = new KrawlEggData(
@@ -102,6 +116,7 @@ public class KrawlLoader extends SimpleJsonResourceReloadListener {
                         name,
                         element,
                         rank,
+                        entity,
                         stats,
                         ai,
                         spawn,
