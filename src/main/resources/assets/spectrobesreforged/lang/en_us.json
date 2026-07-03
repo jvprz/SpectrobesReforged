@@ -145,5 +145,6 @@
   "key.categories.spectrobesreforged":  "Spectrobes Reforged",
   "key.spectrobesreforged.range_scan": "Scan",
 
-  "itemGroup.spectrobes_spawn_eggs": "Spectrobes Spawn Eggs"
+  "itemGroup.spectrobes_spawn_eggs": "Spectrobes Spawn Eggs",
+  "item.spectrobesreforged.blova_spawn_egg": "Blova Spawn Egg"
 }

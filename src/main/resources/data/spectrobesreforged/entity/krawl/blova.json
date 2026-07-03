@@ -6,6 +6,12 @@
   "element": "flash",
   "rank": "basic",
 
+  "entity": {
+    "width": 1.2,
+    "height": 1.9,
+    "eye_height": 0.75
+  },
+
   "stats": {
     "hp": 20,
     "attack": 4,

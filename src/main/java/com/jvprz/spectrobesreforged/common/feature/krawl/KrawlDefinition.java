@@ -6,6 +6,7 @@ public record KrawlDefinition(
         String name,
         KrawlElement element,
         KrawlRank rank,
+        KrawlEntityData entity,
         KrawlStats stats,
         KrawlAiData ai,
         KrawlSpawnData spawn,
