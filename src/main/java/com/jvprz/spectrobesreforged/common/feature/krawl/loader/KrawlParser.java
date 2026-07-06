@@ -18,7 +18,7 @@ public final class KrawlParser {
         );
 
         KrawlTier tier = KrawlTier.valueOf(
-                json.get("tier").getAsString().toUpperCase()
+                json.get("rank").getAsString().toUpperCase()
         );
 
         JsonObject entityJson = json.getAsJsonObject("entity");

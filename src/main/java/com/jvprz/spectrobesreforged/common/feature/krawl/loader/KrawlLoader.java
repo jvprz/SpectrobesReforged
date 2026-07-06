@@ -16,9 +16,10 @@ import java.util.Map;
 public class KrawlLoader extends SimpleJsonResourceReloadListener {
 
     private static final Gson GSON = new Gson();
+    private static final String DIRECTORY = "entity/krawl";
 
     public KrawlLoader() {
-        super(GSON, "entity/krawl");
+        super(GSON, DIRECTORY);
     }
 
     @Override
@@ -33,9 +34,9 @@ public class KrawlLoader extends SimpleJsonResourceReloadListener {
 
         for (Map.Entry<ResourceLocation, JsonElement> entry : jsonMap.entrySet()) {
             ResourceLocation id = entry.getKey();
-            JsonObject json = entry.getValue().getAsJsonObject();
 
             try {
+                JsonObject json = entry.getValue().getAsJsonObject();
                 KrawlDefinition krawl = KrawlParser.parse(json);
 
                 KrawlRegistry.register(krawl);
@@ -43,7 +44,7 @@ public class KrawlLoader extends SimpleJsonResourceReloadListener {
                 SpectrobesReforged.LOGGER.info("Loaded krawl: {}", krawl.key());
 
             } catch (Exception e) {
-                SpectrobesReforged.LOGGER.error("Failed loading krawl: " + id, e);
+                SpectrobesReforged.LOGGER.error("Failed loading krawl: {}", id, e);
             }
         }
 
