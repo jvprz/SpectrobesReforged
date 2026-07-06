@@ -1,0 +1,56 @@
+{
+  "id": 3,
+  "key": "blovant",
+
+  "name": "Blovant",
+  "element": "corona",
+  "rank": "basic",
+
+  "entity": {
+    "width": 1.2,
+    "height": 1.9,
+    "eye_height": 0.75
+  },
+
+  "stats": {
+    "hp": 20,
+    "attack": 4,
+    "defense": 2,
+    "move_speed": 0.28,
+    "follow_range": 20,
+    "attack_speed": 20,
+    "knockback_resistance": 0.0
+  },
+
+  "ai": {
+    "type": "melee",
+    "aggressive": true,
+    "target_players": true,
+    "target_spectrobes": false,
+    "calls_for_help": false,
+    "break_blocks": false
+  },
+
+  "spawn": {
+    "enabled": true,
+    "weight": 40,
+    "min_group": 1,
+    "max_group": 3,
+    "light_level": {
+      "min": 0,
+      "max": 7
+    }
+  },
+
+  "combat": {
+    "damage": 4,
+    "attack_interval": 20
+  },
+
+  "drops": [],
+
+  "egg": {
+    "primary": "#A64532",
+    "secondary": "#4E6A2D"
+  }
+}

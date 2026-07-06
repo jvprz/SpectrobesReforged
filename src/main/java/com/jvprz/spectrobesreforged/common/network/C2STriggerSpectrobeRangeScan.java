@@ -2,7 +2,7 @@
 package com.jvprz.spectrobesreforged.common.network;
 
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
-import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.spectrobe.SpectrobeEntity;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.logic.SpectrobeManager;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;

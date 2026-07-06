@@ -2,8 +2,8 @@ package com.jvprz.spectrobesreforged.common.registry;
 
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.PrizmodData;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpecies;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpeciesRegistry;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeSpecies;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.registry.SpectrobeSpeciesRegistry;
 import com.jvprz.spectrobesreforged.common.network.ModSnapshotSender;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;

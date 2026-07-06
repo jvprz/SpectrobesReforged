@@ -1,8 +1,8 @@
 package com.jvprz.spectrobesreforged.common.registry;
 
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
-import com.jvprz.spectrobesreforged.common.content.entity.KrawlEntity;
-import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.krawl.KrawlEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.spectrobe.SpectrobeEntity;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;

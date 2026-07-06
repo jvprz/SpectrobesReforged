@@ -4,7 +4,7 @@ package com.jvprz.spectrobesreforged.common.registry;
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
 import com.jvprz.spectrobesreforged.common.content.block.MineralOreBlock;
 import com.jvprz.spectrobesreforged.common.feature.mineral.MineralTier;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeType;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeType;
 import com.jvprz.spectrobesreforged.common.content.block.FossilOreBlock;
 
 import com.jvprz.spectrobesreforged.common.content.block.IncubatorBlock;

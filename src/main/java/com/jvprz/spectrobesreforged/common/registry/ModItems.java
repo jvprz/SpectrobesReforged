@@ -3,8 +3,7 @@ package com.jvprz.spectrobesreforged.common.registry;
 
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
 import com.jvprz.spectrobesreforged.common.content.item.*;
-import com.jvprz.spectrobesreforged.common.feature.krawl.KrawlRegistry;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeType;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeType;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -503,7 +502,21 @@ public final class ModItems {
     public static final DeferredItem<Item> BLOVA_SPAWN_EGG =
             ITEMS.register("blova_spawn_egg",
                     () -> new KrawlSpawnEggItem(
-                            KrawlRegistry.getByKey("blova"),
+                            "blova",
+                            new Item.Properties().stacksTo(64)
+                    ));
+
+    public static final DeferredItem<Item> VIBLOVA_SPAWN_EGG =
+            ITEMS.register("viblova_spawn_egg",
+                    () -> new KrawlSpawnEggItem(
+                            "viblova",
+                            new Item.Properties().stacksTo(64)
+                    ));
+
+    public static final DeferredItem<Item> BLOVANT_SPAWN_EGG =
+            ITEMS.register("blovant_spawn_egg",
+                    () -> new KrawlSpawnEggItem(
+                            "blovant",
                             new Item.Properties().stacksTo(64)
                     ));
 

@@ -1,5 +1,7 @@
 package com.jvprz.spectrobesreforged.common.feature.krawl;
 
+import com.jvprz.spectrobesreforged.common.feature.krawl.data.KrawlDefinition;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;

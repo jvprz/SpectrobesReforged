@@ -121,6 +121,8 @@ public final class ModTabs {
                     .displayItems((parameters, output) -> {
 
                         output.accept(ModItems.BLOVA_SPAWN_EGG.get());
+                        output.accept(ModItems.VIBLOVA_SPAWN_EGG.get());
+                        output.accept(ModItems.BLOVANT_SPAWN_EGG.get());
 
                     })
                     .build());

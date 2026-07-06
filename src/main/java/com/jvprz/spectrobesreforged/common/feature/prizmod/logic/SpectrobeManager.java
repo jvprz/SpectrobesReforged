@@ -1,10 +1,11 @@
 // src/main/java/com/jvprz/spectrobesreforged/common/feature/prizmod/logic/SpectrobeManager.java
 package com.jvprz.spectrobesreforged.common.feature.prizmod.logic;
 
-import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.spectrobe.SpectrobeEntity;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpecies;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpeciesRegistry;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeSpecies;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.registry.SpectrobeSpeciesRegistry;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeStage;
 import com.jvprz.spectrobesreforged.common.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
@@ -12,7 +13,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.Vec3;
 
 public final class SpectrobeManager {
@@ -101,15 +101,15 @@ public final class SpectrobeManager {
         return null;
     }
 
-    private static com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage parseStage(String raw) {
+    private static SpectrobeStage parseStage(String raw) {
         if (raw == null || raw.isBlank()) {
-            return com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage.CHILD;
+            return SpectrobeStage.CHILD;
         }
 
         try {
-            return com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage.valueOf(raw.trim().toUpperCase(java.util.Locale.ROOT));
+            return SpectrobeStage.valueOf(raw.trim().toUpperCase(java.util.Locale.ROOT));
         } catch (Exception ignored) {
-            return com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage.CHILD;
+            return SpectrobeStage.CHILD;
         }
     }
 

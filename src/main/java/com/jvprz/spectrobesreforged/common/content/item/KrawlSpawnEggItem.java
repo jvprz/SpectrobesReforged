@@ -1,8 +1,9 @@
 package com.jvprz.spectrobesreforged.common.content.item;
 
-import com.jvprz.spectrobesreforged.common.content.entity.KrawlEntity;
-import com.jvprz.spectrobesreforged.common.factory.KrawlFactory;
-import com.jvprz.spectrobesreforged.common.feature.krawl.KrawlDefinition;
+import com.jvprz.spectrobesreforged.common.content.entity.krawl.KrawlEntity;
+import com.jvprz.spectrobesreforged.common.feature.krawl.factory.KrawlFactory;
+import com.jvprz.spectrobesreforged.common.feature.krawl.KrawlRegistry;
+import com.jvprz.spectrobesreforged.common.feature.krawl.data.KrawlDefinition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
@@ -11,18 +12,23 @@ import net.minecraft.world.item.context.UseOnContext;
 
 public class KrawlSpawnEggItem extends Item {
 
-    private final KrawlDefinition definition;
+    private final String krawlKey;
 
-    public KrawlSpawnEggItem(KrawlDefinition definition, Properties properties) {
+    public KrawlSpawnEggItem(String krawlKey, Properties properties) {
         super(properties);
-        this.definition = definition;
+        this.krawlKey = krawlKey;
     }
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
-
         if (!(context.getLevel() instanceof ServerLevel level)) {
             return InteractionResult.SUCCESS;
+        }
+
+        KrawlDefinition definition = KrawlRegistry.getByKey(krawlKey);
+
+        if (definition == null) {
+            return InteractionResult.FAIL;
         }
 
         BlockPos pos = context.getClickedPos().relative(context.getClickedFace());

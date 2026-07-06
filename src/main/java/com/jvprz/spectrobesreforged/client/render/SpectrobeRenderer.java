@@ -1,7 +1,7 @@
 package com.jvprz.spectrobesreforged.client.render;
 
 import com.jvprz.spectrobesreforged.client.model.SpectrobeModel;
-import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.spectrobe.SpectrobeEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

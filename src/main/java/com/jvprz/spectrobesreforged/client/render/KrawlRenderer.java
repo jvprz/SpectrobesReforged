@@ -1,7 +1,7 @@
 package com.jvprz.spectrobesreforged.client.render;
 
 import com.jvprz.spectrobesreforged.client.model.KrawlModel;
-import com.jvprz.spectrobesreforged.common.content.entity.KrawlEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.krawl.KrawlEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
