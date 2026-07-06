@@ -2,6 +2,9 @@ package com.jvprz.spectrobesreforged;
 
 import com.jvprz.spectrobesreforged.client.event.ClientEvents;
 import com.jvprz.spectrobesreforged.common.event.CommonEvents;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.guard.ModSpectrobeFollowGuard;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.guard.ModSpectrobePortalGuard;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.spawn.ModSpectrobeAutoSpawn;
 import com.jvprz.spectrobesreforged.common.registry.*;
 import com.mojang.logging.LogUtils;
 import net.neoforged.bus.api.IEventBus;

@@ -1,11 +1,10 @@
 package com.jvprz.spectrobesreforged.common.content.item;
 
-import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.spectrobe.SpectrobeEntity;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.PrizmodData;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpecies;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpeciesRegistry;
-import com.jvprz.spectrobesreforged.common.network.ModSnapshotSender;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeSpecies;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.registry.SpectrobeSpeciesRegistry;
 import com.jvprz.spectrobesreforged.common.registry.ModAttachments;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.particles.ItemParticleOption;

@@ -1,9 +1,9 @@
 package com.jvprz.spectrobesreforged.common.content.item;
 
-import com.jvprz.spectrobesreforged.common.content.entity.KrawlEntity;
-import com.jvprz.spectrobesreforged.common.factory.KrawlFactory;
-import com.jvprz.spectrobesreforged.common.feature.krawl.KrawlDefinition;
+import com.jvprz.spectrobesreforged.common.content.entity.krawl.KrawlEntity;
+import com.jvprz.spectrobesreforged.common.feature.krawl.factory.KrawlFactory;
 import com.jvprz.spectrobesreforged.common.feature.krawl.KrawlRegistry;
+import com.jvprz.spectrobesreforged.common.feature.krawl.data.KrawlDefinition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;

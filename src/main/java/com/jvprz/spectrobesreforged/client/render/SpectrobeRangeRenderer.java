@@ -1,9 +1,9 @@
 package com.jvprz.spectrobesreforged.client.render;
 
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
-import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpecies;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeSpeciesRegistry;
+import com.jvprz.spectrobesreforged.common.content.entity.spectrobe.SpectrobeEntity;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeSpecies;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.registry.SpectrobeSpeciesRegistry;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;

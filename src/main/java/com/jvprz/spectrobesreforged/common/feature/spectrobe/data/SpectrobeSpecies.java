@@ -1,4 +1,4 @@
-package com.jvprz.spectrobesreforged.common.feature.spectrobe;
+package com.jvprz.spectrobesreforged.common.feature.spectrobe.data;
 
 import java.util.ArrayList;
 import java.util.List;

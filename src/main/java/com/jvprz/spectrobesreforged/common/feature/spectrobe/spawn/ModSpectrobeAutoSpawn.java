@@ -1,10 +1,11 @@
-package com.jvprz.spectrobesreforged.common.registry;
+package com.jvprz.spectrobesreforged.common.feature.spectrobe.spawn;
 
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.PrizmodData;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.logic.SpectrobeManager;
 
 import com.jvprz.spectrobesreforged.common.network.ModSnapshotSender;
+import com.jvprz.spectrobesreforged.common.registry.ModAttachments;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerRespawnEvent;

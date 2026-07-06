@@ -1,6 +1,6 @@
-package com.jvprz.spectrobesreforged.common.feature.krawl;
+package com.jvprz.spectrobesreforged.common.feature.krawl.sound;
 
-import com.jvprz.spectrobesreforged.common.content.entity.KrawlEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.krawl.KrawlEntity;
 import com.jvprz.spectrobesreforged.common.registry.ModSounds;
 import net.minecraft.sounds.SoundEvent;
 

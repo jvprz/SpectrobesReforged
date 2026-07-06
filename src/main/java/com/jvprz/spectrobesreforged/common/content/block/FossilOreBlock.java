@@ -1,6 +1,6 @@
 package com.jvprz.spectrobesreforged.common.content.block;
 
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeType;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeType;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;

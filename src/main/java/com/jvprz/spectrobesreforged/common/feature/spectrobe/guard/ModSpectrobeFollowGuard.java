@@ -1,8 +1,9 @@
-package com.jvprz.spectrobesreforged.common.registry;
+package com.jvprz.spectrobesreforged.common.feature.spectrobe.guard;
 
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.PrizmodData;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.logic.SpectrobeManager;
+import com.jvprz.spectrobesreforged.common.registry.ModAttachments;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
 import net.minecraft.server.level.ServerPlayer;
 

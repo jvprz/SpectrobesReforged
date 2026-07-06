@@ -1,4 +1,6 @@
-package com.jvprz.spectrobesreforged.common.feature.spectrobe;
+package com.jvprz.spectrobesreforged.common.feature.spectrobe.registry;
+
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeSpecies;
 
 import java.util.Collection;
 import java.util.HashMap;

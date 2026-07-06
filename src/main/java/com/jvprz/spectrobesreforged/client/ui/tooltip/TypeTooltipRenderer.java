@@ -1,6 +1,6 @@
 package com.jvprz.spectrobesreforged.client.ui.tooltip;
 
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeType;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeType;
 import com.jvprz.spectrobesreforged.common.ui.tooltip.TypeTooltipComponent;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;

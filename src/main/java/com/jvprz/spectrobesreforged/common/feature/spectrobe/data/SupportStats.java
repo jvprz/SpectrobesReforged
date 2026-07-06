@@ -1,4 +1,4 @@
-package com.jvprz.spectrobesreforged.common.feature.spectrobe;
+package com.jvprz.spectrobesreforged.common.feature.spectrobe.data;
 
 public final class SupportStats {
 

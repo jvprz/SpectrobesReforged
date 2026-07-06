@@ -1,11 +1,11 @@
-package com.jvprz.spectrobesreforged.common.feature.krawl;
+package com.jvprz.spectrobesreforged.common.feature.krawl.data;
 
 public record KrawlDefinition(
         int id,
         String key,
         String name,
         KrawlElement element,
-        KrawlRank rank,
+        KrawlTier rank,
         KrawlEntityData entity,
         KrawlStats stats,
         KrawlAiData ai,

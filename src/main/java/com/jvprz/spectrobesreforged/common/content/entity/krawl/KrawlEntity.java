@@ -1,6 +1,10 @@
-package com.jvprz.spectrobesreforged.common.content.entity;
+package com.jvprz.spectrobesreforged.common.content.entity.krawl;
 
 import com.jvprz.spectrobesreforged.common.feature.krawl.*;
+import com.jvprz.spectrobesreforged.common.feature.krawl.ai.KrawlMeleeAttackGoal;
+import com.jvprz.spectrobesreforged.common.feature.krawl.data.KrawlDefinition;
+import com.jvprz.spectrobesreforged.common.feature.krawl.data.KrawlStats;
+import com.jvprz.spectrobesreforged.common.feature.krawl.sound.KrawlSoundHelper;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;

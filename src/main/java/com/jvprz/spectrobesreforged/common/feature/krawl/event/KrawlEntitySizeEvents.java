@@ -1,7 +1,9 @@
-package com.jvprz.spectrobesreforged.common.feature.krawl;
+package com.jvprz.spectrobesreforged.common.feature.krawl.event;
 
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
-import com.jvprz.spectrobesreforged.common.content.entity.KrawlEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.krawl.KrawlEntity;
+import com.jvprz.spectrobesreforged.common.feature.krawl.data.KrawlEntityData;
+import com.jvprz.spectrobesreforged.common.feature.krawl.data.KrawlDefinition;
 import net.minecraft.world.entity.EntityDimensions;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

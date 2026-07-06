@@ -1,6 +1,6 @@
-package com.jvprz.spectrobesreforged.common.feature.krawl;
+package com.jvprz.spectrobesreforged.common.feature.krawl.ai;
 
-import com.jvprz.spectrobesreforged.common.content.entity.KrawlEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.krawl.KrawlEntity;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;

@@ -1,6 +1,6 @@
-package com.jvprz.spectrobesreforged.common.content.entity;
+package com.jvprz.spectrobesreforged.common.content.entity.spectrobe;
 
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeStage;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeStage;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;

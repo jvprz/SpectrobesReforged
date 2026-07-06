@@ -1,7 +1,7 @@
 // src/main/java/com/jvprz/spectrobesreforged/common/event/SpectrobeDamageEvents.java
 package com.jvprz.spectrobesreforged.common.event;
 
-import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.spectrobe.SpectrobeEntity;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.PrizmodData;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
 import com.jvprz.spectrobesreforged.common.network.ModSnapshotSender;

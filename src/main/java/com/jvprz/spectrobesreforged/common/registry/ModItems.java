@@ -3,8 +3,7 @@ package com.jvprz.spectrobesreforged.common.registry;
 
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
 import com.jvprz.spectrobesreforged.common.content.item.*;
-import com.jvprz.spectrobesreforged.common.feature.krawl.KrawlRegistry;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.SpectrobeType;
+import com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeType;
 
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;

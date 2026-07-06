@@ -1,6 +1,6 @@
-package com.jvprz.spectrobesreforged.common.registry;
+package com.jvprz.spectrobesreforged.common.feature.spectrobe.guard;
 
-import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.spectrobe.SpectrobeEntity;
 import net.neoforged.neoforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraft.world.entity.Entity;
 

@@ -1,11 +1,11 @@
 ==========================================
 ESTRUCTURA DEL DIRECTORIO
-Fecha: 06/07/2026 16:05:03,36
+Fecha: 06/07/2026 16:38:34,19
 Ruta: C:\Users\javie\Documents\Github\SpectrobesReforged
 ==========================================
 
 Listado de rutas de carpetas
-El número de serie del volumen es 000000CD 0415:578F
+El número de serie del volumen es 00000003 0415:578F
 C:.
 |   .gitattributes
 |   .gitignore
@@ -21089,9 +21089,12 @@ C:.
         |                   |   |       MineralOreBlock.java
         |                   |   |       
         |                   |   +---entity
-        |                   |   |       KrawlEntity.java
-        |                   |   |       SpectrobeEntity.java
-        |                   |   |       
+        |                   |   |   +---krawl
+        |                   |   |   |       KrawlEntity.java
+        |                   |   |   |       
+        |                   |   |   \---spectrobe
+        |                   |   |           SpectrobeEntity.java
+        |                   |   |           
         |                   |   \---item
         |                   |           ChromaMineralItem.java
         |                   |           FossilItem.java
@@ -21104,27 +21107,36 @@ C:.
         |                   |       SpectrobeCombatEvents.java
         |                   |       SpectrobeDamageEvents.java
         |                   |       
-        |                   +---factory
-        |                   |       KrawlFactory.java
-        |                   |       
         |                   +---feature
         |                   |   +---krawl
-        |                   |   |   |   KrawlAiData.java
-        |                   |   |   |   KrawlCombatData.java
-        |                   |   |   |   KrawlDefinition.java
-        |                   |   |   |   KrawlEggData.java
-        |                   |   |   |   KrawlElement.java
-        |                   |   |   |   KrawlEntityData.java
-        |                   |   |   |   KrawlEntitySizeEvents.java
-        |                   |   |   |   KrawlMeleeAttackGoal.java
-        |                   |   |   |   KrawlRank.java
         |                   |   |   |   KrawlRegistry.java
-        |                   |   |   |   KrawlSoundHelper.java
-        |                   |   |   |   KrawlSpawnData.java
-        |                   |   |   |   KrawlStats.java
         |                   |   |   |   
-        |                   |   |   \---loader
-        |                   |   |           KrawlLoader.java
+        |                   |   |   +---ai
+        |                   |   |   |       KrawlMeleeAttackGoal.java
+        |                   |   |   |       
+        |                   |   |   +---data
+        |                   |   |   |       KrawlAiData.java
+        |                   |   |   |       KrawlCombatData.java
+        |                   |   |   |       KrawlDefinition.java
+        |                   |   |   |       KrawlEggData.java
+        |                   |   |   |       KrawlElement.java
+        |                   |   |   |       KrawlEntityData.java
+        |                   |   |   |       KrawlSpawnData.java
+        |                   |   |   |       KrawlStats.java
+        |                   |   |   |       KrawlTier.java
+        |                   |   |   |       
+        |                   |   |   +---event
+        |                   |   |   |       KrawlEntitySizeEvents.java
+        |                   |   |   |       
+        |                   |   |   +---factory
+        |                   |   |   |       KrawlFactory.java
+        |                   |   |   |       
+        |                   |   |   +---loader
+        |                   |   |   |       KrawlLoader.java
+        |                   |   |   |       KrawlParser.java
+        |                   |   |   |       
+        |                   |   |   \---sound
+        |                   |   |           KrawlSoundHelper.java
         |                   |   |           
         |                   |   +---mineral
         |                   |   |       MineralTier.java
@@ -21143,16 +21155,26 @@ C:.
         |                   |   |           PrizmodMenuProvider.java
         |                   |   |           
         |                   |   \---spectrobe
-        |                   |       |   SpectrobeSpecies.java
-        |                   |       |   SpectrobeSpeciesRegistry.java
-        |                   |       |   SpectrobeStage.java
-        |                   |       |   SpectrobeStats.java
-        |                   |       |   SpectrobeType.java
-        |                   |       |   StatGrowth.java
-        |                   |       |   SupportStats.java
-        |                   |       |   
-        |                   |       \---loader
-        |                   |               SpectrobeSpeciesLoader.java
+        |                   |       +---data
+        |                   |       |       SpectrobeSpecies.java
+        |                   |       |       SpectrobeStage.java
+        |                   |       |       SpectrobeStats.java
+        |                   |       |       SpectrobeType.java
+        |                   |       |       StatGrowth.java
+        |                   |       |       SupportStats.java
+        |                   |       |       
+        |                   |       +---guard
+        |                   |       |       ModSpectrobeFollowGuard.java
+        |                   |       |       ModSpectrobePortalGuard.java
+        |                   |       |       
+        |                   |       +---loader
+        |                   |       |       SpectrobeSpeciesLoader.java
+        |                   |       |       
+        |                   |       +---registry
+        |                   |       |       SpectrobeSpeciesRegistry.java
+        |                   |       |       
+        |                   |       \---spawn
+        |                   |               ModSpectrobeAutoSpawn.java
         |                   |               
         |                   +---network
         |                   |       C2SMoveSpectrobe.java
@@ -21170,9 +21192,6 @@ C:.
         |                   |       ModItems.java
         |                   |       ModMenus.java
         |                   |       ModSounds.java
-        |                   |       ModSpectrobeAutoSpawn.java
-        |                   |       ModSpectrobeFollowGuard.java
-        |                   |       ModSpectrobePortalGuard.java
         |                   |       ModTabs.java
         |                   |       
         |                   \---ui

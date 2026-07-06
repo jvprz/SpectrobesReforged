@@ -1,7 +1,7 @@
 package com.jvprz.spectrobesreforged.common.event;
 
-import com.jvprz.spectrobesreforged.common.content.entity.KrawlEntity;
-import com.jvprz.spectrobesreforged.common.content.entity.SpectrobeEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.krawl.KrawlEntity;
+import com.jvprz.spectrobesreforged.common.content.entity.spectrobe.SpectrobeEntity;
 import com.jvprz.spectrobesreforged.common.feature.krawl.loader.KrawlLoader;
 import com.jvprz.spectrobesreforged.common.feature.spectrobe.loader.SpectrobeSpeciesLoader;
 import com.jvprz.spectrobesreforged.common.registry.ModEntities;
