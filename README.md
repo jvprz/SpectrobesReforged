@@ -1,4 +1,6 @@
-# Spectrobes Reforged
+<p align="center">
+  <img src="title.png" alt="Spectrobes Reforged" width="700">
+</p>
 
 > A complete reimagining of the Spectrobes universe inside Minecraft.
 
