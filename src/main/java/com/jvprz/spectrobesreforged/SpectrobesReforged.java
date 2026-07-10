@@ -24,6 +24,7 @@ public class SpectrobesReforged {
         // Registries
         ModEntities.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
         ModItems.register(modEventBus);
         ModTabs.register(modEventBus);
         ModAttachments.register(modEventBus);

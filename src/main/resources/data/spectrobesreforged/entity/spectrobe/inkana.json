@@ -1,0 +1,41 @@
+{
+  "id": 16,
+  "key": "inkana",
+  "type": "corona",
+  "stage": "child",
+  "range": 3,
+  "stats": {
+    "hp": {
+      "base": 40,
+      "max": 75,
+      "increment": 5
+    },
+    "attack": {
+      "base": 70,
+      "max": 125,
+      "increment": 7
+    },
+    "defense": {
+      "base": 95,
+      "max": 175,
+      "increment": 10
+    },
+    "move_speed": 3,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "inkanapa",
+    "minerals_required": 4
+  },
+  "textures": [
+    "entity/spectrobe/inkana/inkana_color_0",
+    "entity/spectrobe/inkana/inkana_color_1",
+    "entity/spectrobe/inkana/inkana_color_2"
+  ]
+}

@@ -158,6 +158,9 @@ public final class ModBlocks {
                             .mapColor(MapColor.METAL)
                             .strength(2.0F)
                             .sound(SoundType.METAL)
+                            .lightLevel(state ->
+                                    state.getValue(IncubatorBlock.POWERED) ? 12 : 0
+                            )
                             .noOcclusion()
                     )
             );

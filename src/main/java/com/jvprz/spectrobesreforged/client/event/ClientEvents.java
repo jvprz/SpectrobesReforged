@@ -2,6 +2,7 @@ package com.jvprz.spectrobesreforged.client.event;
 
 import com.jvprz.spectrobesreforged.client.render.KrawlRenderer;
 import com.jvprz.spectrobesreforged.client.render.SpectrobeRenderer;
+import com.jvprz.spectrobesreforged.client.screen.IncubatorScreen;
 import com.jvprz.spectrobesreforged.client.screen.PrizmodScreen;
 import com.jvprz.spectrobesreforged.common.registry.ModBlocks;
 import com.jvprz.spectrobesreforged.common.registry.ModEntities;
@@ -39,5 +40,6 @@ public class ClientEvents {
 
     public static void registerScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenus.PRIZMOD_MENU.get(), PrizmodScreen::new);
+        event.register(ModMenus.INCUBATOR_MENU.get(), IncubatorScreen::new);
     }
 }

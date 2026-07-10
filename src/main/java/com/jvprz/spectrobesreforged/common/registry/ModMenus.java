@@ -1,6 +1,7 @@
 package com.jvprz.spectrobesreforged.common.registry;
 
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
+import com.jvprz.spectrobesreforged.common.feature.incubator.menu.IncubatorMenu;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.menu.PrizmodMenu;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
@@ -17,6 +18,11 @@ public final class ModMenus {
     public static final DeferredHolder<MenuType<?>, MenuType<PrizmodMenu>> PRIZMOD_MENU =
             MENUS.register("prizmod_menu",
                     () -> new MenuType<>(PrizmodMenu::new, FeatureFlags.DEFAULT_FLAGS)
+            );
+
+    public static final DeferredHolder<MenuType<?>, MenuType<IncubatorMenu>> INCUBATOR_MENU =
+            MENUS.register("incubator_menu",
+                    () -> new MenuType<>(IncubatorMenu::new, FeatureFlags.DEFAULT_FLAGS)
             );
 
     public static void register(IEventBus bus) {

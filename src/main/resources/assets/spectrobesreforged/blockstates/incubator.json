@@ -1,13 +1,71 @@
 {
   "variants": {
-    "facing=north,part=foot": { "model": "spectrobesreforged:block/incubator_foot", "y": 180 },
-    "facing=south,part=foot": { "model": "spectrobesreforged:block/incubator_foot" },
-    "facing=west,part=foot":  { "model": "spectrobesreforged:block/incubator_foot", "y": 90 },
-    "facing=east,part=foot":  { "model": "spectrobesreforged:block/incubator_foot", "y": 270 },
+    "facing=north,part=foot,powered=false": {
+      "model": "spectrobesreforged:block/incubator_foot",
+      "y": 180
+    },
+    "facing=north,part=foot,powered=true": {
+      "model": "spectrobesreforged:block/incubator_foot_on",
+      "y": 180
+    },
 
-    "facing=north,part=head": { "model": "spectrobesreforged:block/incubator_head", "y": 180 },
-    "facing=south,part=head": { "model": "spectrobesreforged:block/incubator_head" },
-    "facing=west,part=head":  { "model": "spectrobesreforged:block/incubator_head", "y": 90 },
-    "facing=east,part=head":  { "model": "spectrobesreforged:block/incubator_head", "y": 270 }
+    "facing=south,part=foot,powered=false": {
+      "model": "spectrobesreforged:block/incubator_foot"
+    },
+    "facing=south,part=foot,powered=true": {
+      "model": "spectrobesreforged:block/incubator_foot_on"
+    },
+
+    "facing=west,part=foot,powered=false": {
+      "model": "spectrobesreforged:block/incubator_foot",
+      "y": 90
+    },
+    "facing=west,part=foot,powered=true": {
+      "model": "spectrobesreforged:block/incubator_foot_on",
+      "y": 90
+    },
+
+    "facing=east,part=foot,powered=false": {
+      "model": "spectrobesreforged:block/incubator_foot",
+      "y": 270
+    },
+    "facing=east,part=foot,powered=true": {
+      "model": "spectrobesreforged:block/incubator_foot_on",
+      "y": 270
+    },
+
+    "facing=north,part=head,powered=false": {
+      "model": "spectrobesreforged:block/incubator_head",
+      "y": 180
+    },
+    "facing=north,part=head,powered=true": {
+      "model": "spectrobesreforged:block/incubator_head_on",
+      "y": 180
+    },
+
+    "facing=south,part=head,powered=false": {
+      "model": "spectrobesreforged:block/incubator_head"
+    },
+    "facing=south,part=head,powered=true": {
+      "model": "spectrobesreforged:block/incubator_head_on"
+    },
+
+    "facing=west,part=head,powered=false": {
+      "model": "spectrobesreforged:block/incubator_head",
+      "y": 90
+    },
+    "facing=west,part=head,powered=true": {
+      "model": "spectrobesreforged:block/incubator_head_on",
+      "y": 90
+    },
+
+    "facing=east,part=head,powered=false": {
+      "model": "spectrobesreforged:block/incubator_head",
+      "y": 270
+    },
+    "facing=east,part=head,powered=true": {
+      "model": "spectrobesreforged:block/incubator_head_on",
+      "y": 270
+    }
   }
 }

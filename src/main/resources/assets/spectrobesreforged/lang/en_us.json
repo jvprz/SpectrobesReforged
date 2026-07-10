@@ -136,11 +136,19 @@
   "item.spectrobesreforged.purple_prizmod": "Purple Prizmod",
   "item.spectrobesreforged.magenta_prizmod": "Magenta Prizmod",
   "item.spectrobesreforged.pink_prizmod": "Pink Prizmod",
+
   "block.spectrobesreforged.incubator": "Incubator",
+  "container.spectrobesreforged.incubator": "Incubator",
+  "message.spectrobesreforged.incubator.no_energy": "The incubator has no power.",
+  "message.spectrobesreforged.incubator.start_test": "Awakening sequence started.",
+  "message.spectrobesreforged.incubator.awakened": "%s awakened with color variant %s and was added to your Prizmod.",
+  "message.spectrobesreforged.incubator.invalid_fossil": "The fossil could not be awakened because its species data is missing.",
 
   "spectrobesreforged.spectrobe.spiko": "Spiko",
   "spectrobesreforged.spectrobe.komainu": "Komainu",
   "spectrobesreforged.spectrobe.shakin": "Shakin",
+  "spectrobesreforged.spectrobe.segu": "Segu",
+  "spectrobesreforged.spectrobe.inkana": "Inkana",
 
   "key.categories.spectrobesreforged":  "Spectrobes Reforged",
   "key.spectrobesreforged.range_scan": "Scan",

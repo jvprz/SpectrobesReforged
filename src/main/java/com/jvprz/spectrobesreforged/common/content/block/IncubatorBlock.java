@@ -1,14 +1,24 @@
 package com.jvprz.spectrobesreforged.common.content.block;
 
+import com.jvprz.spectrobesreforged.common.registry.ModBlockEntities;
 import com.mojang.serialization.MapCodec;
+import com.jvprz.spectrobesreforged.common.content.block.entity.IncubatorBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.Containers;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.EntityBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.Mirror;
@@ -16,17 +26,70 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BedPart;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public class IncubatorBlock extends HorizontalDirectionalBlock {
+public class IncubatorBlock extends HorizontalDirectionalBlock implements EntityBlock {
 
     public static final MapCodec<IncubatorBlock> CODEC = simpleCodec(IncubatorBlock::new);
 
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final EnumProperty<BedPart> PART = BlockStateProperties.BED_PART;
+    public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
+
+    private BlockPos getFootPos(BlockPos pos, BlockState state) {
+        if (state.getValue(PART) == BedPart.FOOT) {
+            return pos;
+        }
+
+        Direction left = state.getValue(FACING).getCounterClockWise();
+        return pos.relative(left.getOpposite());
+    }
+
+    private BlockPos getHeadPos(BlockPos footPos, BlockState state) {
+        Direction left = state.getValue(FACING).getCounterClockWise();
+        return footPos.relative(left);
+    }
+
+    private void updatePoweredState(Level level, BlockPos pos, BlockState state) {
+        if (level.isClientSide) {
+            return;
+        }
+
+        BlockPos footPos = getFootPos(pos, state);
+        BlockPos headPos = getHeadPos(footPos, state);
+
+        BlockState footState = level.getBlockState(footPos);
+        BlockState headState = level.getBlockState(headPos);
+
+        if (!footState.is(this)) {
+            return;
+        }
+
+        boolean powered =
+                level.hasNeighborSignal(footPos)
+                        || level.hasNeighborSignal(headPos);
+
+        if (footState.getValue(POWERED) != powered) {
+            level.setBlock(
+                    footPos,
+                    footState.setValue(POWERED, powered),
+                    Block.UPDATE_ALL
+            );
+        }
+
+        if (headState.is(this) && headState.getValue(POWERED) != powered) {
+            level.setBlock(
+                    headPos,
+                    headState.setValue(POWERED, powered),
+                    Block.UPDATE_ALL
+            );
+        }
+    }
 
     @Override
     protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
@@ -37,7 +100,18 @@ public class IncubatorBlock extends HorizontalDirectionalBlock {
         super(props);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(FACING, Direction.NORTH)
-                .setValue(PART, BedPart.FOOT));
+                .setValue(PART, BedPart.FOOT)
+                .setValue(POWERED, false));
+    }
+
+    @Override
+    @Nullable
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        if (state.getValue(PART) == BedPart.HEAD) {
+            return null;
+        }
+
+        return new IncubatorBlockEntity(pos, state);
     }
 
     @Override
@@ -61,6 +135,28 @@ public class IncubatorBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
+    protected void onRemove(
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            BlockState newState,
+            boolean movedByPiston
+    ) {
+        if (!state.is(newState.getBlock())
+                && state.getValue(PART) == BedPart.FOOT) {
+
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+
+            if (blockEntity instanceof IncubatorBlockEntity incubator) {
+                Containers.dropContents(level, pos, incubator);
+                level.updateNeighbourForOutputSignal(pos, this);
+            }
+        }
+
+        super.onRemove(state, level, pos, newState, movedByPiston);
+    }
+
+    @Override
     public void setPlacedBy(Level level, BlockPos pos, BlockState state,
                             @Nullable net.minecraft.world.entity.LivingEntity placer,
                             ItemStack stack) {
@@ -73,9 +169,12 @@ public class IncubatorBlock extends HorizontalDirectionalBlock {
         Direction left = playerFacing.getCounterClockWise();
 
         BlockPos headPos = pos.relative(left);
-        BlockState headState = state.setValue(PART, BedPart.HEAD);
+        BlockState headState = state
+                .setValue(PART, BedPart.HEAD)
+                .setValue(POWERED, false);
 
         level.setBlock(headPos, headState, Block.UPDATE_ALL);
+        updatePoweredState(level, pos, state);
     }
 
     @Override
@@ -95,6 +194,27 @@ public class IncubatorBlock extends HorizontalDirectionalBlock {
         }
 
         return super.updateShape(state, dir, neighbor, level, pos, neighborPos);
+    }
+
+    @Override
+    protected void neighborChanged(
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Block neighborBlock,
+            BlockPos neighborPos,
+            boolean movedByPiston
+    ) {
+        super.neighborChanged(
+                state,
+                level,
+                pos,
+                neighborBlock,
+                neighborPos,
+                movedByPiston
+        );
+
+        updatePoweredState(level, pos, state);
     }
 
     @Override
@@ -131,7 +251,7 @@ public class IncubatorBlock extends HorizontalDirectionalBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> b) {
-        b.add(FACING, PART);
+        b.add(FACING, PART, POWERED);
     }
 
     @Override
@@ -142,5 +262,71 @@ public class IncubatorBlock extends HorizontalDirectionalBlock {
     @Override
     public BlockState mirror(BlockState state, Mirror mirror) {
         return rotate(state, mirror.getRotation(state.getValue(FACING)));
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(
+            BlockState state,
+            Level level,
+            BlockPos pos,
+            Player player,
+            BlockHitResult hitResult
+    ) {
+        if (level.isClientSide) {
+            return InteractionResult.SUCCESS;
+        }
+
+        BlockPos footPos = getFootPos(pos, state);
+        BlockState footState = level.getBlockState(footPos);
+
+        boolean powered =
+                footState.is(this)
+                        && footState.getValue(POWERED);
+
+        if (!powered) {
+            player.displayClientMessage(
+                    Component.translatable(
+                            "message.spectrobesreforged.incubator.no_energy"
+                    ),
+                    false
+            );
+
+            return InteractionResult.CONSUME;
+        }
+
+        BlockEntity blockEntity = level.getBlockEntity(footPos);
+
+        if (blockEntity instanceof IncubatorBlockEntity incubator
+                && player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.openMenu(incubator);
+            return InteractionResult.CONSUME;
+        }
+
+        return InteractionResult.PASS;
+    }
+
+    @Override
+    @Nullable
+    @SuppressWarnings("unchecked")
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
+            Level level,
+            BlockState state,
+            BlockEntityType<T> blockEntityType
+    ) {
+        if (level.isClientSide) {
+            return null;
+        }
+
+        if (state.getValue(PART) != BedPart.FOOT) {
+            return null;
+        }
+
+        if (blockEntityType != ModBlockEntities.INCUBATOR.get()) {
+            return null;
+        }
+
+        return (BlockEntityTicker<T>) (
+                BlockEntityTicker<IncubatorBlockEntity>
+                ) IncubatorBlockEntity::tick;
     }
 }

@@ -1,0 +1,41 @@
+{
+  "id": 4,
+  "key": "segu",
+  "type": "aurora",
+  "stage": "child",
+  "range": 4,
+  "stats": {
+    "hp": {
+      "base": 50,
+      "max": 50,
+      "increment": 4
+    },
+    "attack": {
+      "base": 50,
+      "max": 100,
+      "increment": 5
+    },
+    "defense": {
+      "base": 90,
+      "max": 160,
+      "increment": 8
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "segulos",
+    "minerals_required": 3
+  },
+  "textures": [
+    "entity/spectrobe/segu/segu_color_0",
+    "entity/spectrobe/segu/segu_color_1",
+    "entity/spectrobe/segu/segu_color_2"
+  ]
+}
