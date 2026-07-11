@@ -141,7 +141,7 @@
   "container.spectrobesreforged.incubator": "Incubator",
   "message.spectrobesreforged.incubator.no_energy": "The incubator has no power.",
   "message.spectrobesreforged.incubator.start_test": "Awakening sequence started.",
-  "message.spectrobesreforged.incubator.awakened": "%s awakened with color variant %s and was added to your Prizmod.",
+  "message.spectrobesreforged.incubator.awakened": "%s awakened was added to your Prizmod.",
   "message.spectrobesreforged.incubator.invalid_fossil": "The fossil could not be awakened because its species data is missing.",
 
   "spectrobesreforged.spectrobe.spiko": "Spiko",
