@@ -57,8 +57,8 @@ public class IncubatorMenu extends AbstractContainerMenu {
         this.addSlot(new Slot(
                 incubatorContainer,
                 0,
-                80,
-                58
+                93,
+                39
         ) {
             @Override
             public boolean mayPickup(Player player) {
