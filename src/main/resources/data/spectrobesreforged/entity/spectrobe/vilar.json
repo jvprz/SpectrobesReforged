@@ -1,0 +1,41 @@
+{
+  "id": 1,
+  "key": "vilar",
+  "type": "corona",
+  "stage": "child",
+  "range": 4,
+  "stats": {
+    "hp": {
+      "base": 70,
+      "max": 125,
+      "increment": 8
+    },
+    "attack": {
+      "base": 60,
+      "max": 115,
+      "increment": 8
+    },
+    "defense": {
+      "base": 100,
+      "max": 180,
+      "increment": 10
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "vilamasta",
+    "minerals_required": 7
+  },
+  "textures": [
+    "entity/spectrobe/vilar/vilar_color_0",
+    "entity/spectrobe/vilar/vilar_color_1",
+    "entity/spectrobe/vilar/vilar_color_2"
+  ]
+}
