@@ -35,8 +35,8 @@ public class IncubatorScreen extends AbstractContainerScreen<IncubatorMenu> {
             );
 
     // Botón START
-    private static final int START_BUTTON_X = 48;
-    private static final int START_BUTTON_Y = 102;
+    private static final int START_BUTTON_X = 61;
+    private static final int START_BUTTON_Y = 85;
     private static final int START_BUTTON_WIDTH = 80;
     private static final int START_BUTTON_HEIGHT = 20;
 
@@ -48,15 +48,15 @@ public class IncubatorScreen extends AbstractContainerScreen<IncubatorMenu> {
     private static final int START_BUTTON_TEXTURE_HEIGHT = 60;
 
     // Barra de progreso
-    private static final int PROGRESS_X = 8;
+    private static final int PROGRESS_X = 15;
     private static final int PROGRESS_Y = 51;
     private static final int PROGRESS_WIDTH = 8;
     private static final int PROGRESS_HEIGHT = 60;
     private static final int MAX_PROGRESS = 200;
 
     // Indicador de frecuencia
-    private static final int LEDS_X = 40;
-    private static final int LEDS_Y = 82;
+    private static final int LEDS_X = 53;
+    private static final int LEDS_Y = 73;
 
     private static final int LED_WIDTH = 6;
     private static final int LED_HEIGHT = 12;
