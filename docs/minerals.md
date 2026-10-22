@@ -98,7 +98,7 @@ The default biome modifier adds the four named mineral features above. Deepslate
 
 ## Crafting recipes
 
-The following are the **six bundled recipes**, all shapeless and producing one item:
+The following are the **six mineral-combination recipes**, all shapeless and producing one item:
 
 <!-- BEGIN AUTO:RECIPES -->
 
@@ -113,4 +113,4 @@ The following are the **six bundled recipes**, all shapeless and producing one i
 
 <!-- END AUTO:RECIPES -->
 
-There are no bundled crafting recipes for Chroma, the incubator or the Prizmod. Registered items without a recipe or documented drop route may need Creative or administrator access in this alpha.
+Chroma still has no bundled crafting recipe. This beta includes [incubator and Prizmod recipes](getting-started.md#craft-your-equipment), including Prizmod dyeing. Registered items without a recipe or documented drop route may need Creative or administrator access in this beta.

@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "id": "spectrobesreforged:komainu_fossil"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.first_fossil.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.first_fossil.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "completed": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#spectrobesreforged:fossils"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "completed"
+    ]
+  ],
+  "parent": "spectrobesreforged:root"
+}

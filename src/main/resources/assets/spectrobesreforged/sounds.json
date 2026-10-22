@@ -9,7 +9,6 @@
       "spectrobesreforged:scanner_found"
     ]
   },
-
   "entity.krawl.idle": {
     "sounds": [
       "spectrobesreforged:entity/krawl/idle_1",
@@ -40,6 +39,28 @@
       "spectrobesreforged:entity/krawl/death_2",
       "spectrobesreforged:entity/krawl/death_3",
       "spectrobesreforged:entity/krawl/death_4"
+    ]
+  },
+  "battle_start": {
+    "subtitle": "subtitles.spectrobesreforged.battle_start",
+    "sounds": [
+      {
+        "name": "minecraft:entity.evoker.prepare_attack",
+        "type": "event",
+        "pitch": 0.8,
+        "volume": 1.0
+      }
+    ]
+  },
+  "battle_end": {
+    "subtitle": "subtitles.spectrobesreforged.battle_end",
+    "sounds": [
+      {
+        "name": "minecraft:entity.player.levelup",
+        "type": "event",
+        "pitch": 1.15,
+        "volume": 1.0
+      }
     ]
   }
 }

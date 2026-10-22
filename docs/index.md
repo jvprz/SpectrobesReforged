@@ -1,8 +1,8 @@
 # Your next discovery starts here
 
-Explore the world, uncover ancient fossils, and awaken a companion of your own. This is the player wiki for **Spectrobes Reforged <!-- VERSION -->0.5.1-alpha<!-- /VERSION -->**, for **Minecraft 1.21.1 with NeoForge**.
+Explore the world, uncover ancient fossils, and awaken a companion of your own. This is the player wiki for **Spectrobes Reforged <!-- VERSION -->0.6.0-beta.1<!-- /VERSION -->**, for **Minecraft 1.21.1 with NeoForge**.
 
-> **An alpha with a growing adventure.** This guide describes the bundled code and data. Custom modpacks and datapacks can change the experience. Planned features are marked explicitly.
+> **Our first beta: a growing exploration and encounter experience.** This guide describes the bundled code and data. Custom modpacks and datapacks can change the experience. Planned features are marked explicitly.
 
 ## Begin your journey
 
@@ -12,7 +12,7 @@ Explore the world, uncover ancient fossils, and awaken a companion of your own. 
 4. [Manage your companion in the Prizmod](prizmod.md).
 5. [Scan for buried discoveries](scanning.md) and [feed minerals](minerals.md).
 
-**Before you start:** the bundled mod does not yet include crafting recipes for the incubator or Prizmod. For a first test, use Creative mode or ask your server administrator for these items. See [getting started](getting-started.md#alpha-access-to-essential-items).
+**New in this beta:** [Prizmod and incubator crafting recipes](getting-started.md#craft-your-equipment), [advancements](advancements.md), and pursuing [Krawl vortices](vortices.md).
 
 ## Field reference
 

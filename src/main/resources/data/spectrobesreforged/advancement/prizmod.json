@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "id": "spectrobesreforged:white_prizmod"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.prizmod.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.prizmod.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "completed": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#spectrobesreforged:prizmods"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "completed"
+    ]
+  ],
+  "parent": "spectrobesreforged:root"
+}

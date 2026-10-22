@@ -1,6 +1,7 @@
 package com.jvprz.spectrobesreforged.client.event;
 
 import com.jvprz.spectrobesreforged.client.render.KrawlRenderer;
+import com.jvprz.spectrobesreforged.client.render.KrawlVortexRenderer;
 import com.jvprz.spectrobesreforged.client.render.SpectrobeRenderer;
 import com.jvprz.spectrobesreforged.client.screen.IncubatorScreen;
 import com.jvprz.spectrobesreforged.client.screen.PrizmodScreen;
@@ -27,6 +28,7 @@ public class ClientEvents {
     }
 
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(ModEntities.KRAWL_VORTEX.get(), KrawlVortexRenderer::new);
         event.registerEntityRenderer(
                 ModEntities.SPECTROBE.get(),
                 SpectrobeRenderer::new

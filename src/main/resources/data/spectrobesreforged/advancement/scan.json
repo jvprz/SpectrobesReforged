@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "id": "spectrobesreforged:white_prizmod"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.scan.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.scan.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "completed": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "completed"
+    ]
+  ],
+  "parent": "spectrobesreforged:awakened"
+}

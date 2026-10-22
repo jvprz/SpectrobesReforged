@@ -14,11 +14,11 @@ Use the interface’s drag-and-drop controls to move entries between compatible 
 
 ## Bringing a companion out
 
-Place a Child entry with HP remaining into the child slot. Changing this slot refreshes the following entity. The companion follows you and pauses when you trigger a scan.
+Place a Child entry with HP remaining into the child slot. Changing this slot refreshes the following entity. The companion follows you and pauses when you trigger a scan. During an active [vortex encounter](vortices.md), the scanner companion stays safely stored until the enemies are defeated or the encounter is cancelled; its saved entry and health are retained.
 
 An active recovery check looks for your companion approximately once per second. Dimension changes and respawn also have refresh handling. A Prizmod companion does not travel through a portal as an independent entity; the owner’s refresh handling manages its return.
 
-This is recovery logic, not a guarantee against every alpha issue. If it does not return, see [troubleshooting](troubleshooting.md).
+This is recovery logic, not a guarantee against every beta issue. If it does not return, see [troubleshooting](troubleshooting.md).
 
 ## Reading an entry
 

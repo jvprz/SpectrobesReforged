@@ -1,6 +1,7 @@
 package com.jvprz.spectrobesreforged.common.registry;
 
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
+import com.jvprz.spectrobesreforged.common.content.entity.krawl.KrawlVortexEntity;
 import com.jvprz.spectrobesreforged.common.content.entity.krawl.KrawlEntity;
 import com.jvprz.spectrobesreforged.common.content.entity.spectrobe.SpectrobeEntity;
 import net.minecraft.core.registries.Registries;
@@ -29,6 +30,12 @@ public final class ModEntities {
                             .sized(0.8f, 0.8f)
                             .build("krawl")
             );
+
+    public static final DeferredHolder<EntityType<?>, EntityType<KrawlVortexEntity>> KRAWL_VORTEX =
+            ENTITIES.register("krawl_vortex", () -> EntityType.Builder
+                    .<KrawlVortexEntity>of(KrawlVortexEntity::new, MobCategory.MISC)
+                    .sized(1.6F, 2.7F).clientTrackingRange(8).updateInterval(3).fireImmune()
+                    .build("krawl_vortex"));
 
     public static void register(IEventBus bus) {
         ENTITIES.register(bus);

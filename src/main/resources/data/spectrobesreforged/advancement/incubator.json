@@ -1,0 +1,35 @@
+{
+  "display": {
+    "icon": {
+      "id": "spectrobesreforged:incubator"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.incubator.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.incubator.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "completed": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "spectrobesreforged:incubator"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "completed"
+    ]
+  ],
+  "parent": "spectrobesreforged:first_fossil"
+}

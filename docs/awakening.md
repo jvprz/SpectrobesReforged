@@ -4,7 +4,7 @@ The incubator turns a supported fossil into a collection entry. It uses **redsto
 
 ## Set up the machine
 
-1. Obtain an incubator from the Creative inventory or an administrator; there is no bundled recipe yet.
+1. [Craft an incubator](getting-started.md#incubator), or obtain one from the Creative inventory. The recipe is available from 0.6.0-beta.1 onward.
 2. Leave two adjacent horizontal spaces free. The second half is placed to the left relative to your facing direction.
 3. Supply a redstone signal to either half.
 4. Use the powered machine to open its interface.

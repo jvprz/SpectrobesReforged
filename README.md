@@ -8,7 +8,7 @@
 ![NeoForge](https://img.shields.io/badge/Loader-NeoForge-blue)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![License](https://img.shields.io/badge/License-MIT-green)
-![Status](https://img.shields.io/badge/Status-Alpha-yellow)
+![Status](https://img.shields.io/badge/Status-Beta-blue)
 
 Spectrobes Reforged is a fan-made mod for **Minecraft 1.21.1
 (NeoForge)** that recreates the exploration, excavation, revival and
@@ -23,9 +23,10 @@ reinterpretation built specifically around Minecraft mechanics.
 # Features
 
 -   Fossil discovery and excavation
--   Spectrobe revival and progression (in development)
+-   Sound-based Spectrobe awakening and companion scanning
+-   Survival equipment recipes, mineral feeding and translated advancements
 -   Prizmod storage and team management
--   Krawl enemies with JSON-driven definitions
+-   Krawl enemies with JSON-driven definitions and pursuing vortex encounters
 -   Biome-based world generation
 -   Custom blocks, items and assets
 -   Modular and data-driven architecture
@@ -39,16 +40,16 @@ reinterpretation built specifically around Minecraft mechanics.
 -   Fossil generation
 -   Fossil items and rarity system
 -   Prizmod storage
--   Active team management
+-   Team and child companion slot management
+-   Sound-based incubator awakening
+-   Small vortex encounters with saved progress and rewards
 -   JSON-based Krawl system
 -   Custom entities using GeckoLib
 -   Persistent data using Minecraft Codecs
 
 ## In Progress
 
--   Spectrobe awakening
 -   Evolution system
--   Incubator mechanics
 -   Combat balancing
 -   Krawl nests
 -   Laboratory mechanics
@@ -134,8 +135,8 @@ configuration.
 -   [x] Prizmod
 -   [x] JSON loaders
 -   [x] Krawls
--   [ ] Spectrobe revival
--   [ ] Incubator
+-   [x] Spectrobe revival
+-   [x] Incubator
 -   [ ] Evolution
 
 ## Beta
@@ -168,4 +169,4 @@ Fan project developed by **JPrimee (@jvprz)**.
 
 ## Player wiki
 
-Read the [player guide](docs/index.md) for installation, fossils, awakening, companions, scanning, minerals and current alpha limitations. See [wiki maintenance and publishing](docs/README.md) to preview or deploy the website.
+Read the [player guide](docs/index.md) for installation, fossils, awakening, companions, scanning, minerals and current beta limitations. See [wiki maintenance and publishing](docs/README.md) to preview or deploy the website.

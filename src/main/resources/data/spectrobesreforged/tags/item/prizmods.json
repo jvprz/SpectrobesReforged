@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "spectrobesreforged:white_prizmod",
+    "spectrobesreforged:light_gray_prizmod",
+    "spectrobesreforged:gray_prizmod",
+    "spectrobesreforged:black_prizmod",
+    "spectrobesreforged:brown_prizmod",
+    "spectrobesreforged:red_prizmod",
+    "spectrobesreforged:orange_prizmod",
+    "spectrobesreforged:yellow_prizmod",
+    "spectrobesreforged:lime_prizmod",
+    "spectrobesreforged:green_prizmod",
+    "spectrobesreforged:cyan_prizmod",
+    "spectrobesreforged:light_blue_prizmod",
+    "spectrobesreforged:blue_prizmod",
+    "spectrobesreforged:purple_prizmod",
+    "spectrobesreforged:magenta_prizmod",
+    "spectrobesreforged:pink_prizmod"
+  ]
+}

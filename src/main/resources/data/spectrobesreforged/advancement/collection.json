@@ -1,0 +1,58 @@
+{
+  "display": {
+    "icon": {
+      "id": "spectrobesreforged:vilar_fossil"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.collection.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.collection.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "species_inkana": {
+      "trigger": "minecraft:impossible"
+    },
+    "species_komainu": {
+      "trigger": "minecraft:impossible"
+    },
+    "species_segu": {
+      "trigger": "minecraft:impossible"
+    },
+    "species_shakin": {
+      "trigger": "minecraft:impossible"
+    },
+    "species_spiko": {
+      "trigger": "minecraft:impossible"
+    },
+    "species_vilar": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "species_inkana"
+    ],
+    [
+      "species_komainu"
+    ],
+    [
+      "species_segu"
+    ],
+    [
+      "species_shakin"
+    ],
+    [
+      "species_spiko"
+    ],
+    [
+      "species_vilar"
+    ]
+  ],
+  "parent": "spectrobesreforged:awakened"
+}

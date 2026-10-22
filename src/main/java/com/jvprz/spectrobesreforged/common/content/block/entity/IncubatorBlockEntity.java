@@ -1,5 +1,6 @@
 package com.jvprz.spectrobesreforged.common.content.block.entity;
 
+import com.jvprz.spectrobesreforged.common.feature.progression.ModProgression;
 import com.jvprz.spectrobesreforged.common.content.block.IncubatorBlock;
 import com.jvprz.spectrobesreforged.common.feature.incubator.menu.IncubatorMenu;
 import com.jvprz.spectrobesreforged.common.feature.incubator.logic.IncubatorMusic;
@@ -505,6 +506,7 @@ public class IncubatorBlockEntity extends BlockEntity
         }
 
         PrizmodSync.sync(player);
+        ModProgression.awakened(player, species.key());
 
         /*
          * Consume the fossil only after the Spectrobe has been

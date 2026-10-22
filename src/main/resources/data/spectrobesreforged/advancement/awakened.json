@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "id": "spectrobesreforged:komainu_fossil"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.awakened.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.awakened.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "completed": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "completed"
+    ]
+  ],
+  "parent": "spectrobesreforged:incubator"
+}
