@@ -24,3 +24,6 @@ runs
 run-data
 
 repo
+
+# Generated runtime and test logs
+/logs/
