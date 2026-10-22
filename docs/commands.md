@@ -25,7 +25,7 @@ Open the Prizmod and move the entry into the child slot to use it as a companion
 
 Restores the saved current HP of the **six team slots and the child slot** to their respective maximum HP. It does not heal every entry in storage. The command updates collection data and sends a snapshot; if a living entity still shows old health, return the entry to storage and re-equip it to recreate it from saved data.
 
-## Vanilla item commands for alpha testing
+## Vanilla item commands for testing
 
 ```text
 /give @s spectrobesreforged:incubator

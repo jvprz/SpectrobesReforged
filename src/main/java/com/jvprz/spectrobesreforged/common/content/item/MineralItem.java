@@ -1,5 +1,6 @@
 package com.jvprz.spectrobesreforged.common.content.item;
 
+import com.jvprz.spectrobesreforged.common.feature.progression.ModProgression;
 import com.jvprz.spectrobesreforged.common.content.entity.spectrobe.SpectrobeEntity;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.PrizmodData;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
@@ -184,6 +185,7 @@ public class MineralItem extends Item {
         );
 
         data.replaceEntry(entry.id(), updated);
+        ModProgression.award(sp, "feed");
 
         var maxHpAttr = spectrobe.getAttribute(Attributes.MAX_HEALTH);
         if (maxHpAttr != null) {

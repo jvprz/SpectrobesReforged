@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "id": "spectrobesreforged:chroma_1"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.chroma.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.chroma.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "completed": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "completed"
+    ]
+  ],
+  "parent": "spectrobesreforged:awakened"
+}

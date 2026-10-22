@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "spectrobesreforged:prizmod_dyeing",
+  "ingredients": [
+    {
+      "tag": "spectrobesreforged:prizmods"
+    },
+    {
+      "item": "minecraft:light_blue_dye"
+    }
+  ],
+  "result": {
+    "id": "spectrobesreforged:light_blue_prizmod",
+    "count": 1
+  }
+}

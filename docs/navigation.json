@@ -45,9 +45,19 @@
     "label": "Krawl"
   },
   {
+    "slug": "vortices",
+    "title": "Small Krawl vortices",
+    "label": "Vortices"
+  },
+  {
     "slug": "commands",
     "title": "Admin commands",
     "label": "Commands"
+  },
+  {
+    "slug": "advancements",
+    "title": "Advancements",
+    "label": "Advancements"
   },
   {
     "slug": "troubleshooting",

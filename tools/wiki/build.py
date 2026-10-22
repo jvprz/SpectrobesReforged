@@ -83,7 +83,8 @@ def references(root):
     recipes = []
     for file in sorted((resources / 'recipe').glob('*.json')):
         recipe = load(file)
-        assert recipe['type'] == 'minecraft:crafting_shapeless', file
+        if recipe['type'] != 'minecraft:crafting_shapeless' or 'prizmod' in recipe['result']['id']:
+            continue
         recipes.append([item(recipe['result']['id']),
                         ' + '.join(item(v['item']) for v in recipe['ingredients'])])
     krawl_rows = []
@@ -177,7 +178,7 @@ def build(root, docs, output):
         html = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title} · Spectrobes Reforged Wiki</title>
-<meta name="description" content="{escape(page['title'])} for Spectrobes Reforged {escape(version)}. Fossils, companions, minerals and current alpha mechanics.">
+<meta name="description" content="{escape(page['title'])} for Spectrobes Reforged {escape(version)}. Fossils, companions, minerals and current beta mechanics.">
 <meta name="theme-color" content="#101114"><link rel="icon" type="image/png" href="assets/icon.png">
 <script src="assets/theme.js"></script><link rel="stylesheet" href="assets/wiki.css">
 <script src="assets/search-data.js" defer></script><script src="assets/search.js" defer></script></head>
@@ -190,7 +191,7 @@ def build(root, docs, output):
 <p class="sidebar-note">Built for explorers.<br>Grounded in the current mod.</p></aside>
 <main id="main"><div class="eyebrow">EXPLORER’S FIELD GUIDE / {escape(page['label'].upper())}</div><article>{body}</article>
 <nav class="pager" aria-label="Previous and next guide">{pager}</nav>
-<footer>Fan-made · Alpha mechanics may change · <a href="https://github.com/jvprz/SpectrobesReforged/issues">Report a documentation issue</a></footer></main>
+<footer>Fan-made · Beta mechanics may change · <a href="https://github.com/jvprz/SpectrobesReforged/issues">Report a documentation issue</a></footer></main>
 <aside class="contents"><span>ON THIS PAGE</span><nav aria-label="On this page">{renderer.toc}</nav></aside></div></body></html>'''
         (output / (slug + '.html')).write_text(html, encoding='utf-8')
         plain = re.sub(r'<[^>]+>', ' ', body)

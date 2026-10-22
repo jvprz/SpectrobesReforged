@@ -1,6 +1,8 @@
 // src/main/java/com/jvprz/spectrobesreforged/common/network/C2STriggerSpectrobeRangeScan.java
 package com.jvprz.spectrobesreforged.common.network;
 
+import com.jvprz.spectrobesreforged.common.feature.vortex.VortexEncounters;
+import com.jvprz.spectrobesreforged.common.feature.progression.ModProgression;
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
 import com.jvprz.spectrobesreforged.common.content.entity.spectrobe.SpectrobeEntity;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.logic.SpectrobeManager;
@@ -28,7 +30,7 @@ public record C2STriggerSpectrobeRangeScan() implements CustomPacketPayload {
     }
 
     public static void handle(C2STriggerSpectrobeRangeScan msg, ServerPlayer player) {
-        if (player == null) return;
+        if (player == null || VortexEncounters.companionSuppressed(player)) return;
 
         ServerLevel level = player.serverLevel();
 
@@ -36,5 +38,6 @@ public record C2STriggerSpectrobeRangeScan() implements CustomPacketPayload {
         if (spectrobe == null) return;
 
         spectrobe.triggerRangePause();
+        ModProgression.award(player, "scan");
     }
 }

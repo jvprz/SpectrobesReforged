@@ -6,7 +6,7 @@ Check Minecraft 1.21.1, the NeoForge version, Java 21, and the **NeoForge 1.21.1
 
 ## I cannot craft the incubator or Prizmod
 
-Their recipes are not included in the current alpha. Use [Creative or administrator access](getting-started.md#alpha-access-to-essential-items). Do not search for an undocumented crafting pattern.
+The [equipment recipes](getting-started.md#craft-your-equipment) require 0.6.0-beta.1 or newer. If you still have 0.5.1-alpha, update the mod or use Creative/administrator access for that older build.
 
 ## The incubator has no power
 
@@ -40,7 +40,7 @@ That indicator only compares minerals fed with a configured threshold. The trans
 
 ## Krawl are not spawning naturally
 
-Use the Creative spawn eggs. Spawn fields in their definitions are not a completed natural-spawn system.
+Use the Creative spawn eggs for direct spawns. In 0.6.0-beta.1, [small vortex encounters](vortices.md) offer Survival discovery; contact with a pursuing vortex starts the encounter in non-Peaceful difficulty, without a held-item requirement. Spawn fields alone are not an ordinary natural-spawn system.
 
 ## Report an issue
 

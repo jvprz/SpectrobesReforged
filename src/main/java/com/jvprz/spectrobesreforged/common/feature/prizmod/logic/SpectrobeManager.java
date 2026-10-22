@@ -1,6 +1,7 @@
 // src/main/java/com/jvprz/spectrobesreforged/common/feature/prizmod/logic/SpectrobeManager.java
 package com.jvprz.spectrobesreforged.common.feature.prizmod.logic;
 
+import com.jvprz.spectrobesreforged.common.feature.vortex.VortexEncounters;
 import com.jvprz.spectrobesreforged.common.content.entity.spectrobe.SpectrobeEntity;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
 import com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeSpecies;
@@ -42,6 +43,7 @@ public final class SpectrobeManager {
     }
 
     public static boolean spawnBaby(ServerLevel level, ServerPlayer owner, SpectrobeEntry entry) {
+        if (VortexEncounters.companionSuppressed(owner)) return false;
         if (entry == null) return false;
 
         if (entry.hpCur() <= 0) return false;

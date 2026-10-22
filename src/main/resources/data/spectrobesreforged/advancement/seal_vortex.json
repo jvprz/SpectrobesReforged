@@ -1,0 +1,28 @@
+{
+  "parent": "spectrobesreforged:root",
+  "display": {
+    "icon": {
+      "id": "spectrobesreforged:blova_spawn_egg"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.seal_vortex.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.seal_vortex.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "completed": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "completed"
+    ]
+  ]
+}

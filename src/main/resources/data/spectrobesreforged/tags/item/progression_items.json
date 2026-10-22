@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "#spectrobesreforged:fossils",
+    "#spectrobesreforged:prizmods",
+    "#spectrobesreforged:minerals",
+    "spectrobesreforged:incubator"
+  ]
+}

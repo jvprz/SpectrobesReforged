@@ -9,7 +9,7 @@
 | GeckoLib | 4.8.3 or newer for NeoForge 1.21.1 |
 | Java | 21 |
 
-These requirements describe <!-- VERSION -->0.5.1-alpha<!-- /VERSION -->. Match every download to **Minecraft 1.21.1 and NeoForge**; older mod releases have different requirements.
+These requirements describe <!-- VERSION -->0.6.0-beta.1<!-- /VERSION -->. Match every download to **Minecraft 1.21.1 and NeoForge**; older mod releases have different requirements.
 
 ## Install
 
@@ -19,19 +19,50 @@ These requirements describe <!-- VERSION -->0.5.1-alpha<!-- /VERSION -->. Match 
 4. For a manual installation, place the mod and GeckoLib JAR files in that instance’s `mods` folder.
 5. Launch the NeoForge profile and create a test world.
 
-Do not leave multiple versions of Spectrobes Reforged in the same instance. Back up existing worlds before updating an alpha mod.
+Do not leave multiple versions of Spectrobes Reforged in the same instance. Back up existing worlds before updating a beta mod.
 
-## Alpha access to essential items
+## Craft your equipment
 
-The bundled recipes currently cover **six mineral combinations**. There is no bundled incubator or Prizmod crafting recipe yet. Obtain them from the Creative inventory, ask an administrator, or use commands with cheats/operator permission:
+> **Added in 0.6.0-beta.1:** equipment recipes, dyeing and advancements. Update from 0.5.1-alpha to use them.
+
+Use a crafting table. In the grids below, each letter represents one item.
+
+### White Prizmod
 
 ```text
-/give @s spectrobesreforged:incubator
-/give @s spectrobesreforged:white_prizmod
-/give @s spectrobesreforged:komainu_fossil
+A P A
+I G I
+C - C
 ```
 
-The last command gives a known supported fossil for your first awakening. These are testing instructions, not a finished survival progression. A modpack may supply its own recipes.
+- **A:** amethyst shard (2)
+- **P:** glass pane (1)
+- **I:** iron ingot (2)
+- **G:** gold ingot (1)
+- **C:** copper ingot (2)
+- **-:** empty slot
+
+Produces one white Prizmod. Combine any Prizmod with one dye in a shapeless recipe to recolor it. All 16 colors are supported, including returning to white. Your collection belongs to the player, so recoloring does not erase it.
+
+### Incubator
+
+```text
+G G G
+I S I
+O C O
+```
+
+- **G:** glass block (3)
+- **I:** iron ingot (2)
+- **S:** calibrated sculk sensor (1)
+- **O:** gold ingot (2)
+- **C:** copper ingot (1)
+
+Produces one incubator. The ingredient is a **calibrated sculk sensor**, not a regular sculk sensor. This places survival access behind obtaining a sculk sensor and calibrating it. Crafting it does not supply power: place it and provide a redstone signal.
+
+The recipe book unlocks the white Prizmod after obtaining iron, the incubator after obtaining a calibrated sculk sensor, and recoloring recipes after obtaining a Prizmod. These unlock conditions do not restrict manual crafting unless a server enables limited crafting.
+
+For Creative testing, the existing `/give` commands still work. Try a Komainu fossil for your first awakening.
 
 ## Your first companion
 

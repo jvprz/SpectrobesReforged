@@ -1,5 +1,6 @@
 package com.jvprz.spectrobesreforged.common.feature.spectrobe.guard;
 
+import com.jvprz.spectrobesreforged.common.feature.vortex.VortexEncounters;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.PrizmodData;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.logic.SpectrobeManager;
@@ -15,6 +16,12 @@ public final class ModSpectrobeFollowGuard {
 
         // cada 20 ticks (1 segundo) para no spamear
         if ((player.tickCount % 20) != 0) return;
+
+        if (VortexEncounters.companionSuppressed(player)) {
+            var companion = SpectrobeManager.findActiveBaby(player.serverLevel(), player);
+            if (companion != null) companion.discard();
+            return;
+        }
 
         PrizmodData data = player.getData(ModAttachments.PRIZMOD.get());
         SpectrobeEntry baby = data.getBabySlot().orElse(null);
