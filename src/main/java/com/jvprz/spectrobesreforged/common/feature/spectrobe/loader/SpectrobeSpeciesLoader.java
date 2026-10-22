@@ -11,7 +11,9 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 
+import com.google.gson.reflect.TypeToken;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class SpectrobeSpeciesLoader extends SimpleJsonResourceReloadListener {
@@ -31,21 +33,22 @@ public class SpectrobeSpeciesLoader extends SimpleJsonResourceReloadListener {
 
         SpectrobesReforged.LOGGER.info("Loading Spectrobe species...");
 
+        SpectrobeSpeciesRegistry.clear();
+
         for (Map.Entry<ResourceLocation, JsonElement> entry : jsonMap.entrySet()) {
 
             ResourceLocation id = entry.getKey();
-            JsonObject json = entry.getValue().getAsJsonObject();
-
             try {
+                JsonObject json = entry.getValue().getAsJsonObject();
 
                 int idNum = json.get("id").getAsInt();
                 String key = json.get("key").getAsString();
 
                 SpectrobeType type =
-                        SpectrobeType.valueOf(json.get("type").getAsString().toUpperCase());
+                        SpectrobeType.valueOf(json.get("type").getAsString().toUpperCase(Locale.ROOT));
 
                 SpectrobeStage stage =
-                        SpectrobeStage.valueOf(json.get("stage").getAsString().toUpperCase());
+                        SpectrobeStage.valueOf(json.get("stage").getAsString().toUpperCase(Locale.ROOT));
 
                 int range = json.get("range").getAsInt();
 
@@ -97,7 +100,7 @@ public class SpectrobeSpeciesLoader extends SimpleJsonResourceReloadListener {
                         );
 
                 List<String> textures =
-                        GSON.fromJson(json.get("textures"), List.class);
+                        GSON.fromJson(json.get("textures"), new TypeToken<List<String>>() {}.getType());
 
                 SpectrobeSpecies species = new SpectrobeSpecies(
                         idNum,
@@ -119,6 +122,6 @@ public class SpectrobeSpeciesLoader extends SimpleJsonResourceReloadListener {
             }
         }
 
-        SpectrobesReforged.LOGGER.info("Spectrobe species loaded: {}", jsonMap.size());
+        SpectrobesReforged.LOGGER.info("Spectrobe species loaded: {}", SpectrobeSpeciesRegistry.all().size());
     }
 }

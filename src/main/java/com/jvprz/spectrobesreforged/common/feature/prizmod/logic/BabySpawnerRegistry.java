@@ -8,8 +8,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public final class SpectrobeSpeciesRegistry {
-    private SpectrobeSpeciesRegistry() {}
+public final class BabySpawnerRegistry {
+    private BabySpawnerRegistry() {}
 
     @FunctionalInterface
     public interface BabySpawner {

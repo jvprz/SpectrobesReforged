@@ -12,7 +12,12 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
-import net.minecraft.core.registries.BuiltInRegistries;
+import com.jvprz.spectrobesreforged.client.feature.scanner.FossilScan;
+import com.jvprz.spectrobesreforged.common.content.block.FossilOreBlock;
+import com.jvprz.spectrobesreforged.common.content.block.MineralOreBlock;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
+import java.util.Set;
+import java.util.stream.Collectors;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -27,7 +32,6 @@ import org.joml.Vector3f;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -49,7 +53,6 @@ public final class SpectrobeRangeRenderer {
     private static final int BASE_RING_LAYERS = 6;
     private static final double BASE_RING_THICKNESS = 0.24D;
 
-    private static final int FOSSIL_SCAN_INTERVAL_TICKS = 10;
     private static final int FOSSIL_SCAN_DEPTH = 64;
     private static final int FOSSIL_PARTICLES_PER_SPAWN = 6;
     private static final int MAX_FOSSIL_HINT_POSITIONS = 12;
@@ -68,7 +71,9 @@ public final class SpectrobeRangeRenderer {
 
     private static final Map<UUID, Integer> RANGE_START_TICK = new HashMap<>();
     private static final Map<UUID, Integer> LAST_PARTICLE_TICK = new HashMap<>();
-    private static final Map<UUID, Integer> LAST_FOSSIL_SCAN_TICK = new HashMap<>();
+    private static final Map<UUID, FossilScan> SCANS = new HashMap<>();
+    private static ClientLevel activeLevel;
+    private static List<SpectrobeEntity> nearbySpectrobes = List.of();
     private static final Map<UUID, List<BlockPos>> DETECTED_FOSSILS = new HashMap<>();
     private static final Map<UUID, Map<BlockPos, ScanTargetType>> DETECTED_TARGET_TYPES = new HashMap<>();
     private static final Map<UUID, Map<BlockPos, Integer>> LAST_FOSSIL_TRIGGER_TICK = new HashMap<>();
@@ -104,47 +109,12 @@ public final class SpectrobeRangeRenderer {
 
         float partialTick = event.getPartialTick().getGameTimeDeltaPartialTick(false);
 
-        cleanupOldEntries(mc);
-
-        for (SpectrobeEntity spectrobe : mc.level.getEntitiesOfClass(
-                SpectrobeEntity.class,
-                mc.player.getBoundingBox().inflate(64.0)
-        )) {
+        for (SpectrobeEntity spectrobe : nearbySpectrobes) {
             UUID uuid = spectrobe.getUUID();
-
-            if (!spectrobe.shouldRenderRangeCircle()) {
-                RANGE_START_TICK.remove(uuid);
-                LAST_PARTICLE_TICK.remove(uuid);
-                LAST_FOSSIL_SCAN_TICK.remove(uuid);
-                DETECTED_FOSSILS.remove(uuid);
-                DETECTED_TARGET_TYPES.remove(uuid);
-                LAST_FOSSIL_TRIGGER_TICK.remove(uuid);
-                ACTIVE_FOSSIL_HINT_TICKS.remove(uuid);
-                LAST_ACTIVE_HINT_TICK.remove(uuid);
-                spectrobe.setClientScanHasTarget(false);
-                continue;
-            }
-
+            if (spectrobe.isRemoved() || !spectrobe.shouldRenderRangeCircle()) continue;
             SpectrobeSpecies species = SpectrobeSpeciesRegistry.getByKey(spectrobe.getSpeciesKey());
-            if (species == null) {
-                spectrobe.setClientScanHasTarget(false);
-                continue;
-            }
-
-            int startTick = RANGE_START_TICK.computeIfAbsent(uuid, id -> {
-                mc.level.playLocalSound(
-                        spectrobe.getX(),
-                        spectrobe.getY(),
-                        spectrobe.getZ(),
-                        ModSounds.SCANNER_OPEN.get(),
-                        SoundSource.PLAYERS,
-                        0.25F,
-                        0.55F,
-                        false
-                );
-
-                return spectrobe.tickCount;
-            });
+            Integer startTick = RANGE_START_TICK.get(uuid);
+            if (species == null || startTick == null) continue;
             float time = (spectrobe.tickCount - startTick) + partialTick;
 
             double maxRadius = species.range() * 2.0D;
@@ -153,7 +123,6 @@ public final class SpectrobeRangeRenderer {
             double y = Mth.lerp(partialTick, spectrobe.yOld, spectrobe.getY()) + 0.05D;
             double z = Mth.lerp(partialTick, spectrobe.zOld, spectrobe.getZ());
 
-            tickActiveHints(spectrobe);
 
             float openProgress = Math.min(time / OPEN_DURATION_TICKS, 1.0f);
             float openEased = easeOutBack(openProgress);
@@ -183,7 +152,9 @@ public final class SpectrobeRangeRenderer {
                 float postOpenTime = time - OPEN_DURATION_TICKS;
                 int waveCount = (int) Math.ceil((postOpenTime / WAVE_INTERVAL_TICKS)) + 1;
 
-                for (int waveIndex = 0; waveIndex < waveCount; waveIndex++) {
+                int firstWave = Math.max(0,
+                        (int) Math.ceil((postOpenTime - WAVE_LIFETIME_TICKS) / WAVE_INTERVAL_TICKS));
+                for (int waveIndex = firstWave; waveIndex < waveCount; waveIndex++) {
                     float waveAge = postOpenTime - (waveIndex * WAVE_INTERVAL_TICKS);
 
                     if (waveAge < 0.0f || waveAge > WAVE_LIFETIME_TICKS) {
@@ -204,11 +175,6 @@ public final class SpectrobeRangeRenderer {
                     );
                 }
 
-                spawnAmbientParticles(mc.level, spectrobe, x, y, z, maxRadius);
-                updateDetectedFossils(mc.level, spectrobe, maxRadius);
-
-                spectrobe.setClientScanHasTarget(hasDetectedFossils(spectrobe));
-
                 float sweepAngle = positiveAngle(time * SWEEP_SPEED);
 
                 drawSweepLineWithFade(
@@ -221,10 +187,6 @@ public final class SpectrobeRangeRenderer {
                         sweepAngle
                 );
 
-                detectFossilsOnSweep(mc.level, spectrobe, sweepAngle);
-                renderActiveFossilHints(mc.level, spectrobe);
-            } else {
-                spectrobe.setClientScanHasTarget(false);
             }
         }
 
@@ -232,28 +194,72 @@ public final class SpectrobeRangeRenderer {
         bufferSource.endBatch(RenderType.lines());
     }
 
-    private static void cleanupOldEntries(Minecraft mc) {
-        Iterator<Map.Entry<UUID, Integer>> it = RANGE_START_TICK.entrySet().iterator();
-
-        while (it.hasNext()) {
-            UUID uuid = it.next().getKey();
-
-            boolean stillValid = mc.level.getEntitiesOfClass(
-                    SpectrobeEntity.class,
-                    mc.player.getBoundingBox().inflate(128.0)
-            ).stream().anyMatch(e -> e.getUUID().equals(uuid) && e.shouldRenderRangeCircle());
-
-            if (!stillValid) {
-                it.remove();
-                LAST_PARTICLE_TICK.remove(uuid);
-                LAST_FOSSIL_SCAN_TICK.remove(uuid);
-                DETECTED_FOSSILS.remove(uuid);
-                DETECTED_TARGET_TYPES.remove(uuid);
-                LAST_FOSSIL_TRIGGER_TICK.remove(uuid);
-                ACTIVE_FOSSIL_HINT_TICKS.remove(uuid);
-                LAST_ACTIVE_HINT_TICK.remove(uuid);
-            }
+    @SubscribeEvent
+    public static void onClientTick(ClientTickEvent.Post event) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.level != activeLevel || mc.player == null) {
+            clearState();
+            activeLevel = mc.level;
         }
+        if (mc.level == null || mc.player == null || mc.isPaused()) return;
+
+        nearbySpectrobes = mc.level.getEntitiesOfClass(SpectrobeEntity.class,
+                mc.player.getBoundingBox().inflate(64.0));
+        Set<UUID> active = nearbySpectrobes.stream()
+                .filter(e -> e.shouldRenderRangeCircle() && !e.isRemoved())
+                .filter(e -> SpectrobeSpeciesRegistry.getByKey(e.getSpeciesKey()) != null)
+                .map(SpectrobeEntity::getUUID).collect(Collectors.toSet());
+        cleanupOldEntries(active);
+
+        for (SpectrobeEntity spectrobe : nearbySpectrobes) {
+            UUID uuid = spectrobe.getUUID();
+            if (!active.contains(uuid)) {
+                spectrobe.setClientScanHasTarget(false);
+                continue;
+            }
+            int start = RANGE_START_TICK.computeIfAbsent(uuid, id -> {
+                mc.level.playLocalSound(spectrobe.getX(), spectrobe.getY(), spectrobe.getZ(),
+                        ModSounds.SCANNER_OPEN.get(), SoundSource.PLAYERS, 0.25F, 0.55F, false);
+                return spectrobe.tickCount;
+            });
+            tickActiveHints(spectrobe);
+            int age = spectrobe.tickCount - start;
+            if (age < OPEN_DURATION_TICKS) {
+                spectrobe.setClientScanHasTarget(false);
+                continue;
+            }
+            double radius = SpectrobeSpeciesRegistry.getByKey(spectrobe.getSpeciesKey()).range() * 2.0;
+            spawnAmbientParticles(mc.level, spectrobe, spectrobe.getX(),
+                    spectrobe.getY() + 0.05, spectrobe.getZ(), radius);
+            updateDetectedFossils(mc.level, spectrobe, radius);
+            spectrobe.setClientScanHasTarget(hasDetectedFossils(spectrobe));
+            detectFossilsOnSweep(mc.level, spectrobe, positiveAngle(age * SWEEP_SPEED));
+            renderActiveFossilHints(mc.level, spectrobe);
+        }
+    }
+
+    private static void clearState() {
+        nearbySpectrobes.forEach(e -> e.setClientScanHasTarget(false));
+        nearbySpectrobes = List.of();
+        RANGE_START_TICK.clear();
+        LAST_PARTICLE_TICK.clear();
+        SCANS.clear();
+        DETECTED_FOSSILS.clear();
+        DETECTED_TARGET_TYPES.clear();
+        LAST_FOSSIL_TRIGGER_TICK.clear();
+        ACTIVE_FOSSIL_HINT_TICKS.clear();
+        LAST_ACTIVE_HINT_TICK.clear();
+    }
+
+    private static void cleanupOldEntries(Set<UUID> active) {
+        RANGE_START_TICK.keySet().retainAll(active);
+        LAST_PARTICLE_TICK.keySet().retainAll(active);
+        SCANS.keySet().retainAll(active);
+        DETECTED_FOSSILS.keySet().retainAll(active);
+        DETECTED_TARGET_TYPES.keySet().retainAll(active);
+        LAST_FOSSIL_TRIGGER_TICK.keySet().retainAll(active);
+        ACTIVE_FOSSIL_HINT_TICKS.keySet().retainAll(active);
+        LAST_ACTIVE_HINT_TICK.keySet().retainAll(active);
     }
 
     private static void tickActiveHints(SpectrobeEntity spectrobe) {
@@ -285,55 +291,20 @@ public final class SpectrobeRangeRenderer {
 
     private static void updateDetectedFossils(ClientLevel level, SpectrobeEntity spectrobe, double radius) {
         UUID uuid = spectrobe.getUUID();
-        int gameTick = spectrobe.tickCount;
-
-        Integer lastScan = LAST_FOSSIL_SCAN_TICK.get(uuid);
-        if (lastScan != null && gameTick - lastScan < FOSSIL_SCAN_INTERVAL_TICKS) {
-            return;
+        FossilScan scan = SCANS.computeIfAbsent(uuid, id -> new FossilScan());
+        if (!scan.tick(level, spectrobe.blockPosition(), radius, FOSSIL_SCAN_DEPTH,
+                MAX_FOSSIL_HINT_POSITIONS)) return;
+        List<BlockPos> found = scan.results();
+        Map<BlockPos, ScanTargetType> types = new HashMap<>();
+        for (BlockPos pos : found) {
+            ScanTargetType type = getTrackedTargetType(level.getBlockState(pos));
+            if (type != null) types.put(pos, type);
         }
-        LAST_FOSSIL_SCAN_TICK.put(uuid, gameTick);
-
-        BlockPos center = spectrobe.blockPosition();
-        int radiusCeil = Mth.ceil(radius);
-
-        LinkedHashSet<BlockPos> foundSet = new LinkedHashSet<>();
-        Map<BlockPos, ScanTargetType> foundTypes = new HashMap<>();
-
-        for (int dx = -radiusCeil; dx <= radiusCeil; dx++) {
-            for (int dz = -radiusCeil; dz <= radiusCeil; dz++) {
-                double distSq = (dx * dx) + (dz * dz);
-                if (distSq > radius * radius) {
-                    continue;
-                }
-
-                for (int dy = 0; dy <= FOSSIL_SCAN_DEPTH; dy++) {
-                    BlockPos pos = center.offset(dx, -dy, dz);
-                    BlockState state = level.getBlockState(pos);
-                    ScanTargetType type = getTrackedTargetType(state);
-
-                    if (type != null) {
-                        BlockPos immutablePos = pos.immutable();
-                        foundSet.add(immutablePos);
-                        foundTypes.put(immutablePos, type);
-
-                        if (foundSet.size() >= MAX_FOSSIL_HINT_POSITIONS) {
-                            break;
-                        }
-                    }
-                }
-
-                if (foundSet.size() >= MAX_FOSSIL_HINT_POSITIONS) {
-                    break;
-                }
-            }
-
-            if (foundSet.size() >= MAX_FOSSIL_HINT_POSITIONS) {
-                break;
-            }
-        }
-
-        DETECTED_FOSSILS.put(uuid, new ArrayList<>(foundSet));
-        DETECTED_TARGET_TYPES.put(uuid, foundTypes);
+        DETECTED_FOSSILS.put(uuid, new ArrayList<>(types.keySet()));
+        DETECTED_TARGET_TYPES.put(uuid, types);
+        Map<BlockPos, Integer> cooldowns = LAST_FOSSIL_TRIGGER_TICK.get(uuid);
+        if (cooldowns != null) cooldowns.entrySet().removeIf(
+                entry -> spectrobe.tickCount - entry.getValue() >= FOSSIL_TRIGGER_COOLDOWN_TICKS);
     }
 
     private static boolean hasDetectedFossils(SpectrobeEntity spectrobe) {
@@ -342,28 +313,8 @@ public final class SpectrobeRangeRenderer {
     }
 
     private static ScanTargetType getTrackedTargetType(BlockState state) {
-        String id = String.valueOf(BuiltInRegistries.BLOCK.getKey(state.getBlock()));
-
-        if (id.equals("spectrobesreforged:corona_fossil_ore")
-                || id.equals("spectrobesreforged:aurora_fossil_ore")
-                || id.equals("spectrobesreforged:flash_fossil_ore")
-                || id.equals("spectrobesreforged:deepslate_corona_fossil_ore")
-                || id.equals("spectrobesreforged:deepslate_aurora_fossil_ore")
-                || id.equals("spectrobesreforged:deepslate_flash_fossil_ore")) {
-            return ScanTargetType.FOSSIL;
-        }
-
-        if (id.equals("spectrobesreforged:c_mineral_ore")
-                || id.equals("spectrobesreforged:b_mineral_ore")
-                || id.equals("spectrobesreforged:a_mineral_ore")
-                || id.equals("spectrobesreforged:a_plus_mineral_ore")
-                || id.equals("spectrobesreforged:deepslate_c_mineral_ore")
-                || id.equals("spectrobesreforged:deepslate_b_mineral_ore")
-                || id.equals("spectrobesreforged:deepslate_a_mineral_ore")
-                || id.equals("spectrobesreforged:deepslate_a_plus_mineral_ore")) {
-            return ScanTargetType.MINERAL;
-        }
-
+        if (state.getBlock() instanceof FossilOreBlock) return ScanTargetType.FOSSIL;
+        if (state.getBlock() instanceof MineralOreBlock) return ScanTargetType.MINERAL;
         return null;
     }
 

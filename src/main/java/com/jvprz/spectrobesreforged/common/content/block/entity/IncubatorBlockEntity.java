@@ -2,6 +2,7 @@ package com.jvprz.spectrobesreforged.common.content.block.entity;
 
 import com.jvprz.spectrobesreforged.common.content.block.IncubatorBlock;
 import com.jvprz.spectrobesreforged.common.feature.incubator.menu.IncubatorMenu;
+import com.jvprz.spectrobesreforged.common.feature.incubator.logic.IncubatorMusic;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.PrizmodSync;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.PrizmodData;
 import com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeEntry;
@@ -521,7 +522,7 @@ public class IncubatorBlockEntity extends BlockEntity
         player.displayClientMessage(
                 Component.translatable(
                         "message.spectrobesreforged.incubator.awakened",
-                        Component.literal(displayName),
+                        Component.translatableWithFallback("spectrobesreforged.spectrobe." + species.key(), displayName),
                         this.selectedColor
                 ),
                 false
@@ -885,66 +886,8 @@ public class IncubatorBlockEntity extends BlockEntity
     }
 
     @Nullable
-    private BlockPos findNearestPlayingJukebox(
-            Level level
-    ) {
-        BlockPos nearest = null;
-
-        double nearestDistance =
-                Double.MAX_VALUE;
-
-        BlockPos min =
-                this.worldPosition.offset(
-                        -JUKEBOX_RADIUS,
-                        -JUKEBOX_RADIUS,
-                        -JUKEBOX_RADIUS
-                );
-
-        BlockPos max =
-                this.worldPosition.offset(
-                        JUKEBOX_RADIUS,
-                        JUKEBOX_RADIUS,
-                        JUKEBOX_RADIUS
-                );
-
-        for (BlockPos candidate :
-                BlockPos.betweenClosed(min, max)) {
-
-            double distanceSquared =
-                    candidate.distSqr(
-                            this.worldPosition
-                    );
-
-            if (distanceSquared
-                    > JUKEBOX_RADIUS
-                    * JUKEBOX_RADIUS) {
-                continue;
-            }
-
-            if (distanceSquared >= nearestDistance) {
-                continue;
-            }
-
-            BlockEntity blockEntity =
-                    level.getBlockEntity(candidate);
-
-            if (!(blockEntity
-                    instanceof JukeboxBlockEntity jukebox)) {
-                continue;
-            }
-
-            if (!jukebox.getSongPlayer().isPlaying()) {
-                continue;
-            }
-
-            nearestDistance =
-                    distanceSquared;
-
-            nearest =
-                    candidate.immutable();
-        }
-
-        return nearest;
+    private BlockPos findNearestPlayingJukebox(Level level) {
+        return IncubatorMusic.findNearestPlayingJukebox(level, this.worldPosition, JUKEBOX_RADIUS);
     }
 
     @Nullable
@@ -998,84 +941,9 @@ public class IncubatorBlockEntity extends BlockEntity
             return 0;
         }
 
-        long songTicks =
-                jukebox.getSongPlayer()
-                        .getTicksSinceSongStarted();
-
-        double fastWave =
-                Math.sin(
-                        songTicks * 0.42
-                );
-
-        double mediumWave =
-                Math.sin(
-                        songTicks * 0.19 + 1.7
-                );
-
-        double slowWave =
-                Math.sin(
-                        songTicks * 0.075 + 0.4
-                );
-
-        double mixedWave =
-                (
-                        fastWave * 0.45
-                                + mediumWave * 0.35
-                                + slowWave * 0.20
-                                + 1.0
-                ) / 2.0;
-
-        mixedWave =
-                Math.max(
-                        0.0,
-                        Math.min(
-                                1.0,
-                                mixedWave
-                        )
-                );
-
-        /*
-         * A nearby jukebox generally remains between 75% and
-         * 100% of the maximum musical level.
-         */
-        double musicalLevel =
-                0.75
-                        + mixedWave
-                        * 0.25;
-
-        double distance =
-                Math.sqrt(
-                        jukebox.getBlockPos()
-                                .distSqr(
-                                        this.worldPosition
-                                )
-                );
-
-        double normalizedDistance =
-                Math.min(
-                        1.0,
-                        distance / JUKEBOX_RADIUS
-                );
-
-        double distanceFactor =
-                1.0
-                        - normalizedDistance
-                        * 0.70;
-
-        int frequency =
-                (int) Math.round(
-                        MAX_FREQUENCY
-                                * musicalLevel
-                                * distanceFactor
-                );
-
-        return Math.max(
-                1,
-                Math.min(
-                        MAX_FREQUENCY,
-                        frequency
-                )
-        );
+        return IncubatorMusic.frequency(jukebox.getSongPlayer().getTicksSinceSongStarted(),
+                Math.sqrt(jukebox.getBlockPos().distSqr(this.worldPosition)),
+                JUKEBOX_RADIUS, MAX_FREQUENCY);
     }
 
     /**

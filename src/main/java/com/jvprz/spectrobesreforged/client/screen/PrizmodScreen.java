@@ -85,15 +85,18 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         // 1) Fondo (tu PNG 174x115)
         g.blit(TEX, baseX, baseY, 0, 0, imageWidth, imageHeight, TEX_W, TEX_H);
 
-        g.drawString(font, "PRIZMOD",
+        g.drawString(font, Component.translatable("gui.spectrobesreforged.prizmod"),
                 baseX + 7,
                 baseY + 14 - font.lineHeight,
                 0xc2f2b8);
 
-        g.drawString(font, "TEAM",
-                baseX + 131,
-                baseY + 14 - font.lineHeight,
-                0xc2f2b8);
+        Component teamTitle = Component.translatable("gui.spectrobesreforged.team");
+        float titleScale = Math.min(1.0F, (imageWidth - 135.0F) / Math.max(1, font.width(teamTitle)));
+        g.pose().pushPose();
+        g.pose().translate(baseX + 131, baseY + 14 - font.lineHeight, 0);
+        g.pose().scale(titleScale, titleScale, 1.0F);
+        g.drawString(font, teamTitle, 0, 0, 0xc2f2b8);
+        g.pose().popPose();
 
         // Cache layout para hit-testing (coordenadas absolutas)
         invX0  = baseX + INV_OX;
@@ -400,13 +403,13 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         lines.add(Component.translatable("spectrobesreforged.spectrobe." + key)
                 .withStyle(ChatFormatting.AQUA));
 
-        lines.add(Component.literal("Stage: ").withStyle(ChatFormatting.GRAY)
-                .append(Component.literal(e.stage()).withStyle(ChatFormatting.WHITE)));
+        lines.add(Component.translatable("tooltip.spectrobesreforged.stage").withStyle(ChatFormatting.GRAY)
+                .append(Component.translatable("spectrobe.stage." + e.stage().toLowerCase(Locale.ROOT)).withStyle(ChatFormatting.WHITE)));
 
-        lines.add(Component.literal("Level: ").withStyle(ChatFormatting.GRAY)
+        lines.add(Component.translatable("tooltip.spectrobesreforged.level").withStyle(ChatFormatting.GRAY)
                 .append(Component.literal(String.valueOf(e.level())).withStyle(ChatFormatting.WHITE)));
 
-        lines.add(Component.literal("Variant: ").withStyle(ChatFormatting.DARK_GRAY)
+        lines.add(Component.translatable("tooltip.spectrobesreforged.variant").withStyle(ChatFormatting.DARK_GRAY)
                 .append(Component.literal(String.valueOf(e.color())).withStyle(ChatFormatting.GRAY)));
 
         SpectrobeSpecies species = SpectrobeSpeciesRegistry.getByKey(e.species());
@@ -450,44 +453,38 @@ public class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
 
         ChatFormatting hpFmt = hpColor(hpCur, hpNow);
 
-        lines.add(Component.literal("HP: ").withStyle(ChatFormatting.RED)
-                .append(Component.literal(
-                        hpCur + "/" + hpNow + " (" + hpBase + " + " + hpBonus + " bonus)"
-                ).withStyle(hpFmt))
+        lines.add(Component.translatable("tooltip.spectrobesreforged.hp").withStyle(ChatFormatting.RED)
+                .append(Component.translatable("tooltip.spectrobesreforged.hp_values", hpCur, hpNow, hpBase, hpBonus).withStyle(hpFmt))
                 .append(hpMaxed
-                        ? Component.literal(" [MAX]").withStyle(ChatFormatting.GOLD)
+                        ? Component.translatable("tooltip.spectrobesreforged.max").withStyle(ChatFormatting.GOLD)
                         : Component.empty()));
 
-        lines.add(Component.literal("ATK: ").withStyle(ChatFormatting.GOLD)
-                .append(Component.literal(
-                        atkNow + " (" + atkBase + " + " + atkBonus + " bonus)"
-                ).withStyle(ChatFormatting.WHITE))
+        lines.add(Component.translatable("tooltip.spectrobesreforged.atk").withStyle(ChatFormatting.GOLD)
+                .append(Component.translatable("tooltip.spectrobesreforged.stat_values", atkNow, atkBase, atkBonus).withStyle(ChatFormatting.WHITE))
                 .append(atkMaxed
-                        ? Component.literal(" [MAX]").withStyle(ChatFormatting.GOLD)
+                        ? Component.translatable("tooltip.spectrobesreforged.max").withStyle(ChatFormatting.GOLD)
                         : Component.empty()));
 
-        lines.add(Component.literal("DEF: ").withStyle(ChatFormatting.BLUE)
-                .append(Component.literal(
-                        defNow + " (" + defBase + " + " + defBonus + " bonus)"
-                ).withStyle(ChatFormatting.WHITE))
+        lines.add(Component.translatable("tooltip.spectrobesreforged.def").withStyle(ChatFormatting.BLUE)
+                .append(Component.translatable("tooltip.spectrobesreforged.stat_values", defNow, defBase, defBonus).withStyle(ChatFormatting.WHITE))
                 .append(defMaxed
-                        ? Component.literal(" [MAX]").withStyle(ChatFormatting.GOLD)
+                        ? Component.translatable("tooltip.spectrobesreforged.max").withStyle(ChatFormatting.GOLD)
                         : Component.empty()));
 
         int total = hpNow + atkNow + defNow;
-        lines.add(Component.literal("Total: ").withStyle(ChatFormatting.DARK_AQUA)
+        lines.add(Component.translatable("tooltip.spectrobesreforged.total").withStyle(ChatFormatting.DARK_AQUA)
                 .append(Component.literal(String.valueOf(total)).withStyle(ChatFormatting.AQUA)));
 
         if (evolveReq > 0) {
             if (e.mineralsFed() >= evolveReq) {
-                lines.add(Component.literal("Evolve: ")
+                lines.add(Component.translatable("tooltip.spectrobesreforged.evolve")
                         .withStyle(ChatFormatting.LIGHT_PURPLE)
-                        .append(Component.literal("READY")
+                        .append(Component.translatable("tooltip.spectrobesreforged.ready")
                                 .withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD)));
             } else {
-                lines.add(Component.literal("Evolve: ")
+                lines.add(Component.translatable("tooltip.spectrobesreforged.evolve")
                         .withStyle(ChatFormatting.LIGHT_PURPLE)
-                        .append(Component.literal(e.mineralsFed() + "/" + evolveReq + " minerals")
+                        .append(Component.translatable("tooltip.spectrobesreforged.mineral_progress", e.mineralsFed(), evolveReq)
                                 .withStyle(ChatFormatting.YELLOW)));
             }
         }

@@ -60,7 +60,7 @@ public final class ModCommands {
                             PrizmodData data = player.getData(ModAttachments.PRIZMOD.get());
                             data.healEquippedFull();
 
-                            source.sendSuccess(() -> Component.literal("Spectrobe team healed to full health.")
+                            source.sendSuccess(() -> Component.translatable("message.spectrobesreforged.team_healed")
                                     .withStyle(ChatFormatting.GREEN), false);
 
                             ModSnapshotSender.sendSnapshot(player, data);
@@ -77,7 +77,7 @@ public final class ModCommands {
         SpectrobeSpecies species = SpectrobeSpeciesRegistry.getByKey(speciesKey);
 
         if (species == null) {
-            source.sendFailure(Component.literal("Unknown spectrobe species: " + speciesKey));
+            source.sendFailure(Component.translatable("message.spectrobesreforged.unknown_species", speciesKey));
             return 0;
         }
 
@@ -109,11 +109,10 @@ public final class ModCommands {
 
         data.addToBox(entry);
 
-        source.sendSuccess(() -> Component.literal(
-                "You have received a " + entry.species() + " in your Prizmod."
-        ).withStyle(ChatFormatting.GREEN), false);
+        source.sendSuccess(() -> Component.translatable("message.spectrobesreforged.received",
+                Component.translatable("spectrobesreforged.spectrobe." + entry.species())).withStyle(ChatFormatting.GREEN), false);
 
-        source.sendSuccess(() -> Component.literal("Code: " + entry.id())
+        source.sendSuccess(() -> Component.translatable("message.spectrobesreforged.code", entry.id().toString())
                 .withStyle(ChatFormatting.DARK_GRAY), false);
 
         ModSnapshotSender.sendSnapshot(player, data);

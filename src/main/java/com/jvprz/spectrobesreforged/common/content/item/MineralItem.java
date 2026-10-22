@@ -83,7 +83,7 @@ public class MineralItem extends Item {
 
         if (!spectrobe.getPersistentData().hasUUID("SpectrobeId")) {
             sp.displayClientMessage(
-                    Component.literal("This Spectrobe is not linked to Prizmod data.")
+                    Component.translatable("message.spectrobesreforged.not_linked")
                             .withStyle(ChatFormatting.RED),
                     true
             );
@@ -96,7 +96,7 @@ public class MineralItem extends Item {
         var found = data.findAnywhere(spectrobeId);
         if (found.isEmpty()) {
             sp.displayClientMessage(
-                    Component.literal("Spectrobe data not found in Prizmod.")
+                    Component.translatable("message.spectrobesreforged.data_not_found")
                             .withStyle(ChatFormatting.RED),
                     true
             );
@@ -107,7 +107,7 @@ public class MineralItem extends Item {
         SpectrobeSpecies species = SpectrobeSpeciesRegistry.getByKey(entry.species());
         if (species == null) {
             sp.displayClientMessage(
-                    Component.literal("Unknown Spectrobe species: " + entry.species())
+                    Component.translatable("message.spectrobesreforged.unknown_species", entry.species())
                             .withStyle(ChatFormatting.RED),
                     true
             );
@@ -157,7 +157,7 @@ public class MineralItem extends Item {
 
         if (!changed) {
             sp.displayClientMessage(
-                    Component.literal("This mineral has no effect.")
+                    Component.translatable("message.spectrobesreforged.no_effect")
                             .withStyle(ChatFormatting.YELLOW),
                     true
             );
@@ -262,12 +262,12 @@ public class MineralItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
 
-        addStatLine(tooltip, health, healthMax, "Health Minergy", ChatFormatting.GREEN);
-        addStatLine(tooltip, attack, attackMax, "Attack Minergy", ChatFormatting.RED);
-        addStatLine(tooltip, defense, defenseMax, "Defense Minergy", ChatFormatting.BLUE);
+        addStatLine(tooltip, health, healthMax, "tooltip.spectrobesreforged.minergy.health", ChatFormatting.GREEN);
+        addStatLine(tooltip, attack, attackMax, "tooltip.spectrobesreforged.minergy.attack", ChatFormatting.RED);
+        addStatLine(tooltip, defense, defenseMax, "tooltip.spectrobesreforged.minergy.defense", ChatFormatting.BLUE);
 
         tooltip.add(Component.empty());
-        tooltip.add(Component.literal(description).withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable(description).withStyle(ChatFormatting.GRAY));
 
         super.appendHoverText(stack, context, tooltip, flag);
     }
@@ -281,7 +281,7 @@ public class MineralItem extends Item {
         if (value == null && !isMax) return;
 
         if (isMax) {
-            tooltip.add(Component.literal("MAX " + label).withStyle(ChatFormatting.GOLD));
+            tooltip.add(Component.translatable("tooltip.spectrobesreforged.mineral_max", Component.translatable(label)).withStyle(ChatFormatting.GOLD));
             return;
         }
 
@@ -290,6 +290,6 @@ public class MineralItem extends Item {
         String sign = value > 0 ? "+" : "";
         ChatFormatting color = value > 0 ? positiveColor : ChatFormatting.DARK_GRAY;
 
-        tooltip.add(Component.literal(sign + value + " " + label).withStyle(color));
+        tooltip.add(Component.translatable("tooltip.spectrobesreforged.mineral_delta", sign + value, Component.translatable(label)).withStyle(color));
     }
 }
