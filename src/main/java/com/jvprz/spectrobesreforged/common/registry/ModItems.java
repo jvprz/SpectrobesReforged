@@ -156,195 +156,195 @@ public final class ModItems {
             ITEMS.register("power_c",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.COMMON),
                             0, VAL, 8, VAL, 0, VAL,
-                            "This mineral increases Attack Minergy by 8! It makes Spectrobe attacks slightly stronger."));
+                            "tooltip.spectrobesreforged.mineral.power_c"));
 
     public static final DeferredItem<Item> POWER_B =
             ITEMS.register("power_b",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.COMMON),
                             0, VAL, 16, VAL, 0, VAL,
-                            "This mineral increases Attack Minergy by 16! It gives Spectrobes increased offensive power."));
+                            "tooltip.spectrobesreforged.mineral.power_b"));
 
     public static final DeferredItem<Item> DEFENSE_C =
             ITEMS.register("defense_c",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.COMMON),
                             0, VAL, 0, VAL, 8, VAL,
-                            "This mineral increases Defense Minergy by 8! It gives Spectrobes slightly better battle protection."));
+                            "tooltip.spectrobesreforged.mineral.defense_c"));
 
     public static final DeferredItem<Item> DEFENSE_B =
             ITEMS.register("defense_b",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.COMMON),
                             0, VAL, 0, VAL, 16, VAL,
-                            "This mineral increases Defense Minergy by 16! It allows Spectrobes to resist heavier enemy blows!"));
+                            "tooltip.spectrobesreforged.mineral.defense_b"));
 
     public static final DeferredItem<Item> HEALTH_C =
             ITEMS.register("health_c",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.COMMON),
                             8, VAL, 0, VAL, 0, VAL,
-                            "This mineral increases Health Minergy by 8! It gives Spectrobes slightly better endurance."));
+                            "tooltip.spectrobesreforged.mineral.health_c"));
 
     public static final DeferredItem<Item> HEALTH_B =
             ITEMS.register("health_b",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.COMMON),
                             16, VAL, 0, VAL, 0, VAL,
-                            "This mineral increases Health Minergy by 16! It gives Spectrobes pretty good battle stamina."));
+                            "tooltip.spectrobesreforged.mineral.health_b"));
 
     // Minerals tier uncommon
     public static final DeferredItem<Item> POWER_A =
             ITEMS.register("power_a",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.UNCOMMON),
                             0, VAL, 24, VAL, 0, VAL,
-                            "This mineral increases Attack Minergy by 24! It gives Spectrobes real battle damage power!"));
+                            "tooltip.spectrobesreforged.mineral.power_a"));
 
     public static final DeferredItem<Item> POWER_A_PLUS =
             ITEMS.register("power_a_plus",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.UNCOMMON),
                             0, VAL, 32, VAL, 0, VAL,
-                            "This mineral increases Attack Minergy by 32! It gives Spectrobes formidable warrior power!"));
+                            "tooltip.spectrobesreforged.mineral.power_a_plus"));
 
     public static final DeferredItem<Item> DEFENSE_A =
             ITEMS.register("defense_a",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.UNCOMMON),
                             0, VAL, 0, VAL, 24, VAL,
-                            "This mineral increases Defense Minergy by 24! It allows Spectrobes to face more dangerous foes."));
+                            "tooltip.spectrobesreforged.mineral.defense_a"));
 
     public static final DeferredItem<Item> DEFENSE_A_PLUS =
             ITEMS.register("defense_a_plus",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.UNCOMMON),
                             0, VAL, 0, VAL, 32, VAL,
-                            "This mineral increases Defense Minergy by 32! It allows Spectrobes to withstand ferocious blows!"));
+                            "tooltip.spectrobesreforged.mineral.defense_a_plus"));
 
     public static final DeferredItem<Item> HEALTH_A =
             ITEMS.register("health_a",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.UNCOMMON),
                             24, VAL, 0, VAL, 0, VAL,
-                            "This mineral increases Health Minergy by 24! It gives Spectrobes elevated battle endurance!"));
+                            "tooltip.spectrobesreforged.mineral.health_a"));
 
     public static final DeferredItem<Item> HEALTH_A_PLUS =
             ITEMS.register("health_a_plus",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.UNCOMMON),
                             32, VAL, 0, VAL, 0, VAL,
-                            "This mineral increases Health Minergy by 32! It gives Spectrobes amazing battle stamina!"));
+                            "tooltip.spectrobesreforged.mineral.health_a_plus"));
 
     public static final DeferredItem<Item> AGATE =
             ITEMS.register("agate",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.UNCOMMON),
                             0, VAL, 8, VAL, 8, VAL,
-                            "This mineral increases Attack Minergy and Defense Minergy by 8! It's a useful supplement."));
+                            "tooltip.spectrobesreforged.mineral.agate"));
 
     public static final DeferredItem<Item> LAZULI =
             ITEMS.register("lazuli",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.UNCOMMON),
                             0, VAL, 16, VAL, 16, VAL,
-                            "This mineral increases Attack Minergy and Defense Minergy by 16! It's a great supplement."));
+                            "tooltip.spectrobesreforged.mineral.lazuli"));
 
     public static final DeferredItem<Item> JADE =
             ITEMS.register("jade",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.UNCOMMON),
                             8, VAL, 8, VAL, 0, VAL,
-                            "This mineral increases Attack Minergy and Health Minergy by 8! It's a useful supplement!"));
+                            "tooltip.spectrobesreforged.mineral.jade"));
 
     public static final DeferredItem<Item> AMBER =
             ITEMS.register("amber",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.UNCOMMON),
                             16, VAL, 16, VAL, 0, VAL,
-                            "This mineral increases Attack Minergy and Health Minergy by 16! It's a great supplement!"));
+                            "tooltip.spectrobesreforged.mineral.amber"));
 
     public static final DeferredItem<Item> FLUORITE =
             ITEMS.register("fluorite",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.UNCOMMON),
                             8, VAL, 0, VAL, 8, VAL,
-                            "This mineral increases Defense Minergy and Health Minergy by 8! It's rather useful."));
+                            "tooltip.spectrobesreforged.mineral.fluorite"));
 
     public static final DeferredItem<Item> CORAL =
             ITEMS.register("coral",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.UNCOMMON),
                             16, VAL, 0, VAL, 16, VAL,
-                            "This mineral increases Defense Minergy and Health Minergy by 16! It's quite useful."));
+                            "tooltip.spectrobesreforged.mineral.coral"));
 
     // Minerals tier rare
     public static final DeferredItem<Item> GRAPHITE =
             ITEMS.register("graphite",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             0, VAL, 30, VAL, -8, VAL,
-                            "This mineral increases Attack Minergy by 30 but decreases Defense Minergy by 8!"));
+                            "tooltip.spectrobesreforged.mineral.graphite"));
 
     public static final DeferredItem<Item> GARNET =
             ITEMS.register("garnet",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             0, VAL, -8, VAL, 30, VAL,
-                            "This mineral reduces Attack Minergy by 8 but increases Defense Minergy by 30!"));
+                            "tooltip.spectrobesreforged.mineral.garnet"));
 
     public static final DeferredItem<Item> ONYX =
             ITEMS.register("onyx",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             0, VAL, 40, VAL, -16, VAL,
-                            "This mineral increases Attack Minergy by 40 but decreases Defense Minergy by 16!"));
+                            "tooltip.spectrobesreforged.mineral.onyx"));
 
     public static final DeferredItem<Item> TOPAZ =
             ITEMS.register("topaz",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             0, VAL, -16, VAL, 40, VAL,
-                            "This mineral reduces Attack Minergy by 16 but increases Defense Minergy by 40!"));
+                            "tooltip.spectrobesreforged.mineral.topaz"));
 
     public static final DeferredItem<Item> ZIRCON =
             ITEMS.register("zircon",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             -8, VAL, 30, VAL, 0, VAL,
-                            "This mineral increases Attack Minergy by 30 but reduces Health Minergy by 8!"));
+                            "tooltip.spectrobesreforged.mineral.zircon"));
 
     public static final DeferredItem<Item> OPAL =
             ITEMS.register("opal",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             30, VAL, -8, VAL, 0, VAL,
-                            "This mineral reduces Attack Minergy by 8 but increases Health Minergy by 30!"));
+                            "tooltip.spectrobesreforged.mineral.opal"));
 
     public static final DeferredItem<Item> COBALT =
             ITEMS.register("cobalt",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             -16, VAL, 40, VAL, 0, VAL,
-                            "This mineral increases Attack Minergy by 40 but reduces Health Minergy by 16!"));
+                            "tooltip.spectrobesreforged.mineral.cobalt"));
 
     public static final DeferredItem<Item> CITRINE =
             ITEMS.register("citrine",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             40, VAL, -16, VAL, 0, VAL,
-                            "This mineral reduces Attack Minergy by 16 but increases Health Minergy by 40!"));
+                            "tooltip.spectrobesreforged.mineral.citrine"));
 
     public static final DeferredItem<Item> SYLVITE =
             ITEMS.register("sylvite",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             -8, VAL, 0, VAL, 30, VAL,
-                            "This mineral increases Defense Minergy by 30 but reduces Health Minergy by 8!"));
+                            "tooltip.spectrobesreforged.mineral.sylvite"));
 
     public static final DeferredItem<Item> SPINAL =
             ITEMS.register("spinal",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             30, VAL, 0, VAL, -8, VAL,
-                            "This mineral reduces Defense Minergy by 8 but increases Health Minergy by 30!"));
+                            "tooltip.spectrobesreforged.mineral.spinal"));
 
     public static final DeferredItem<Item> AZURITE =
             ITEMS.register("azurite",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             -16, VAL, 0, VAL, 40, VAL,
-                            "This mineral increases Defense Minergy by 40 but reduces Health Minergy by 16!"));
+                            "tooltip.spectrobesreforged.mineral.azurite"));
 
     public static final DeferredItem<Item> QUARTZ =
             ITEMS.register("quartz",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             40, VAL, 0, VAL, -16, VAL,
-                            "This mineral reduces Defense Minergy by 16 but increases Health Minergy by 40!"));
+                            "tooltip.spectrobesreforged.mineral.quartz"));
 
     public static final DeferredItem<Item> PLATINUM =
             ITEMS.register("platinum",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             5, VAL, 5, VAL, 5, VAL,
-                            "This mineral increases Attack, Defense and Health Minergies by 5! It's not a bad find."));
+                            "tooltip.spectrobesreforged.mineral.platinum"));
 
     public static final DeferredItem<Item> PEARL =
             ITEMS.register("pearl",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             12, VAL, 12, VAL, 12, VAL,
-                            "This mineral increases Attack, Defense and Health Minergies by 12! It's pretty handy."));
+                            "tooltip.spectrobesreforged.mineral.pearl"));
 
     // Minerals tier epic
     public static final DeferredItem<Item> URANIUM =
@@ -353,7 +353,7 @@ public final class ModItems {
                             -16, VAL,
                             null, MAX,
                             -16, VAL,
-                            "This mineral increases Attack Minergy to the max but reduces all other Minergy by 16!"));
+                            "tooltip.spectrobesreforged.mineral.uranium"));
 
     public static final DeferredItem<Item> TITANIUM =
             ITEMS.register("titanium",
@@ -361,7 +361,7 @@ public final class ModItems {
                             -16, VAL,
                             -16, VAL,
                             null, MAX,
-                            "This mineral increases Defense Minergy to the max but reduces all other Minergy by 16!"));
+                            "tooltip.spectrobesreforged.mineral.titanium"));
 
     public static final DeferredItem<Item> CHROME =
             ITEMS.register("chrome",
@@ -369,43 +369,43 @@ public final class ModItems {
                             null, MAX,
                             -16, VAL,
                             -16, VAL,
-                            "This mineral increases Health Minergy to the max but reduces all other Minergy by 16!"));
+                            "tooltip.spectrobesreforged.mineral.chrome"));
 
     public static final DeferredItem<Item> SAPPHIRE =
             ITEMS.register("sapphire",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             24, VAL, 24, VAL, 24, VAL,
-                            "This mineral increases Attack, Defense and Health Minergies by 24! It's quite useful."));
+                            "tooltip.spectrobesreforged.mineral.sapphire"));
 
     public static final DeferredItem<Item> EMERALD =
             ITEMS.register("emerald",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             36, VAL, 36, VAL, 36, VAL,
-                            "This mineral increases Attack, Defense and Health Minergies by 36! It's quite valuable."));
+                            "tooltip.spectrobesreforged.mineral.emerald"));
 
     public static final DeferredItem<Item> RUBY =
             ITEMS.register("ruby",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.EPIC),
                             50, VAL, 50, VAL, 50, VAL,
-                            "This mineral increases Attack, Defense and Health Minergies by 50! It's a treasure!"));
+                            "tooltip.spectrobesreforged.mineral.ruby"));
 
     public static final DeferredItem<Item> DIAMOND =
             ITEMS.register("diamond",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.EPIC),
                             0, VAL, 0, VAL, 0, VAL,
-                            "This rare gem of the Table Top Mountains has untold value. Be wary of its captivating beauty."));
+                            "tooltip.spectrobesreforged.mineral.diamond"));
 
     public static final DeferredItem<Item> GOLD =
             ITEMS.register("gold",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
                             -15, VAL, -15, VAL, -15, VAL,
-                            "This glittering gold mineral is considered a treasure among mineral hunters."));
+                            "tooltip.spectrobesreforged.mineral.gold"));
 
     public static final DeferredItem<Item> EVOLVE =
             ITEMS.register("evolve",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.EPIC),
                             0, VAL, 0, VAL, 0, VAL,
-                            "This unique mineral has the ability to evolve a Spectrobe!"));
+                            "tooltip.spectrobesreforged.mineral.evolve"));
 
     public static final DeferredItem<Item> CHROMA_0 =
             ITEMS.register("chroma_0",

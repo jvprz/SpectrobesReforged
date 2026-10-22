@@ -16,8 +16,10 @@ public final class PrizmodSync {
     }
 
     public static void sync(ServerPlayer player) {
-        PrizmodData data =
-                player.getData(ModAttachments.PRIZMOD.get());
+        sync(player, player.getData(ModAttachments.PRIZMOD.get()));
+    }
+
+    public static void sync(ServerPlayer player, PrizmodData data) {
 
         List<S2CPrizmodSnapshot.Entry> box =
                 data.getBox()

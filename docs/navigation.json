@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "index",
+    "title": "Explorer’s guide",
+    "label": "Start here"
+  },
+  {
+    "slug": "getting-started",
+    "title": "Getting started",
+    "label": "First steps"
+  },
+  {
+    "slug": "fossils",
+    "title": "Fossils and exploration",
+    "label": "Fossils"
+  },
+  {
+    "slug": "awakening",
+    "title": "Incubator and awakening",
+    "label": "Awakening"
+  },
+  {
+    "slug": "prizmod",
+    "title": "Prizmod and companions",
+    "label": "Prizmod"
+  },
+  {
+    "slug": "scanning",
+    "title": "Companion scanner",
+    "label": "Scanning"
+  },
+  {
+    "slug": "spectrobes",
+    "title": "Spectrobe roster",
+    "label": "Spectrobes"
+  },
+  {
+    "slug": "minerals",
+    "title": "Minerals and recipes",
+    "label": "Minerals"
+  },
+  {
+    "slug": "krawl",
+    "title": "Krawl enemies",
+    "label": "Krawl"
+  },
+  {
+    "slug": "commands",
+    "title": "Admin commands",
+    "label": "Commands"
+  },
+  {
+    "slug": "troubleshooting",
+    "title": "Troubleshooting",
+    "label": "Help"
+  },
+  {
+    "slug": "about",
+    "title": "About this wiki",
+    "label": "About"
+  }
+]

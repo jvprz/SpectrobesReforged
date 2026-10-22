@@ -10,7 +10,7 @@ public class PrizmodMenuProvider implements MenuProvider {
 
     @Override
     public Component getDisplayName() {
-        return Component.literal("Prizmod");
+        return Component.translatable("container.spectrobesreforged.prizmod");
     }
 
     @Override

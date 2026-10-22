@@ -164,3 +164,8 @@ Original Spectrobes intellectual property belongs to Disney and Jupiter
 Corporation.
 
 Fan project developed by **JPrimee (@jvprz)**.
+
+
+## Player wiki
+
+Read the [player guide](docs/index.md) for installation, fossils, awakening, companions, scanning, minerals and current alpha limitations. See [wiki maintenance and publishing](docs/README.md) to preview or deploy the website.
