@@ -42,3 +42,5 @@ Commit the resulting snapshot. While its version equals `mod_version`, the build
 ## Publish
 
 Commit and push the changes, then merge into **main**. The existing **Publish player wiki** GitHub Actions workflow validates the site and deploys GitHub Pages from main. Pull requests validate without deploying. The public URL is `https://jvprz.github.io/SpectrobesReforged/`; it does not change until deployment succeeds. In repository Settings → Pages, keep **GitHub Actions** as the source.
+
+CSS, scripts and local icons use content-hashed filenames. Each edition also has its own content-hashed search index. Updated HTML therefore requests the corresponding new assets after deployment instead of reusing an older cached stylesheet. Existing root guide URLs remain unchanged.
