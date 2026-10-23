@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "index",
+    "title": "Handbuch für Entdecker",
+    "label": "Start"
+  },
+  {
+    "slug": "getting-started",
+    "title": "Erste Schritte",
+    "label": "Erste Schritte"
+  },
+  {
+    "slug": "fossils",
+    "title": "Fossilien und Erkundung",
+    "label": "Fossilien"
+  },
+  {
+    "slug": "awakening",
+    "title": "Inkubator und Erwecken",
+    "label": "Erwecken"
+  },
+  {
+    "slug": "prizmod",
+    "title": "Prizmod und Begleiter",
+    "label": "Prizmod"
+  },
+  {
+    "slug": "scanning",
+    "title": "Begleiterscanner",
+    "label": "Scanner"
+  },
+  {
+    "slug": "spectrobes",
+    "title": "Spectrobe-Arten",
+    "label": "Spectrobes"
+  },
+  {
+    "slug": "minerals",
+    "title": "Mineralien und Rezepte",
+    "label": "Mineralien"
+  },
+  {
+    "slug": "krawl",
+    "title": "Krawl-Gegner",
+    "label": "Krawl"
+  },
+  {
+    "slug": "vortices",
+    "title": "Kleine Krawl-Wirbel",
+    "label": "Wirbel"
+  },
+  {
+    "slug": "commands",
+    "title": "Administratorbefehle",
+    "label": "Befehle"
+  },
+  {
+    "slug": "advancements",
+    "title": "Fortschritte",
+    "label": "Fortschritte"
+  },
+  {
+    "slug": "troubleshooting",
+    "title": "Problemlösung",
+    "label": "Hilfe"
+  },
+  {
+    "slug": "about",
+    "title": "Über dieses Wiki",
+    "label": "Über das Wiki"
+  }
+]

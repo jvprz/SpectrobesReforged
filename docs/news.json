@@ -1,0 +1,86 @@
+{
+  "date": "2026-10-23",
+  "items": [
+    {
+      "href": "vortices.html",
+      "en": [
+        "Vortices with more presence",
+        "Animated block model, dense black and violet gas, ground dust and smoother terrain following."
+      ],
+      "es": [
+        "Vórtices con más presencia",
+        "Modelo de bloques animado, gas negro y morado denso, polvo del suelo y seguimiento del terreno mejorado."
+      ],
+      "fr": [
+        "Des vortex plus présents",
+        "Modèle animé en blocs, gaz noir et violet dense, poussière du sol et déplacement amélioré."
+      ],
+      "de": [
+        "Wirbel mit mehr Präsenz",
+        "Animiertes Würfelmodell, dichtes schwarzes und violettes Gas, Bodenstaub und verbesserte Geländebewegung."
+      ],
+      "it": [
+        "Vortici più presenti",
+        "Modello animato a cubi, gas nero e viola denso, polvere del suolo e movimento migliorato."
+      ],
+      "pt-BR": [
+        "Vórtices com mais presença",
+        "Modelo animado em blocos, gás preto e roxo denso, poeira do chão e movimento melhorado."
+      ]
+    },
+    {
+      "href": "vortices.html#krawl-by-biome",
+      "en": [
+        "Your biome changes the encounter",
+        "Corona in hot biomes, green Aurora in temperate biomes and blue Flash elsewhere."
+      ],
+      "es": [
+        "El bioma cambia el encuentro",
+        "Corona en cálidos, Aurora verdes en templados y Flash azules en los demás."
+      ],
+      "fr": [
+        "Le biome change la rencontre",
+        "Corona dans les biomes chauds, Aurora verts dans les tempérés et Flash bleus ailleurs."
+      ],
+      "de": [
+        "Das Biom bestimmt die Gegner",
+        "Corona in heißen, grüne Aurora in gemäßigten Biomen und blaue Flash anderswo."
+      ],
+      "it": [
+        "Il bioma cambia l’incontro",
+        "Corona nei caldi, Aurora verdi nei temperati e Flash blu negli altri biomi."
+      ],
+      "pt-BR": [
+        "O bioma muda o encontro",
+        "Corona nos quentes, Aurora verdes nos temperados e Flash azuis nos demais."
+      ]
+    },
+    {
+      "href": "vortices.html",
+      "en": [
+        "A reward worth finishing for",
+        "Complete the three-Krawl encounter for two tier-C minerals and 15 experience points."
+      ],
+      "es": [
+        "Una recompensa por completar el combate",
+        "Derrota a los tres Krawl para conseguir dos minerales C y 15 puntos de experiencia."
+      ],
+      "fr": [
+        "Une récompense pour la victoire",
+        "Vainquez les trois Krawl pour obtenir deux minéraux C et 15 points d’expérience."
+      ],
+      "de": [
+        "Belohnung für den vollständigen Sieg",
+        "Besiege die drei Krawl für zwei C-Mineralien und 15 Erfahrungspunkte."
+      ],
+      "it": [
+        "Una ricompensa per la vittoria",
+        "Sconfiggi i tre Krawl per due minerali C e 15 punti esperienza."
+      ],
+      "pt-BR": [
+        "Uma recompensa pela vitória",
+        "Derrote os três Krawl para receber dois minerais C e 15 pontos de experiência."
+      ]
+    }
+  ]
+}

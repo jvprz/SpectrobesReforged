@@ -1,36 +1,44 @@
 # Maintaining the player wiki
 
-Player pages live in this directory. The site builder reads Markdown, navigation.json and the current mod data. Generated HTML goes into build/wiki, already excluded from Git.
+The current English guides are in `docs/*.md`. Translated player guides and navigation are in `docs/i18n/{es,fr,de,it,pt-BR}/`. Edit those Markdown sources when a mechanic changes. Tables and item names are generated from the mod resources in each language. Biome names and identifiers follow the source data.
 
-## Build and preview
+## Build and verify
 
 ```text
 python -m pip install -r tools/wiki/requirements.txt
+python -m unittest discover -s tools/wiki -p "test_*.py"
 python tools/wiki/build.py
 python -m http.server 8000 --directory build/wiki
 ```
 
-Open http://localhost:8000. No Discord webhook, CurseForge API key or personal token is required. The build also checks local links, anchors, navigation and unresolved data placeholders.
+Open `http://localhost:8000/es/index.html` for Spanish. English keeps the existing root URLs, so previously shared links continue to work. Python 3.10+ is required; CI uses 3.12. All output is static and works on GitHub Pages, under its repository subpath, or locally. No API keys, external translation services, remote fonts or analytics are required.
 
-The supported Python version for CI is 3.12. The builder requires Python 3.10 or newer.
+The build checks every HTML page, local link, fragment, icon, script and selector destination. Search is scoped to the selected language and release and ignores accents. Light/dark mode retains the existing saved preference. Icons have accessible labels; language/version controls work by keyboard.
 
-## Publish on GitHub Pages
+## Homepage news
 
-1. Commit and push the wiki files to the repository's **main** branch (merge from dev when ready).
-2. In GitHub, open **Settings → Pages → Build and deployment → Source → GitHub Actions**.
-3. Run **Publish player wiki** from Actions on **main**, or let the next relevant push trigger it.
-4. If GitHub requests environment approval, approve the github-pages deployment.
-5. Copy the published URL from the deployment result to CurseForge and Discord.
+Edit `docs/news.json`: set the release date and maintain the three relevant highlights in all six languages. Targets are local HTML guide links. News appears only in the current edition, above the main guide. Do not add current news to historical snapshots.
 
-The expected project URL is https://jvprz.github.io/SpectrobesReforged/ once deployment succeeds. It is not live merely because these files exist. Pull requests build and validate the wiki without deploying. The workflow only deploys from main.
+## Archived versions
 
-## Edit
+`docs/versions/*.json` stores resolved Markdown, navigation, the release number and the exact Git commit. Included snapshots: 0.5.1-alpha (`cdb1536`) and 0.6.0-beta.1 (`0558fe6`). These are actual historical guides, not current pages relabeled with an old version. They retain their original English text and visible archive notices. The version menu marks unavailable guides as Home and sends the reader to that edition's start page. Selecting a current language from an archive explicitly changes to the current release.
 
-- Edit player-facing prose in the corresponding Markdown file.
-- Keep relative links in the form `other-page.md#heading` so GitHub and the generated site both work.
-- Add pages to navigation.json.
-- Do not hand-edit generated tables: the builder fills the named placeholders from source data.
-- Whenever mechanics change, check the relevant guide and limitations, not only the tables.
-- The wiki is English; the six bundled game locales are independent resources.
+Before bumping to the next mod version, commit the documented release, then run:
 
-The site uses local CSS and JavaScript, with no remote fonts, analytics or required external theme.
+```text
+python tools/wiki/freeze_version.py
+```
+
+Commit the resulting snapshot. While its version equals `mod_version`, the builder continues to show the current edition only. After the version bump, the snapshot automatically appears in the archive selector. The freezer requires a clean Git worktree and refuses to overwrite an existing snapshot. It preserves English guides and resolved data; translated historical editions are not implied.
+
+## Other source files
+
+- `docs/navigation.json` and each translated `navigation.json`: page names and order. Keep all six current editions complete.
+- `tools/wiki/locales.py`: interface, theme and search messages.
+- `tools/wiki/table_terms.json`: generated table vocabulary. Game item names use the bundled language JSON resources.
+- `tools/wiki/assets/`: neutral light/dark styles, local SVG icons and scripts. The supplied mod icon is retained.
+- Keep links as `other-page.md#heading`. For translated headings needed by shared links, use stable IDs such as `## Localized heading {#incubator}`.
+
+## Publish
+
+Commit and push the changes, then merge into **main**. The existing **Publish player wiki** GitHub Actions workflow validates the site and deploys GitHub Pages from main. Pull requests validate without deploying. The public URL is `https://jvprz.github.io/SpectrobesReforged/`; it does not change until deployment succeeds. In repository Settings → Pages, keep **GitHub Actions** as the source.

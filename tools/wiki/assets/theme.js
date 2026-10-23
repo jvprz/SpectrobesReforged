@@ -12,8 +12,9 @@
     const button = document.querySelector('#theme-toggle');
     if (button) {
       button.hidden = false;
-      button.textContent = theme === 'dark' ? 'Light mode' : 'Dark mode';
-      button.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+      const ui = window.WIKI_UI || {};
+      button.textContent = theme === 'dark' ? (ui.light || 'Light mode') : (ui.dark || 'Dark mode');
+      button.setAttribute('aria-label', button.textContent);
     }
   }
   apply(manual ? saved : (preference.matches ? 'dark' : 'light'));
