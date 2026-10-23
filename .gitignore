@@ -27,3 +27,7 @@ repo
 
 # Generated runtime and test logs
 /logs/
+
+# Python wiki tooling caches
+__pycache__/
+*.py[cod]

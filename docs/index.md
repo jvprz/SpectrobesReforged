@@ -2,7 +2,7 @@
 
 Explore the world, uncover ancient fossils, and awaken a companion of your own. This is the player wiki for **Spectrobes Reforged <!-- VERSION -->0.6.1-beta<!-- /VERSION -->**, for **Minecraft 1.21.1 with NeoForge**.
 
-> **Our first beta: a growing exploration and encounter experience.** This guide describes the bundled code and data. Custom modpacks and datapacks can change the experience. Planned features are marked explicitly.
+> **A growing exploration and encounter experience.** This guide describes the bundled code and data. Custom modpacks and datapacks can change the experience. Planned features are marked explicitly.
 
 ## Begin your journey
 
@@ -12,7 +12,7 @@ Explore the world, uncover ancient fossils, and awaken a companion of your own. 
 4. [Manage your companion in the Prizmod](prizmod.md).
 5. [Scan for buried discoveries](scanning.md) and [feed minerals](minerals.md).
 
-**New in this beta:** [Prizmod and incubator crafting recipes](getting-started.md#craft-your-equipment), [advancements](advancements.md), and pursuing [Krawl vortices](vortices.md).
+**Core progression:** [Prizmod and incubator crafting recipes](getting-started.md#craft-your-equipment), [advancements](advancements.md), and pursuing [Krawl vortices](vortices.md).
 
 ## Field reference
 
@@ -40,4 +40,4 @@ Explore the world, uncover ancient fossils, and awaken a companion of your own. 
 
 [Download on CurseForge](https://www.curseforge.com/minecraft/mc-mods/spectrobes-reforged) · [Source and issues](https://github.com/jvprz/SpectrobesReforged) · [Join Discord](https://discord.gg/7QkScUWBe9)
 
-The mod supports English, Spanish, French, German, Italian, and Brazilian Portuguese. This first edition of the wiki is in English.
+The mod supports English, Spanish, French, German, Italian, and Brazilian Portuguese. The current wiki is available in the same six languages; choose yours in the sidebar. Archived guides retain their original English text.

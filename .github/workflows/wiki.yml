@@ -26,6 +26,8 @@ jobs:
           cache: pip
           cache-dependency-path: tools/wiki/requirements.txt
       - run: python -m pip install -r tools/wiki/requirements.txt
+      - name: Test languages and historical editions
+        run: python -m unittest discover -s tools/wiki -p 'test_*.py'
       - name: Build and validate wiki
         run: python tools/wiki/build.py
       - name: Upload Pages artifact

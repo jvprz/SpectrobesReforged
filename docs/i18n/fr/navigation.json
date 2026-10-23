@@ -1,0 +1,72 @@
+[
+  {
+    "slug": "index",
+    "title": "Guide de l’explorateur",
+    "label": "Accueil"
+  },
+  {
+    "slug": "getting-started",
+    "title": "Premiers pas",
+    "label": "Premiers pas"
+  },
+  {
+    "slug": "fossils",
+    "title": "Fossiles et exploration",
+    "label": "Fossiles"
+  },
+  {
+    "slug": "awakening",
+    "title": "Incubateur et éveil",
+    "label": "Éveil"
+  },
+  {
+    "slug": "prizmod",
+    "title": "Prizmod et compagnons",
+    "label": "Prizmod"
+  },
+  {
+    "slug": "scanning",
+    "title": "Scanner du compagnon",
+    "label": "Scanner"
+  },
+  {
+    "slug": "spectrobes",
+    "title": "Espèces de Spectrobes",
+    "label": "Spectrobes"
+  },
+  {
+    "slug": "minerals",
+    "title": "Minéraux et recettes",
+    "label": "Minéraux"
+  },
+  {
+    "slug": "krawl",
+    "title": "Ennemis Krawl",
+    "label": "Krawl"
+  },
+  {
+    "slug": "vortices",
+    "title": "Petits vortex Krawl",
+    "label": "Vortex"
+  },
+  {
+    "slug": "commands",
+    "title": "Commandes administrateur",
+    "label": "Commandes"
+  },
+  {
+    "slug": "advancements",
+    "title": "Progrès",
+    "label": "Progrès"
+  },
+  {
+    "slug": "troubleshooting",
+    "title": "Résolution des problèmes",
+    "label": "Aide"
+  },
+  {
+    "slug": "about",
+    "title": "À propos du wiki",
+    "label": "À propos"
+  }
+]
