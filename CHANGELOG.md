@@ -1,5 +1,16 @@
 # Spectrobes Reforged
 
+## v0.6.1-beta - 2026-10-23
+
+- Replaced the procedural vortex funnel with an animated 12-cube model and a purple texture atlas with consistent square texels.
+- Added dense, orbiting black and violet gas, intermittent Krawl-style particle bursts and ground particles while moving.
+- Vortices spawned in the air descend to the ground without needing a pursuit target; settling no longer cancels ledge climbs.
+- Encounters now spawn three Blovant (Corona) in hot biomes, three Viblova (Aurora) in temperate biomes, or three Blova (Flash) elsewhere, using the existing biome tags at the catch location.
+- Completing a vortex now drops 15 XP as orbs near its owner, in addition to the existing two tier-C mineral items.
+- Updated the player wiki for the current visuals, biome encounters and rewards.
+
+Minecraft 1.21.1 / NeoForge 21.1.219+ / GeckoLib 4.8.3+ / Java 21.
+
 ## v0.6.0-beta.1 — 2026-10-22
 
 ### Krawl encounters

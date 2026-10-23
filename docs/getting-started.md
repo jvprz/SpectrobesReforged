@@ -9,7 +9,7 @@
 | GeckoLib | 4.8.3 or newer for NeoForge 1.21.1 |
 | Java | 21 |
 
-These requirements describe <!-- VERSION -->0.6.0-beta.1<!-- /VERSION -->. Match every download to **Minecraft 1.21.1 and NeoForge**; older mod releases have different requirements.
+These requirements describe <!-- VERSION -->0.6.1-beta<!-- /VERSION -->. Match every download to **Minecraft 1.21.1 and NeoForge**; older mod releases have different requirements.
 
 ## Install
 

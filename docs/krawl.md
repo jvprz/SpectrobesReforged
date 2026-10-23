@@ -1,6 +1,6 @@
 # Krawl enemies
 
-The current mod includes **Blova, Viblova, and Blovant** definitions with custom models, sounds and melee behavior. Spawn eggs work for all three. This beta adds [small vortex encounters](vortices.md) that produce three Blova.
+The current mod includes **Blova, Viblova, and Blovant** definitions with custom models, sounds and melee behavior. Spawn eggs work for all three. [Small vortex encounters](vortices.md) produce three enemies of the same type: Corona Blovant in hot biomes, green Aurora Viblova in temperate biomes, and blue Flash Blova elsewhere. The biome is checked where the player is caught.
 
 ## Current definitions
 

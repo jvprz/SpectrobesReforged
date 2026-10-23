@@ -1,6 +1,6 @@
 # About this wiki
 
-This wiki documents **<!-- VERSION -->0.6.0-beta.1<!-- /VERSION -->** from the local source tree. It is a source-based guide, not a claim that every described feature has been tested across all servers and modpacks.
+This wiki documents **<!-- VERSION -->0.6.1-beta<!-- /VERSION -->** from the local source tree. It is a source-based guide, not a claim that every described feature has been tested across all servers and modpacks.
 
 The website builds directly from Markdown in `docs/`. Reference tables are generated from the bundled species, recipes, biome tags, loot tables and mineral registrations. A version change in `gradle.properties` updates the displayed version on the next build.
 

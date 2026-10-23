@@ -1,6 +1,6 @@
 # Spectrobe roster
 
-These are the **six species with bundled definitions** in <!-- VERSION -->0.6.0-beta.1<!-- /VERSION -->. All start as Child entries. Numbers below come directly from the species JSON files when the wiki is built.
+These are the **six species with bundled definitions** in <!-- VERSION -->0.6.1-beta<!-- /VERSION -->. All start as Child entries. Numbers below come directly from the species JSON files when the wiki is built.
 
 ## Stats and scan radius
 
