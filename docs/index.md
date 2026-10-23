@@ -1,6 +1,6 @@
 # Your next discovery starts here
 
-Explore the world, uncover ancient fossils, and awaken a companion of your own. This is the player wiki for **Spectrobes Reforged <!-- VERSION -->0.6.0-beta.1<!-- /VERSION -->**, for **Minecraft 1.21.1 with NeoForge**.
+Explore the world, uncover ancient fossils, and awaken a companion of your own. This is the player wiki for **Spectrobes Reforged <!-- VERSION -->0.6.1-beta<!-- /VERSION -->**, for **Minecraft 1.21.1 with NeoForge**.
 
 > **Our first beta: a growing exploration and encounter experience.** This guide describes the bundled code and data. Custom modpacks and datapacks can change the experience. Planned features are marked explicitly.
 

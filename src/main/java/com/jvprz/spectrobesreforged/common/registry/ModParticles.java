@@ -33,6 +33,12 @@ public final class ModParticles {
                     () -> new SimpleParticleType(false)
             );
 
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> VORTEX_GAS =
+            PARTICLE_TYPES.register("vortex_gas", () -> new SimpleParticleType(false));
+
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> VORTEX_SHADOW_GAS =
+            PARTICLE_TYPES.register("vortex_shadow_gas", () -> new SimpleParticleType(false));
+
     private ModParticles() {
     }
 
