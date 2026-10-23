@@ -35,10 +35,25 @@ class WikiEditionsTest(unittest.TestCase):
             self.assertIn(UI[language]['news'],index)
             self.assertIn(UI[language]['search'],index)
             self.assertEqual(3,index.count('class="news-card"'))
-            self.assertIn('window.WIKI_SEARCH=',(folder/'assets/search-data.js').read_text(encoding='utf-8'))
+            search_files=list((folder/'assets').glob('search-data.*.js'))
+            self.assertEqual(1,len(search_files))
+            self.assertIn('window.WIKI_SEARCH=',search_files[0].read_text(encoding='utf-8'))
             text=(folder/'vortices.html').read_text(encoding='utf-8')
             self.assertIn('15',text)
             self.assertIn('viblova',text.lower())
+
+    def test_styles_and_scripts_are_fingerprinted_from_their_contents(self):
+        import hashlib
+        html=(self.output/'index.html').read_text(encoding='utf-8')
+        for filename in ['wiki.css','theme.js','search.js','navigation.js']:
+            source=ROOT/'tools/wiki/assets'/filename
+            digest=hashlib.sha256(source.read_bytes()).hexdigest()[:12]
+            asset=f'{source.stem}.{digest}{source.suffix}'
+            self.assertIn('assets/'+asset,html)
+            self.assertEqual(source.read_bytes(),(self.output/'assets'/asset).read_bytes())
+        self.assertIn('class="home-intro"',html)
+        self.assertEqual(1,html.count('<h1 '))
+        self.assertLess(html.index('class="home-intro"'),html.index('class="release-spotlight"'))
 
     def test_archives_retain_their_original_content_and_provenance(self):
         for file in (ROOT/'docs/versions').glob('*.json'):
