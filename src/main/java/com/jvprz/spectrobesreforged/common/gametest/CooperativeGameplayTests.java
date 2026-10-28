@@ -261,4 +261,32 @@ public final class CooperativeGameplayTests {
         }
         h.succeed();
     }
+    @GameTest(template="raid_arena",timeoutTicks=100)
+    public static void handheldBlowerPushesForwardWithoutDamageAndConsumesDurability(GameTestHelper h) {
+        var p=player(h,"BlowerUser");p.setYRot(0);p.setXRot(0);
+        var item=ModItems.EXCAVATION_TOOLS.get("blower").get();var stack=item.getDefaultInstance();p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND,stack);
+        var front=new net.minecraft.world.entity.monster.Zombie(net.minecraft.world.entity.EntityType.ZOMBIE,h.getLevel());front.setNoAi(true);
+        front.moveTo(p.getX(),p.getY(),p.getZ()+3,0,0);h.getLevel().addFreshEntity(front);float hp=front.getHealth();
+        var back=new net.minecraft.world.entity.monster.Zombie(net.minecraft.world.entity.EntityType.ZOMBIE,h.getLevel());back.setNoAi(true);
+        back.moveTo(p.getX(),p.getY(),p.getZ()-3,0,0);h.getLevel().addFreshEntity(back);
+        item.use(h.getLevel(),p,net.minecraft.world.InteractionHand.MAIN_HAND);
+        h.assertTrue(front.getDeltaMovement().z>0&&back.getDeltaMovement().lengthSqr()==0,"Air must push only mobs in front of the user");
+        h.assertTrue(front.getHealth()==hp,"Blower must not directly damage mobs");
+        h.assertTrue(stack.isDamageableItem()&&stack.getMaxDamage()==256&&stack.getDamageValue()==1,"One burst must consume one durability");
+        item.use(h.getLevel(),p,net.minecraft.world.InteractionHand.MAIN_HAND);
+        h.assertTrue(stack.getDamageValue()==1,"Repeated interaction packets must not duplicate a burst in the same tick");
+        p.stopUsingItem();front.discard();back.discard();h.succeed();
+    }
+    @GameTest(template="raid_arena",timeoutTicks=100)
+    public static void handheldBlowerStopsAtWallsAndBreaksOnItsLastUse(GameTestHelper h) {
+        var p=player(h,"BlowerWall");p.setYRot(0);p.setXRot(0);
+        var item=ModItems.EXCAVATION_TOOLS.get("blower").get();var stack=item.getDefaultInstance();stack.setDamageValue(255);p.setItemInHand(net.minecraft.world.InteractionHand.MAIN_HAND,stack);
+        var target=new net.minecraft.world.entity.monster.Zombie(net.minecraft.world.entity.EntityType.ZOMBIE,h.getLevel());target.setNoAi(true);target.moveTo(p.getX(),p.getY(),p.getZ()+4,0,0);h.getLevel().addFreshEntity(target);
+        var wall=net.minecraft.core.BlockPos.containing(p.getX(),p.getY(),p.getZ()+2);
+        for(int dy=0;dy<3;dy++)h.getLevel().setBlock(wall.above(dy),net.minecraft.world.level.block.Blocks.STONE.defaultBlockState(),3);
+        item.use(h.getLevel(),p,net.minecraft.world.InteractionHand.MAIN_HAND);
+        h.assertTrue(target.getDeltaMovement().lengthSqr()==0,"Air must not push through solid blocks");
+        h.assertTrue(p.getMainHandItem().isEmpty(),"Tool must break after its final durability point");
+        target.discard();h.succeed();
+    }
 }

@@ -2,6 +2,33 @@
   "date": "2026-10-28",
   "items": [
     {
+      "href": "settings.html",
+      "en": [
+        "HUD layout and beta feedback",
+        "Open Mods → Spectrobes Reforged → Config → Configure HUD."
+      ],
+      "es": [
+        "Posición del HUD y feedback de la beta",
+        "Abre Mods → Spectrobes Reforged → Configurar → Colocar HUD."
+      ],
+      "fr": [
+        "Position du HUD et avis sur la bêta",
+        "Ouvrez Mods → Spectrobes Reforged → Config → Placer le HUD."
+      ],
+      "de": [
+        "HUD und Beta-Feedback",
+        "Öffne Mods → Spectrobes Reforged → Config → HUD anpassen."
+      ],
+      "it": [
+        "Posizione HUD e feedback beta",
+        "Apri Mods → Spectrobes Reforged → Config → Posiziona HUD."
+      ],
+      "pt-BR": [
+        "Posição do HUD e feedback da beta",
+        "Abra Mods → Spectrobes Reforged → Config → Posicionar HUD."
+      ]
+    },
+    {
       "href": "vortices.html#encounter-rules",
       "en": [
         "Cooperative raids",
@@ -53,33 +80,6 @@
       "pt-BR": [
         "Escavação cooperativa",
         "Peça compartilhada, cursores visíveis e ferramentas reservadas durante o uso."
-      ]
-    },
-    {
-      "href": "advancements.html",
-      "en": [
-        "Shared excavation credit",
-        "Existing excavation milestones now recognize eligible workers; one output item remains."
-      ],
-      "es": [
-        "Reconocimiento de excavación compartida",
-        "Los logros existentes reconocen a quienes colaboren; sigue habiendo un solo objeto de salida."
-      ],
-      "fr": [
-        "Crédit de fouille partagé",
-        "Les succès existants reconnaissent les participants admissibles ; un seul objet de sortie."
-      ],
-      "de": [
-        "Gemeinsame Ausgrabung anerkennen",
-        "Bestehende Erfolge zählen für berechtigte Helfer; weiterhin ein einzelnes Fundstück."
-      ],
-      "it": [
-        "Credito di scavo condiviso",
-        "Gli obiettivi esistenti riconoscono i collaboratori idonei; sempre un solo oggetto."
-      ],
-      "pt-BR": [
-        "Crédito de escavação compartilhado",
-        "Avanços existentes reconhecem colaboradores elegíveis; continua havendo um só objeto."
       ]
     }
   ]

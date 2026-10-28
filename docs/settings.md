@@ -54,3 +54,8 @@ Curios also defaults to G. With both actions on the same key, G opens equipment 
 
 
 [Cooperative raids](vortices.md#encounter-rules) · [Cooperative excavation](getting-started.md#cooperative-excavation).
+
+
+## HUD layout and beta feedback
+
+Open **Mods → Spectrobes Reforged → Config → Configure HUD**. Drag the preview, scroll to resize (50–150%), toggle the panel or team slots, or reset. Preferences also expose horizontal/vertical percentages and scale; these settings are local and survive restarts. The default size is 85%. Use **Share feedback on Discord** to open the invitation after confirmation. A beta-only local chat message appears once when joining a world/server, with a clickable Discord invitation. It is not broadcast and does not repeat on respawn or dimension changes. Use the vertical HUD toggle for a team column; resize with the − / + buttons or the wheel.

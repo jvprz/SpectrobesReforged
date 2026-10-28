@@ -61,3 +61,8 @@ Référence uniquement ; l’évolution reste indisponible.
 
 
 Les compagnons Child ne subissent aucun dégât de combat ou environnemental : flèches, feu, lave, chutes, suffocation et noyade compris. Leurs PV sauvegardés sont aussi protégés. Ouvrir le Prizmod restaure les Child blessés ou à zéro PV des anciennes sauvegardes, sans changer statistiques, entraînement ou médailles. Les formes Adult/Evolved gardent leurs règles de dégâts. Les Child restent rangés pendant les raids.
+
+
+## HUD du compagnon et de l’équipe
+
+Un Child équipé affiche un panneau compact en haut à gauche : portrait, médailles, niveau et XP. Six emplacements numérotés représentent l’équipe ; les Adult/Evolved assignés montrent portrait et PV. Les emplacements vides n’activent ni évolution ni combat. La touche du Prizmod suit vos commandes. Masqué avec F1, débogage, menus, spectateur ou sans compagnon ni équipe.

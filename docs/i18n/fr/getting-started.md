@@ -94,3 +94,8 @@ La nouvelle table fait face au joueur qui la pose. L’objet propre est priorita
 
 
 Les icônes se nomment **Médaille parfaite** (♛) et **Médaille coopérative** (⚒). L’objet affiche uniquement ces noms ; les conditions sont dans ce guide.
+
+
+## Souffleur portatif
+
+Maintenez Utiliser/clic droit pour repousser les créatures jusqu’à cinq blocs devant vous. Les murs solides bloquent l’air. Aucun dégât direct ni poussée des joueurs. Durabilité : 256, un point toutes les cinq ticks, sans usure en Créatif. Le souffleur du mini-jeu reste indépendant. Disponible en Créatif ou avec `/give @s spectrobesreforged:excavation_blower`, sans nouvelle recette.

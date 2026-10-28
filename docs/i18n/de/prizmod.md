@@ -61,3 +61,8 @@ Nur als Referenz; Entwicklung bleibt unverfügbar.
 
 
 Child-Begleiter erleiden keinen Kampf- oder Umgebungsschaden, einschließlich Pfeilen, Feuer, Lava, Stürzen, Ersticken und Ertrinken. Auch gespeicherte LP bleiben geschützt. Beim Öffnen des Prizmod werden verletzte Child oder solche mit null LP aus alten Spielständen wiederhergestellt; Werte, Training und Medaillen bleiben erhalten. Adult/Evolved behalten ihre Schadensregeln. Während Überfällen werden Child weiter verstaut.
+
+
+## Begleiter- und Team-HUD
+
+Ein ausgerüsteter Child zeigt oben links ein kompaktes Prizmod-Feld mit Porträt, Medaillen, Stufe und EP. Sechs nummerierte Plätze stehen für das Team; zugewiesene Adult/Evolved zeigen Porträt und LP. Leere Plätze aktivieren weder Entwicklung noch Kampf. Die Prizmod-Taste folgt den Einstellungen. Bei F1, Debugansicht, Menüs, Zuschauermodus oder ohne Begleiter/Team verborgen.

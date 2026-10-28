@@ -54,3 +54,8 @@ Curios utilise aussi G par défaut. Si les touches coïncident, G ouvre l’équ
 
 
 [Raids coopératifs](vortices.md#encounter-rules) · [Excavation coopérative](getting-started.md#cooperative-excavation).
+
+
+## Position du HUD et avis sur la bêta
+
+Ouvrez **Mods → Spectrobes Reforged → Config → Placer le HUD**. Déplacez le panneau et utilisez la molette (50–150%). Vous pouvez masquer le HUD ou les emplacements et réinitialiser. Les préférences conservent position et taille localement. Taille initiale : 85%. Le bouton Discord ouvre une invitation après confirmation, avec un message local de bêta à chaque connexion, sans diffusion aux autres joueurs ni répétition après une mort ou un changement de dimension. Activez le HUD vertical pour une colonne et utilisez − / + ou la molette pour la taille.

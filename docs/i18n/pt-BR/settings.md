@@ -54,3 +54,8 @@ Curios também usa G por padrão. Se as teclas coincidirem, G abre equipamento s
 
 
 [Incursões cooperativas](vortices.md#encounter-rules) · [Escavação cooperativa](getting-started.md#cooperative-excavation).
+
+
+## Posição do HUD e feedback da beta
+
+Abra **Mods → Spectrobes Reforged → Config → Posicionar HUD**. Arraste o painel e use a roda do mouse (50–150%). É possível ocultar HUD ou espaços e redefinir. Posição e tamanho ficam salvos localmente. Tamanho inicial: 85%. O botão Discord abre o convite após confirmação, com uma mensagem local da beta ao entrar, sem enviar aos outros jogadores ou repetir após morte ou troca de dimensão. Ative HUD vertical para uma coluna e use − / + ou a roda do mouse para o tamanho.

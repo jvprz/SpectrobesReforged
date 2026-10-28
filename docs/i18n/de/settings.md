@@ -54,3 +54,8 @@ Curios verwendet ebenfalls standardmäßig G. Bei gleicher Taste öffnet G ohne 
 
 
 [Kooperative Überfälle](vortices.md#encounter-rules) · [Kooperative Ausgrabung](getting-started.md#cooperative-excavation).
+
+
+## HUD und Beta-Feedback
+
+Öffne **Mods → Spectrobes Reforged → Config → HUD anpassen**. Ziehe die Vorschau und skaliere sie mit dem Mausrad (50–150%). HUD und Teamplätze lassen sich ausblenden und zurücksetzen. Position und Größe werden lokal gespeichert. Standard: 85%. Der Discord-Knopf öffnet nach Bestätigung eine Einladung, mit einer lokalen Beta-Nachricht beim Verbinden, ohne Nachricht an andere Spieler und ohne Wiederholung beim Wiederbeleben oder Dimensionswechsel. Das vertikale HUD zeigt eine Teamspalte; − / + oder Mausrad ändern die Größe.

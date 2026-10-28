@@ -94,3 +94,8 @@ A nova mesa fica voltada para quem a coloca. O objeto limpo tem prioridade na ba
 
 
 Os ícones se chamam **Medalha perfeita** (♛) e **Medalha cooperativa** (⚒). O objeto mostra apenas os nomes; os requisitos estão neste guia.
+
+
+## Soprador portátil
+
+Segure Usar/clique direito para empurrar criaturas em um cone de até cinco blocos. Paredes sólidas bloqueiam o ar. Sem dano direto ou empurrão em jogadores. Durabilidade 256: um ponto a cada cinco ticks, sem desgaste no Criativo. O soprador do minijogo permanece independente. No Criativo ou com `/give @s spectrobesreforged:excavation_blower`, sem nova receita.
