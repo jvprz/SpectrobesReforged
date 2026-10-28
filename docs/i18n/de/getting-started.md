@@ -94,3 +94,8 @@ Der neue Tisch richtet sich zum platzierenden Spieler aus. Der gereinigte Fund h
 
 
 Die Symbole heißen **Perfekt-Medaille** (♛) und **Koop-Medaille** (⚒). Der Gegenstand zeigt nur die Namen; die Bedingungen stehen in diesem Leitfaden.
+
+
+## Handgebläse
+
+Benutzen/Rechtsklick halten: schiebt Kreaturen im Kegel bis fünf Blöcke weg. Feste Wände blockieren den Luftstrom. Kein direkter Schaden, kein Schieben von Spielern. 256 Haltbarkeit, ein Punkt alle fünf Ticks; im Kreativmodus kein Verschleiß. Das Minispiel bleibt unabhängig. Im Kreativinventar oder mit `/give @s spectrobesreforged:excavation_blower`, ohne neues Rezept.

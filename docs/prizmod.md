@@ -61,3 +61,8 @@ Reference only; evolution remains unavailable.
 
 
 Child companions cannot take combat or environmental damage, including arrows, fire, lava, falls, suffocation and drowning. Their saved PS remain protected too. Opening the Prizmod restores injured or zero-HP Children from older saves without changing their stats, training or medals. Adult/Evolved combat forms retain their damage rules. Children still return to storage during raids.
+
+
+## Companion and team HUD
+
+Equipping a Child shows a compact Prizmod panel in the upper-left corner, with portrait, medals, level and XP progress. Six numbered slots below reserve the existing combat team; assigned Adult/Evolved members show their portraits and HP bars. Empty slots do not unlock evolution or combat. The displayed Prizmod key follows your controls. The panel hides with F1, debug view, menus or spectator mode, and when no companion or team is assigned.

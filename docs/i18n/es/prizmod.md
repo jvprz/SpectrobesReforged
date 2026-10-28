@@ -61,3 +61,8 @@ Solo referencia; la evolución sigue sin estar disponible.
 
 
 Los compañeros Child no reciben daño de combate ni ambiental: flechas, fuego, lava, caídas, asfixia y ahogamiento incluidos. También se protegen sus PS guardados. Abrir el Prizmod recupera los Child heridos o a cero PS de partidas anteriores, conservando estadísticas, entrenamiento y medallas. Las formas Adult/Evolved mantienen sus reglas de daño. Los Child siguen guardándose durante las incursiones.
+
+
+## HUD del compañero y equipo
+
+Al equipar un Child aparece un panel compacto del Prizmod arriba a la izquierda, con retrato, medallas, nivel y progreso de XP. Debajo hay seis casillas numeradas para el equipo: los Adult/Evolved asignados muestran retrato y barra de PS. Los huecos vacíos no activan evolución ni combate. La tecla indicada para abrir el Prizmod respeta tus controles. El panel se oculta con F1, depuración, menús o modo espectador, y cuando no hay compañero ni equipo asignados.

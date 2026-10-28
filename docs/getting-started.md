@@ -144,3 +144,8 @@ The updated table faces the placing player. A clean output item has priority on 
 
 
 The icons are named **Perfect medal** (♛) and **Cooperative medal** (⚒). Item tooltips show only these names; this guide contains their requirements.
+
+
+## Handheld blower
+
+Hold Use/right-click with the blower item to push mobs in a forward cone up to five blocks. Solid walls block the airflow. It causes no direct damage and does not push players. It has 256 durability, consuming one point per burst every five ticks; Creative mode does not consume durability. The excavation minigame blower remains independent. Obtain the item from the Creative tools tab or `/give @s spectrobesreforged:excavation_blower`; no new crafting recipe is added.

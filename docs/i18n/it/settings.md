@@ -54,3 +54,8 @@ Curios usa G per impostazione predefinita. Se i tasti coincidono, G apre l’equ
 
 
 [Incursioni cooperative](vortices.md#encounter-rules) · [Scavo cooperativo](getting-started.md#cooperative-excavation).
+
+
+## Posizione HUD e feedback beta
+
+Apri **Mods → Spectrobes Reforged → Config → Posiziona HUD**. Trascina il pannello e usa la rotella (50–150%). Puoi nascondere HUD o slot e ripristinare le impostazioni. Posizione e dimensione restano salvate localmente. Dimensione iniziale: 85%. Il pulsante Discord apre un invito dopo conferma, con un messaggio locale della beta a ogni accesso, senza invio agli altri giocatori o ripetizione dopo morte o cambio dimensione. Attiva HUD verticale per una colonna e usa − / + o la rotella per la dimensione.

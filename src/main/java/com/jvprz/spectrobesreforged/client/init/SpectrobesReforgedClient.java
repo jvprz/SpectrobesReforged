@@ -25,7 +25,7 @@ public class SpectrobesReforgedClient {
         bus.addListener(com.jvprz.spectrobesreforged.client.registry.ClientParticleRegistry::registerParticleProviders);
 
         // Config screen
-        container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
+        container.registerExtensionPoint(IConfigScreenFactory.class, com.jvprz.spectrobesreforged.client.screen.ModSettingsScreen::new);
 
         // Registrar eventos client
         container.getEventBus().addListener(this::registerTooltips);

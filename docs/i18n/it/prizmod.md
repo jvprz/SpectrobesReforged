@@ -61,3 +61,8 @@ Solo riferimento; evoluzione ancora non disponibile.
 
 
 I compagni Child non subiscono danni di combattimento o ambientali: frecce, fuoco, lava, cadute, soffocamento e annegamento inclusi. Anche i PS salvati sono protetti. Aprire il Prizmod ripristina i Child feriti o a zero PS dei vecchi salvataggi, conservando statistiche, allenamento e medaglie. Adult/Evolved mantengono le loro regole di danno. I Child restano riposti durante le incursioni.
+
+
+## HUD del compagno e della squadra
+
+Un Child equipaggiato mostra in alto a sinistra un pannello compatto con ritratto, medaglie, livello e XP. Sei slot numerati rappresentano la squadra; Adult/Evolved assegnati mostrano ritratto e PS. Gli slot vuoti non attivano evoluzione o combattimento. Il tasto Prizmod segue i controlli. Nascosto con F1, debug, menu, spettatore o senza compagno e squadra.

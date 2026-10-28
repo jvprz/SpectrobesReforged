@@ -26,7 +26,7 @@ public final class ModItems {
     private static java.util.Map<String,DeferredItem<Item>> excavationTools() {
         var result=new java.util.LinkedHashMap<String,DeferredItem<Item>>();
         for(String tool:List.of("drill","blower","recovery","piton","fire","water","blower_s","vacuum","giga","blast")) {
-            result.put(tool,ITEMS.register("excavation_"+tool,()->new Item(new Item.Properties().stacksTo(1))));
+            result.put(tool,ITEMS.register("excavation_"+tool,()->tool.equals("blower")?new BlowerItem():new Item(new Item.Properties().stacksTo(1))));
         }
         return java.util.Collections.unmodifiableMap(result);
     }

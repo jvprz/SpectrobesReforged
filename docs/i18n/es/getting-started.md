@@ -96,3 +96,8 @@ La mesa nueva se orienta hacia quien la coloca. El objeto limpio tiene prioridad
 
 
 Los iconos se llaman **Medalla perfecta** (♛) y **Medalla cooperativa** (⚒). El objeto muestra únicamente sus nombres; los requisitos se consultan en esta guía.
+
+
+## Soplador de mano
+
+Mantén Usar/clic derecho con el ítem soplador para empujar criaturas en un cono frontal de hasta cinco bloques. Los muros sólidos bloquean el aire. No causa daño directo ni empuja jugadores. Tiene 256 puntos de durabilidad y gasta uno por ráfaga cada cinco ticks; en Creativo no se desgasta. El soplador del minijuego es independiente. Está en herramientas de Creativo o con `/give @s spectrobesreforged:excavation_blower`; todavía no tiene receta.

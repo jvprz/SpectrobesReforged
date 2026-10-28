@@ -94,3 +94,8 @@ Il nuovo tavolo guarda il giocatore che lo posiziona. L’oggetto pulito ha prio
 
 
 Le icone si chiamano **Medaglia perfetta** (♛) e **Medaglia cooperativa** (⚒). L’oggetto mostra solo i nomi; i requisiti sono in questa guida.
+
+
+## Soffiatore portatile
+
+Tieni premuto Usa/clic destro per spingere creature in un cono fino a cinque blocchi. I muri solidi bloccano l’aria. Nessun danno diretto o spinta ai giocatori. Durabilità 256: un punto ogni cinque tick, nessun consumo in Creativa. Il soffiatore del minigioco resta indipendente. In Creativa o con `/give @s spectrobesreforged:excavation_blower`, senza nuova ricetta.
