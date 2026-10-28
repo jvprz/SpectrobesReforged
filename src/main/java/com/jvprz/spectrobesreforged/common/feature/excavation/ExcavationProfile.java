@@ -16,7 +16,7 @@ public record ExcavationProfile(int rock, int coverLayers, int openingLayers, in
     }
     public static String openingTexture(int remaining,int terrain,int rock) {
         if(remaining>=3)return switch(terrain){case ExcavationPuzzle.ICE->"snow";case ExcavationPuzzle.SAND->rock==RED_SANDSTONE?"red_sandstone_top":"sandstone_top";case ExcavationPuzzle.MUD->"mud";default->rockTexture(rock);};
-        if(remaining==2)return switch(terrain){case ExcavationPuzzle.ICE->"packed_ice";case ExcavationPuzzle.SAND->rock==RED_SANDSTONE?"red_sandstone_top":"sandstone_top";case ExcavationPuzzle.MUD->"mud";case ExcavationPuzzle.WATER_TERRAIN->"sand";case ExcavationPuzzle.LAVA->"basalt_side";default->rockTexture(rock);};
+        if(remaining==2)return switch(terrain){case ExcavationPuzzle.ICE->"blue_ice";case ExcavationPuzzle.SAND->rock==RED_SANDSTONE?"red_sandstone_top":"sandstone_top";case ExcavationPuzzle.MUD->"mud";case ExcavationPuzzle.WATER_TERRAIN->"sand";case ExcavationPuzzle.LAVA->"basalt_side";default->rockTexture(rock);};
         return switch(terrain){case ExcavationPuzzle.ICE->"ice";case ExcavationPuzzle.SAND->rock==RED_SANDSTONE?"red_sand":"sand";case ExcavationPuzzle.MUD,ExcavationPuzzle.WATER_TERRAIN->"clay";case ExcavationPuzzle.LAVA->"basalt_side";default->rock==CLAY?"clay":rock==SANDSTONE?"sand":"gravel";};
     }
 }

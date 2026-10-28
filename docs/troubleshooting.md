@@ -14,15 +14,15 @@ It requires a redstone signal at either half, not an FE energy cable or fuel. Ke
 
 ## My fossil cannot awaken
 
-Check that it belongs to [a supported species](spectrobes.md). Many fossil items exist without loaded species data. Missing-species failures should leave the fossil unconsumed.
+Check that it belongs to [a supported species](spectrobes.md). The 22 Child species for the current fossils are bundled. Missing-species failures should leave the fossil unconsumed.
 
 ## The companion is missing
 
 1. Open the Prizmod and check the child slot.
-2. Check that the entry is a Child and has HP remaining.
+2. Check that the entry is a Child.
 3. Wait briefly for recovery handling.
 4. If necessary, move it to storage and back to refresh it.
-5. For an entry at zero HP, ask an administrator about `/spectrobehealth`.
+5. Old injured Children recover when the Prizmod opens; you do not need a replacement entry.
 
 Do not use `/givespectrobe` as the first recovery step: it creates a new entry rather than recovering the existing one.
 
@@ -52,3 +52,6 @@ Post in **#bug-reports** on [Discord](https://discord.gg/7QkScUWBe9) or open a [
 - Screenshots and relevant `latest.log` or crash-report excerpts.
 
 Review logs before sharing: remove personal information, server addresses, private tokens and webhook URLs. Always keep a world backup before testing updates.
+
+
+Child companions cannot take combat or environmental damage, including arrows, fire, lava, falls, suffocation and drowning. Their saved PS remain protected too. Opening the Prizmod restores injured or zero-HP Children from older saves without changing their stats, training or medals. Adult/Evolved combat forms retain their damage rules. Children still return to storage during raids.

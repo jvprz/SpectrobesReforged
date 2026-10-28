@@ -141,3 +141,6 @@ Two different players must successfully use tools on the same specimen to earn t
 
 
 The updated table faces the placing player. A clean output item has priority on its recessed surface. A raw piece can wait in the input, but cannot be worked on until the clean output is collected; an empty table shows nothing.
+
+
+The icons are named **Perfect medal** (♛) and **Cooperative medal** (⚒). Item tooltips show only these names; this guide contains their requirements.

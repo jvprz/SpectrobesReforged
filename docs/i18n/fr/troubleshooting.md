@@ -1,6 +1,6 @@
 # Résolution des problèmes
 
-**Compagnon absent :** vérifiez l’emplacement enfant et ses PV, terminez la rencontre active et attendez une seconde. Rangez puis rééquipez. Les [commandes](commands.md) aident aux tests.
+**Compagnon absent :** Les compagnons Child ne subissent aucun dégât de combat ou environnemental : flèches, feu, lave, chutes, suffocation et noyade compris. Leurs PV sauvegardés sont aussi protégés. Ouvrir le Prizmod restaure les Child blessés ou à zéro PV des anciennes sauvegardes, sans changer statistiques, entraînement ou médailles. Les formes Adult/Evolved gardent leurs règles de dégâts. Les Child restent rangés pendant les raids.
 
 **Éveil bloqué :** redstone sur l’une des moitiés, fossile parmi les six compatibles, joueur initiateur connecté et bloc chargé.
 

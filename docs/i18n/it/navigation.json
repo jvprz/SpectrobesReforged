@@ -35,6 +35,11 @@
     "label": "Spectrobes"
   },
   {
+    "slug": "gallery",
+    "title": "Galleria dei design Spectrobes",
+    "label": "Galleria"
+  },
+  {
     "slug": "minerals",
     "title": "Minerali e ricette",
     "label": "Minerali"

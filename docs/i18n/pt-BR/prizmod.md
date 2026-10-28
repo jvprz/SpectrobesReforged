@@ -58,3 +58,6 @@ Apenas referência; a evolução continua indisponível.
 {{DYE_RECIPES}}
 
 {{ITEM_CREDITS}}
+
+
+Companheiros Child não recebem dano de combate ou ambiental, incluindo flechas, fogo, lava, quedas, sufocamento e afogamento. Os PV salvos também ficam protegidos. Abrir o Prizmod restaura Child feridos ou com zero PV de saves anteriores, preservando atributos, treino e medalhas. Adult/Evolved mantêm suas regras de dano. Child continuam guardados durante incursões.

@@ -28,3 +28,6 @@ Minerais C/B/A/A+ dão **10/20/40/60% de um nível**, além dos efeitos existent
 Children ganham XP pela alimentação. Concluir uma incursão dá uma vitória e até 60 XP aos Adult/Evolved vivos de cada participante, reduzidos após a morte desse jogador. Children não recebem XP de batalha. Esses contadores preparam a futura evolução sem ativá-la.
 
 Veja [Prizmod](prizmod.md) para alimentar pela coleção.
+
+
+[Peças brutas por material](fossils.md#environmental-raws)

@@ -71,6 +71,19 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
         super(type, level);
     }
 
+    /** Children are exploration companions; only combat forms can take damage. */
+    @Override public boolean hurt(net.minecraft.world.damagesource.DamageSource source, float amount) {
+        return getStage() != SpectrobeStage.CHILD && super.hurt(source, amount);
+    }
+    @Override public boolean isInvulnerableTo(net.minecraft.world.damagesource.DamageSource source) {
+        return getStage() == SpectrobeStage.CHILD || super.isInvulnerableTo(source);
+    }
+    @Override public boolean fireImmune() { return getStage() == SpectrobeStage.CHILD || super.fireImmune(); }
+    @Override public boolean isOnFire() { return getStage() != SpectrobeStage.CHILD && super.isOnFire(); }
+    @Override public boolean causeFallDamage(float distance, float multiplier, net.minecraft.world.damagesource.DamageSource source) {
+        return getStage() != SpectrobeStage.CHILD && super.causeFallDamage(distance, multiplier, source);
+    }
+
     protected String getDefaultSpeciesKey() {
         return "unknown";
     }
@@ -288,6 +301,7 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
 
     @Override
     public void tick() {
+        if (getStage() == SpectrobeStage.CHILD) { clearFire(); setAirSupply(getMaxAirSupply()); }
         super.tick();
 
         if (level().isClientSide && !isRangePaused()) {

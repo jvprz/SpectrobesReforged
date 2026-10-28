@@ -2,6 +2,10 @@
 
 The current mod includes **Blova, Viblova and Blovant**, with animated models, sounds, melee attacks and spawn eggs. [Vortices](vortices.md) produce three identical Krawl per participant: **Blovant/Corona in hot climates, green Viblova/Aurora in temperate climates and blue Blova/Flash in cold climates**. The origin biome fixes the type; tags override base-temperature fallback. See the vortex guide for the exact rules.
 
+## Krawl design gallery {#krawl-designs}
+
+{{KRAWL_GALLERY}}
+
 ## Current definitions
 
 <!-- BEGIN AUTO:KRAWL -->

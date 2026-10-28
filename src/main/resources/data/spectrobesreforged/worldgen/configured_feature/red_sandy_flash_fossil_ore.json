@@ -1,0 +1,12 @@
+{
+  "type": "spectrobesreforged:excavation_patch",
+  "config": {
+    "host": {
+      "Name": "minecraft:red_sandstone"
+    },
+    "ore": {
+      "Name": "spectrobesreforged:red_sandy_flash_fossil_ore"
+    },
+    "biome_tag": "spectrobesreforged:excavation/red_sandy"
+  }
+}

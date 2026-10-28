@@ -31,3 +31,6 @@ Le compteur de fouilles manuelles commence avec cette mise à jour. Giga/Blast n
 ## Crédit de fouille partagé
 
 Chaque joueur ayant utilisé un outil avec succès sur le spécimen, vivant, connecté et à 8 blocs au plus lors de l’extraction, reçoit les succès existants de fouille manuelle, trouvaille parfaite et terrain applicables. Chaque participant admissible obtient une découverte, son catalogue et l’XP normale de compétence ; les seuils de 10/100 découvertes et niveau 5 restent personnels. La personne qui extrait reçoit aussi le crédit. Regarder ne compte pas. Réparer reste attribué à l’utilisateur de Récupération ; éveil et entraînement restent personnels. L’extraction automatique ne donne aucun crédit manuel. Un seul objet de sortie, aucun nouveau succès coopératif.
+
+
+Les spécimens bruts de tous les matériaux déclenchent les succès existants : fossiles bruts pour le premier fossile, tous les spécimens pour l’arbre du mod. Seule une extraction manuelle réussie compte comme nettoyage. Les 28 combinaisons créatives ne demandent pas de succès distincts. Sable et sable rouge partagent un critère ; les six milieux restent roche, sable, glace, lave, eau et boue. Identifiants et progression conservés ; les collaborateurs admissibles gardent leur crédit.

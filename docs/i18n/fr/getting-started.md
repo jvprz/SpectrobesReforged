@@ -91,3 +91,6 @@ Deux joueurs différents doivent utiliser des outils avec succès sur le même s
 
 
 La nouvelle table fait face au joueur qui la pose. L’objet propre est prioritaire dans le creux. Une pièce brute peut attendre en entrée, mais aucun travail ne commence avant de récupérer la sortie ; vide, la table n’affiche rien.
+
+
+Les icônes se nomment **Médaille parfaite** (♛) et **Médaille coopérative** (⚒). L’objet affiche uniquement ces noms ; les conditions sont dans ce guide.

@@ -18,6 +18,10 @@ public final class SpectrobeDamageEvents {
     public static void onLivingDamage(LivingIncomingDamageEvent event) {
 
         if (!(event.getEntity() instanceof SpectrobeEntity spectrobe)) return;
+        if (spectrobe.getStage() == com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeStage.CHILD) {
+            event.setCanceled(true);
+            return;
+        }
         if (spectrobe.level().isClientSide) return;
 
         var tag = spectrobe.getPersistentData();

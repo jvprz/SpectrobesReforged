@@ -11,13 +11,17 @@ class ExcavationDepositsTest {
     private JsonObject load(String path)throws Exception {
         try(var stream=getClass().getResourceAsStream("/"+path)){assertNotNull(stream,path);return JsonParser.parseReader(new InputStreamReader(stream,StandardCharsets.UTF_8)).getAsJsonObject();}
     }
-    @Test void eachHostContainsOneFossilAndAllFourGradesInMatchingBiomes()throws Exception {
-        assertEquals(20,ExcavationDeposits.all().size());assertEquals(20,ExcavationDeposits.all().stream().map(ExcavationDeposits.Deposit::id).distinct().count());
+    @Test void eachHostHasThreeCreativeElementsAndFourGradesWithUnchangedNaturalPlacement()throws Exception {
+        assertEquals(28,ExcavationDeposits.all().size());assertEquals(28,ExcavationDeposits.all().stream().map(ExcavationDeposits.Deposit::id).distinct().count());
         for(String host:new String[]{"frozen","sandy","red_sandy","muddy"}){
-            var deposits=ExcavationDeposits.all().stream().filter(d->d.host().equals(host)).toList();assertEquals(5,deposits.size());assertEquals(1,deposits.stream().filter(ExcavationDeposits.Deposit::fossil).count());
+            var deposits=ExcavationDeposits.all().stream().filter(d->d.host().equals(host)).toList();assertEquals(7,deposits.size());assertEquals(3,deposits.stream().filter(ExcavationDeposits.Deposit::fossil).count());
             assertEquals(Set.of("c","b","a","a_plus"),new HashSet<>(deposits.stream().filter(d->!d.fossil()).map(ExcavationDeposits.Deposit::grade).toList()));
             var modifier=load("data/spectrobesreforged/neoforge/biome_modifier/add_"+host+"_excavation_deposits.json");
             assertEquals("#spectrobesreforged:excavation/"+host,modifier.get("biomes").getAsString());assertEquals(5,modifier.getAsJsonArray("features").size());
+            String naturalElement=host.equals("frozen")?"flash":host.equals("muddy")?"aurora":"corona";
+            var actualFeatures=new HashSet<>(modifier.getAsJsonArray("features").asList().stream().map(JsonElement::getAsString).toList());
+            assertTrue(actualFeatures.contains("spectrobesreforged:"+host+"_"+naturalElement+"_fossil_ore"));
+            for(String grade:List.of("c","b","a","a_plus"))assertTrue(actualFeatures.contains("spectrobesreforged:"+host+"_"+grade+"_mineral_ore"));
             assertFalse(load("data/spectrobesreforged/tags/worldgen/biome/excavation/"+host+".json").getAsJsonArray("values").isEmpty());
             var targets=load("data/spectrobesreforged/tags/block/excavation_hosts/"+host+".json").getAsJsonArray("values");assertFalse(targets.isEmpty());
             for(var value:targets)assertNotEquals("minecraft:stone",value.getAsString());
@@ -30,7 +34,7 @@ class ExcavationDepositsTest {
             var config=feature.getAsJsonObject("config");
             assertEquals("spectrobesreforged:excavation/"+d.host(),config.get("biome_tag").getAsString());
             assertEquals("spectrobesreforged:"+d.id(),config.getAsJsonObject("ore").get("Name").getAsString());
-            assertEquals("minecraft:"+Map.of("frozen","packed_ice","sandy","sandstone","red_sandy","red_sandstone","muddy","mud").get(d.host()),config.getAsJsonObject("host").get("Name").getAsString());
+            assertEquals("minecraft:"+Map.of("frozen","blue_ice","sandy","sandstone","red_sandy","red_sandstone","muddy","mud").get(d.host()),config.getAsJsonObject("host").get("Name").getAsString());
             var placed=load("data/spectrobesreforged/worldgen/placed_feature/"+d.id()+".json");assertEquals("spectrobesreforged:"+d.id(),placed.get("feature").getAsString());
             var pools=load("data/spectrobesreforged/loot_table/blocks/"+d.id()+".json").getAsJsonArray("pools");assertEquals("spectrobesreforged:"+d.id(),pools.get(0).getAsJsonObject().getAsJsonArray("entries").get(0).getAsJsonObject().get("name").getAsString());
             for(var entry:pools.get(1).getAsJsonObject().getAsJsonArray("entries")){
@@ -39,7 +43,9 @@ class ExcavationDepositsTest {
                 assertTrue(data.contains(d.fossil()?"Fossil:":"Mineral:"));
             }
             load("assets/spectrobesreforged/blockstates/"+d.id()+".json");
-            var model=load("assets/spectrobesreforged/models/block/"+d.id()+".json");assertEquals(2,model.getAsJsonArray("elements").size());
+            var model=load("assets/spectrobesreforged/models/block/"+d.id()+".json");assertEquals("minecraft:block/cube_all",model.get("parent").getAsString());
+            var hostTexture=model.getAsJsonObject("textures").get("all").getAsString();assertTrue(hostTexture.startsWith("spectrobesreforged:block/"));
+            try(var texture=getClass().getResourceAsStream("/assets/spectrobesreforged/textures/"+hostTexture.split(":")[1]+".png")){assertNotNull(texture);}
             var item=load("assets/spectrobesreforged/models/item/"+d.id()+".json");assertEquals("spectrobesreforged:block/"+d.id(),item.get("parent").getAsString());
         }
     }

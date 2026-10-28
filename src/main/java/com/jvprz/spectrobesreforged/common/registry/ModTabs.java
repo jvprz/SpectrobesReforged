@@ -46,6 +46,9 @@ public final class ModTabs {
                         output.accept(ModItems.RAW_CORONA_FOSSIL.get());
                         output.accept(ModItems.RAW_AURORA_FOSSIL.get());
                         output.accept(ModItems.RAW_FLASH_FOSSIL.get());
+                        com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.all().stream().filter(d->d.fossil())
+                                .sorted(Comparator.comparingInt(com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.Deposit::hostOrder).thenComparingInt(d->d.contentOrder()))
+                                .forEach(d->output.accept(ModItems.ENVIRONMENTAL_RAWS.get(d.rawId()).get()));
                         // Every registered fossil is now playable; group by Corona / Aurora / Flash.
                         for(var item:List.of(ModItems.DANAWA_FOSSIL,ModItems.DONGOR_FOSSIL,ModItems.INKANA_FOSSIL,
                                 ModItems.KOMAINU_FOSSIL,ModItems.MESA_FOSSIL,ModItems.TENKRO_FOSSIL,ModItems.VILAR_FOSSIL,
@@ -59,6 +62,9 @@ public final class ModTabs {
                     .icon(()->ModItems.POWER_C.get().getDefaultInstance())
                     .displayItems((parameters,output)->{
                         for(var item:List.of(ModItems.RAW_C_MINERAL,ModItems.RAW_B_MINERAL,ModItems.RAW_A_MINERAL,ModItems.RAW_A_PLUS_MINERAL))output.accept(item.get());
+                        com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.all().stream().filter(d->!d.fossil())
+                                .sorted(Comparator.comparingInt(com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.Deposit::hostOrder).thenComparingInt(d->d.contentOrder()))
+                                .forEach(d->output.accept(ModItems.ENVIRONMENTAL_RAWS.get(d.rawId()).get()));
                         // Stat families C -> B -> A -> A+, then combinations, rare minerals and Chroma.
                         for(DeferredItem<Item> item:ModItems.ALL_MINERALS)output.accept(item.get());
                     }).build());
@@ -66,24 +72,14 @@ public final class ModTabs {
             CREATIVE_MODE_TABS.register("spectrobes_blocks",()->category("spectrobes_blocks","spectrobes_minerals")
                     .icon(()->ModItems.CORONA_FOSSIL_ORE_ITEM.get().getDefaultInstance())
                     .displayItems((parameters,output)->{
-                        output.accept(ModItems.CORONA_FOSSIL_ORE_ITEM.get());
-                        output.accept(ModItems.DEEPSLATE_CORONA_FOSSIL_ORE_ITEM.get());
-                        output.accept(ModItems.AURORA_FOSSIL_ORE_ITEM.get());
-                        output.accept(ModItems.DEEPSLATE_AURORA_FOSSIL_ORE_ITEM.get());
-                        output.accept(ModItems.FLASH_FOSSIL_ORE_ITEM.get());
-                        output.accept(ModItems.DEEPSLATE_FLASH_FOSSIL_ORE_ITEM.get());
-                        output.accept(ModItems.C_MINERAL_ORE.get());output.accept(ModItems.DEEPSLATE_C_MINERAL_ORE.get());
-                        output.accept(ModItems.B_MINERAL_ORE.get());output.accept(ModItems.DEEPSLATE_B_MINERAL_ORE.get());
-                        output.accept(ModItems.A_MINERAL_ORE.get());output.accept(ModItems.DEEPSLATE_A_MINERAL_ORE.get());
-                        output.accept(ModItems.A_PLUS_MINERAL_ORE.get());output.accept(ModItems.DEEPSLATE_A_PLUS_MINERAL_ORE.get());
-                        // Environmental deposits: ice, sand, mud; fossil first, then C/B/A/A+.
-                        ModItems.ENVIRONMENTAL_ORES.entrySet().stream().sorted(Comparator
-                                .comparingInt((java.util.Map.Entry<String,?> e)->environment(e.getKey()))
-                                .thenComparingInt(e->deposit(e.getKey())).thenComparing(java.util.Map.Entry::getKey))
-                                .forEach(e->output.accept(e.getValue().get()));
+                        for (String material:List.of("","deepslate_")) {
+                            for (String content:List.of("corona_fossil","aurora_fossil","flash_fossil","c_mineral","b_mineral","a_mineral","a_plus_mineral"))
+                                output.accept(net.minecraft.core.registries.BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath(SpectrobesReforged.MODID,material+content+"_ore")));
+                        }
+                        com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.all().stream()
+                                .sorted(Comparator.comparingInt(com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.Deposit::hostOrder).thenComparingInt(d->d.contentOrder()))
+                                .forEach(d->output.accept(ModItems.ENVIRONMENTAL_ORES.get(d.id()).get()));
                     }).build());
-    private static int environment(String key){return key.startsWith("frozen_")?0:key.startsWith("sandy_")?1:key.startsWith("red_sandy_")?2:key.startsWith("muddy_")?3:4;}
-    private static int deposit(String key){return key.endsWith("fossil_ore")?0:key.contains("_c_mineral")?1:key.contains("_b_mineral")?2:key.contains("_a_plus_mineral")?4:3;}
     public static final DeferredHolder<CreativeModeTab,CreativeModeTab> SPECTROBES_SPAWN_EGGS_TAB =
             CREATIVE_MODE_TABS.register("spectrobes_spawn_eggs",()->category("spectrobes_spawn_eggs","spectrobes_blocks")
                     .icon(()->ModItems.BLOVA_SPAWN_EGG.get().getDefaultInstance())

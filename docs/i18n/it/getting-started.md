@@ -91,3 +91,6 @@ Due giocatori diversi devono usare strumenti con successo sullo stesso reperto p
 
 
 Il nuovo tavolo guarda il giocatore che lo posiziona. L’oggetto pulito ha priorità nella vaschetta. Un reperto grezzo può attendere in ingresso, ma non si lavora finché l’uscita non viene ritirata; il tavolo vuoto non mostra nulla.
+
+
+Le icone si chiamano **Medaglia perfetta** (♛) e **Medaglia cooperativa** (⚒). L’oggetto mostra solo i nomi; i requisiti sono in questa guida.

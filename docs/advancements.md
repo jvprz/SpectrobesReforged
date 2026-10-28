@@ -52,3 +52,6 @@ Manual excavation totals start counting with this update. Automatic Giga/Blast e
 ## Shared excavation credit
 
 Everyone who successfully used a tool on the specimen and is alive, online and within 8 blocks when it is extracted receives the existing manual excavation, perfect finding and terrain milestones where applicable. Each eligible worker gets one discovery, its catalogue entry and the normal excavation skill XP; counters for 10/100 discoveries and skill level 5 use personal progress. The extractor also receives credit. Merely watching does not count. Repair milestones belong to the player using Recovery; awakening and training milestones remain personal. Automatic extraction gives no manual excavation credit. There is still only one output item and no new cooperative advancement.
+
+
+Raw specimens of every material unlock the same existing obtaining milestones: fossil raws count for the first fossil, and all raw minerals/fossils unlock the mod tree. Cleaning is credited only after a successful manual extraction. The 28 creative material/content combinations do not require separate advancements. For All Terrains, sand and red sand share one criterion; the six required environments remain rock, sand, ice, lava, water and mud. Existing advancement IDs and earned progress are preserved; eligible collaborators still share excavation credit.

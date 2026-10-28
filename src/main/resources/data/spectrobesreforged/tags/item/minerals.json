@@ -44,6 +44,26 @@
     "spectrobesreforged:evolve",
     "spectrobesreforged:chroma_0",
     "spectrobesreforged:chroma_1",
-    "spectrobesreforged:chroma_2"
+    "spectrobesreforged:chroma_2",
+    "spectrobesreforged:ice_raw_c_mineral",
+    "spectrobesreforged:ice_raw_b_mineral",
+    "spectrobesreforged:ice_raw_a_mineral",
+    "spectrobesreforged:ice_raw_a_plus_mineral",
+    "spectrobesreforged:sand_raw_c_mineral",
+    "spectrobesreforged:sand_raw_b_mineral",
+    "spectrobesreforged:sand_raw_a_mineral",
+    "spectrobesreforged:sand_raw_a_plus_mineral",
+    "spectrobesreforged:mud_raw_c_mineral",
+    "spectrobesreforged:mud_raw_b_mineral",
+    "spectrobesreforged:mud_raw_a_mineral",
+    "spectrobesreforged:mud_raw_a_plus_mineral",
+    "spectrobesreforged:red_sand_raw_c_mineral",
+    "spectrobesreforged:red_sand_raw_b_mineral",
+    "spectrobesreforged:red_sand_raw_a_mineral",
+    "spectrobesreforged:red_sand_raw_a_plus_mineral",
+    "spectrobesreforged:raw_c_mineral",
+    "spectrobesreforged:raw_b_mineral",
+    "spectrobesreforged:raw_a_mineral",
+    "spectrobesreforged:raw_a_plus_mineral"
   ]
 }

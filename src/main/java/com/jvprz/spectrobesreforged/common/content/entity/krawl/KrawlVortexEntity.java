@@ -101,6 +101,17 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder) { builder.define(ACTIVE, false); builder.define(CHASING, false); }
     @Override public boolean isPickable() { return false; }
+    @Override public boolean canBeHitByProjectile() { return isAlive() && !entityData.get(ACTIVE); }
+    @Override public boolean hurt(net.minecraft.world.damagesource.DamageSource source, float amount) {
+        if (!level().isClientSide && !entityData.get(ACTIVE)
+                && source.getDirectEntity() instanceof net.minecraft.world.entity.projectile.AbstractArrow) {
+            level().playSound(null, blockPosition(), net.minecraft.sounds.SoundEvents.SHIELD_BLOCK,
+                    SoundSource.HOSTILE, .85F, .9F + random.nextFloat() * .2F);
+        }
+        // AbstractArrow handles a rejected hit with vanilla shield reversal and 20% momentum.
+        // Keeping this path also preserves piercing, pickup and client synchronization rules.
+        return false;
+    }
     public float dissolveProgress(float partialTick) {
         return entityData.get(ACTIVE) ? Math.min(1.0F, (dissolveTicks + partialTick) / 16.0F) : 0;
     }

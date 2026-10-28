@@ -207,7 +207,7 @@ public final class ExcavationScreen extends AbstractContainerScreen<ExcavationMe
         TextureAtlasSprite stone=materialSprite(ExcavationProfile.rockTexture(menu.value(18))), dirt=materialSprite("dirt");
         TextureAtlasSprite openingSprite=materialSprite(ExcavationProfile.openingTexture(menu.value(9),menu.value(10),menu.value(18)));
         TextureAtlasSprite cover=materialSprite(switch(menu.value(10)) {
-            case 1 -> menu.value(18)==ExcavationProfile.RED_SANDSTONE?"red_sand":"sand"; case 2 -> "packed_ice"; case 3 -> "lava_still";
+            case 1 -> menu.value(18)==ExcavationProfile.RED_SANDSTONE?"red_sand":"sand"; case 2 -> "blue_ice"; case 3 -> "lava_still";
             case 4 -> "water_still"; case 5 -> "mud"; default -> "stone";
         });
         g.flush();

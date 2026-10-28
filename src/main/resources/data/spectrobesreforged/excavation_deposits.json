@@ -158,5 +158,69 @@
     "grade": "a_plus",
     "terrain": 1,
     "rock": 4
+  },
+  {
+    "id": "frozen_corona_fossil_ore",
+    "host": "frozen",
+    "element": "corona",
+    "grade": "",
+    "terrain": 2,
+    "rock": 0
+  },
+  {
+    "id": "frozen_aurora_fossil_ore",
+    "host": "frozen",
+    "element": "aurora",
+    "grade": "",
+    "terrain": 2,
+    "rock": 0
+  },
+  {
+    "id": "sandy_aurora_fossil_ore",
+    "host": "sandy",
+    "element": "aurora",
+    "grade": "",
+    "terrain": 1,
+    "rock": 2
+  },
+  {
+    "id": "sandy_flash_fossil_ore",
+    "host": "sandy",
+    "element": "flash",
+    "grade": "",
+    "terrain": 1,
+    "rock": 2
+  },
+  {
+    "id": "red_sandy_aurora_fossil_ore",
+    "host": "red_sandy",
+    "element": "aurora",
+    "grade": "",
+    "terrain": 1,
+    "rock": 4
+  },
+  {
+    "id": "red_sandy_flash_fossil_ore",
+    "host": "red_sandy",
+    "element": "flash",
+    "grade": "",
+    "terrain": 1,
+    "rock": 4
+  },
+  {
+    "id": "muddy_corona_fossil_ore",
+    "host": "muddy",
+    "element": "corona",
+    "grade": "",
+    "terrain": 5,
+    "rock": 3
+  },
+  {
+    "id": "muddy_flash_fossil_ore",
+    "host": "muddy",
+    "element": "flash",
+    "grade": "",
+    "terrain": 5,
+    "rock": 3
   }
 ]

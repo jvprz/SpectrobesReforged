@@ -11,3 +11,13 @@ Sans Toucher de soie, un minerai donne un fossile de son élément ; avec cet en
 {{FOSSIL_DROPS}}
 
 Seules **Inkana, Komainu, Segu, Shakin, Spiko et Vilar** possèdent les définitions permettant l’éveil. Les autres fossiles restent collectionnables. Une définition absente annule l’éveil sans consommer le fossile. Analyse et nettoyage ne sont pas implémentés.
+
+
+Les poches gelées utilisent désormais de la **glace bleue**, y compris le minerai central. Les restrictions de biomes restent identiques. Les nouvelles poches nécessitent des chunks inexplorés ; le terrain existant est conservé.
+
+
+## Spécimens bruts par matériau {#environmental-raws}
+
+Chaque bloc environnemental donne son propre objet brut avec la nouvelle texture et ses couches conservées. Les noms distinguent Corona, Aurora, Flash ou le grade malgré les textures partagées. Créatif affiche toutes les combinaisons par matériau. **Génération naturelle inchangée :** glace bleue → Flash ; grès/grès rouge → Corona ; boue → Aurora ; les quatre grades minéraux dans chaque matériau. Les autres combinaisons sont proposées en Créatif ou pour les datapacks. Les anciens objets et fouilles restent compatibles.
+
+{{ENVIRONMENTAL_ITEMS}}

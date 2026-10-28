@@ -124,6 +124,19 @@ def references(root, language="en"):
         'ITEM_CREDITS': cards.credits(),
         'KRAWL': table(['Krawl', 'Element', 'Rank', 'HP', 'Attack', 'Armor'], krawl_rows)
     }
+    hosts={'frozen':'ice','sandy':'sand','red_sandy':'red_sand','muddy':'mud'}
+    def deposit_order(d):
+        content=['corona','aurora','flash'].index(d['element']) if d['element'] else 3+['c','b','a','a_plus'].index(d['grade'])
+        return list(hosts).index(d['host']),content
+    environmental=[]
+    for d in sorted(load(resources/'excavation_deposits.json'),key=deposit_order):
+        raw=hosts[d['host']]+'_raw_'+(d['element']+'_fossil' if d['element'] else d['grade']+'_mineral')
+        environmental.append([cards.icon('spectrobesreforged:'+d['id']),cards.icon('spectrobesreforged:'+raw)])
+    headers={'en':['Block','Raw specimen'],'es':['Bloque','Pieza en bruto'],'fr':['Bloc','Spécimen brut'],'de':['Block','Rohfund'],'it':['Blocco','Reperto grezzo'],'pt-BR':['Bloco','Peça bruta']}[language]
+    result['ENVIRONMENTAL_ITEMS']=table(headers,environmental)
+    from design_gallery import gallery, krawl_gallery
+    result['DESIGN_GALLERY'] = gallery(root, language)
+    result['KRAWL_GALLERY'] = krawl_gallery(root, language)
     result.update({'TOOL_'+tool.upper(): cards.icon('spectrobesreforged:excavation_'+tool) for tool in ['drill','blower','recovery','piton','fire','water','vacuum','blower_s','giga','blast']})
     if language != 'en':
         terms = load(Path(__file__).parent / 'table_terms.json')[language]

@@ -56,3 +56,6 @@ Zufällige Kraft-, Verteidigungs- oder Gesundheitsmineralien. Tod entfernt B und
 ```
 
 Den Wirbel auf freiem Gelände beschwören und auf Überleben wechseln. Gehen/Sprinten, Kanten, Kies, Biomgrenzen und Speichern/Laden testen. Natürliche Spawns funktionieren in vorhandenen Chunks.
+
+
+Ein wartender oder verfolgender Wirbel lässt Pfeile wie ein Vanilla-Schild mit Blockgeräusch abprallen, auch mit Durchschuss. Ein Schuss zerstört ihn nicht und startet keinen Überfall. Nach Kampfbeginn fängt der unsichtbare Controller keine Projektile mehr ab.

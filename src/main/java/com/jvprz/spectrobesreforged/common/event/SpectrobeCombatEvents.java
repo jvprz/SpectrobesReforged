@@ -20,6 +20,7 @@ public final class SpectrobeCombatEvents {
     @SubscribeEvent
     public static void onSpectrobeDamagePost(LivingDamageEvent.Post event) {
         if (!(event.getEntity() instanceof SpectrobeEntity spectrobe)) return;
+        if (spectrobe.getStage() == com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeStage.CHILD) return;
         if (spectrobe.level().isClientSide) return;
 
         // Solo spectrobes “del Prizmod”

@@ -28,7 +28,6 @@ public final class RawFossilItem extends Item {
     }
     @Override public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> lines, TooltipFlag flag) {
         lines.add(Component.translatable("tooltip.spectrobesreforged.raw_fossil"));
-        com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationSpecimen.appendGeology(stack,lines);
         if (data(stack).contains("Excavation")) lines.add(Component.translatable("tooltip.spectrobesreforged.excavation_saved"));
     }
 }

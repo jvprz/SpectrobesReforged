@@ -33,7 +33,7 @@ Children erhalten XP durch Füttern. Ein abgeschlossener Überfall gibt lebenden
 
 ## Begleiter und Speicherung
 
-Wähle einen lebenden Child und drücke Begleiter. Er folgt dir und hilft beim Scannen. Während [Vortex-Begegnungen](vortices.md) bleibt er sicher verstaut und kehrt danach zurück. Schaden, Training und Sammlung bleiben gespeichert. Einträge ohne LP erscheinen nicht. Sichere deine Welt vor Updates.
+Wähle einen lebenden Child und drücke Begleiter. Er folgt dir und hilft beim Scannen. Während [Vortex-Begegnungen](vortices.md) bleibt er sicher verstaut und kehrt danach zurück. Schaden, Training und Sammlung bleiben gespeichert.  Sichere deine Welt vor Updates.
 
 Der ausgewählte Eintrag zeigt sein animiertes 3D-Modell mit der richtigen Farbe neben den Werten. Sammlungskarten behalten ihre Porträts.
 
@@ -58,3 +58,6 @@ Nur als Referenz; Entwicklung bleibt unverfügbar.
 {{DYE_RECIPES}}
 
 {{ITEM_CREDITS}}
+
+
+Child-Begleiter erleiden keinen Kampf- oder Umgebungsschaden, einschließlich Pfeilen, Feuer, Lava, Stürzen, Ersticken und Ertrinken. Auch gespeicherte LP bleiben geschützt. Beim Öffnen des Prizmod werden verletzte Child oder solche mit null LP aus alten Spielständen wiederhergestellt; Werte, Training und Medaillen bleiben erhalten. Adult/Evolved behalten ihre Schadensregeln. Während Überfällen werden Child weiter verstaut.

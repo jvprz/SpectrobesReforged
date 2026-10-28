@@ -181,6 +181,15 @@ public class PrizmodData {
         return replaceEntry(spectrobeId, found.get().withColor(color));
     }
 
+    /** Old injured/fainted Children become usable under the exploration-only rules. */
+    public void restoreProtectedChildren() {
+        var entries = new java.util.ArrayList<SpectrobeEntry>(getBox());
+        getTeamView().stream().filter(java.util.Objects::nonNull).forEach(entries::add);
+        getBabySlot().ifPresent(entries::add);
+        for (var entry : entries) if (entry.isChild() && entry.hpCur() != entry.hp())
+            replaceEntry(entry.id(), entry.healFull());
+    }
+
     public boolean applyDamage(UUID spectrobeId, int dmg) {
         if (spectrobeId == null || dmg <= 0) return false;
 
@@ -188,6 +197,7 @@ public class PrizmodData {
         if (found.isEmpty()) return false;
 
         SpectrobeEntry e = found.get();
+        if (e.isChild()) return false;
         int next = Math.max(0, e.hpCur() - dmg);
         return replaceEntry(spectrobeId, e.withHpCur(next));
     }

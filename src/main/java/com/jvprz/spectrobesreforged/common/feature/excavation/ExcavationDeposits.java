@@ -9,6 +9,12 @@ import java.util.*;
 public final class ExcavationDeposits {
     public record Deposit(String id,String host,String element,String grade,int terrain,int rock) {
         public boolean fossil(){return !element.isEmpty();}
+        public String rawId(){
+            String prefix=switch(host){case "frozen"->"ice";case "sandy"->"sand";case "red_sandy"->"red_sand";case "muddy"->"mud";default->throw new IllegalArgumentException(host);};
+            return prefix+"_raw_"+(fossil()?element+"_fossil":grade+"_mineral");
+        }
+        public int contentOrder(){return fossil()?switch(element){case "corona"->0;case "aurora"->1;default->2;}:switch(grade){case "c"->3;case "b"->4;case "a"->5;default->6;};}
+        public int hostOrder(){return switch(host){case "frozen"->0;case "sandy"->1;case "red_sandy"->2;default->3;};}
     }
     private static final List<Deposit> ALL=load();
     private ExcavationDeposits(){}

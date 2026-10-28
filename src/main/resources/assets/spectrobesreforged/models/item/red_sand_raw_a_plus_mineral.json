@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "spectrobesreforged:item/red_sand_raw_a_plus_mineral"
+  }
+}
