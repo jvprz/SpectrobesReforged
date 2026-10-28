@@ -62,5 +62,23 @@
         "volume": 1.0
       }
     ]
+  },
+  "awakening_cue": {
+    "subtitle": "subtitle.spectrobesreforged.awakening_cue",
+    "sounds": [
+      {
+        "name": "minecraft:block.note_block.pling",
+        "type": "event"
+      }
+    ]
+  },
+  "vortex_ambient": {
+    "subtitle": "subtitle.spectrobesreforged.vortex_ambient",
+    "sounds": [
+      {
+        "name": "minecraft:block.portal.ambient",
+        "type": "event"
+      }
+    ]
   }
 }

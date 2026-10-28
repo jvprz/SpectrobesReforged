@@ -93,6 +93,13 @@ public class PrizmodData {
         else box.add(index, entry);
     }
 
+    public boolean rearrangeBox(int from,int to) {
+        if(from<0||from>=box.size()||to<0||from==to)return false;
+        if(to>=box.size()){var entry=box.remove(from);box.add(entry);}
+        else Collections.swap(box,from,to);
+        return true;
+    }
+
     // ===== BABY =====
 
     public Optional<SpectrobeEntry> getBabySlot() {

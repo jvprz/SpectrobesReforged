@@ -1,0 +1,162 @@
+[
+  {
+    "id": "frozen_flash_fossil_ore",
+    "host": "frozen",
+    "element": "flash",
+    "grade": "",
+    "terrain": 2,
+    "rock": 0
+  },
+  {
+    "id": "frozen_c_mineral_ore",
+    "host": "frozen",
+    "element": "",
+    "grade": "c",
+    "terrain": 2,
+    "rock": 0
+  },
+  {
+    "id": "frozen_b_mineral_ore",
+    "host": "frozen",
+    "element": "",
+    "grade": "b",
+    "terrain": 2,
+    "rock": 0
+  },
+  {
+    "id": "frozen_a_mineral_ore",
+    "host": "frozen",
+    "element": "",
+    "grade": "a",
+    "terrain": 2,
+    "rock": 0
+  },
+  {
+    "id": "frozen_a_plus_mineral_ore",
+    "host": "frozen",
+    "element": "",
+    "grade": "a_plus",
+    "terrain": 2,
+    "rock": 0
+  },
+  {
+    "id": "sandy_corona_fossil_ore",
+    "host": "sandy",
+    "element": "corona",
+    "grade": "",
+    "terrain": 1,
+    "rock": 2
+  },
+  {
+    "id": "sandy_c_mineral_ore",
+    "host": "sandy",
+    "element": "",
+    "grade": "c",
+    "terrain": 1,
+    "rock": 2
+  },
+  {
+    "id": "sandy_b_mineral_ore",
+    "host": "sandy",
+    "element": "",
+    "grade": "b",
+    "terrain": 1,
+    "rock": 2
+  },
+  {
+    "id": "sandy_a_mineral_ore",
+    "host": "sandy",
+    "element": "",
+    "grade": "a",
+    "terrain": 1,
+    "rock": 2
+  },
+  {
+    "id": "sandy_a_plus_mineral_ore",
+    "host": "sandy",
+    "element": "",
+    "grade": "a_plus",
+    "terrain": 1,
+    "rock": 2
+  },
+  {
+    "id": "muddy_aurora_fossil_ore",
+    "host": "muddy",
+    "element": "aurora",
+    "grade": "",
+    "terrain": 5,
+    "rock": 3
+  },
+  {
+    "id": "muddy_c_mineral_ore",
+    "host": "muddy",
+    "element": "",
+    "grade": "c",
+    "terrain": 5,
+    "rock": 3
+  },
+  {
+    "id": "muddy_b_mineral_ore",
+    "host": "muddy",
+    "element": "",
+    "grade": "b",
+    "terrain": 5,
+    "rock": 3
+  },
+  {
+    "id": "muddy_a_mineral_ore",
+    "host": "muddy",
+    "element": "",
+    "grade": "a",
+    "terrain": 5,
+    "rock": 3
+  },
+  {
+    "id": "muddy_a_plus_mineral_ore",
+    "host": "muddy",
+    "element": "",
+    "grade": "a_plus",
+    "terrain": 5,
+    "rock": 3
+  },
+  {
+    "id": "red_sandy_corona_fossil_ore",
+    "host": "red_sandy",
+    "element": "corona",
+    "grade": "",
+    "terrain": 1,
+    "rock": 4
+  },
+  {
+    "id": "red_sandy_c_mineral_ore",
+    "host": "red_sandy",
+    "element": "",
+    "grade": "c",
+    "terrain": 1,
+    "rock": 4
+  },
+  {
+    "id": "red_sandy_b_mineral_ore",
+    "host": "red_sandy",
+    "element": "",
+    "grade": "b",
+    "terrain": 1,
+    "rock": 4
+  },
+  {
+    "id": "red_sandy_a_mineral_ore",
+    "host": "red_sandy",
+    "element": "",
+    "grade": "a",
+    "terrain": 1,
+    "rock": 4
+  },
+  {
+    "id": "red_sandy_a_plus_mineral_ore",
+    "host": "red_sandy",
+    "element": "",
+    "grade": "a_plus",
+    "terrain": 1,
+    "rock": 4
+  }
+]

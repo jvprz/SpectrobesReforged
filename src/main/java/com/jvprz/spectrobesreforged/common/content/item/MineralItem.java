@@ -93,6 +93,12 @@ public class MineralItem extends Item {
 
         UUID spectrobeId = spectrobe.getPersistentData().getUUID("SpectrobeId");
 
+        feedTo(sp,spectrobeId,stack,spectrobe);
+        return InteractionResult.CONSUME;
+    }
+
+    public boolean feedTo(ServerPlayer sp,UUID spectrobeId,ItemStack stack,SpectrobeEntity spectrobe) {
+        if(stack.isEmpty()||stack.getItem()!=this)return false;
         PrizmodData data = sp.getData(ModAttachments.PRIZMOD.get());
         var found = data.findAnywhere(spectrobeId);
         if (found.isEmpty()) {
@@ -101,7 +107,7 @@ public class MineralItem extends Item {
                             .withStyle(ChatFormatting.RED),
                     true
             );
-            return InteractionResult.CONSUME;
+            return false;
         }
 
         SpectrobeEntry entry = found.get();
@@ -112,9 +118,10 @@ public class MineralItem extends Item {
                             .withStyle(ChatFormatting.RED),
                     true
             );
-            return InteractionResult.CONSUME;
+            return false;
         }
 
+        int xpGain=com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.mineralXp(entry,com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.mineralPercent(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(this).getPath()));
         int oldHp = entry.hp();
         int oldAtk = entry.atk();
         int oldDef = entry.def();
@@ -125,24 +132,24 @@ public class MineralItem extends Item {
 
         int newHp = applyStat(
                 oldHp,
-                species.stats().hp().base(),
-                species.stats().hp().max(),
+                com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.boosted(species.stats().hp().base(),entry.excavationQuality()),
+                com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.boosted(species.stats().hp().max(),entry.excavationQuality()),
                 health,
                 healthMax
         );
 
         int newAtk = applyStat(
                 oldAtk,
-                species.stats().attack().base(),
-                species.stats().attack().max(),
+                com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.boosted(species.stats().attack().base(),entry.excavationQuality()),
+                com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.boosted(species.stats().attack().max(),entry.excavationQuality()),
                 attack,
                 attackMax
         );
 
         int newDef = applyStat(
                 oldDef,
-                species.stats().defense().base(),
-                species.stats().defense().max(),
+                com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.boosted(species.stats().defense().base(),entry.excavationQuality()),
+                com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.boosted(species.stats().defense().max(),entry.excavationQuality()),
                 defense,
                 defenseMax
         );
@@ -156,17 +163,17 @@ public class MineralItem extends Item {
                         newAtk != oldAtk ||
                         newDef != oldDef;
 
-        if (!changed) {
+        if (!changed && xpGain==0) {
             sp.displayClientMessage(
                     Component.translatable("message.spectrobesreforged.no_effect")
                             .withStyle(ChatFormatting.YELLOW),
                     true
             );
-            return InteractionResult.CONSUME;
+            return false;
         }
 
         int hpDelta = newHp - oldHp;
-        int newHpCur = clamp(entry.hpCur() + hpDelta, 0, newHp);
+        int newHpCur = entry.isDead()?0:clamp(entry.hpCur() + hpDelta, 0, newHp);
 
         SpectrobeEntry updated = new SpectrobeEntry(
                 entry.id(),
@@ -181,18 +188,15 @@ public class MineralItem extends Item {
                 entry.mineralsFed() + 1,
                 newHpBonus,
                 newAtkBonus,
-                newDefBonus
+                newDefBonus, entry.progress()
         );
 
+        updated=com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.award(updated,xpGain,species);
         data.replaceEntry(entry.id(), updated);
         ModProgression.award(sp, "feed");
 
-        var maxHpAttr = spectrobe.getAttribute(Attributes.MAX_HEALTH);
-        if (maxHpAttr != null) {
-            maxHpAttr.setBaseValue(Math.max(1, newHp));
-        }
-        spectrobe.setHealth(Math.max(0.0F, Math.min(newHpCur, newHp)));
-
+        com.jvprz.spectrobesreforged.common.feature.training.SpectrobeTraining.syncActive(sp,updated);
+        double fx=spectrobe==null?sp.getX():spectrobe.getX(),fy=spectrobe==null?sp.getY():spectrobe.getY(),fz=spectrobe==null?sp.getZ():spectrobe.getZ();
         if (sp.level() instanceof ServerLevel sl) {
 
             // sonido de comer
@@ -200,7 +204,7 @@ public class MineralItem extends Item {
 
             sl.playSound(
                     null,
-                    spectrobe.blockPosition(),
+                    sp.blockPosition(),
                     SoundEvents.AMETHYST_BLOCK_STEP,
                     SoundSource.PLAYERS,
                     0.9F,
@@ -213,9 +217,9 @@ public class MineralItem extends Item {
                             ParticleTypes.ITEM,
                             stack.copyWithCount(1)
                     ),
-                    spectrobe.getX(),
-                    spectrobe.getY() + 0.7,
-                    spectrobe.getZ(),
+                    fx,
+                    fy + 0.7,
+                    fz,
                     10,
                     0.2, 0.2, 0.2,
                     0.02
@@ -224,9 +228,9 @@ public class MineralItem extends Item {
             // pequeño brillo mágico
             sl.sendParticles(
                     ParticleTypes.GLOW,
-                    spectrobe.getX(),
-                    spectrobe.getY() + 0.8,
-                    spectrobe.getZ(),
+                    fx,
+                    fy + 0.8,
+                    fz,
                     4,
                     0.25, 0.25, 0.25,
                     0.01
@@ -237,7 +241,9 @@ public class MineralItem extends Item {
             stack.shrink(1);
         }
 
-        return InteractionResult.CONSUME;
+        com.jvprz.spectrobesreforged.common.feature.prizmod.PrizmodSync.sync(sp,data);
+        com.jvprz.spectrobesreforged.common.feature.training.SpectrobeTraining.levelled(sp,entry,updated);
+        return true;
     }
 
     private static int applyStat(int currentValue,
@@ -247,27 +253,34 @@ public class MineralItem extends Item {
                                  boolean setToMax) {
 
         if (setToMax) {
-            return clamp(maxValue, baseValue, maxValue);
+            return Math.max(currentValue,maxValue);
         }
 
         if (delta == null) {
-            return clamp(currentValue, baseValue, maxValue);
+            return currentValue;
         }
 
-        return clamp(currentValue + delta, baseValue, maxValue);
+        return clamp(currentValue + delta, baseValue, Math.max(maxValue,currentValue));
     }
 
     private static int clamp(int value, int min, int max) {
         return Math.max(min, Math.min(max, value));
     }
 
+    @Override public Component getName(ItemStack stack) {
+        var name=Component.empty().append(super.getName(stack));
+        if(RawFossilItem.data(stack).getBoolean("ExcavationCooperative"))name.append(Component.literal(" ⚒").withStyle(ChatFormatting.AQUA));
+        return name;
+    }
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        if(RawFossilItem.data(stack).getBoolean("ExcavationCooperative"))tooltip.add(Component.translatable("tooltip.spectrobesreforged.excavation_cooperative").withStyle(ChatFormatting.AQUA));
 
         addStatLine(tooltip, health, healthMax, "tooltip.spectrobesreforged.minergy.health", ChatFormatting.GREEN);
         addStatLine(tooltip, attack, attackMax, "tooltip.spectrobesreforged.minergy.attack", ChatFormatting.RED);
         addStatLine(tooltip, defense, defenseMax, "tooltip.spectrobesreforged.minergy.defense", ChatFormatting.BLUE);
 
+        tooltip.add(Component.translatable("tooltip.spectrobesreforged.training_xp",com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.mineralPercent(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(this).getPath())).withStyle(ChatFormatting.AQUA));
         tooltip.add(Component.empty());
         tooltip.add(Component.translatable(description).withStyle(ChatFormatting.GRAY));
 

@@ -1,0 +1,12 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#spectrobesreforged:excavation/sandy",
+  "features": [
+    "spectrobesreforged:sandy_corona_fossil_ore",
+    "spectrobesreforged:sandy_c_mineral_ore",
+    "spectrobesreforged:sandy_b_mineral_ore",
+    "spectrobesreforged:sandy_a_mineral_ore",
+    "spectrobesreforged:sandy_a_plus_mineral_ore"
+  ],
+  "step": "underground_ores"
+}

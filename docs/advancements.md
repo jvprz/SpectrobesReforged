@@ -14,7 +14,7 @@ Open Minecraft’s Advancements screen to find the Spectrobes Reforged tab after
 | Hidden Signals | Trigger a scan with an active companion |
 | Mineral Diet | Feed a mineral that changes a linked companion’s stats |
 | A Splash of Color | Successfully recolor a collection-linked companion with Chroma |
-| Complete a Vortex | Defeat all three Krawl and complete the encounter as its owner |
+| Complete a Vortex | Defeat all Krawl and complete the raid as a registered participant |
 | Six New Beginnings | Awaken Inkana, Komainu, Segu, Shakin, Spiko and Vilar in the incubator |
 
 Obtaining an item in Creative can satisfy item-based advancements. Giving yourself a collection entry through `/givespectrobe` does not count as awakening it. Ineffective minerals and unchanged Chroma colors do not grant their action advancements.
@@ -26,3 +26,29 @@ This beta includes [small vortex encounters](vortices.md), which allow Krawl bat
 For old worlds, action advancements are not reconstructed from past activity. Perform the action again after installing the update. Item-based advancements are evaluated when your inventory changes.
 
 The old single-Krawl kill milestone has been removed. A spawn-egg kill alone does not award Complete a Vortex. Previous completed vortex advancements retain their internal ID and remain completed.
+
+
+## 0.6.2-beta.4
+
+| Advancement | Requirement |
+| --- | --- |
+| First excavation | Manually extract a fossil or mineral. |
+| A perfect discovery | Earn a crown: 100% exposed, no damage, within 60 seconds. |
+| Careful restoration | Repair a damaged find with the recovery tool. |
+| Under the ice | Manually extract a frozen find. |
+| Every terrain | Manually extract finds in all six excavation environments. |
+| Experienced excavator | Reach excavation skill level 5. |
+| Ten discoveries | Complete 10 manual excavations. |
+| A hundred discoveries | Complete 100 manual excavations. |
+| A crowned companion | Awaken a crowned fossil. |
+| Level 10 | Train a Spectrobe to level 10. |
+| Level 25 | Train a Spectrobe to level 25. |
+| Level 50 | Train a Spectrobe to level 50. |
+| Level 100 | Train a Spectrobe to level 100. |
+
+Manual excavation totals start counting with this update. Automatic Giga/Blast extraction does not count. Older crowned entries regain their crown achievement when opening Prizmod.
+
+
+## Shared excavation credit
+
+Everyone who successfully used a tool on the specimen and is alive, online and within 8 blocks when it is extracted receives the existing manual excavation, perfect finding and terrain milestones where applicable. Each eligible worker gets one discovery, its catalogue entry and the normal excavation skill XP; counters for 10/100 discoveries and skill level 5 use personal progress. The extractor also receives credit. Merely watching does not count. Repair milestones belong to the player using Recovery; awakening and training milestones remain personal. Automatic extraction gives no manual excavation credit. There is still only one output item and no new cooperative advancement.

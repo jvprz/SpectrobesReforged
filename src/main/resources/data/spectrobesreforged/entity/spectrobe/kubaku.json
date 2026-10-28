@@ -1,0 +1,47 @@
+{
+  "id": 49,
+  "key": "kubaku",
+  "type": "aurora",
+  "stage": "child",
+  "range": 4,
+  "stats": {
+    "hp": {
+      "base": 67,
+      "max": 131,
+      "increment": 7
+    },
+    "attack": {
+      "base": 70,
+      "max": 166,
+      "increment": 13
+    },
+    "defense": {
+      "base": 66,
+      "max": 111,
+      "increment": 8
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "kuganon",
+    "minerals_required": 4
+  },
+  "textures": [
+    "entity/spectrobe/kubaku/kubaku_color_0",
+    "entity/spectrobe/kubaku/kubaku_color_1",
+    "entity/spectrobe/kubaku/kubaku_color_2"
+  ],
+  "model_status": "temporary_individual",
+  "sources": {
+    "stats": "User supplied Spectrobes Wiki table, 2026-10-28; https://spectrobes.fandom.com/wiki/Kubaku",
+    "evolution": "https://spectrobes.fandom.com/wiki/Evolution",
+    "range": "User supplied wiki infobox for Kasumi; wiki list/infobox for the other species"
+  }
+}

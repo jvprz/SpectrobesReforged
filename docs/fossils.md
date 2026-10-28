@@ -1,5 +1,7 @@
 # Fossils and exploration
 
+**Experimental in 0.6.2-beta.3:** newly mined fossil ore gives a raw specimen. Excavate it at a table before using the identified fossil in the incubator. Existing clean fossils still work. See [the excavation playtest](getting-started.md#excavation). The table below lists the possible identified results, not direct raw-item drops.
+
 Fossil ores generate underground in selected Overworld biomes. Use an **iron pickaxe or better**: the bundled mining tags require an iron-tier tool.
 
 ## Where to look
@@ -38,12 +40,10 @@ Without Silk Touch, a fossil ore drops one of its element’s fossil items. The 
 
 ## Which fossils can awaken?
 
-**Only six species currently have bundled species definitions:** Inkana, Komainu, Segu, Shakin, Spiko, and Vilar. Other fossil items can drop and be collected, but cannot currently complete awakening with the default species data.
-
-If a definition is missing, the incubator reports the issue and aborts without consuming the fossil. See the [supported roster](spectrobes.md).
+All **22 registered clean fossil types** can now awaken into their Child species. Six use their original model; sixteen use the temporary model. See the [roster](spectrobes.md).
 
 ## Excavation status
 
-The current discovery interaction is Minecraft ore mining. A separate fossil-cleaning or excavation minigame is not implemented. Analysis and purification belong to the future progression.
+Mine a raw fossil, clean it in the excavation table, then awaken the identified fossil. Existing clean fossils remain usable. See [excavation](getting-started.md#excavation).
 
 Once you have a supported fossil, continue to [the incubator](awakening.md).

@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "spectrobesreforged:excavation_drill",
+    "spectrobesreforged:excavation_blower",
+    "spectrobesreforged:excavation_recovery",
+    "spectrobesreforged:excavation_piton",
+    "spectrobesreforged:excavation_fire",
+    "spectrobesreforged:excavation_water",
+    "spectrobesreforged:excavation_blower_s",
+    "spectrobesreforged:excavation_vacuum",
+    "spectrobesreforged:excavation_giga",
+    "spectrobesreforged:excavation_blast"
+  ]
+}

@@ -7,7 +7,6 @@
     "spectrobesreforged:deepslate_corona_fossil_ore",
     "spectrobesreforged:deepslate_aurora_fossil_ore",
     "spectrobesreforged:deepslate_flash_fossil_ore",
-
     "spectrobesreforged:c_mineral_ore",
     "spectrobesreforged:b_mineral_ore",
     "spectrobesreforged:a_mineral_ore",
@@ -15,6 +14,26 @@
     "spectrobesreforged:deepslate_c_mineral_ore",
     "spectrobesreforged:deepslate_b_mineral_ore",
     "spectrobesreforged:deepslate_a_mineral_ore",
-    "spectrobesreforged:deepslate_a_plus_mineral_ore"
+    "spectrobesreforged:deepslate_a_plus_mineral_ore",
+    "spectrobesreforged:frozen_flash_fossil_ore",
+    "spectrobesreforged:frozen_c_mineral_ore",
+    "spectrobesreforged:frozen_b_mineral_ore",
+    "spectrobesreforged:frozen_a_mineral_ore",
+    "spectrobesreforged:frozen_a_plus_mineral_ore",
+    "spectrobesreforged:sandy_corona_fossil_ore",
+    "spectrobesreforged:sandy_c_mineral_ore",
+    "spectrobesreforged:sandy_b_mineral_ore",
+    "spectrobesreforged:sandy_a_mineral_ore",
+    "spectrobesreforged:sandy_a_plus_mineral_ore",
+    "spectrobesreforged:muddy_aurora_fossil_ore",
+    "spectrobesreforged:muddy_c_mineral_ore",
+    "spectrobesreforged:muddy_b_mineral_ore",
+    "spectrobesreforged:muddy_a_mineral_ore",
+    "spectrobesreforged:muddy_a_plus_mineral_ore",
+    "spectrobesreforged:red_sandy_corona_fossil_ore",
+    "spectrobesreforged:red_sandy_c_mineral_ore",
+    "spectrobesreforged:red_sandy_b_mineral_ore",
+    "spectrobesreforged:red_sandy_a_mineral_ore",
+    "spectrobesreforged:red_sandy_a_plus_mineral_ore"
   ]
 }

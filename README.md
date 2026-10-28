@@ -97,6 +97,7 @@ rather than modifying gameplay code.
 -   Java 21
 -   NeoForge 1.21.1
 -   GeckoLib
+-   Optional: Curios API **9.5.1+1.21.1 for NeoForge**, for the extra Prizmod slot. Without it, inventory/offhand + G and right-click still work.
 -   Minecraft Codec API
 -   Gradle
 -   IntelliJ IDEA

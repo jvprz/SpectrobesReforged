@@ -1,0 +1,47 @@
+{
+  "id": 34,
+  "key": "zoza",
+  "type": "corona",
+  "stage": "child",
+  "range": 3,
+  "stats": {
+    "hp": {
+      "base": 55,
+      "max": 135,
+      "increment": 10
+    },
+    "attack": {
+      "base": 65,
+      "max": 140,
+      "increment": 8
+    },
+    "defense": {
+      "base": 50,
+      "max": 100,
+      "increment": 8
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "zozane",
+    "minerals_required": 4
+  },
+  "textures": [
+    "entity/spectrobe/zoza/zoza_color_0",
+    "entity/spectrobe/zoza/zoza_color_1",
+    "entity/spectrobe/zoza/zoza_color_2"
+  ],
+  "model_status": "temporary_individual",
+  "sources": {
+    "stats": "https://spectrobes.fandom.com/wiki/Zoza",
+    "evolution": "https://spectrobes.fandom.com/wiki/Zoza",
+    "range": "wiki infobox Search; existing ranges are not recalculated"
+  }
+}

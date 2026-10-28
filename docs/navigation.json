@@ -60,6 +60,11 @@
     "label": "Advancements"
   },
   {
+    "slug": "settings",
+    "title": "Settings and servers",
+    "label": "Settings"
+  },
+  {
     "slug": "troubleshooting",
     "title": "Troubleshooting",
     "label": "Help"

@@ -60,6 +60,11 @@
     "label": "Logros"
   },
   {
+    "slug": "settings",
+    "title": "Ajustes y servidores",
+    "label": "Ajustes"
+  },
+  {
     "slug": "troubleshooting",
     "title": "Solución de problemas",
     "label": "Ayuda"

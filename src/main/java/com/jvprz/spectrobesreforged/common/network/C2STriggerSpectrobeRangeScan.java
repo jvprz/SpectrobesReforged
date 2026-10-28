@@ -30,12 +30,13 @@ public record C2STriggerSpectrobeRangeScan() implements CustomPacketPayload {
     }
 
     public static void handle(C2STriggerSpectrobeRangeScan msg, ServerPlayer player) {
-        if (player == null || VortexEncounters.companionSuppressed(player)) return;
+        if (player == null || !player.isAlive() || player.isSpectator() || player.containerMenu != player.inventoryMenu
+                || !PlayerRequestLimits.allow(player,"range_scan",20) || VortexEncounters.companionSuppressed(player)) return;
 
         ServerLevel level = player.serverLevel();
 
         SpectrobeEntity spectrobe = SpectrobeManager.findActiveBaby(level, player);
-        if (spectrobe == null) return;
+        if (spectrobe == null || spectrobe.isRangePaused()) return;
 
         spectrobe.triggerRangePause();
         ModProgression.award(player, "scan");

@@ -23,6 +23,10 @@ public final class ModAttachments {
                             .build()
             );
 
+    public static final Supplier<AttachmentType<com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationProgress>> EXCAVATION =
+            ATTACHMENT_TYPES.register("excavation", () -> AttachmentType.builder(com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationProgress::new)
+                    .serialize(com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationProgress.CODEC).copyOnDeath().build());
+
     public static void register(IEventBus modEventBus) {
         ATTACHMENT_TYPES.register(modEventBus);
     }

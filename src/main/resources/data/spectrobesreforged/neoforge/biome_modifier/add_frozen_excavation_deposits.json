@@ -1,0 +1,12 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#spectrobesreforged:excavation/frozen",
+  "features": [
+    "spectrobesreforged:frozen_flash_fossil_ore",
+    "spectrobesreforged:frozen_c_mineral_ore",
+    "spectrobesreforged:frozen_b_mineral_ore",
+    "spectrobesreforged:frozen_a_mineral_ore",
+    "spectrobesreforged:frozen_a_plus_mineral_ore"
+  ],
+  "step": "underground_ores"
+}

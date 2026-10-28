@@ -25,6 +25,10 @@ public final class ModMenus {
                     () -> new MenuType<>(IncubatorMenu::new, FeatureFlags.DEFAULT_FLAGS)
             );
 
+    public static final DeferredHolder<MenuType<?>, MenuType<com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationMenu>> EXCAVATION_MENU =
+            MENUS.register("excavation_menu", () -> new MenuType<>(
+                    com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationMenu::new, FeatureFlags.DEFAULT_FLAGS));
+
     public static void register(IEventBus bus) {
         MENUS.register(bus);
     }

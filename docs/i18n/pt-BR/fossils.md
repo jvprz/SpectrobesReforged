@@ -1,5 +1,7 @@
 # Fósseis e exploração
 
+**Experimental na 0.6.2-beta.3:** o minério dá uma peça bruta para escavar na mesa antes da incubadora. Fósseis antigos identificados continuam válidos. Veja [o teste de escavação](getting-started.md#excavation). A tabela mostra os possíveis resultados identificados.
+
 Minérios fósseis aparecem em biomas selecionados do Overworld. Use **picareta de ferro ou superior**. Corona: biomas quentes; Aurora: temperados; Flash: frios. Variante de pedra: **Y 0–72**; de ardósia: **Y -64–-1**. São faixas possíveis, não locais garantidos. Em mundos antigos, explore chunks novos.
 
 {{BIOMES}}

@@ -1,0 +1,12 @@
+{
+  "type": "spectrobesreforged:excavation_patch",
+  "config": {
+    "host": {
+      "Name": "minecraft:mud"
+    },
+    "ore": {
+      "Name": "spectrobesreforged:muddy_b_mineral_ore"
+    },
+    "biome_tag": "spectrobesreforged:excavation/muddy"
+  }
+}

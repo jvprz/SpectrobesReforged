@@ -1,0 +1,28 @@
+{
+  "parent": "spectrobesreforged:excavate",
+  "display": {
+    "icon": {
+      "id": "spectrobesreforged:frozen_flash_fossil_ore"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.excavation_ice.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.excavation_ice.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "completed": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "completed"
+    ]
+  ]
+}

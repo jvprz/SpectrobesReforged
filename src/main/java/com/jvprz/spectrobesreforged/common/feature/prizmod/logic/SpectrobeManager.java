@@ -62,6 +62,9 @@ public final class SpectrobeManager {
         spectrobe.setSpeciesKey(entry.species());
         spectrobe.setStage(parseStage(entry.stage()));
         spectrobe.setTextureVariant(entry.color());
+        boolean crown=entry.crowned()||owner.getData(com.jvprz.spectrobesreforged.common.registry.ModAttachments.EXCAVATION.get()).hasCrown(entry.id());
+        spectrobe.setCustomName(com.jvprz.spectrobesreforged.common.feature.training.SpectrobeNames.name(entry.species(),crown,entry.cooperative()));
+        spectrobe.setCustomNameVisible(crown||entry.cooperative());
 
         var maxHpAttr = spectrobe.getAttribute(Attributes.MAX_HEALTH);
         if (maxHpAttr != null) {

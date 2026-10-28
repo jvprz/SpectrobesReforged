@@ -21,6 +21,26 @@ public final class ModItems {
     public static final DeferredRegister.Items ITEMS =
             DeferredRegister.createItems(SpectrobesReforged.MODID);
 
+    /** Separate components ready for future table recipes; the table still supplies its tools. */
+    public static final java.util.Map<String,DeferredItem<Item>> EXCAVATION_TOOLS = excavationTools();
+    private static java.util.Map<String,DeferredItem<Item>> excavationTools() {
+        var result=new java.util.LinkedHashMap<String,DeferredItem<Item>>();
+        for(String tool:List.of("drill","blower","recovery","piton","fire","water","blower_s","vacuum","giga","blast")) {
+            result.put(tool,ITEMS.register("excavation_"+tool,()->new Item(new Item.Properties().stacksTo(1))));
+        }
+        return java.util.Collections.unmodifiableMap(result);
+    }
+
+    public static final DeferredItem<BlockItem> EXCAVATION_TABLE = ITEMS.registerSimpleBlockItem("excavation_table", ModBlocks.EXCAVATION_TABLE);
+    public static final DeferredItem<Item> RAW_CORONA_FOSSIL = ITEMS.register("raw_corona_fossil", () -> new RawFossilItem(SpectrobeType.CORONA, new Item.Properties()));
+    public static final DeferredItem<Item> RAW_AURORA_FOSSIL = ITEMS.register("raw_aurora_fossil", () -> new RawFossilItem(SpectrobeType.AURORA, new Item.Properties()));
+    public static final DeferredItem<Item> RAW_FLASH_FOSSIL = ITEMS.register("raw_flash_fossil", () -> new RawFossilItem(SpectrobeType.FLASH, new Item.Properties()));
+
+    public static final DeferredItem<Item> RAW_C_MINERAL = ITEMS.register("raw_c_mineral", () -> new RawMineralItem("c"));
+    public static final DeferredItem<Item> RAW_B_MINERAL = ITEMS.register("raw_b_mineral", () -> new RawMineralItem("b"));
+    public static final DeferredItem<Item> RAW_A_MINERAL = ITEMS.register("raw_a_mineral", () -> new RawMineralItem("a"));
+    public static final DeferredItem<Item> RAW_A_PLUS_MINERAL = ITEMS.register("raw_a_plus_mineral", () -> new RawMineralItem("a_plus"));
+
     // CORONA
     public static final DeferredItem<Item> VILAR_FOSSIL =
             ITEMS.register("vilar_fossil", () -> new FossilItem(SpectrobeType.CORONA, new Item.Properties()));
@@ -519,6 +539,13 @@ public final class ModItems {
                             "blovant",
                             new Item.Properties().stacksTo(64)
                     ));
+
+    public static final java.util.Map<String,DeferredItem<BlockItem>> ENVIRONMENTAL_ORES = environmentalOres();
+    private static java.util.Map<String,DeferredItem<BlockItem>> environmentalOres() {
+        var entries=new java.util.LinkedHashMap<String,DeferredItem<BlockItem>>();
+        ModBlocks.ENVIRONMENTAL_ORES.forEach((id,block)->entries.put(id,ITEMS.registerSimpleBlockItem(id,block)));
+        return java.util.Collections.unmodifiableMap(entries);
+    }
 
     public static void register(IEventBus modEventBus) {
         ITEMS.register(modEventBus);

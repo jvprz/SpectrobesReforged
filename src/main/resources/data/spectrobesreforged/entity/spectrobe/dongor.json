@@ -1,0 +1,47 @@
+{
+  "id": 19,
+  "key": "dongor",
+  "type": "corona",
+  "stage": "child",
+  "range": 4,
+  "stats": {
+    "hp": {
+      "base": 150,
+      "max": 220,
+      "increment": 10
+    },
+    "attack": {
+      "base": 67,
+      "max": 130,
+      "increment": 10
+    },
+    "defense": {
+      "base": 70,
+      "max": 118,
+      "increment": 8
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "dongora",
+    "minerals_required": 6
+  },
+  "textures": [
+    "entity/spectrobe/dongor/dongor_color_0",
+    "entity/spectrobe/dongor/dongor_color_1",
+    "entity/spectrobe/dongor/dongor_color_2"
+  ],
+  "model_status": "temporary_individual",
+  "sources": {
+    "stats": "User supplied Spectrobes Wiki table, 2026-10-28; https://spectrobes.fandom.com/wiki/Dongor",
+    "evolution": "https://spectrobes.fandom.com/wiki/Evolution",
+    "range": "User supplied wiki infobox for Kasumi; wiki list/infobox for the other species"
+  }
+}

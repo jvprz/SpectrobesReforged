@@ -1,0 +1,47 @@
+{
+  "id": 43,
+  "key": "kasumi",
+  "type": "flash",
+  "stage": "child",
+  "range": 4,
+  "stats": {
+    "hp": {
+      "base": 53,
+      "max": 92,
+      "increment": 6
+    },
+    "attack": {
+      "base": 70,
+      "max": 140,
+      "increment": 9
+    },
+    "defense": {
+      "base": 44,
+      "max": 99,
+      "increment": 8
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "kasumite",
+    "minerals_required": 3
+  },
+  "textures": [
+    "entity/spectrobe/kasumi/kasumi_color_0",
+    "entity/spectrobe/kasumi/kasumi_color_1",
+    "entity/spectrobe/kasumi/kasumi_color_2"
+  ],
+  "model_status": "temporary_individual",
+  "sources": {
+    "stats": "User supplied Spectrobes Wiki table, 2026-10-28; https://spectrobes.fandom.com/wiki/Kasumi",
+    "evolution": "https://spectrobes.fandom.com/wiki/Evolution",
+    "range": "User supplied wiki infobox for Kasumi; wiki list/infobox for the other species"
+  }
+}

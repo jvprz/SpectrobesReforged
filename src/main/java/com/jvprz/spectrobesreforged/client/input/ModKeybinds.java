@@ -12,8 +12,13 @@ public final class ModKeybinds {
 
     public static final KeyMapping RANGE_SCAN = new KeyMapping(
             "key.spectrobesreforged.range_scan",
+            net.neoforged.neoforge.client.settings.KeyConflictContext.IN_GAME,
             InputConstants.Type.KEYSYM,
             GLFW.GLFW_KEY_R,
             CATEGORY
     );
+    public static final KeyMapping OPEN_PRIZMOD = new KeyMapping(
+            "key.spectrobesreforged.open_prizmod",
+            net.neoforged.neoforge.client.settings.KeyConflictContext.IN_GAME,
+            InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_G, CATEGORY);
 }

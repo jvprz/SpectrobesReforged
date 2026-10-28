@@ -1,0 +1,28 @@
+{
+  "parent": "spectrobesreforged:excavate",
+  "display": {
+    "icon": {
+      "id": "minecraft:amethyst_shard"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.excavation_repair.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.excavation_repair.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "completed": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "completed"
+    ]
+  ]
+}

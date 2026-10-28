@@ -1,0 +1,47 @@
+{
+  "id": 37,
+  "key": "grilda",
+  "type": "aurora",
+  "stage": "child",
+  "range": 6,
+  "stats": {
+    "hp": {
+      "base": 100,
+      "max": 175,
+      "increment": 8
+    },
+    "attack": {
+      "base": 75,
+      "max": 170,
+      "increment": 8
+    },
+    "defense": {
+      "base": 75,
+      "max": 125,
+      "increment": 6
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "grilden",
+    "minerals_required": 6
+  },
+  "textures": [
+    "entity/spectrobe/grilda/grilda_color_0",
+    "entity/spectrobe/grilda/grilda_color_1",
+    "entity/spectrobe/grilda/grilda_color_2"
+  ],
+  "model_status": "temporary_individual",
+  "sources": {
+    "stats": "https://spectrobes.fandom.com/wiki/Grilda",
+    "evolution": "https://spectrobes.fandom.com/wiki/Grilda",
+    "range": "wiki infobox Search; existing ranges are not recalculated"
+  }
+}

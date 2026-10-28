@@ -1,0 +1,47 @@
+{
+  "id": 64,
+  "key": "mesa",
+  "type": "corona",
+  "stage": "child",
+  "range": 4,
+  "stats": {
+    "hp": {
+      "base": 80,
+      "max": 150,
+      "increment": 9
+    },
+    "attack": {
+      "base": 75,
+      "max": 150,
+      "increment": 8
+    },
+    "defense": {
+      "base": 70,
+      "max": 118,
+      "increment": 8
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "mesabone",
+    "minerals_required": 4
+  },
+  "textures": [
+    "entity/spectrobe/mesa/mesa_color_0",
+    "entity/spectrobe/mesa/mesa_color_1",
+    "entity/spectrobe/mesa/mesa_color_2"
+  ],
+  "model_status": "temporary_individual",
+  "sources": {
+    "stats": "User supplied Spectrobes Wiki table, 2026-10-28; https://spectrobes.fandom.com/wiki/Mesa",
+    "evolution": "https://spectrobes.fandom.com/wiki/Evolution",
+    "range": "User supplied wiki infobox for Kasumi; wiki list/infobox for the other species"
+  }
+}

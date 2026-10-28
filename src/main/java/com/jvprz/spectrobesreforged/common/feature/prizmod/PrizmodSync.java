@@ -21,6 +21,13 @@ public final class PrizmodSync {
 
     public static void sync(ServerPlayer player, PrizmodData data) {
 
+        var legacy=player.getData(ModAttachments.EXCAVATION.get());
+        var all=new java.util.ArrayList<SpectrobeEntry>(data.getBox());
+        data.getTeamView().stream().filter(java.util.Objects::nonNull).forEach(all::add);
+        data.getBabySlot().ifPresent(all::add);
+        for(var entry:all)if(!entry.crowned()&&legacy.hasCrown(entry.id()))data.replaceEntry(entry.id(),entry.withProgress(entry.progress().withCrown()));
+
+        if(all.stream().anyMatch(entry->entry.crowned()||legacy.hasCrown(entry.id())))com.jvprz.spectrobesreforged.common.feature.progression.ModProgression.award(player,"crowned_awakening");
         List<S2CPrizmodSnapshot.Entry> box =
                 data.getBox()
                         .stream()
@@ -70,7 +77,8 @@ public final class PrizmodSync {
                 entry.mineralsFed(),
                 entry.mineralHpBonus(),
                 entry.mineralAtkBonus(),
-                entry.mineralDefBonus()
+                entry.mineralDefBonus(), entry.progress(),
+                com.jvprz.spectrobesreforged.common.feature.spectrobe.registry.SpectrobeSpeciesRegistry.getByKey(entry.species())==null?"unknown":com.jvprz.spectrobesreforged.common.feature.spectrobe.registry.SpectrobeSpeciesRegistry.getByKey(entry.species()).type().name().toLowerCase(java.util.Locale.ROOT)
         );
     }
 }

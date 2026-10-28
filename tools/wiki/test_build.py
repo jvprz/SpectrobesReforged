@@ -29,7 +29,7 @@ class WikiEditionsTest(unittest.TestCase):
     def test_all_six_languages_have_actual_guides_and_localized_search(self):
         for language in LANGUAGE_NAMES:
             folder=self.output if language=='en' else self.output/language
-            self.assertEqual(14,len(list(folder.glob('*.html'))),language)
+            self.assertEqual(15,len(list(folder.glob('*.html'))),language)
             index=(folder/'index.html').read_text(encoding='utf-8')
             self.assertIn(f'<html lang="{language}">',index)
             self.assertIn(UI[language]['news'],index)

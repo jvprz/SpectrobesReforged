@@ -1,0 +1,47 @@
+{
+  "id": 55,
+  "key": "danawa",
+  "type": "corona",
+  "stage": "child",
+  "range": 6,
+  "stats": {
+    "hp": {
+      "base": 135,
+      "max": 215,
+      "increment": 8
+    },
+    "attack": {
+      "base": 45,
+      "max": 105,
+      "increment": 10
+    },
+    "defense": {
+      "base": 70,
+      "max": 130,
+      "increment": 7
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "danapix",
+    "minerals_required": 4
+  },
+  "textures": [
+    "entity/spectrobe/danawa/danawa_color_0",
+    "entity/spectrobe/danawa/danawa_color_1",
+    "entity/spectrobe/danawa/danawa_color_2"
+  ],
+  "model_status": "temporary_individual",
+  "sources": {
+    "stats": "https://spectrobes.fandom.com/wiki/Danawa",
+    "evolution": "https://spectrobes.fandom.com/wiki/Danawa",
+    "range": "wiki infobox Search; existing ranges are not recalculated"
+  }
+}

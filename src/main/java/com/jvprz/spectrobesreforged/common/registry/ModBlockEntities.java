@@ -30,6 +30,11 @@ public final class ModBlockEntities {
                     ).build(null)
             );
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<com.jvprz.spectrobesreforged.common.content.block.entity.ExcavationTableBlockEntity>> EXCAVATION_TABLE =
+            BLOCK_ENTITIES.register("excavation_table", () -> BlockEntityType.Builder.of(
+                    com.jvprz.spectrobesreforged.common.content.block.entity.ExcavationTableBlockEntity::new,
+                    ModBlocks.EXCAVATION_TABLE.get()).build(null));
+
     public static void register(IEventBus bus) {
         BLOCK_ENTITIES.register(bus);
     }

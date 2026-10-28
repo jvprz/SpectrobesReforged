@@ -22,6 +22,10 @@ public final class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS =
             DeferredRegister.createBlocks(SpectrobesReforged.MODID);
 
+    public static final DeferredBlock<com.jvprz.spectrobesreforged.common.content.block.ExcavationTableBlock> EXCAVATION_TABLE =
+            BLOCKS.register("excavation_table", () -> new com.jvprz.spectrobesreforged.common.content.block.ExcavationTableBlock(
+                    BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.5F).sound(SoundType.WOOD)));
+
     // Fossil ores
     public static final DeferredBlock<Block> CORONA_FOSSIL_ORE =
             BLOCKS.register("corona_fossil_ore",
@@ -164,6 +168,21 @@ public final class ModBlocks {
                             .noOcclusion()
                     )
             );
+
+    public static final java.util.Map<String, DeferredBlock<Block>> ENVIRONMENTAL_ORES = environmentalOres();
+    private static java.util.Map<String, DeferredBlock<Block>> environmentalOres() {
+        var entries=new java.util.LinkedHashMap<String, DeferredBlock<Block>>();
+        for(var deposit:com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.all()) {
+            entries.put(deposit.id(),BLOCKS.register(deposit.id(),()->{
+                var properties=BlockBehaviour.Properties.of().strength(deposit.terrain()==2?2.5F:1.5F,6F)
+                        .sound(deposit.terrain()==2?SoundType.GLASS:deposit.terrain()==5?SoundType.MUD:SoundType.STONE)
+                        .requiresCorrectToolForDrops();
+                return deposit.fossil()?new FossilOreBlock(SpectrobeType.valueOf(deposit.element().toUpperCase(java.util.Locale.ROOT)),properties)
+                        :new MineralOreBlock(MineralTier.valueOf(deposit.grade().toUpperCase(java.util.Locale.ROOT)),properties);
+            }));
+        }
+        return java.util.Collections.unmodifiableMap(entries);
+    }
 
     public static void register(IEventBus modEventBus) {
         BLOCKS.register(modEventBus);

@@ -43,4 +43,20 @@ class SpectrobeSpeciesLoaderTest {
         assertDoesNotThrow(() -> loader.apply(invalid, null, null));
         assertTrue(SpectrobeSpeciesRegistry.all().isEmpty());
     }
+    @Test
+    void childRequirementsMatchBeyondThePortalsAndHavePreviewAssets() throws Exception {
+        var expected=Map.of("komainu",5,"inkana",4,"vilar",7,"segu",4,"spiko",3,"shakin",4);
+        for(var entry:expected.entrySet()) {
+            String key=entry.getKey();
+            try(var stream=getClass().getResourceAsStream("/data/spectrobesreforged/entity/spectrobe/"+key+".json")) {
+                assertNotNull(stream);
+                var json=JsonParser.parseReader(new InputStreamReader(stream,StandardCharsets.UTF_8)).getAsJsonObject();
+                assertEquals(entry.getValue().intValue(),json.getAsJsonObject("evolution").get("minerals_required").getAsInt(),key);
+                if(key.equals("shakin"))assertEquals("shankor",json.getAsJsonObject("evolution").get("to").getAsString());
+            }
+            for(String path:new String[]{"geo/entity/spectrobe/"+key+".geo.json","animations/entity/spectrobe/"+key+".animation.json"})
+                assertNotNull(getClass().getResource("/assets/spectrobesreforged/"+path),path);
+            assertNotNull(getClass().getResource("/assets/spectrobesreforged/textures/entity/spectrobe/"+key+"/"+key+"_color_0.png"),key);
+        }
+    }
 }

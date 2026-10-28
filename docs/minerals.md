@@ -6,9 +6,9 @@ Minerals modify a linked companion’s HP, attack and defense. Hold a mineral an
 
 - Stat changes are clamped between the species’ base and maximum values.
 - A trade-off mineral can lower one stat while raising another, but not below the species base.
-- A successful stat-changing feeding increments the saved mineral counter.
+- A feeding that changes stats or XP increments the saved mineral counter.
 - In Survival, one item is consumed after a successful change. Creative does not consume it.
-- If no stat changes, the mineral is not consumed and the counter does not advance.
+- If neither stats nor XP change, the mineral is not consumed and the counter does not advance.
 - HP minerals adjust current HP by the change in maximum HP; they are not a separate full-heal system.
 
 The table lists the configured changes **before clamping**. `MAX` sets that stat to the species cap.
@@ -114,3 +114,14 @@ The following are the **six mineral-combination recipes**, all shapeless and pro
 <!-- END AUTO:RECIPES -->
 
 Chroma still has no bundled crafting recipe. This beta includes [incubator and Prizmod recipes](getting-started.md#craft-your-equipment), including Prizmod dyeing. Registered items without a recipe or documented drop route may need Creative or administrator access in this beta.
+
+
+## Levels and XP
+
+Excavation integrity gives **+1% at 70–84, +2% at 85–94, +3% at 95–100**, rounded down per base stat. A perfect excavation adds a permanent gold crown after the fossil and awakened Spectrobe name. Quality is saved separately from the crown; old entries without quality retain their existing stats.
+
+Minerals C/B/A/A+ grant **10/20/40/60% of a level**, alongside their existing stat effects. Other active stat minerals grant 25%; Diamond/Evolve remain inactive. Level cap: **100**. Filling the XP bar raises stats gradually within species limits. Minerals can still be useful for XP when their stat is capped. No item is consumed if neither XP nor stats change.
+
+Children gain XP through feeding. Completed raids grant one victory and up to 60 training XP to living Adult/Evolved in each participant’s team, reduced after that player dies; Children gain no battle XP. These saved counters prepare future evolution without enabling it.
+
+See [Prizmod](prizmod.md) for feeding from the collection.

@@ -14,7 +14,7 @@ public class PrizmodMenu extends AbstractContainerMenu {
 
     @Override
     public boolean stillValid(Player player) {
-        return true;
+        return com.jvprz.spectrobesreforged.common.feature.prizmod.PrizmodAccess.canUse(player);
     }
 
     @Override

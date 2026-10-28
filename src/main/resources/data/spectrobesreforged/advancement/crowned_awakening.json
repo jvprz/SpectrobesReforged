@@ -1,0 +1,28 @@
+{
+  "parent": "spectrobesreforged:excavation_perfect",
+  "display": {
+    "icon": {
+      "id": "spectrobesreforged:komainu_fossil"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.crowned_awakening.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.crowned_awakening.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "completed": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "completed"
+    ]
+  ]
+}

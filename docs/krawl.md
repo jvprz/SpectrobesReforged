@@ -1,6 +1,6 @@
 # Krawl enemies
 
-The current mod includes **Blova, Viblova, and Blovant** definitions with custom models, sounds and melee behavior. Spawn eggs work for all three. [Small vortex encounters](vortices.md) produce three enemies of the same type: Corona Blovant in hot biomes, green Aurora Viblova in temperate biomes, and blue Flash Blova elsewhere. The biome is checked where the player is caught.
+The current mod includes **Blova, Viblova and Blovant**, with animated models, sounds, melee attacks and spawn eggs. [Vortices](vortices.md) produce three identical Krawl per participant: **Blovant/Corona in hot climates, green Viblova/Aurora in temperate climates and blue Blova/Flash in cold climates**. The origin biome fixes the type; tags override base-temperature fallback. See the vortex guide for the exact rules.
 
 ## Current definitions
 
@@ -30,6 +30,6 @@ Use an egg on a block to create that Krawl. Test away from an important build or
 
 ## Natural spawns and nests
 
-Krawl definitions include spawn-related fields, but ordinary biome-based natural spawning is not registered. This beta adds rare [small vortices](vortices.md) in the Overworld for Survival players. A vortex follows nearby players slowly and creates an encounter when it catches one, regardless of their held item.
+Krawl definitions include spawn-related fields, but ordinary biome-based natural spawning is not registered. This beta uses [small vortices](vortices.md) for natural Survival encounters in the Overworld. They detect players at 64 blocks and pursue at about 5 blocks/second. The guide documents discovery checks, cooldowns and biome selection.
 
 Large nests and corrupted areas are not implemented. A complete Spectrobe team combat loop is also still in development.

@@ -9,15 +9,25 @@
           "predicate": {
             "predicates": {
               "minecraft:enchantments": [
-                { "enchantments": "minecraft:silk_touch", "levels": { "min": 1 } }
+                {
+                  "enchantments": "minecraft:silk_touch",
+                  "levels": {
+                    "min": 1
+                  }
+                }
               ]
             }
           }
         },
-        { "condition": "minecraft:survives_explosion" }
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ],
       "entries": [
-        { "type": "minecraft:item", "name": "spectrobesreforged:deepslate_flash_fossil_ore" }
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:deepslate_flash_fossil_ore"
+        }
       ]
     },
     {
@@ -30,22 +40,99 @@
             "predicate": {
               "predicates": {
                 "minecraft:enchantments": [
-                  { "enchantments": "minecraft:silk_touch", "levels": { "min": 1 } }
+                  {
+                    "enchantments": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1
+                    }
+                  }
                 ]
               }
             }
           }
         },
-        { "condition": "minecraft:survives_explosion" }
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ],
       "entries": [
-        { "type": "minecraft:item", "name": "spectrobesreforged:harumi_fossil",   "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:nagu_fossil",     "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:aoi_fossil",      "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:shakin_fossil",   "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:kasumi_fossil",   "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:samukabu_fossil", "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:mossari_fossil",  "weight": 1 }
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_flash_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"aoi\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_flash_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"harumi\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_flash_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"kasumi\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_flash_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"mossari\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_flash_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"nagu\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_flash_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"samukabu\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_flash_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"shakin\"}"
+            }
+          ]
+        }
       ]
     }
   ]

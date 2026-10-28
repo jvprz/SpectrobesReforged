@@ -1,5 +1,9 @@
 # Incubator and awakening
 
+{{INCUBATOR_RECIPE}}
+
+**Experimental in 0.6.2-beta.3:** newly mined fossil ore gives a raw specimen. Excavate it at a table before using the identified fossil in the incubator. Existing clean fossils still work. See [the excavation playtest](getting-started.md#excavation). The table below lists the possible identified results, not direct raw-item drops.
+
 The incubator turns a supported fossil into a collection entry. It uses **redstone power** and listens to nearby Minecraft game events and playing jukeboxes.
 
 ## Set up the machine
@@ -42,6 +46,15 @@ Chroma minerals can change the variant later; see [minerals](minerals.md#chroma)
 
 - **No power:** check the redstone signal at either half.
 - **Start unavailable:** insert a fossil and ensure a process is not already active.
-- **Species data missing:** use one of the [six supported fossils](spectrobes.md).
+- **Species data missing:** use one of the [22 supported fossils](spectrobes.md).
 - **Full progress but no delivery:** the player who started awakening must be online; the machine must remain loaded and powered.
 - **Entry exists but no creature:** check the child slot and HP in the [Prizmod](prizmod.md).
+
+
+## Signal interface and capture
+
+The meter now shows three color bands, the current 0–16 signal, the predicted variant, the source (nearby events, jukebox or both), remaining seconds and redstone pause status. The final three seconds display 3–2–1 with local audio cues. Stop cancels without consuming the fossil; only the player who started the process can cancel it before completion.
+
+The capture envelope follows new softer sounds instead of keeping an old loud peak. Simultaneous events use their strongest value regardless of arrival order. Brief filtering smooths transitions over a few ticks; the final filtered captured value still determines the color. The machine ignores events emitted from incubator blocks, so opening its own interface does not feed its meter. Jukebox distance and the strongest-source mixing rule are retained. The meter represents Minecraft game-event strength, not real microphone volume or Hertz.
+
+This presentation takes inspiration from the BTP manual’s sound gauge and countdown. The mod keeps its existing ten-second timer and allows awakening in silence. It does not require maintaining a target band to succeed.

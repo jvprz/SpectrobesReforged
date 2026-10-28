@@ -1,0 +1,28 @@
+{
+  "parent": "spectrobesreforged:excavation_ten",
+  "display": {
+    "icon": {
+      "id": "spectrobesreforged:excavation_table"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.excavation_hundred.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.excavation_hundred.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "completed": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "completed"
+    ]
+  ]
+}

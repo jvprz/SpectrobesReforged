@@ -1,0 +1,28 @@
+{
+  "parent": "spectrobesreforged:excavate",
+  "display": {
+    "icon": {
+      "id": "minecraft:iron_pickaxe"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.excavation_master.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.excavation_master.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "completed": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "completed"
+    ]
+  ]
+}

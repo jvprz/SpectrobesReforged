@@ -1,7 +1,5 @@
 package com.jvprz.spectrobesreforged;
 
-import com.jvprz.spectrobesreforged.client.event.ClientEvents;
-import com.jvprz.spectrobesreforged.client.registry.ClientParticleRegistry;
 import com.jvprz.spectrobesreforged.common.event.CommonEvents;
 import com.jvprz.spectrobesreforged.common.feature.spectrobe.guard.ModSpectrobeFollowGuard;
 import com.jvprz.spectrobesreforged.common.feature.spectrobe.guard.ModSpectrobePortalGuard;
@@ -27,9 +25,12 @@ public class SpectrobesReforged {
             IEventBus modEventBus,
             ModContainer modContainer
     ) {
+        com.jvprz.spectrobesreforged.common.compat.OptionalEquipment.register(modEventBus);
+
         // Registries
         ModEntities.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModFeatures.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModItems.register(modEventBus);
         ModTabs.register(modEventBus);
@@ -77,22 +78,8 @@ public class SpectrobesReforged {
                         .ModNetwork::register
         );
 
-        // Client mod events
-        modEventBus.addListener(
-                ClientEvents::onClientSetup
-        );
-
-        modEventBus.addListener(
-                ClientEvents::registerRenderers
-        );
-
-        modEventBus.addListener(
-                ClientEvents::registerScreens
-        );
-
-        modEventBus.addListener(
-                ClientParticleRegistry::registerParticleProviders
-        );
+        modContainer.registerConfig(net.neoforged.fml.config.ModConfig.Type.SERVER,
+                com.jvprz.spectrobesreforged.common.config.Config.SPEC);
 
         LOGGER.info(
                 "Spectrobes Reforged loaded"

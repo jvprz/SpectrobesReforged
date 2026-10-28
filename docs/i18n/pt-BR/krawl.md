@@ -4,4 +4,4 @@ Três Krawl possuem modelos animados, sons e ataques corpo a corpo. Os ovos de g
 
 {{KRAWL}}
 
-Os [vórtices](vortices.md) geram três inimigos iguais: **Blovant/Corona nos biomas quentes**, **Viblova/Aurora verdes nos temperados**, **Blova/Flash azuis nos demais**. O bioma é consultado quando o vórtice alcança o jogador. Use armas do Minecraft; o combate comandado por uma equipe de Spectrobes continua em desenvolvimento.
+Os [vórtices](vortices.md) geram três Krawl iguais por participante: **Blovant/Corona no clima quente, Viblova/Aurora verde no temperado e Blova/Flash azul no frio**. O bioma de origem define o tipo salvo, mesmo ao se deslocar. Tags têm prioridade sobre a temperatura base; veja as regras no guia de vórtices. Use armas Minecraft; combate por equipe Spectrobes segue em desenvolvimento.

@@ -24,8 +24,16 @@ public final class ClientPrizmodState {
             int mineralsFed,
             int mineralHpBonus,
             int mineralAtkBonus,
-            int mineralDefBonus
-    ) {}
+            int mineralDefBonus,
+            com.jvprz.spectrobesreforged.common.feature.prizmod.data.SpectrobeProgress progress,
+            String element
+    ) {
+        public int xp(){return progress.xp();}
+        public boolean crowned(){return progress.crown();}
+    public boolean cooperative(){return progress.cooperative();}
+        public int quality(){return progress.quality();}
+        public int battles(){return progress.battles();}
+    }
 
     public static void setSnapshot(List<Entry> box, List<Entry> team, Entry baby) {
         BOX.clear();

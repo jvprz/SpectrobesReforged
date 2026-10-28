@@ -1,0 +1,12 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#spectrobesreforged:excavation/muddy",
+  "features": [
+    "spectrobesreforged:muddy_aurora_fossil_ore",
+    "spectrobesreforged:muddy_c_mineral_ore",
+    "spectrobesreforged:muddy_b_mineral_ore",
+    "spectrobesreforged:muddy_a_mineral_ore",
+    "spectrobesreforged:muddy_a_plus_mineral_ore"
+  ],
+  "step": "underground_ores"
+}
