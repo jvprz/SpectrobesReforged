@@ -22,6 +22,21 @@
     "spectrobesreforged:shakin_fossil",
     "spectrobesreforged:kasumi_fossil",
     "spectrobesreforged:samukabu_fossil",
-    "spectrobesreforged:mossari_fossil"
+    "spectrobesreforged:mossari_fossil",
+    "spectrobesreforged:ice_raw_flash_fossil",
+    "spectrobesreforged:sand_raw_corona_fossil",
+    "spectrobesreforged:mud_raw_aurora_fossil",
+    "spectrobesreforged:red_sand_raw_corona_fossil",
+    "spectrobesreforged:ice_raw_corona_fossil",
+    "spectrobesreforged:ice_raw_aurora_fossil",
+    "spectrobesreforged:sand_raw_aurora_fossil",
+    "spectrobesreforged:sand_raw_flash_fossil",
+    "spectrobesreforged:red_sand_raw_aurora_fossil",
+    "spectrobesreforged:red_sand_raw_flash_fossil",
+    "spectrobesreforged:mud_raw_corona_fossil",
+    "spectrobesreforged:mud_raw_flash_fossil",
+    "spectrobesreforged:raw_corona_fossil",
+    "spectrobesreforged:raw_aurora_fossil",
+    "spectrobesreforged:raw_flash_fossil"
   ]
 }

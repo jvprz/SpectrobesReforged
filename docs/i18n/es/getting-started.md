@@ -93,3 +93,6 @@ Dos jugadores distintos deben utilizar herramientas con éxito en la misma pieza
 
 
 La mesa nueva se orienta hacia quien la coloca. El objeto limpio tiene prioridad visual en la bandeja. Puede esperar una pieza en bruto en la entrada, pero no se puede trabajar hasta recoger la salida; la mesa vacía no muestra nada.
+
+
+Los iconos se llaman **Medalla perfecta** (♛) y **Medalla cooperativa** (⚒). El objeto muestra únicamente sus nombres; los requisitos se consultan en esta guía.

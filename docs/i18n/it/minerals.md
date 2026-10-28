@@ -28,3 +28,6 @@ I minerali C/B/A/A+ danno **10/20/40/60% di un livello**, oltre agli effetti esi
 I Child guadagnano XP mangiando. Un’incursione completata assegna una vittoria e fino a 60 XP agli Adult/Evolved vivi di ogni partecipante, ridotti dopo la sua morte. I Child non ricevono XP di battaglia. Questi contatori preparano l’evoluzione futura senza attivarla.
 
 Vedi [Prizmod](prizmod.md) per nutrire dalla collezione.
+
+
+[Reperti grezzi per materiale](fossils.md#environmental-raws)

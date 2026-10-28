@@ -58,7 +58,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "spectrobesreforged:raw_a_mineral",
+          "name": "spectrobesreforged:mud_raw_a_mineral",
           "weight": 1,
           "functions": [
             {
@@ -69,7 +69,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "spectrobesreforged:raw_a_mineral",
+          "name": "spectrobesreforged:mud_raw_a_mineral",
           "weight": 1,
           "functions": [
             {
@@ -80,7 +80,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "spectrobesreforged:raw_a_mineral",
+          "name": "spectrobesreforged:mud_raw_a_mineral",
           "weight": 1,
           "functions": [
             {

@@ -56,3 +56,6 @@ Los minerales aleatorios son de poder, defensa o salud. Morir elimina los B y re
 ```
 
 Busca una superficie abierta en Fácil, Normal o Difícil, invoca el vórtice con el comando y cambia a Supervivencia. Prueba caminar frente a correr, un escalón, grava, límites de bioma, guardar/cargar y derrotar los tres Krawl. Las apariciones naturales funcionan en chunks existentes; no necesitas regenerar el mundo.
+
+
+El vórtice en persecución o en espera hace rebotar las flechas con el sonido y la respuesta de un escudo vanilla, incluidas las de Perforación. Dispararle no lo destruye ni inicia una incursión. Una vez comienza el encuentro, el controlador invisible deja de interceptar proyectiles.

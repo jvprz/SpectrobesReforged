@@ -28,3 +28,6 @@ C/B/A/A+-Mineralien geben **10/20/40/60% eines Levels** zusätzlich zu ihren bis
 Children erhalten XP durch Füttern. Ein abgeschlossener Überfall gibt lebenden Adult/Evolved jedes Teilnehmers einen Sieg und bis zu 60 Trainings-XP, nach dessen Tod verringert. Children erhalten keine Kampf-XP. Diese Zähler bereiten spätere Entwicklung vor, aktivieren sie aber nicht.
 
 Siehe [Prizmod](prizmod.md) zum Füttern aus der Sammlung.
+
+
+[Rohfunde nach Material](fossils.md#environmental-raws)

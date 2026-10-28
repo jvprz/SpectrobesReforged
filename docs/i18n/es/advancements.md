@@ -33,3 +33,6 @@ El contador de excavaciones manuales comienza con esta actualización. Giga/Blas
 ## Reconocimiento de excavación compartida
 
 Quienes hayan utilizado una herramienta con éxito en la pieza y estén vivos, conectados y a 8 bloques o menos al extraerla reciben los logros existentes de excavación manual, hallazgo perfecto y terreno que correspondan. Cada colaborador elegible obtiene un descubrimiento, su registro y la XP normal de habilidad; los logros de 10/100 hallazgos y nivel 5 se calculan con su progreso personal. Quien extrae también recibe crédito. Mirar no cuenta. Reparar corresponde a quien utiliza Recuperación; despertar y entrenar siguen siendo personales. La extracción automática no concede progreso manual. Sigue habiendo un solo objeto de salida y ningún logro cooperativo nuevo.
+
+
+Las piezas en bruto de todos los materiales activan los mismos logros de obtención: los fósiles en bruto cuentan para el primer fósil y todas las piezas abren el árbol del mod. Limpiar solo cuenta tras una extracción manual completada. Las 28 combinaciones de material y contenido de Creativo no exigen logros distintos. En Todos los terrenos, arena y arena roja comparten criterio; los seis entornos siguen siendo roca, arena, hielo, lava, agua y barro. Se conservan los IDs y el progreso conseguido; los colaboradores elegibles siguen recibiendo crédito de excavación.

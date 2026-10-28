@@ -1,6 +1,6 @@
 # Risoluzione dei problemi
 
-**Compagno assente:** controlla slot infantile e salute, termina l’incontro attivo e aspetta un secondo. Riponi e riequipaggia. Usa i [comandi](commands.md) per le prove.
+**Compagno assente:** I compagni Child non subiscono danni di combattimento o ambientali: frecce, fuoco, lava, cadute, soffocamento e annegamento inclusi. Anche i PS salvati sono protetti. Aprire il Prizmod ripristina i Child feriti o a zero PS dei vecchi salvataggi, conservando statistiche, allenamento e medaglie. Adult/Evolved mantengono le loro regole di danno. I Child restano riposti durante le incursioni.
 
 **Incubatrice ferma:** redstone a una metà, uno dei sei fossili supportati, giocatore iniziale online e blocco caricato.
 

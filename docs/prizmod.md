@@ -33,7 +33,7 @@ Children gain XP through feeding. Completed raids grant one victory and up to 60
 
 ## Companions and persistence
 
-Select a living Child and press Companion. It follows you and assists scanning. During [vortex encounters](vortices.md) it stays safely stored, then returns. Damage, training and collection data persist; zero-HP entries do not spawn. Switching companion refreshes its entity. Back up your world before updating.
+Select a living Child and press Companion. It follows you and assists scanning. During [vortex encounters](vortices.md) it stays safely stored, then returns. Training and collection data persist; Children are protected from damage. Switching companion refreshes its entity. Back up your world before updating.
 
 The selected entry displays its animated 3D model and actual color beside the stats. Collection cards keep their small portraits.
 
@@ -58,3 +58,6 @@ Reference only; evolution remains unavailable.
 {{DYE_RECIPES}}
 
 {{ITEM_CREDITS}}
+
+
+Child companions cannot take combat or environmental damage, including arrows, fire, lava, falls, suffocation and drowning. Their saved PS remain protected too. Opening the Prizmod restores injured or zero-HP Children from older saves without changing their stats, training or medals. Adult/Evolved combat forms retain their damage rules. Children still return to storage during raids.

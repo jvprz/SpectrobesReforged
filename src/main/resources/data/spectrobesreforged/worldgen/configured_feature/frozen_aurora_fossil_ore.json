@@ -1,0 +1,12 @@
+{
+  "type": "spectrobesreforged:excavation_patch",
+  "config": {
+    "host": {
+      "Name": "minecraft:blue_ice"
+    },
+    "ore": {
+      "Name": "spectrobesreforged:frozen_aurora_fossil_ore"
+    },
+    "biome_tag": "spectrobesreforged:excavation/frozen"
+  }
+}

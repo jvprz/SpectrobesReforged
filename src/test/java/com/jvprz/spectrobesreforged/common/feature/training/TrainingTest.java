@@ -66,4 +66,12 @@ class TrainingTest {
   assertTrue(marked.progress().withCrown().won().cooperative());
   assertFalse(SpectrobeProgress.CODEC.parse(JsonOps.INSTANCE,new com.google.gson.JsonObject()).getOrThrow().cooperative());
  }
+ @Test void childCollectionDamageIsRejectedAndOldInjuriesAreRestored(){
+  var child=entry().withHpCur(0).withProgress(new SpectrobeProgress(45,true,100,2,true));
+  var adult=entry().withStage("ADULT").withHpCur(50);var data=new PrizmodData();data.addToBox(child);data.addToBox(adult);
+  assertFalse(data.applyDamage(child.id(),10));assertTrue(data.applyDamage(adult.id(),10));
+  data.restoreProtectedChildren();var healed=data.findAnywhere(child.id()).orElseThrow();
+  assertEquals(healed.hp(),healed.hpCur());assertEquals(child.progress(),healed.progress());assertEquals(child.atk(),healed.atk());
+  assertEquals(40,data.findAnywhere(adult.id()).orElseThrow().hpCur());
+ }
 }

@@ -58,3 +58,6 @@ Solo referencia; la evolución sigue sin estar disponible.
 {{DYE_RECIPES}}
 
 {{ITEM_CREDITS}}
+
+
+Los compañeros Child no reciben daño de combate ni ambiental: flechas, fuego, lava, caídas, asfixia y ahogamiento incluidos. También se protegen sus PS guardados. Abrir el Prizmod recupera los Child heridos o a cero PS de partidas anteriores, conservando estadísticas, entrenamiento y medallas. Las formas Adult/Evolved mantienen sus reglas de daño. Los Child siguen guardándose durante las incursiones.

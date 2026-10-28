@@ -195,4 +195,70 @@ public final class CooperativeGameplayTests {
         h.assertTrue(a.getData(com.jvprz.spectrobesreforged.common.registry.ModAttachments.EXCAVATION.get()).completed()==1,"Automatic or repeated empty extraction must not add discovery credit");
         h.succeed();
     }
+    @GameTest(template="raid_arena",timeoutTicks=100)
+    public static void childrenRejectEnvironmentalAndCombatDamage(GameTestHelper h) {
+        var child=ModEntities.SPECTROBE.get().create(h.getLevel());child.setSpeciesKey("komainu");
+        child.setStage(com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeStage.CHILD);
+        var pos=h.absolutePos(new BlockPos(12,1,12));child.moveTo(pos.getX()+.5,pos.getY(),pos.getZ()+.5,0,0);h.getLevel().addFreshEntity(child);
+        float hp=child.getHealth();var damage=h.getLevel().damageSources();
+        for(var source:List.of(damage.generic(),damage.lava(),damage.inFire(),damage.fall(),damage.drown(),damage.inWall(),damage.starve(),damage.wither(),damage.outOfBorder(),damage.fellOutOfWorld())) {
+            h.assertTrue(!child.hurt(source,10000),"Child must reject every damage source");
+            h.assertTrue(child.getHealth()==hp&&child.isAlive(),"Protected Child must retain its health");
+        }
+        h.assertTrue(!child.causeFallDamage(100,1,damage.fall()),"Falling must not trigger damage");
+        child.setRemainingFireTicks(100);h.assertTrue(!child.isOnFire()&&child.fireImmune(),"Child should not render as burning");
+        child.discard();h.succeed();
+    }
+    @GameTest(template="raid_arena",timeoutTicks=100)
+    public static void normalAndPiercingArrowsBounceOffIdleVortex(GameTestHelper h) {
+        var level=h.getLevel();var pos=h.absolutePos(new BlockPos(12,1,12));
+        var vortex=ModEntities.KRAWL_VORTEX.get().create(level);vortex.moveTo(pos.getX()+.5,pos.getY(),pos.getZ()+.5,0,0);level.addFreshEntity(vortex);
+        var arrows=new ArrayList<net.minecraft.world.entity.projectile.Arrow>();
+        for(int i=0;i<2;i++) {
+            var arrow=new net.minecraft.world.entity.projectile.Arrow(net.minecraft.world.entity.EntityType.ARROW,level);
+            arrow.setPos(vortex.getX()+(i==0?-.3:.3),vortex.getY()+1.3,vortex.getZ()-5);arrow.setNoGravity(true);
+            arrow.setDeltaMovement(0,0,2);if(i==1){var tag=arrow.saveWithoutId(new net.minecraft.nbt.CompoundTag());tag.putByte("PierceLevel",(byte)3);arrow.load(tag);}level.addFreshEntity(arrow);arrows.add(arrow);
+        }
+        h.runAfterDelay(5,()->{
+            for(var arrow:arrows)h.assertTrue(arrow.isAlive()&&arrow.getDeltaMovement().z<0&&Math.abs(arrow.getDeltaMovement().z)<.5,"Arrow must bounce back with vanilla shield damping");
+            h.assertTrue(vortex.isAlive()&&VortexEncounters.get(level).find(vortex.getUUID())==null,"Arrow hit must neither destroy the vortex nor start a raid");
+            arrows.forEach(net.minecraft.world.entity.Entity::discard);vortex.discard();h.succeed();
+        });
+    }
+    @GameTest(template="raid_arena",timeoutTicks=100)
+    public static void everyEnvironmentalBlockDropsItsOwnPortableSpecimen(GameTestHelper h) {
+        var worker=player(h,"GeologyDrops");var pos=h.absolutePos(new BlockPos(2,1,2));
+        for(var deposit:com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.all()) {
+            var block=ModBlocks.ENVIRONMENTAL_ORES.get(deposit.id()).get();
+            var expected=ModItems.ENVIRONMENTAL_RAWS.get(deposit.rawId()).get();
+            var drops=net.minecraft.world.level.block.Block.getDrops(block.defaultBlockState(),h.getLevel(),pos,null,worker,new ItemStack(net.minecraft.world.item.Items.IRON_PICKAXE));
+            h.assertTrue(drops.size()==1&&drops.getFirst().is(expected),"Environmental ore must drop exactly its matching raw item: "+deposit.id());
+            var raw=drops.getFirst();var tag=com.jvprz.spectrobesreforged.common.content.item.RawFossilItem.data(raw);
+            h.assertTrue(tag.getInt("ExcavationTerrain")==deposit.terrain()&&tag.getInt("ExcavationRock")==deposit.rock(),"Drop must preserve host geology");
+            var candidates=ExcavationSpecimen.candidates(raw);
+            h.assertTrue(candidates.contains(tag.getString(deposit.fossil()?"Fossil":"Mineral")),"Fixed species/mineral must match its raw item's element/grade");
+            var creative=expected.getDefaultInstance();
+            h.assertTrue(com.jvprz.spectrobesreforged.common.content.item.RawFossilItem.data(creative).getInt("ExcavationTerrain")==deposit.terrain(),"Creative raw must carry its own geology without needing a mined block");
+        }
+        h.succeed();
+    }
+    @GameTest(template="raid_arena",timeoutTicks=100)
+    public static void allRawVariantsTriggerTheExistingObtainingMilestones(GameTestHelper h) {
+        var p=new ServerPlayer(h.getLevel().getServer(),h.getLevel(),new GameProfile(UUID.randomUUID(),"RawMilestones"),net.minecraft.server.level.ClientInformation.createDefault());
+        p.connection=player(h,"RawMilestoneConn").connection;p.setGameMode(GameType.SURVIVAL);
+        var manager=h.getLevel().getServer().getAdvancements();
+        var first=manager.get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(SpectrobesReforged.MODID,"first_fossil"));
+        var root=manager.get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(SpectrobesReforged.MODID,"root"));
+        var items=new ArrayList<net.minecraft.world.item.Item>();
+        items.addAll(List.of(ModItems.RAW_CORONA_FOSSIL.get(),ModItems.RAW_AURORA_FOSSIL.get(),ModItems.RAW_FLASH_FOSSIL.get(),ModItems.RAW_C_MINERAL.get(),ModItems.RAW_B_MINERAL.get(),ModItems.RAW_A_MINERAL.get(),ModItems.RAW_A_PLUS_MINERAL.get()));
+        ModItems.ENVIRONMENTAL_RAWS.values().forEach(item->items.add(item.get()));
+        for(var item:items) {
+            p.getAdvancements().revoke(first,"completed");p.getAdvancements().revoke(root,"completed");p.getInventory().clearContent();
+            var stack=item.getDefaultInstance();p.getInventory().setItem(0,stack);
+            net.minecraft.advancements.CriteriaTriggers.INVENTORY_CHANGED.trigger(p,p.getInventory(),stack);
+            h.assertTrue(p.getAdvancements().getOrStartProgress(root).isDone(),"Every raw item should unlock the existing advancement tree");
+            h.assertTrue(p.getAdvancements().getOrStartProgress(first).isDone()==(item instanceof com.jvprz.spectrobesreforged.common.content.item.RawFossilItem),"Only fossil raws should award the first fossil milestone");
+        }
+        h.succeed();
+    }
 }

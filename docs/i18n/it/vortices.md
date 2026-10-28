@@ -56,3 +56,6 @@ Minerali casuali di potenza, difesa o salute. Morire elimina i B e sottrae un C 
 ```
 
 Evoca il vortice su terreno libero e passa in Sopravvivenza. Prova camminata/corsa, gradini, ghiaia, confini dei biomi e salvataggio/ricaricamento. Le comparse naturali funzionano nei chunk esistenti.
+
+
+Un vortice in attesa o all’inseguimento fa rimbalzare le frecce come uno scudo vanilla, con suono di blocco, anche con Perforazione. Sparare non lo distrugge e non avvia un’incursione. Dopo l’inizio del combattimento il controllore invisibile non intercetta più i proiettili.

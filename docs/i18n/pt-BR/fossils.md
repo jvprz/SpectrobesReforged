@@ -11,3 +11,13 @@ Sem Toque Suave, o minério solta um fóssil do elemento; com o encantamento, so
 {{FOSSIL_DROPS}}
 
 Somente **Inkana, Komainu, Segu, Shakin, Spiko e Vilar** possuem definições para despertar. Outros fósseis podem ser colecionados. Uma definição ausente interrompe o processo sem consumir o fóssil. Análise e limpeza ainda não foram implementadas.
+
+
+Os depósitos congelados agora usam **gelo azul**, incluindo o minério central. As restrições de biomas continuam iguais. Novos depósitos exigem chunks inexplorados; o terreno existente é preservado.
+
+
+## Peças brutas por material {#environmental-raws}
+
+Cada bloco ambiental solta sua própria peça bruta com a nova textura e camadas salvas. Os nomes distinguem Corona, Aurora, Flash ou grau mesmo com texturas compartilhadas. Criativo mostra todas as combinações por material. **Geração natural mantida:** gelo azul → Flash; arenito/arenito vermelho → Corona; lama → Aurora; os quatro graus minerais em cada material. Outras combinações são opções para Criativo ou datapacks. Peças anteriores e escavações salvas continuam compatíveis.
+
+{{ENVIRONMENTAL_ITEMS}}

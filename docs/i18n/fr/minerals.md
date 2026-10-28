@@ -28,3 +28,6 @@ Les minéraux C/B/A/A+ donnent **10/20/40/60% d’un niveau**, en plus des effet
 Les Children gagnent de l’XP en mangeant. Un raid terminé donne une victoire et jusqu’à 60 XP à chaque Adult/Evolved vivant de chaque participant, réduits après sa mort. Les Children ne gagnent pas d’XP de combat. Ces compteurs préparent une évolution future sans l’activer.
 
 Voir [Prizmod](prizmod.md) pour nourrir depuis la collection.
+
+
+[Spécimens bruts par matériau](fossils.md#environmental-raws)

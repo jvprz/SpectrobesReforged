@@ -91,3 +91,6 @@ Zwei verschiedene Spieler müssen erfolgreich Werkzeuge am selben Fundstück ben
 
 
 Der neue Tisch richtet sich zum platzierenden Spieler aus. Der gereinigte Fund hat Vorrang in der Vertiefung. Ein Rohfund kann im Eingang warten, wird aber erst nach Entnahme der Ausgabe bearbeitet; ein leerer Tisch zeigt nichts.
+
+
+Die Symbole heißen **Perfekt-Medaille** (♛) und **Koop-Medaille** (⚒). Der Gegenstand zeigt nur die Namen; die Bedingungen stehen in diesem Leitfaden.

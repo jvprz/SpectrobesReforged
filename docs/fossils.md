@@ -47,3 +47,13 @@ All **22 registered clean fossil types** can now awaken into their Child species
 Mine a raw fossil, clean it in the excavation table, then awaken the identified fossil. Existing clean fossils remain usable. See [excavation](getting-started.md#excavation).
 
 Once you have a supported fossil, continue to [the incubator](awakening.md).
+
+
+Frozen excavation pockets now use **blue ice**, including the central fossil/mineral ore. They keep the same frozen-biome restrictions. New pockets require unexplored chunks; existing generated terrain is preserved.
+
+
+## Environmental raw specimens {#environmental-raws}
+
+Each environmental block now drops its own raw item, using the new host artwork and preserving its excavation layers. Even where textures are shared, names distinguish Corona, Aurora, Flash or mineral grade. Creative lists all combinations, grouped by host material. **Natural generation remains unchanged:** blue ice → Flash; sandstone/red sandstone → Corona; mud → Aurora; all four mineral grades in every host. Other fossil/host combinations are Creative or datapack options. Existing raw items and saved excavations remain compatible.
+
+{{ENVIRONMENTAL_ITEMS}}

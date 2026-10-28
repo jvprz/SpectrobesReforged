@@ -30,3 +30,6 @@ Los minerales C/B/A/A+ aportan **10/20/40/60% de un nivel**, además de sus efec
 Los Child obtienen XP mediante alimentación. Al completar una incursión, cada Adult/Evolved vivo del equipo de cada participante recibe una victoria y hasta 60 XP, reducidos si ese jugador murió. Los Child no reciben XP de batalla. Estos contadores preparan la futura evolución sin activarla.
 
 Consulta [Prizmod](prizmod.md) para alimentar desde la colección.
+
+
+[Piezas en bruto por material](fossils.md#environmental-raws)

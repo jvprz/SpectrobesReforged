@@ -31,3 +31,6 @@ A contagem manual começa nesta atualização. Giga/Blast não contam. Entradas 
 ## Crédito de escavação compartilhado
 
 Quem usou uma ferramenta com sucesso na peça e estiver vivo, conectado e a até 8 blocos ao extraí-la recebe os avanços existentes de escavação manual, achado perfeito e terreno aplicáveis. Cada colaborador elegível recebe uma descoberta, catálogo e XP normal de habilidade; 10/100 descobertas e nível 5 usam progresso pessoal. Quem extrai também recebe crédito. Observar não conta. Reparar cabe ao usuário de Recuperação; despertar e treino continuam pessoais. Extração automática não concede progresso manual. Continua havendo um só objeto, sem novo avanço cooperativo.
+
+
+Peças brutas de todos os materiais ativam os avanços existentes: fósseis brutos para o primeiro fóssil, todas as peças para a árvore do mod. Limpar só conta após uma extração manual concluída. As 28 combinações criativas não exigem avanços separados. Areia e areia vermelha compartilham um critério; os seis ambientes continuam sendo rocha, areia, gelo, lava, água e lama. IDs e progresso preservados; colaboradores elegíveis continuam recebendo crédito.

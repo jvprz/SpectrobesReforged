@@ -1,6 +1,6 @@
 # Solución de problemas
 
-**No aparece el compañero:** comprueba el hueco infantil y su vida, sal de cualquier encuentro activo y espera un segundo. Guarda y vuelve a equipar la entrada. Consulta [los comandos](commands.md) si necesitas recuperar vida en pruebas.
+**No aparece el compañero:** Los compañeros Child no reciben daño de combate ni ambiental: flechas, fuego, lava, caídas, asfixia y ahogamiento incluidos. También se protegen sus PS guardados. Abrir el Prizmod recupera los Child heridos o a cero PS de partidas anteriores, conservando estadísticas, entrenamiento y medallas. Las formas Adult/Evolved mantienen sus reglas de daño. Los Child siguen guardándose durante las incursiones.
 
 **La incubadora no avanza:** alimenta con redstone cualquiera de las mitades y usa uno de los seis fósiles compatibles. El jugador que inició el proceso debe estar conectado y el bloque cargado para completar la entrega.
 

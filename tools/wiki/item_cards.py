@@ -20,6 +20,8 @@ def read(path):
 
 class ItemCards:
     def __init__(self, root, language):
+        from block_icons import BlockIcons
+        self.blocks = BlockIcons(root)
         self.root = root
         self.assets = root / 'src/main/resources/assets/spectrobesreforged'
         self.data = root / 'src/main/resources/data/spectrobesreforged'
@@ -38,6 +40,8 @@ class ItemCards:
     def texture(self, identifier):
         identifier = {'#minecraft:planks':'minecraft:oak_planks', '#spectrobesreforged:prizmods':'spectrobesreforged:white_prizmod'}.get(identifier,identifier)
         namespace, key = identifier.split(':')
+        if self.blocks.block_model(identifier):
+            return '__ITEM_ASSETS__/rendered/'+namespace+'/'+key+'.png'
         if namespace == 'minecraft':
             texture = {'glass':'block/glass','glass_pane':'block/glass','calibrated_sculk_sensor':'block/calibrated_sculk_sensor_top','oak_planks':'block/oak_planks'}.get(key,'item/'+key)
             return VANILLA+texture+'.png'
@@ -80,6 +84,14 @@ def copy_icons(root, output):
         try: texture = cards.texture('spectrobesreforged:'+model.stem)
         except (KeyError,FileNotFoundError,AssertionError): continue
         relative = texture.removeprefix('__ITEM_ASSETS__/')
+        if relative.startswith('rendered/'):
+            cards.blocks.render(cards.blocks.block_model('spectrobesreforged:'+model.stem), output/relative)
+            continue
         target = output/relative
         target.parent.mkdir(parents=True,exist_ok=True)
         shutil.copy2(cards.assets/'textures'/relative,target)
+
+    for key in ['glass','glass_pane','calibrated_sculk_sensor','oak_planks']:
+        identifier='minecraft:'+key
+        model = cards.blocks.block_model(identifier)
+        if model: cards.blocks.render(model,output/'rendered/minecraft'/(key+'.png'))

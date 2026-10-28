@@ -58,7 +58,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "spectrobesreforged:raw_flash_fossil",
+          "name": "spectrobesreforged:ice_raw_flash_fossil",
           "weight": 1,
           "functions": [
             {
@@ -69,7 +69,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "spectrobesreforged:raw_flash_fossil",
+          "name": "spectrobesreforged:ice_raw_flash_fossil",
           "weight": 1,
           "functions": [
             {
@@ -80,7 +80,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "spectrobesreforged:raw_flash_fossil",
+          "name": "spectrobesreforged:ice_raw_flash_fossil",
           "weight": 1,
           "functions": [
             {
@@ -91,7 +91,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "spectrobesreforged:raw_flash_fossil",
+          "name": "spectrobesreforged:ice_raw_flash_fossil",
           "weight": 1,
           "functions": [
             {
@@ -102,7 +102,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "spectrobesreforged:raw_flash_fossil",
+          "name": "spectrobesreforged:ice_raw_flash_fossil",
           "weight": 1,
           "functions": [
             {
@@ -113,7 +113,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "spectrobesreforged:raw_flash_fossil",
+          "name": "spectrobesreforged:ice_raw_flash_fossil",
           "weight": 1,
           "functions": [
             {
@@ -124,7 +124,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "spectrobesreforged:raw_flash_fossil",
+          "name": "spectrobesreforged:ice_raw_flash_fossil",
           "weight": 1,
           "functions": [
             {

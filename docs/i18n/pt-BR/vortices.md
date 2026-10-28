@@ -56,3 +56,6 @@ Minerais aleatórios de poder, defesa ou saúde. Morrer remove os B e subtrai um
 ```
 
 Invoque o vórtice em terreno aberto e passe para Sobrevivência. Teste caminhada/corrida, degraus, cascalho, fronteiras dos biomas e salvar/recarregar. Aparições naturais funcionam em chunks existentes.
+
+
+Um vórtice aguardando ou perseguindo rebate flechas como um escudo vanilla, com som de bloqueio, inclusive com Perfuração. Atirar não o destrói nem inicia uma incursão. Após o início da batalha o controlador invisível deixa de interceptar projéteis.

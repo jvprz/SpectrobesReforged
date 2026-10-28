@@ -12,4 +12,14 @@ Sin Toque de seda, el bloque suelta un fósil de su elemento; con Toque de seda 
 
 {{FOSSIL_DROPS}}
 
-Solo **Inkana, Komainu, Segu, Shakin, Spiko y Vilar** tienen definiciones completas para despertar. Otros fósiles se pueden coleccionar, pero no despertar con los datos actuales. Si falta una especie, el proceso aborta sin consumir el fósil. El laboratorio, el análisis y la limpieza todavía no están implementados.
+Los **22 Child de los fósiles actuales** pueden despertarse tras limpiar la pieza en la mesa. El análisis de laboratorio sigue pendiente.
+
+
+Los depósitos congelados ahora usan **hielo azul**, incluida la mena central de fósil o mineral. Se mantienen sus restricciones de biomas helados. Los parches nuevos requieren chunks sin explorar; el terreno ya generado se conserva.
+
+
+## Piezas en bruto por material {#environmental-raws}
+
+Cada bloque ambiental entrega ahora su propio objeto en bruto, con la textura nueva de su material y las capas de excavación guardadas. Aunque compartan dibujo, los nombres distinguen Corona, Aurora, Flash o el grado del mineral. Creativo muestra todas las combinaciones agrupadas por material. **La generación natural se mantiene:** hielo azul → Flash; arenisca/arenisca roja → Corona; barro → Aurora; los cuatro grados de mineral en cada material. Las demás combinaciones de fósil y material están disponibles en Creativo o para datapacks. Las piezas antiguas y las excavaciones guardadas siguen siendo compatibles.
+
+{{ENVIRONMENTAL_ITEMS}}

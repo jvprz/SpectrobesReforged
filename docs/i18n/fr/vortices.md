@@ -56,3 +56,6 @@ Minéraux aléatoires : puissance, défense ou santé. Chaque mort supprime les 
 ```
 
 Invoquez le vortex ci-dessous sur un terrain ouvert, puis passez en Survie. Testez marche/sprint, marches, gravier, frontières de biomes et sauvegarde/rechargement. Les apparitions fonctionnent dans les chunks existants.
+
+
+Un vortex en attente ou en poursuite fait rebondir les flèches avec le son et la réponse d’un bouclier vanilla, même avec Perforation. Tirer ne le détruit pas et ne déclenche pas de raid. Le contrôleur invisible cesse d’intercepter les projectiles après le début du combat.

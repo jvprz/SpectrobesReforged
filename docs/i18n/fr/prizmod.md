@@ -33,7 +33,7 @@ Les Children gagnent de l’XP en mangeant. Un raid terminé donne une victoire 
 
 ## Compagnons et sauvegarde
 
-Sélectionnez un Child vivant puis Compagnon. Il suit le joueur et aide au scan. Pendant les [rencontres de vortex](vortices.md), il reste rangé puis revient. Dégâts, entraînement et collection sont sauvegardés. Un compagnon à zéro PV n’apparaît pas. Sauvegardez le monde avant une mise à jour.
+Sélectionnez un Child vivant puis Compagnon. Il suit le joueur et aide au scan. Pendant les [rencontres de vortex](vortices.md), il reste rangé puis revient. Dégâts, entraînement et collection sont sauvegardés.  Sauvegardez le monde avant une mise à jour.
 
 La fiche sélectionnée affiche le modèle 3D animé et sa vraie couleur près des statistiques. Les cartes conservent leurs portraits.
 
@@ -58,3 +58,6 @@ Référence uniquement ; l’évolution reste indisponible.
 {{DYE_RECIPES}}
 
 {{ITEM_CREDITS}}
+
+
+Les compagnons Child ne subissent aucun dégât de combat ou environnemental : flèches, feu, lave, chutes, suffocation et noyade compris. Leurs PV sauvegardés sont aussi protégés. Ouvrir le Prizmod restaure les Child blessés ou à zéro PV des anciennes sauvegardes, sans changer statistiques, entraînement ou médailles. Les formes Adult/Evolved gardent leurs règles de dégâts. Les Child restent rangés pendant les raids.

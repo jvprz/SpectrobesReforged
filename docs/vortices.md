@@ -56,3 +56,6 @@ Minerals are random Power, Defense or Health. A death removes B minerals, subtra
 ```
 
 Use an open surface in Easy, Normal or Hard, summon the vortex below, then switch to Survival. Test walking versus sprinting, a ledge, gravel, biome borders, saving/reloading and killing the three Krawl. Natural encounters work in existing chunks; world regeneration is unnecessary.
+
+
+An idle vortex blocks arrows with the vanilla shield-style rebound and sound, including Piercing arrows. A shot neither destroys it nor starts a raid. The invisible controller stops intercepting projectiles after the encounter begins.

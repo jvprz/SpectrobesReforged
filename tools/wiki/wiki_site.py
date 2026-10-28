@@ -14,6 +14,33 @@ def relative(target, directory):
     return Path(os.path.relpath(target, directory)).as_posix()
 
 
+NAV_LABELS = {
+'en': ['Start here','Exploration','Collection','Help and settings','Wiki guides','Language and edition'],
+'es': ['Inicio','Exploración','Colección','Ayuda y ajustes','Guías de la wiki','Idioma y edición'],
+'fr': ['Pour commencer','Exploration','Collection','Aide et réglages','Guides du wiki','Langue et édition'],
+'de': ['Einstieg','Erkundung','Sammlung','Hilfe und Einstellungen','Wiki-Leitfäden','Sprache und Ausgabe'],
+'it': ['Per iniziare','Esplorazione','Collezione','Aiuto e impostazioni','Guide della wiki','Lingua ed edizione'],
+'pt-BR': ['Comece aqui','Exploração','Coleção','Ajuda e configurações','Guias da wiki','Idioma e edição']}
+NAV_SECTIONS = [
+['index','getting-started'],
+['fossils','scanning','vortices','krawl'],
+['awakening','prizmod','spectrobes','gallery','minerals','advancements'],
+['settings','troubleshooting','commands','about']]
+
+def grouped_navigation(navigation, slug, language):
+    by_slug={p['slug']:p for p in navigation};groups=[]
+    for number,keys in enumerate(NAV_SECTIONS):
+        links=[]
+        for key in keys:
+            if key not in by_slug:continue
+            page=by_slug[key]
+            current=' aria-current="page"' if key==slug else ''
+            links.append(f'<a href="{key}.html"{current}>{escape(page["label"])}</a>')
+        if links:groups.append(f'<section class="nav-group"><h2>{NAV_LABELS[language][number]}</h2>'+''.join(links)+'</section>')
+    assert set(by_slug)<=set(k for group in NAV_SECTIONS for k in group), 'New guide needs a navigation group'
+    return '<nav class="guide-nav" aria-label="'+escape(NAV_LABELS[language][4])+'">'+''.join(groups)+'</nav>'
+
+
 def render(root, docs, output, references, validate):
     version = re.search(r'^mod_version=(.+)$', (root / 'gradle.properties').read_text(encoding='utf-8'), re.M)[1].strip()
     editions = []
@@ -42,6 +69,8 @@ def render(root, docs, output, references, validate):
 
     from item_cards import copy_icons
     copy_icons(root, shared / 'items')
+    from design_gallery import copy_gallery
+    copy_gallery(root, shared / 'gallery')
 
     replacements = {lang: references(root, lang) | {'VERSION':version} for lang in LANGUAGE_NAMES}
     news = json.loads((docs / 'news.json').read_text(encoding='utf-8'))
@@ -66,7 +95,7 @@ def render(root, docs, output, references, validate):
                     source = re.sub(r'<!-- BEGIN AUTO:'+key+r' -->.*?<!-- END AUTO:'+key+r' -->',lambda _:value,source,flags=re.S)
                 source = re.sub(r'<!-- VERSION -->.*?<!-- /VERSION -->',lambda _:version,source)
             assert not re.search(r'\{\{[^}]+\}\}',source), f'Unresolved placeholder {language}/{slug}'
-            source = source.replace('__ITEM_ASSETS__', asset + '/items')
+            source = source.replace('__ITEM_ASSETS__', asset + '/items').replace('__GALLERY_ASSETS__', asset + '/gallery')
             md = markdown.Markdown(extensions=['tables','fenced_code','toc','attr_list'],extension_configs={'toc':{'permalink':True}})
             body = md.convert(source)
             body = re.sub(r'href="([a-z0-9-]+)\.md([^"]*)"',r'href="\1.html\2"',body)
@@ -77,7 +106,7 @@ def render(root, docs, output, references, validate):
                 content = re.sub(r'<td>(Corona|Aurora|Flash)</td>', lambda m: '<td><span class="element-badge '+m[1].lower()+'">'+m[1]+'</span></td>', content)
                 return '<div class="table-scroll" tabindex="0" role="region" aria-label="'+escape(page['title'], quote=True)+'">'+content+'</div>'
             body = re.sub(r'<table>.*?</table>', table_region, body, flags=re.S)
-            nav = ''.join(f'<a href="{p["slug"]}.html"'+(' aria-current="page"' if p['slug']==slug else '')+f'>{escape(p["label"])}</a>' for p in navigation)
+            nav = grouped_navigation(navigation,slug,language)
             pager=''.join(f'<a href="{p["slug"]}.html">{label} {escape(p["title"])}</a>' for p,label in [(navigation[position-1] if position else None,'←'),(navigation[position+1] if position+1<len(navigation) else None,ui['next'])] if p)
             languages = ''.join(f'<option data-language="{e["language"]}" value="{destination(e,slug)}"'+(' selected' if e is edition else '')+f'>{escape(LANGUAGE_NAMES[e["language"]])}{" · "+version if edition["archived"] else ""}</option>' for e in editions if not e['archived'])
             if edition['archived']: languages=f'<option selected data-language="en" value="{slug}.html">English · {escape(edition["version"])}</option>'+languages
@@ -111,9 +140,9 @@ def render(root, docs, output, references, validate):
 <div class="header-links"><button id="theme-toggle" type="button" hidden>{escape(ui['theme'])}</button>
 <a class="icon-link" href="https://www.curseforge.com/minecraft/mc-mods/spectrobes-reforged" aria-label="{escape(ui['download'])}" title="{escape(ui['download'])}"><img src="{asset_url('download.svg')}" alt="" width="22" height="22"><span>{escape(ui['download'])}</span></a>
 <a class="icon-link" href="https://discord.gg/7QkScUWBe9" aria-label="Discord" title="Discord"><img src="{asset_url('discord.svg')}" alt="" width="24" height="24"><span>Discord</span></a></div></header>
-<div class="shell"><aside class="sidebar"><div class="edition-controls"><label for="language">{escape(ui['language'])}</label><select id="language" data-navigate autocomplete="off">{languages}</select><label for="version">{escape(ui['version'])}</label><select id="version" data-navigate autocomplete="off">{versions}</select><p class="edition-help">{escape(ui['editions_note'])}</p></div>
-<span class="version">{escape(edition['version'])} · Minecraft 1.21.1</span><label for="search">{escape(ui['search'])}</label><input id="search" type="search" placeholder="{escape(ui['placeholder'])}" autocomplete="off" aria-controls="search-results"><div id="search-status" role="status" aria-live="polite"></div><ul id="search-results" hidden></ul>
-<details open><summary>{escape(ui['explore'])}</summary><nav aria-label="{escape(ui['guides'])}">{nav}</nav></details></aside>
+<div class="shell"><aside class="sidebar"><label for="search">{escape(ui['search'])}</label><input id="search" type="search" placeholder="{escape(ui['placeholder'])}" autocomplete="off" aria-controls="search-results"><div id="search-status" role="status" aria-live="polite"></div><ul id="search-results" hidden></ul>
+<details class="guide-menu" open><summary><span aria-hidden="true">☰</span> {escape(NAV_LABELS[language][4])}<small>{escape(page['label'])}</small></summary>{nav}</details>
+<div class="reading-options"><h2>{escape(NAV_LABELS[language][5])}</h2><div class="edition-controls"><label for="language">{escape(ui['language'])}</label><select id="language" data-navigate autocomplete="off">{languages}</select><label for="version">{escape(ui['version'])}</label><select id="version" data-navigate autocomplete="off">{versions}</select><p class="edition-help">{escape(ui['editions_note'])}</p></div><span class="version">{escape(edition['version'])} · Minecraft 1.21.1</span></div></aside>
 <main id="main">{banner}{introduction}{spotlight}<article>{body}</article><nav class="pager" aria-label="{escape(ui['pager'])}">{pager}</nav><footer>{escape(ui['footer'])} · <a href="https://github.com/jvprz/SpectrobesReforged/issues">{escape(ui['report'])}</a></footer></main>
 <aside class="contents"><span>{escape(ui['contents'])}</span><nav aria-label="{escape(ui['contents'])}">{md.toc}</nav></aside></div></body></html>'''
             rendered_pages[slug] = html

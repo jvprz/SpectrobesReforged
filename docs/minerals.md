@@ -125,3 +125,6 @@ Minerals C/B/A/A+ grant **10/20/40/60% of a level**, alongside their existing st
 Children gain XP through feeding. Completed raids grant one victory and up to 60 training XP to living Adult/Evolved in each participant’s team, reduced after that player dies; Children gain no battle XP. These saved counters prepare future evolution without enabling it.
 
 See [Prizmod](prizmod.md) for feeding from the collection.
+
+
+[Environmental raw specimens](fossils.md#environmental-raws)

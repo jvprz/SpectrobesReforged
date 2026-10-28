@@ -1,6 +1,6 @@
 # Solução de problemas
 
-**Companheiro ausente:** confira espaço infantil e vida, conclua o encontro ativo e espere um segundo. Guarde e reequipe. Veja os [comandos](commands.md) para testes.
+**Companheiro ausente:** Companheiros Child não recebem dano de combate ou ambiental, incluindo flechas, fogo, lava, quedas, sufocamento e afogamento. Os PV salvos também ficam protegidos. Abrir o Prizmod restaura Child feridos ou com zero PV de saves anteriores, preservando atributos, treino e medalhas. Adult/Evolved mantêm suas regras de dano. Child continuam guardados durante incursões.
 
 **Incubadora parada:** redstone em uma metade, um dos seis fósseis compatíveis, jogador inicial conectado e bloco carregado.
 

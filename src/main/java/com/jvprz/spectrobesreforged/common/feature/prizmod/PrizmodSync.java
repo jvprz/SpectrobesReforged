@@ -20,6 +20,7 @@ public final class PrizmodSync {
     }
 
     public static void sync(ServerPlayer player, PrizmodData data) {
+        data.restoreProtectedChildren();
 
         var legacy=player.getData(ModAttachments.EXCAVATION.get());
         var all=new java.util.ArrayList<SpectrobeEntry>(data.getBox());

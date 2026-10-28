@@ -40,7 +40,7 @@ editionSelects.forEach(select => {
   });
 });
 const mobile = window.matchMedia('(max-width: 760px)');
-const menu = document.querySelector('.sidebar details');
+const menu = document.querySelector('.guide-menu');
 function fitNavigation() { if (menu) menu.open = !mobile.matches; }
 fitNavigation();
 mobile.addEventListener('change', fitNavigation);

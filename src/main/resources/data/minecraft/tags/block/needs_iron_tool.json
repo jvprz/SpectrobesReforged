@@ -34,6 +34,14 @@
     "spectrobesreforged:red_sandy_c_mineral_ore",
     "spectrobesreforged:red_sandy_b_mineral_ore",
     "spectrobesreforged:red_sandy_a_mineral_ore",
-    "spectrobesreforged:red_sandy_a_plus_mineral_ore"
+    "spectrobesreforged:red_sandy_a_plus_mineral_ore",
+    "spectrobesreforged:frozen_corona_fossil_ore",
+    "spectrobesreforged:frozen_aurora_fossil_ore",
+    "spectrobesreforged:sandy_aurora_fossil_ore",
+    "spectrobesreforged:sandy_flash_fossil_ore",
+    "spectrobesreforged:red_sandy_aurora_fossil_ore",
+    "spectrobesreforged:red_sandy_flash_fossil_ore",
+    "spectrobesreforged:muddy_corona_fossil_ore",
+    "spectrobesreforged:muddy_flash_fossil_ore"
   ]
 }

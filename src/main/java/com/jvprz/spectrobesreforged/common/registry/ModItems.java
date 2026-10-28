@@ -540,6 +540,18 @@ public final class ModItems {
                             new Item.Properties().stacksTo(64)
                     ));
 
+    public static final java.util.Map<String,DeferredItem<Item>> ENVIRONMENTAL_RAWS = environmentalRaws();
+    private static java.util.Map<String,DeferredItem<Item>> environmentalRaws() {
+        var entries=new java.util.LinkedHashMap<String,DeferredItem<Item>>();
+        for(var deposit:com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.all()) {
+            entries.put(deposit.rawId(),ITEMS.register(deposit.rawId(),()->{
+                var tag=new net.minecraft.nbt.CompoundTag();tag.putInt("ExcavationTerrain",deposit.terrain());tag.putInt("ExcavationRock",deposit.rock());
+                var properties=new Item.Properties().component(net.minecraft.core.component.DataComponents.CUSTOM_DATA,net.minecraft.world.item.component.CustomData.of(tag));
+                return deposit.fossil()?new RawFossilItem(SpectrobeType.valueOf(deposit.element().toUpperCase(java.util.Locale.ROOT)),properties):new RawMineralItem(deposit.grade(),properties);
+            }));
+        }
+        return java.util.Collections.unmodifiableMap(entries);
+    }
     public static final java.util.Map<String,DeferredItem<BlockItem>> ENVIRONMENTAL_ORES = environmentalOres();
     private static java.util.Map<String,DeferredItem<BlockItem>> environmentalOres() {
         var entries=new java.util.LinkedHashMap<String,DeferredItem<BlockItem>>();

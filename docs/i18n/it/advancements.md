@@ -31,3 +31,6 @@ Il conteggio degli scavi manuali inizia con questo aggiornamento. Giga/Blast non
 ## Credito di scavo condiviso
 
 Chi ha usato uno strumento con successo sul reperto ed è vivo, connesso ed entro 8 blocchi all’estrazione riceve gli obiettivi esistenti di scavo manuale, ritrovamento perfetto e terreno applicabili. Ogni collaboratore idoneo riceve una scoperta, catalogo e XP normali di abilità; 10/100 scoperte e livello 5 seguono il progresso personale. Anche chi estrae riceve credito. Guardare non conta. Riparare spetta all’utilizzatore di Recupero; risveglio e allenamento restano personali. L’estrazione automatica non dà progresso manuale. Sempre un solo oggetto, nessun nuovo obiettivo cooperativo.
+
+
+I reperti grezzi di ogni materiale attivano gli obiettivi esistenti: fossili grezzi per il primo fossile, tutti i reperti per l’albero del mod. Pulire conta solo dopo un’estrazione manuale riuscita. Le 28 combinazioni creative non richiedono obiettivi separati. Sabbia e sabbia rossa condividono un criterio; i sei ambienti restano roccia, sabbia, ghiaccio, lava, acqua e fango. ID e progressi conservati; i collaboratori idonei continuano a ricevere credito.

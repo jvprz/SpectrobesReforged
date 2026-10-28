@@ -11,3 +11,13 @@ Senza Tocco di velluto ottieni un fossile dell’elemento; con l’incantesimo o
 {{FOSSIL_DROPS}}
 
 Solo **Inkana, Komainu, Segu, Shakin, Spiko e Vilar** hanno definizioni per il risveglio. Gli altri fossili sono collezionabili. Una definizione assente annulla il processo senza consumare il fossile. Analisi e pulizia non sono implementate.
+
+
+I depositi congelati ora usano **ghiaccio blu**, incluso il minerale centrale. I limiti dei biomi restano uguali. I nuovi depositi richiedono chunk inesplorati; il terreno esistente viene conservato.
+
+
+## Reperti grezzi per materiale {#environmental-raws}
+
+Ogni blocco ambientale rilascia il proprio reperto grezzo con la nuova texture e gli strati salvati. I nomi distinguono Corona, Aurora, Flash o grado anche con texture condivise. Creativa mostra tutte le combinazioni per materiale. **Generazione naturale invariata:** ghiaccio blu → Flash; arenaria/arenaria rossa → Corona; fango → Aurora; i quattro gradi minerali in ogni materiale. Le altre combinazioni sono per Creativa o datapack. I reperti precedenti e gli scavi salvati restano compatibili.
+
+{{ENVIRONMENTAL_ITEMS}}

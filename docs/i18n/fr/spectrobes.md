@@ -24,3 +24,6 @@ textures/entity/spectrobe/<key>/<key>_color_0.png
 textures/entity/spectrobe/<key>/<key>_color_1.png
 textures/entity/spectrobe/<key>/<key>_color_2.png
 ```
+
+
+[Galerie des designs de Spectrobes](gallery.md)

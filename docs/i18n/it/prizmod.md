@@ -58,3 +58,6 @@ Solo riferimento; evoluzione ancora non disponibile.
 {{DYE_RECIPES}}
 
 {{ITEM_CREDITS}}
+
+
+I compagni Child non subiscono danni di combattimento o ambientali: frecce, fuoco, lava, cadute, soffocamento e annegamento inclusi. Anche i PS salvati sono protetti. Aprire il Prizmod ripristina i Child feriti o a zero PS dei vecchi salvataggi, conservando statistiche, allenamento e medaglie. Adult/Evolved mantengono le loro regole di danno. I Child restano riposti durante le incursioni.
