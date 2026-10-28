@@ -1,0 +1,150 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "minecraft:silk_touch",
+                  "levels": {
+                    "min": 1
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:sandy_corona_fossil_ore"
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "predicates": {
+                "minecraft:enchantments": [
+                  {
+                    "enchantments": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"danawa\",ExcavationTerrain:1,ExcavationRock:2}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"dongor\",ExcavationTerrain:1,ExcavationRock:2}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"inkana\",ExcavationTerrain:1,ExcavationRock:2}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"komainu\",ExcavationTerrain:1,ExcavationRock:2}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"mesa\",ExcavationTerrain:1,ExcavationRock:2}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"tenkro\",ExcavationTerrain:1,ExcavationRock:2}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"vilar\",ExcavationTerrain:1,ExcavationRock:2}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"zoza\",ExcavationTerrain:1,ExcavationRock:2}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

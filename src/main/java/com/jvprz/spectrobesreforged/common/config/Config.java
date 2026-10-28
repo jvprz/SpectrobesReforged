@@ -1,36 +1,31 @@
 package com.jvprz.spectrobesreforged.common.config;
 
-import java.util.List;
-
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
-// An example config class. This is not required, but it's a good idea to have one to keep your config organized.
-// Demonstrates how to use Neo's config APIs
-public class Config {
-    private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
-
-    public static final ModConfigSpec.BooleanValue LOG_DIRT_BLOCK = BUILDER
-            .comment("Whether to log the dirt block on common setup")
-            .define("logDirtBlock", true);
-
-    public static final ModConfigSpec.IntValue MAGIC_NUMBER = BUILDER
-            .comment("A magic number")
-            .defineInRange("magicNumber", 42, 0, Integer.MAX_VALUE);
-
-    public static final ModConfigSpec.ConfigValue<String> MAGIC_NUMBER_INTRODUCTION = BUILDER
-            .comment("What you want the introduction message to be for the magic number")
-            .define("magicNumberIntroduction", "The magic number is... ");
-
-    // a list of strings that are treated as resource locations for items
-    public static final ModConfigSpec.ConfigValue<List<? extends String>> ITEM_STRINGS = BUILDER
-            .comment("A list of items to log on common setup.")
-            .defineListAllowEmpty("items", List.of("minecraft:iron_ingot"), () -> "", Config::validateItemName);
-
-    static final ModConfigSpec SPEC = BUILDER.build();
-
-    private static boolean validateItemName(final Object obj) {
-        return obj instanceof String itemName && BuiltInRegistries.ITEM.containsKey(ResourceLocation.parse(itemName));
-    }
+/** World/server-owned balance. NeoForge synchronizes this SERVER config to connecting clients. */
+public final class Config {
+    private Config() {}
+    private static final ModConfigSpec.Builder B = new ModConfigSpec.Builder();
+    static { B.translation("spectrobesreforged.configuration.vortices").push("vortices"); }
+    public static final ModConfigSpec.BooleanValue NATURAL_VORTICES = B.translation("spectrobesreforged.configuration.naturalVortices")
+            .comment("Enable natural vortex discovery. Summoned vortices remain available.").define("naturalVortices", true);
+    public static final ModConfigSpec.IntValue DISCOVERY_SECONDS = B.translation("spectrobesreforged.configuration.discoverySeconds")
+            .comment("Seconds between eligible discovery checks, at 20 TPS.").defineInRange("discoverySeconds",20,5,600);
+    public static final ModConfigSpec.DoubleValue DISCOVERY_CHANCE = B.translation("spectrobesreforged.configuration.discoveryChance")
+            .comment("Attempt probability for each eligible check, from 0 to 1.").defineInRange("discoveryChance",0.5,0,1);
+    public static final ModConfigSpec.IntValue COOLDOWN_SECONDS = B.translation("spectrobesreforged.configuration.cooldownSeconds")
+            .comment("Personal pause after discovery or a finished/cancelled encounter.").defineInRange("cooldownSeconds",60,0,3600);
+    public static final ModConfigSpec.DoubleValue SPEED = B.translation("spectrobesreforged.configuration.vortexSpeed")
+            .comment("Vortex speed in blocks per second on clear level terrain, at 20 TPS.").defineInRange("vortexSpeed",5.0,0.5,10.0);
+    public static final ModConfigSpec.IntValue MAX_VORTICES = B.translation("spectrobesreforged.configuration.maxVortices")
+            .comment("Loaded vortices per dimension before natural discovery stops; includes active encounters. Does not remove existing entities.").defineInRange("maxVortices",32,1,256);
+    static { B.pop(); }
+    public static final ModConfigSpec SPEC = B.build();
+    private static <T> T get(ModConfigSpec.ConfigValue<T> value) { return SPEC.isLoaded()?value.get():value.getDefault(); }
+    public static boolean naturalVortices() { return get(NATURAL_VORTICES); }
+    public static int discoveryTicks() { return get(DISCOVERY_SECONDS)*20; }
+    public static double discoveryChance() { return get(DISCOVERY_CHANCE); }
+    public static int cooldownTicks() { return get(COOLDOWN_SECONDS)*20; }
+    public static double vortexSpeed() { return get(SPEED)/20.0; }
+    public static int maxVortices() { return get(MAX_VORTICES); }
 }

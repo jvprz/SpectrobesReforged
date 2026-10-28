@@ -22,8 +22,21 @@ public class FossilItem extends Item {
         return type;
     }
 
+    @Override public Component getName(ItemStack stack) {
+        var name=Component.empty().append(super.getName(stack));
+        if(RawFossilItem.data(stack).getBoolean("ExcavationCrown"))name.append(Component.literal(" ♛").withStyle(ChatFormatting.GOLD));
+        if(RawFossilItem.data(stack).getBoolean("ExcavationCooperative"))name.append(Component.literal(" ⚒").withStyle(ChatFormatting.AQUA));
+        return name;
+    }
     @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        if(RawFossilItem.data(stack).getBoolean("ExcavationCooperative"))tooltip.add(Component.translatable("tooltip.spectrobesreforged.excavation_cooperative").withStyle(ChatFormatting.AQUA));
+        var excavation = RawFossilItem.data(stack);
+        if (excavation.getBoolean("ExcavationCrown")) tooltip.add(Component.translatable("tooltip.spectrobesreforged.excavation_crown").withStyle(ChatFormatting.GOLD));
+        if (excavation.contains("ExcavationIntegrity")) tooltip.add(Component.translatable("tooltip.spectrobesreforged.excavation_quality",
+                excavation.getInt("ExcavationIntegrity"), excavation.getInt("ExcavationSeconds")));
+        if(excavation.contains("ExcavationIntegrity"))tooltip.add(Component.translatable("tooltip.spectrobesreforged.quality_bonus",
+                com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.qualityPercent(excavation.getInt("ExcavationIntegrity"))).withStyle(ChatFormatting.AQUA));
         // Línea vacía para el icono (tooltip image)
         tooltip.add(Component.empty());
 

@@ -26,10 +26,16 @@ public class SpectrobeModel extends GeoModel<SpectrobeEntity> {
         String key = entity.getSpeciesKey();
         int v = entity.getTextureVariant();
 
-        return ResourceLocation.fromNamespaceAndPath(
+        ResourceLocation texture=ResourceLocation.fromNamespaceAndPath(
                 SpectrobesReforged.MODID,
                 "textures/entity/spectrobe/" + key + "/" + key + "_color_" + v + ".png"
         );
+        // Some bundled species only have their base color painted so far.
+        if(v>0&&net.minecraft.client.Minecraft.getInstance().getResourceManager().getResource(texture).isEmpty()) {
+            return ResourceLocation.fromNamespaceAndPath(SpectrobesReforged.MODID,
+                    "textures/entity/spectrobe/"+key+"/"+key+"_color_0.png");
+        }
+        return texture;
     }
 
     @Override

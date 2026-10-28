@@ -9,15 +9,25 @@
           "predicate": {
             "predicates": {
               "minecraft:enchantments": [
-                { "enchantments": "minecraft:silk_touch", "levels": { "min": 1 } }
+                {
+                  "enchantments": "minecraft:silk_touch",
+                  "levels": {
+                    "min": 1
+                  }
+                }
               ]
             }
           }
         },
-        { "condition": "minecraft:survives_explosion" }
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ],
       "entries": [
-        { "type": "minecraft:item", "name": "spectrobesreforged:deepslate_corona_fossil_ore" }
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:deepslate_corona_fossil_ore"
+        }
       ]
     },
     {
@@ -30,23 +40,110 @@
             "predicate": {
               "predicates": {
                 "minecraft:enchantments": [
-                  { "enchantments": "minecraft:silk_touch", "levels": { "min": 1 } }
+                  {
+                    "enchantments": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1
+                    }
+                  }
                 ]
               }
             }
           }
         },
-        { "condition": "minecraft:survives_explosion" }
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ],
       "entries": [
-        { "type": "minecraft:item", "name": "spectrobesreforged:vilar_fossil",   "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:inkana_fossil",  "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:dongor_fossil",  "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:komainu_fossil", "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:zoza_fossil",    "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:danawa_fossil",  "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:tenkro_fossil",  "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:mesa_fossil",    "weight": 1 }
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"danawa\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"dongor\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"inkana\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"komainu\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"mesa\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"tenkro\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"vilar\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_corona_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"zoza\"}"
+            }
+          ]
+        }
       ]
     }
   ]

@@ -4,4 +4,4 @@ Drei Krawl besitzen animierte Modelle, Geräusche und Nahkampfangriffe. Spawn-Ei
 
 {{KRAWL}}
 
-[Wirbel](vortices.md) erzeugen drei gleiche Gegner: **Blovant/Corona in heißen Biomen**, **grüne Viblova/Aurora in gemäßigten**, **blaue Blova/Flash sonst**. Das Biom wird beim Erreichen des Spielers geprüft. Kämpfe mit Minecraft-Waffen; Spectrobe-Teamkampf ist noch in Entwicklung.
+[Wirbel](vortices.md) erzeugen drei gleiche Krawl je Teilnehmer: **Blovant/Corona in heißem, grüne Viblova/Aurora in gemäßigtem und blaue Blova/Flash in kaltem Klima**. Das Ursprungsbiom bestimmt den gespeicherten Typ. Tags haben Vorrang vor der Grundtemperatur; genaue Regeln im Wirbel-Leitfaden. Minecraft-Waffen verwenden; Spectrobe-Teamkampf bleibt in Entwicklung.

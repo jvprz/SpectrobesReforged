@@ -1,31 +1,58 @@
 # Vórtices Krawl pequeños
 
-El vórtice persigue lentamente al jugador vivo no espectador más cercano a un máximo de **24 bloques**. Tocarlo inicia el encuentro, independientemente del objeto que lleves. Se contrae durante unos **0,8 segundos** y aparecen **tres Krawl** alrededor del jugador. El escáner se guarda temporalmente en el Prizmod.
+**{{VERSION}}**
 
-## Aparición natural
+Estos son los valores predeterminados del servidor; consulta [ajustes](settings.md) para cambiarlos.
 
-En el Overworld, en Supervivencia y dificultad Fácil, Normal o Difícil, hay una comprobación por minuto con **25 % de probabilidad de intentar** generarlo a **40–64 bloques**. El sitio debe estar cargado, al aire libre, seco, despejado y sobre tierra, arena o piedra natural aceptada. Evita jugadores a menos de 32 bloques y vórtices existentes a 128. No se fuerza la carga de chunks ni se garantiza la aparición. No aparece naturalmente en Creativo; los inactivos caducan tras 20 minutos cargados.
+El vórtice negro y violeta detecta jugadores vivos no espectadores a **64 bloques** y avanza a **5 bloques por segundo** en terreno llano despejado. Caminar ya no basta para escapar; correr permite ganar distancia. Tocarlo inicia una incursión con **tres Krawl por participante**, lleves lo que lleves. Al comenzar la persecución aparece un aviso sobre la barra de acceso rápido con su elemento.
+
+## Aparición natural {#discovery-in-survival}
+
+En el Overworld, los jugadores vivos fuera de Creativo y Espectador y con cielo abierto tienen una comprobación cada **20 segundos**, con **50 % de probabilidad de intentar** generar un vórtice. Cada intento prueba hasta **seis posiciones a 32–48 bloques**. No significa una aparición garantizada cada 20 segundos: el terreno, otros jugadores o los vórtices existentes pueden impedirla. Debe estar activado `doMobSpawning` y la dificultad debe ser Fácil, Normal o Difícil.
+
+El lugar debe estar cargado, seco, dentro del borde del mundo y con tres bloques de aire sobre suelo natural adecuado. Admite tierra, arena, piedra, grava, terracota, nieve, hielo, barro y arenisca mediante la etiqueta de bloques `vortex_ground`. Evita jugadores a menos de 24 bloques del lugar y vórtices a 96 bloques del jugador que lo descubre. No carga chunks a la fuerza. Un jugador bajo tierra no inicia apariciones.
+
+Tras generar uno, y de nuevo tras terminar o cancelar tu encuentro mientras estás conectado, tienes una pausa de **60 segundos** antes de nuevas apariciones naturales para ti. Durante tu combate tampoco se hacen intentos. El límite de vórtices cercanos sigue aplicándose a otros jugadores. Los inactivos desaparecen tras 20 minutos de ticks cargados.
 
 ## Krawl por bioma {#krawl-by-biome}
 
-| Categoría | Tres enemigos |
-| --- | --- |
-| Cálido: etiqueta `hot` | Blovant · Corona |
-| Templado: etiqueta `temperate` | Viblova · Aurora verde |
-| Resto | Blova · Flash azul |
+El **bioma de origen del vórtice** fija su oleada, también al invocarlo con comandos. Llevarlo después a otro bioma no cambia los Krawl. El tipo elegido se conserva al guardar.
 
-Las etiquetas pertenecen a `spectrobesreforged`. Si coinciden ambas, cálido tiene prioridad. El grupo se elige una vez al atraparte: cruzar de bioma durante el combate no lo cambia.
+| Clima | Enemigos | Ejemplos |
+| --- | --- | --- |
+| Cálido | Blovant · Corona | Desierto, sabana, badlands y junglas etiquetadas |
+| Templado | Viblova · Aurora verde | Llanuras, bosques; pantanos y manglares sin etiqueta usan temperatura |
+| Frío | Blova · Flash azul | Biomas nevados, picos helados y taiga etiquetada |
 
-## Victoria y cancelación
+Las etiquetas existentes tienen prioridad sobre la temperatura base. Si un datapack las solapa, el orden es **hot → temperate → cold**. Sin etiqueta coincidente: **temperatura ≥ 1,0 → Corona; < 0,2 → Flash; el resto → Aurora**. También cubre biomas de otros mods. Se usa la temperatura base del bioma, no el clima del momento, la hora ni el cálculo de nieve por altura. Estas son las listas explícitas; la regla de temperatura cubre además los biomas que no aparecen:
 
-Derrota a los tres y permanece a **32 bloques**: recibes **dos minerales de nivel C**, elegidos entre Power, Defense y Health, y **15 puntos de experiencia en orbes**. Puede repetirse el tipo de mineral. El propietario recibe la recompensa una vez; otros jugadores pueden ayudar. Se concede el logro de completar un vórtice y el compañero vuelve normalmente en aproximadamente un segundo.
+{{BIOMES}}
 
-Se cancela por dificultad Pacífico, **20 segundos consecutivos de ausencia** o **10 minutos de combate**. Se eliminan los enemigos cargados; los descargados se limpian cuando vuelven a procesarse. No hay recompensa de victoria al cancelar. Solo cuentan muertes confirmadas, no desapariciones. El progreso se guarda; una carga normal no repite la oleada ni la recompensa.
+## Persecución y terreno
 
-El modelo animado de 12 cubos tiene gas negro y morado, efectos ocasionales de muerte Krawl y polvo del suelo. Si aparece en el aire, desciende; sigue superficies y sube escalones de un bloque, sin atravesar muros altos ni pasos estrechos. No destruye bloques.
+Detecta a 64 bloques y mantiene el objetivo hasta **80 bloques** si no hay otro más cercano dentro del radio de detección. Se mueve 0,25 bloques por tick, aproximadamente 5 bloques por segundo a 20 TPS. Puede superar escalones de un bloque, losas y escaleras, y seguir sobre grava. Muros altos, agua, pasos estrechos y precipicios aún pueden bloquearlo. Si aparece en el aire baja al suelo. El lag reduce la velocidad real; `randomTickSpeed` no adelanta las apariciones.
 
-Para probar con permisos:
+## Incursiones cooperativas {#encounter-rules}
+
+Una barra al estilo vanilla muestra los Krawl restantes y el número de participantes. Los jugadores vivos de Supervivencia/Aventura se incorporan a **32 bloques**: aparecen **tres Krawl por jugador**, hasta **16 jugadores / 48 enemigos**. Cada UUID se registra una sola vez, incluso al salir, regresar o recargar. Nadie puede estar en dos incursiones activas. Si no hay tres posiciones seguras, la incorporación espera. Todas las oleadas mantienen el tipo del bioma de origen. Los compañeros se ocultan para todos los participantes.
+
+Morir en solitario cancela inmediatamente el encuentro y elimina los enemigos sin botín. En multijugador continúa mientras sobreviva un aliado. Volver vivo permite reincorporarse, conservando la penalización por muerte. Si todos los participantes registrados están caídos a la vez, se pierde el encuentro. También se cancela en Pacífico, tras diez minutos cargados o tras veinte segundos cargados sin ningún participante vivo a 32 bloques.
+
+Hay que derrotar a **todos los enemigos de todas las incorporaciones**. El premio es personal y se entrega una sola vez al terminar; los Krawl de incursión no dan botín ni XP individuales. Quienes estén muertos o desconectados reciben el premio pendiente al volver vivos y conectados. Alejarse no crea premios adicionales; los participantes registrados conservan su parte si el grupo vence.
+
+| Jugadores registrados | Minerales C por persona | Minerales B por persona | XP por persona |
+| --- | --- | --- | --- |
+| 1 | 2 | 0 | 15 |
+| 2 | 3 | 0 | 20 |
+| 3 | 3 | 1 | 25 |
+| 4–16 | 3 | 1 | 30 |
+
+Los minerales aleatorios son de poder, defensa o salud. Morir elimina los B y resta un C por muerte hasta dos (mínimo uno). La XP se divide entre muertes + 1, redondeando hacia abajo a múltiplos de cinco, mínimo cinco. La penalización se limita a tres muertes. El entrenamiento de Adult/Evolved elegibles da 60 XP sin morir y 60 / (muertes + 1) en caso contrario, mínimo diez. Si no cabe el botín se deja reservado para su destinatario. No se rompen bloques; se combate con armas de Minecraft. La evolución Child sigue sin estar disponible.
+
+## Prueba rápida {#quick-test}
 
 ```text
-/summon spectrobesreforged:krawl_vortex ~3 ~ ~
+/summon spectrobesreforged:krawl_vortex ~10 ~ ~
 ```
+
+Busca una superficie abierta en Fácil, Normal o Difícil, invoca el vórtice con el comando y cambia a Supervivencia. Prueba caminar frente a correr, un escalón, grava, límites de bioma, guardar/cargar y derrotar los tres Krawl. Las apariciones naturales funcionan en chunks existentes; no necesitas regenerar el mundo.

@@ -24,10 +24,12 @@ public class ClientEvents {
                     ModBlocks.INCUBATOR.get(),
                     RenderType.cutout()
             );
+            ModBlocks.ENVIRONMENTAL_ORES.values().forEach(block->ItemBlockRenderTypes.setRenderLayer(block.get(),RenderType.cutout()));
         });
     }
 
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(com.jvprz.spectrobesreforged.common.registry.ModBlockEntities.EXCAVATION_TABLE.get(), com.jvprz.spectrobesreforged.client.render.ExcavationTableRenderer::new);
         event.registerEntityRenderer(ModEntities.KRAWL_VORTEX.get(), KrawlVortexRenderer::new);
         event.registerEntityRenderer(
                 ModEntities.SPECTROBE.get(),
@@ -41,6 +43,7 @@ public class ClientEvents {
     }
 
     public static void registerScreens(RegisterMenuScreensEvent event) {
+        event.register(ModMenus.EXCAVATION_MENU.get(), com.jvprz.spectrobesreforged.client.screen.ExcavationScreen::new);
         event.register(ModMenus.PRIZMOD_MENU.get(), PrizmodScreen::new);
         event.register(ModMenus.INCUBATOR_MENU.get(), IncubatorScreen::new);
     }

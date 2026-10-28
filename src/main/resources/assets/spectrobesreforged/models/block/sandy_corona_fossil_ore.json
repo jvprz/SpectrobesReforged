@@ -1,0 +1,123 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "minecraft:block/sandstone",
+    "host": "minecraft:block/sandstone",
+    "mark": "spectrobesreforged:item/fossil/komainu_fossil"
+  },
+  "elements": [
+    {
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ],
+      "faces": {
+        "north": {
+          "texture": "#host",
+          "cullface": "north"
+        },
+        "south": {
+          "texture": "#host",
+          "cullface": "south"
+        },
+        "east": {
+          "texture": "#host",
+          "cullface": "east"
+        },
+        "west": {
+          "texture": "#host",
+          "cullface": "west"
+        },
+        "up": {
+          "texture": "#host",
+          "cullface": "up"
+        },
+        "down": {
+          "texture": "#host",
+          "cullface": "down"
+        }
+      }
+    },
+    {
+      "from": [
+        -0.01,
+        -0.01,
+        -0.01
+      ],
+      "to": [
+        16.01,
+        16.01,
+        16.01
+      ],
+      "shade": false,
+      "faces": {
+        "north": {
+          "texture": "#mark",
+          "cullface": "north",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#mark",
+          "cullface": "south",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#mark",
+          "cullface": "east",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#mark",
+          "cullface": "west",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#mark",
+          "cullface": "up",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "down": {
+          "texture": "#mark",
+          "cullface": "down",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      }
+    }
+  ]
+}

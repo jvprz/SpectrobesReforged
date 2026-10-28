@@ -1,5 +1,7 @@
 # Your next discovery starts here
 
+**Experimental in 0.6.2-beta.3:** newly mined fossil ore gives a raw specimen. Excavate it at a table before using the identified fossil in the incubator. Existing clean fossils still work. See [the excavation playtest](getting-started.md#excavation). The table below lists the possible identified results, not direct raw-item drops.
+
 Explore the world, uncover ancient fossils, and awaken a companion of your own. This is the player wiki for **Spectrobes Reforged <!-- VERSION -->0.6.1-beta<!-- /VERSION -->**, for **Minecraft 1.21.1 with NeoForge**.
 
 > **A growing exploration and encounter experience.** This guide describes the bundled code and data. Custom modpacks and datapacks can change the experience. Planned features are marked explicitly.

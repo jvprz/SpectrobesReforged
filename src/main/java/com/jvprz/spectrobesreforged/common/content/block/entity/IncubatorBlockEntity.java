@@ -59,8 +59,6 @@ public class IncubatorBlockEntity extends BlockEntity
     private static final int JUKEBOX_RADIUS = 16;
     private static final int JUKEBOX_SEARCH_INTERVAL = 10;
 
-    private static final int IMPULSE_HOLD_TICKS = 5;
-    private static final int IMPULSE_DECAY_INTERVAL = 2;
 
     /*
      * Awakening particles are intentionally sparse so the incubator
@@ -87,9 +85,8 @@ public class IncubatorBlockEntity extends BlockEntity
     private int capturedFrequency = 0;
     private int selectedColor = 0;
 
-    private int impulseFrequency = 0;
-    private int impulseHoldTicks = 0;
-    private int impulseDecayTicker = 0;
+    private final com.jvprz.spectrobesreforged.common.feature.incubator.logic.AwakeningSignal signal = new com.jvprz.spectrobesreforged.common.feature.incubator.logic.AwakeningSignal();
+    private int signalSource;
 
     @Nullable
     private BlockPos activeJukeboxPos;
@@ -150,6 +147,9 @@ public class IncubatorBlockEntity extends BlockEntity
                             || !state.getValue(IncubatorBlock.POWERED)) {
                         return false;
                     }
+
+                    // Opening this machine or changing its own redstone must not feed its meter.
+                    if(level.getBlockState(BlockPos.containing(emitterPosition)).getBlock() instanceof IncubatorBlock)return false;
 
                     int vanillaFrequency =
                             VibrationSystem.getGameEventFrequency(
@@ -244,6 +244,9 @@ public class IncubatorBlockEntity extends BlockEntity
                                 IncubatorBlockEntity.this
                                         .selectedColor;
 
+                        case 4 -> IncubatorBlockEntity.this.getBlockState().hasProperty(IncubatorBlock.POWERED)&&IncubatorBlockEntity.this.getBlockState().getValue(IncubatorBlock.POWERED)?1:0;
+                        case 5 -> IncubatorBlockEntity.this.signalSource;
+                        case 6 -> IncubatorBlockEntity.this.deliveringSpectrobe?1:0;
                         default -> 0;
                     };
                 }
@@ -280,7 +283,7 @@ public class IncubatorBlockEntity extends BlockEntity
 
                 @Override
                 public int getCount() {
-                    return 4;
+                    return 7;
                 }
             };
 
@@ -360,18 +363,15 @@ public class IncubatorBlockEntity extends BlockEntity
         incubator.awakeningProgress++;
 
         incubator.updateActiveJukebox(level);
-        incubator.updateImpulse();
+
 
         int jukeboxFrequency =
                 incubator.calculateJukeboxFrequency(
                         level
                 );
 
-        int currentSoundFrequency =
-                Math.max(
-                        jukeboxFrequency,
-                        incubator.impulseFrequency
-                );
+        int currentSoundFrequency=incubator.signal.tick(jukeboxFrequency);
+        incubator.signalSource=incubator.signal.source();
 
         incubator.setCapturedFrequency(
                 currentSoundFrequency
@@ -490,6 +490,12 @@ public class IncubatorBlockEntity extends BlockEntity
                         0
                 );
 
+        var excavationData=com.jvprz.spectrobesreforged.common.content.item.RawFossilItem.data(fossilStack);
+        newEntry=com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.fromFossil(newEntry,
+                excavationData.contains("ExcavationIntegrity")?excavationData.getInt("ExcavationIntegrity"):-1,
+                excavationData.getBoolean("ExcavationCrown"));
+        if(excavationData.getBoolean("ExcavationCooperative")) newEntry=newEntry.withProgress(newEntry.progress().withCooperative());
+
         PrizmodData prizmodData =
                 player.getData(
                         ModAttachments.PRIZMOD.get()
@@ -505,8 +511,16 @@ public class IncubatorBlockEntity extends BlockEntity
             prizmodData.addToBox(newEntry);
         }
 
+        // Keep the excavation crown attached to this individual after consuming its fossil.
+        if (com.jvprz.spectrobesreforged.common.content.item.RawFossilItem.data(fossilStack).getBoolean("ExcavationCrown")) {
+            var excavation = player.getData(ModAttachments.EXCAVATION.get());
+            excavation.rememberCrown(newEntry.id());
+            player.setData(ModAttachments.EXCAVATION.get(), excavation);
+        }
+
         PrizmodSync.sync(player);
         ModProgression.awakened(player, species.key());
+        if(newEntry.crowned())ModProgression.award(player,"crowned_awakening");
 
         /*
          * Consume the fossil only after the Spectrobe has been
@@ -807,63 +821,11 @@ public class IncubatorBlockEntity extends BlockEntity
     }
 
     private void resetTemporarySoundState() {
-        this.impulseFrequency = 0;
-        this.impulseHoldTicks = 0;
-        this.impulseDecayTicker = 0;
-
-        this.activeJukeboxPos = null;
-        this.jukeboxSearchCooldown = 0;
+        this.signal.reset();this.signalSource=0;
+        this.activeJukeboxPos=null;this.jukeboxSearchCooldown=0;
     }
-
-    private void receiveSoundImpulse(
-            int frequency
-    ) {
-        int clamped =
-                Math.max(
-                        1,
-                        Math.min(
-                                MAX_FREQUENCY,
-                                frequency
-                        )
-                );
-
-        this.impulseFrequency =
-                Math.max(
-                        this.impulseFrequency,
-                        clamped
-                );
-
-        this.impulseHoldTicks =
-                IMPULSE_HOLD_TICKS;
-
-        this.impulseDecayTicker = 0;
-        this.setChanged();
-    }
-
-    private void updateImpulse() {
-        if (this.impulseFrequency <= 0) {
-            this.impulseFrequency = 0;
-            return;
-        }
-
-        if (this.impulseHoldTicks > 0) {
-            this.impulseHoldTicks--;
-            return;
-        }
-
-        this.impulseDecayTicker++;
-
-        if (this.impulseDecayTicker
-                < IMPULSE_DECAY_INTERVAL) {
-            return;
-        }
-
-        this.impulseDecayTicker = 0;
-        this.impulseFrequency--;
-
-        if (this.impulseFrequency < 0) {
-            this.impulseFrequency = 0;
-        }
+    private void receiveSoundImpulse(int frequency) {
+        this.signal.receive(frequency,this.level==null?0:this.level.getGameTime());
     }
 
     private void updateActiveJukebox(

@@ -1,0 +1,47 @@
+{
+  "id": 58,
+  "key": "tenkro",
+  "type": "corona",
+  "stage": "child",
+  "range": 4,
+  "stats": {
+    "hp": {
+      "base": 70,
+      "max": 115,
+      "increment": 5
+    },
+    "attack": {
+      "base": 30,
+      "max": 135,
+      "increment": 10
+    },
+    "defense": {
+      "base": 45,
+      "max": 108,
+      "increment": 8
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "senkro",
+    "minerals_required": 4
+  },
+  "textures": [
+    "entity/spectrobe/tenkro/tenkro_color_0",
+    "entity/spectrobe/tenkro/tenkro_color_1",
+    "entity/spectrobe/tenkro/tenkro_color_2"
+  ],
+  "model_status": "temporary_individual",
+  "sources": {
+    "stats": "https://spectrobes.fandom.com/wiki/Tenkro",
+    "evolution": "https://spectrobes.fandom.com/wiki/Tenkro",
+    "range": "wiki infobox Search; existing ranges are not recalculated"
+  }
+}

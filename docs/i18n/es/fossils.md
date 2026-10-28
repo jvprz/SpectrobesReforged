@@ -1,5 +1,7 @@
 # Fósiles y exploración
 
+**Experimental en 0.6.2-beta.3:** el mineral fósil ahora entrega una pieza en bruto. Excávala en una mesa antes de introducir el fósil identificado en la incubadora. Los fósiles antiguos siguen funcionando. Consulta [la prueba de excavación](getting-started.md#excavation). La tabla muestra los resultados identificados posibles, no el botín directo en bruto.
+
 Los minerales fósiles aparecen en biomas seleccionados del Overworld. Usa **pico de hierro o superior**. Corona corresponde a biomas cálidos, Aurora a templados y Flash a fríos.
 
 La variante de piedra se distribuye entre **Y 0 y 72** y la de pizarra profunda entre **Y -64 y -1**. Son rangos de generación, no posiciones garantizadas. En mundos existentes, explora chunks nuevos.

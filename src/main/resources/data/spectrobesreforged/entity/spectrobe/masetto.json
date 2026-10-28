@@ -1,0 +1,47 @@
+{
+  "id": 52,
+  "key": "masetto",
+  "type": "aurora",
+  "stage": "child",
+  "range": 4,
+  "stats": {
+    "hp": {
+      "base": 75,
+      "max": 150,
+      "increment": 12
+    },
+    "attack": {
+      "base": 50,
+      "max": 150,
+      "increment": 10
+    },
+    "defense": {
+      "base": 80,
+      "max": 125,
+      "increment": 5
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "maserobo",
+    "minerals_required": 5
+  },
+  "textures": [
+    "entity/spectrobe/masetto/masetto_color_0",
+    "entity/spectrobe/masetto/masetto_color_1",
+    "entity/spectrobe/masetto/masetto_color_2"
+  ],
+  "model_status": "temporary_individual",
+  "sources": {
+    "stats": "https://spectrobes.fandom.com/wiki/Masetto",
+    "evolution": "https://spectrobes.fandom.com/wiki/Masetto",
+    "range": "wiki infobox Search; existing ranges are not recalculated"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "parent": "spectrobesreforged:first_fossil",
+  "display": {
+    "icon": {
+      "id": "spectrobesreforged:excavation_table"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.excavate.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.excavate.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "completed": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "completed"
+    ]
+  ]
+}

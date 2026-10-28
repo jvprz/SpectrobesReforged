@@ -60,6 +60,11 @@
     "label": "Fortschritte"
   },
   {
+    "slug": "settings",
+    "title": "Einstellungen und Server",
+    "label": "Einstellungen"
+  },
+  {
     "slug": "troubleshooting",
     "title": "Problemlösung",
     "label": "Hilfe"

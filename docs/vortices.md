@@ -1,69 +1,58 @@
 # Small Krawl vortices
 
-> **Added in 0.6.0-beta.1:** small pursuing vortex encounters. Larger encounters remain in development.
+**{{VERSION}}**
 
-> **Updated in 0.6.1-beta:** animated block model, dense black and violet gas, terrain dust, grounding improvements, biome-dependent enemies and 15 XP per completed encounter.
+These are server defaults; see [settings](settings.md) for configurable values.
 
-A black and violet funnel slowly pursues the nearest living, non-spectator player within 24 blocks. **Touching the vortex starts the encounter regardless of what you hold.** It dissolves and produces **three Krawl of the same type around the caught player**. An invisible controller tracks the encounter until it finishes. A 12-cube animated funnel is wrapped in dense inner black gas and outer violet gas. Its idle and pursuit animations rotate and float, with a contraction animation on contact. Occasional black/purple dust, portal particles and smoke use the Krawl death effect. Moving vortices kick up particles matching the block beneath them. Vortices spawned in mid-air descend to the ground even without a nearby target. Particle density is reduced at distance and respects Minecraft particle settings. Terrain-following checks collision surfaces so it can lift over one-block ledges, slabs and stairs on otherwise clear ground; network positions are interpolated on the client. It cannot cross tall walls or squeeze through gaps narrower than its body. Your scanner companion returns to the Prizmod while your encounter has living Krawl and normally reappears within about a second after the last enemy dies or the encounter is cancelled. Its saved HP, stats and child slot are preserved; an entry at zero HP still cannot spawn.
+A black and violet vortex detects living, non-spectator players within **64 blocks** and follows them at **5 blocks/second** on clear, level ground. Walking is no longer enough to escape; sprinting can create distance. Contact starts a raid of **three identical Krawl per joining player**, regardless of your held item. An action-bar warning names its element when pursuit begins.
 
-## Quick test
+## Natural discovery {#discovery-in-survival}
 
-1. Launch the updated development client or install the newly built JAR in a test instance.
-2. Use Easy, Normal or Hard difficulty. Find open, fairly level **surface** ground.
-3. With cheats/operator permission, place a vortex on the ground using:
+In the Overworld, living non-Creative, non-spectator players exposed to the sky get a check every **20 seconds**, with a **50% chance to attempt** discovery. Each attempt tests up to **six positions, 32–48 blocks away**. This is not a guaranteed spawn every 20 seconds: terrain, other players and existing vortices can prevent it. `doMobSpawning` must be enabled and difficulty must be Easy, Normal or Hard.
+
+The position must be loaded, dry, open for three blocks above suitable natural ground and inside the world border. Dirt, sand, stone, gravel, terracotta, snow, ice, mud and sandstone are supported through the `vortex_ground` block tag. No player may be within 24 blocks of the site; no vortex may be within 96 blocks of the discovering player. No chunks are force-loaded. Players underground do not initiate discovery.
+
+After a successful discovery, and again after finishing or cancelling your encounter while online, natural discovery pauses for **60 seconds** for that player. An active encounter also blocks their discovery checks. Nearby-vortex limits still apply to other players. Idle vortices expire after 20 minutes of loaded ticking.
+
+## Krawl by biome {#krawl-by-biome}
+
+The **biome at the vortex’s origin** fixes its wave, including summoned vortices. Crossing a biome boundary later does not reroll the Krawl. The selected type is saved with the vortex.
+
+| Climate | Enemies | Examples |
+| --- | --- | --- |
+| Hot | Blovant · Corona | Desert, savanna, badlands and tagged jungles |
+| Temperate | Viblova · Aurora (green) | Plains, forests; untagged swamps and mangroves use temperature |
+| Cold | Blova · Flash (blue) | Snowy biomes, frozen peaks and tagged taiga |
+
+The existing biome tags override base temperature, with priority **hot → temperate → cold** if a datapack overlaps them. Without a matching tag: **temperature ≥ 1.0 → Corona; < 0.2 → Flash; otherwise Aurora**. This includes modded biomes. Base biome temperature is used, not weather, time of day or height-adjusted snow checks. These are the explicit tag lists; the fallback also covers biomes not listed:
+
+{{BIOMES}}
+
+## Pursuit and terrain
+
+Detection reaches 64 blocks; an acquired target is retained to **80 blocks** if there is no nearer target inside detection range. Speed is 0.25 blocks/tick, about 5 blocks/second at 20 TPS. One-block ledges, slabs, stairs and gravel surfaces are supported. Tall walls, water, narrow passages and cliffs can still block movement. Airborne vortices descend to the ground. Server lag slows real-time movement; `randomTickSpeed` does not accelerate discovery.
+
+## Cooperative raids {#encounter-rules}
+
+A vanilla-style bar shows the remaining Krawl and participant count. Living Survival/Adventure players join within **32 blocks**: **three Krawl per player**, up to **16 players / 48 enemies**. Each UUID joins only once, including after leaving, returning or reloading. A player cannot join two active raids. If three safe spawn positions are unavailable, joining waits. The origin biome determines the same Krawl type for every wave. Companions stay hidden for all participants.
+
+A solo death immediately cancels the raid and removes its enemies without loot. In multiplayer, the raid continues while an ally survives. Returning alive restores participation, but preserves your death penalty. If all registered participants are fallen at the same time, the raid ends without rewards. Peaceful, ten loaded minutes, or twenty loaded seconds with no living participant within 32 blocks also cancel it.
+
+Defeat **every enemy from every joining wave**. Rewards are personal, paid once at completion; raid Krawl drop no separate loot or XP. Offline or dead participants receive their pending reward when next alive and online. Leaving the area does not create an extra reward, and registered participants still receive their share after a successful completion.
+
+| Registered players | C minerals each | B minerals each | Player XP each |
+| --- | --- | --- | --- |
+| 1 | 2 | 0 | 15 |
+| 2 | 3 | 0 | 20 |
+| 3 | 3 | 1 | 25 |
+| 4–16 | 3 | 1 | 30 |
+
+Minerals are random Power, Defense or Health. A death removes B minerals, subtracts one C mineral per death up to two (minimum one), and divides XP by deaths + 1, rounded down to multiples of five, minimum five. Penalties cap at three deaths. Eligible Adult/Evolved training receives 60 XP without deaths, otherwise 60 / (deaths + 1), minimum ten. Inventory overflow drops are reserved for their recipient. Vortices do not destroy blocks; fight with Minecraft weapons. Child evolution remains unavailable.
+
+## Quick test {#quick-test}
 
 ```text
-/summon spectrobesreforged:krawl_vortex ~3 ~ ~
+/summon spectrobesreforged:krawl_vortex ~10 ~ ~
 ```
 
-4. Equip normal Minecraft armor and weapons. Your child scanner companion is automatically stored when the encounter starts.
-5. Stay still and let the funnel reach you, or walk into it. Exactly three Krawl of the same type should appear around you. The funnel shrinks and disappears over about 0.8 seconds. You do not need a Prizmod or any held item.
-6. Defeat the three enemies and remain within 32 blocks. A victory message appears, two random tier-C minerals drop onto the ground in front of you, 15 experience points appear as XP orbs beside you, and **Complete a Vortex** is granted.
-
-For a more representative combat test, switch to Survival after placing it. Creative can start encounters but enemies may not target Creative players normally.
-
-## Discovery in Survival
-
-In the Overworld, a living Survival player gets a discovery check once per minute with a one-in-four attempt chance. The attempt places a vortex 40-64 blocks away only if the location is loaded, exposed to the sky, dry, clear and on suitable natural ground. It avoids players within 32 blocks and existing vortices within 128 blocks of the discovering player. Failed checks do not force-load terrain or guarantee a later spawn.
-
-These are runtime encounters rather than structures generated into new chunks. Idle vortices expire after 20 minutes of loaded ticking. Do not wait for a random discovery when testing; use the command above.
-
-## Krawl by biome
-
-The biome where the player is caught selects all three enemies in the wave:
-
-| Biome category | Krawl | Element |
-| --- | --- | --- |
-| Hot (deserts, savannas, badlands and jungles) | Blovant | Corona |
-| Temperate (plains, forests and meadows in the mod's temperate biome tag) | Viblova (green) | Aurora |
-| All other biomes | Blova (blue) | Flash |
-
-This uses the existing `spectrobesreforged:hot` and `spectrobesreforged:temperate` biome tags. If a datapack places a biome in both tags, hot takes priority. Untagged biomes use blue Blova. The selection is made once when the encounter starts; crossing a biome boundary during combat does not change the enemies.
-
-## Encounter rules
-
-- The player caught by the vortex owns the encounter and receives its reward. Others can help defeat enemies; rewards are not duplicated per participant.
-- The owner must stay alive, in the same dimension, and within 32 blocks. Being absent for 20 loaded seconds cancels the encounter.
-- Encounters have a maximum of 10 minutes of loaded ticking.
-- Peaceful difficulty prevents activation and cancels active encounters.
-- Cancellation removes the encounter’s loaded enemies without a victory reward. Unloaded enemies are cleaned when they tick again. Enemies also cancel an orphaned encounter if their vortex is no longer loaded after a short grace period.
-- Only confirmed enemy deaths count. An unloaded, discarded or missing enemy is not automatically credited as defeated.
-- The remaining enemies, owner and terminal state are saved. Normal save/reload does not respawn a wave or repeat a reward. Unloaded encounters can pause until loaded again; no permanent chunk ticket is used.
-- The vortex does not place, destroy or corrupt blocks. Combat occurs in the existing world, without teleporting to an arena.
-
-The first reward is **two total items**, each independently chosen from Power C, Defense C and Health C. Duplicate mineral types are possible. Completing the encounter also awards **15 experience points** as XP orbs near the owner, once per victory. The reward always drops in front of the owner as item entities; it is not inserted directly into the inventory.
-
-## Useful checks
-
-- Stand at the catch position after activation: a second wave must not appear.
-- Defeat one enemy, save, reload and finish: only two should remain.
-- Walk away or die: cancellation must not grant minerals or victory XP.
-- Return to a completed encounter: no second reward.
-- Try Peaceful: the vortex must not pursue or create enemies.
-- Test a one-block ledge, slabs and stairs: the funnel should lift and continue without snapping between network updates.
-- Listen for the distinct opening cue and victory chime; both have localized subtitles. The victory sound plays at the owner's current position.
-- Try empty hands and different held items: contact must still trigger the encounter.
-- Equip a child companion before contact: it must hide during combat, resist manual re-equipping during the wave, and return after victory or cancellation with its saved stats.
-- Try a cliff, water or a cramped area: unsafe enemy placement must not start a partial wave.
-
-Evolution and Spectrobe-controlled battles are not added by this encounter. Fight using Minecraft weapons for now.
+Use an open surface in Easy, Normal or Hard, summon the vortex below, then switch to Survival. Test walking versus sprinting, a ledge, gravel, biome borders, saving/reloading and killing the three Krawl. Natural encounters work in existing chunks; world regeneration is unnecessary.

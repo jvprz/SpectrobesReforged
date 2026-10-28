@@ -1,0 +1,58 @@
+{
+  "parent": "spectrobesreforged:excavation_ice",
+  "display": {
+    "icon": {
+      "id": "minecraft:compass"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.excavation_variety.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.excavation_variety.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "terrain_0": {
+      "trigger": "minecraft:impossible"
+    },
+    "terrain_1": {
+      "trigger": "minecraft:impossible"
+    },
+    "terrain_2": {
+      "trigger": "minecraft:impossible"
+    },
+    "terrain_3": {
+      "trigger": "minecraft:impossible"
+    },
+    "terrain_4": {
+      "trigger": "minecraft:impossible"
+    },
+    "terrain_5": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "terrain_0"
+    ],
+    [
+      "terrain_1"
+    ],
+    [
+      "terrain_2"
+    ],
+    [
+      "terrain_3"
+    ],
+    [
+      "terrain_4"
+    ],
+    [
+      "terrain_5"
+    ]
+  ]
+}

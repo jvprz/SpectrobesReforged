@@ -1,0 +1,12 @@
+{
+  "type": "spectrobesreforged:excavation_patch",
+  "config": {
+    "host": {
+      "Name": "minecraft:sandstone"
+    },
+    "ore": {
+      "Name": "spectrobesreforged:sandy_a_plus_mineral_ore"
+    },
+    "biome_tag": "spectrobesreforged:excavation/sandy"
+  }
+}

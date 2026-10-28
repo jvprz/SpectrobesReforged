@@ -1,0 +1,12 @@
+{
+  "type": "spectrobesreforged:excavation_patch",
+  "config": {
+    "host": {
+      "Name": "minecraft:packed_ice"
+    },
+    "ore": {
+      "Name": "spectrobesreforged:frozen_a_mineral_ore"
+    },
+    "biome_tag": "spectrobesreforged:excavation/frozen"
+  }
+}

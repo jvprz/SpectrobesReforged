@@ -309,9 +309,13 @@ public class SpectrobeEntity extends PathfinderMob implements GeoEntity {
         }
     }
 
+    private boolean previewAnimationFrozen;
+    public void setPreviewAnimationFrozen(boolean frozen) { previewAnimationFrozen=frozen; }
+
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "main", 0, state -> {
+            if(previewAnimationFrozen)return PlayState.STOP;
             boolean sniffing = isSniffingNow();
 
             if (sniffing != lastSniffingState) {

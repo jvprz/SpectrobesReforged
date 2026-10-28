@@ -4,4 +4,4 @@ Hay tres Krawl con modelos, sonidos y combate cuerpo a cuerpo. Sus huevos de apa
 
 {{KRAWL}}
 
-Los [vórtices](vortices.md) generan tres enemigos del mismo tipo: **Blovant/Corona en cálidos**, **Viblova/Aurora verde en templados** y **Blova/Flash azul en el resto**. El bioma se consulta cuando el vórtice alcanza al jugador. Lucha con armas de Minecraft; el combate dirigido por un equipo de Spectrobes sigue en desarrollo.
+Los [vórtices](vortices.md) generan tres enemigos iguales por participante: **Blovant/Corona en cálidos, Viblova/Aurora verde en templados y Blova/Flash azul en fríos**. Se fija el tipo en el bioma de origen del vórtice y se conserva al desplazarse y guardar. Las etiquetas tienen prioridad sobre la temperatura base; consulta las reglas exactas en la guía de vórtices. Lucha con armas de Minecraft; el combate dirigido por un equipo de Spectrobes sigue en desarrollo.

@@ -2,8 +2,8 @@ package com.jvprz.spectrobesreforged.client.render;
 
 import com.jvprz.spectrobesreforged.SpectrobesReforged;
 import com.jvprz.spectrobesreforged.common.content.entity.spectrobe.SpectrobeEntity;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.data.SpectrobeSpecies;
-import com.jvprz.spectrobesreforged.common.feature.spectrobe.registry.SpectrobeSpeciesRegistry;
+import com.jvprz.spectrobesreforged.common.config.ClientConfig;
+import com.jvprz.spectrobesreforged.common.network.SyncedGameData;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
@@ -89,7 +89,7 @@ public final class SpectrobeRangeRenderer {
 
     @SubscribeEvent
     public static void renderRange(RenderLevelStageEvent event) {
-        if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_ENTITIES) {
+        if (!ClientConfig.scanVisuals() || event.getStage() != RenderLevelStageEvent.Stage.AFTER_ENTITIES) {
             return;
         }
 
@@ -112,12 +112,12 @@ public final class SpectrobeRangeRenderer {
         for (SpectrobeEntity spectrobe : nearbySpectrobes) {
             UUID uuid = spectrobe.getUUID();
             if (spectrobe.isRemoved() || !spectrobe.shouldRenderRangeCircle()) continue;
-            SpectrobeSpecies species = SpectrobeSpeciesRegistry.getByKey(spectrobe.getSpeciesKey());
+            int range = SyncedGameData.range(spectrobe.getSpeciesKey());
             Integer startTick = RANGE_START_TICK.get(uuid);
-            if (species == null || startTick == null) continue;
+            if (range <= 0 || startTick == null) continue;
             float time = (spectrobe.tickCount - startTick) + partialTick;
 
-            double maxRadius = species.range() * 2.0D;
+            double maxRadius = range * 2.0D;
 
             double x = Mth.lerp(partialTick, spectrobe.xOld, spectrobe.getX());
             double y = Mth.lerp(partialTick, spectrobe.yOld, spectrobe.getY()) + 0.05D;
@@ -207,7 +207,7 @@ public final class SpectrobeRangeRenderer {
                 mc.player.getBoundingBox().inflate(64.0));
         Set<UUID> active = nearbySpectrobes.stream()
                 .filter(e -> e.shouldRenderRangeCircle() && !e.isRemoved())
-                .filter(e -> SpectrobeSpeciesRegistry.getByKey(e.getSpeciesKey()) != null)
+                .filter(e -> SyncedGameData.range(e.getSpeciesKey()) > 0)
                 .map(SpectrobeEntity::getUUID).collect(Collectors.toSet());
         cleanupOldEntries(active);
 
@@ -228,13 +228,13 @@ public final class SpectrobeRangeRenderer {
                 spectrobe.setClientScanHasTarget(false);
                 continue;
             }
-            double radius = SpectrobeSpeciesRegistry.getByKey(spectrobe.getSpeciesKey()).range() * 2.0;
-            spawnAmbientParticles(mc.level, spectrobe, spectrobe.getX(),
+            double radius = SyncedGameData.range(spectrobe.getSpeciesKey()) * 2.0;
+            if(ClientConfig.scanVisuals())spawnAmbientParticles(mc.level, spectrobe, spectrobe.getX(),
                     spectrobe.getY() + 0.05, spectrobe.getZ(), radius);
             updateDetectedFossils(mc.level, spectrobe, radius);
             spectrobe.setClientScanHasTarget(hasDetectedFossils(spectrobe));
             detectFossilsOnSweep(mc.level, spectrobe, positiveAngle(age * SWEEP_SPEED));
-            renderActiveFossilHints(mc.level, spectrobe);
+            if(ClientConfig.scanVisuals())renderActiveFossilHints(mc.level, spectrobe);
         }
     }
 

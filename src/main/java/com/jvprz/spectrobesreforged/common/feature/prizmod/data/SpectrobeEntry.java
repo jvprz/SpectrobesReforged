@@ -20,8 +20,19 @@ public record SpectrobeEntry(
         int mineralsFed,
         int mineralHpBonus,
         int mineralAtkBonus,
-        int mineralDefBonus
+        int mineralDefBonus,
+        SpectrobeProgress progress
 ) {
+    public SpectrobeEntry(UUID id,String species,int color,String stage,int level,int hp,int hpCur,int atk,int def,int mineralsFed,int mineralHpBonus,int mineralAtkBonus,int mineralDefBonus) {
+        this(id,species,color,stage,level,hp,hpCur,atk,def,mineralsFed,mineralHpBonus,mineralAtkBonus,mineralDefBonus,SpectrobeProgress.EMPTY);
+    }
+    public int xp(){return progress.xp();}
+    public boolean crowned(){return progress.crown();}
+    public boolean cooperative(){return progress.cooperative();}
+    public int excavationQuality(){return progress.quality();}
+    public int battlesWon(){return progress.battles();}
+    public SpectrobeEntry withProgress(SpectrobeProgress value){return new SpectrobeEntry(id,species,color,stage,level,hp,hpCur,atk,def,mineralsFed,mineralHpBonus,mineralAtkBonus,mineralDefBonus,value);}
+    public SpectrobeEntry withLevelProgress(int value,SpectrobeProgress next){return new SpectrobeEntry(id,species,color,stage,value,hp,hpCur,atk,def,mineralsFed,mineralHpBonus,mineralAtkBonus,mineralDefBonus,next);}
 
     public static final Codec<SpectrobeEntry> CODEC = RecordCodecBuilder.create(inst -> inst.group(
             Codec.STRING.xmap(UUID::fromString, UUID::toString).fieldOf("id").forGetter(SpectrobeEntry::id),
@@ -36,10 +47,12 @@ public record SpectrobeEntry(
             Codec.INT.optionalFieldOf("mineralsFed", 0).forGetter(SpectrobeEntry::mineralsFed),
             Codec.INT.optionalFieldOf("mineralHpBonus", 0).forGetter(SpectrobeEntry::mineralHpBonus),
             Codec.INT.optionalFieldOf("mineralAtkBonus", 0).forGetter(SpectrobeEntry::mineralAtkBonus),
-            Codec.INT.optionalFieldOf("mineralDefBonus", 0).forGetter(SpectrobeEntry::mineralDefBonus)
+            Codec.INT.optionalFieldOf("mineralDefBonus", 0).forGetter(SpectrobeEntry::mineralDefBonus),
+            SpectrobeProgress.CODEC.optionalFieldOf("progress",SpectrobeProgress.EMPTY).forGetter(SpectrobeEntry::progress)
     ).apply(inst, SpectrobeEntry::new));
 
     public SpectrobeEntry {
+        progress = progress == null ? SpectrobeProgress.EMPTY : progress;
         species = species == null ? "" : species.trim().toLowerCase(Locale.ROOT);
 
         if (color < 0) color = 0;
@@ -49,6 +62,9 @@ public record SpectrobeEntry(
         stage = stage.trim().toUpperCase(Locale.ROOT);
 
         if (level < 1) level = 1;
+        int needed=com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.required(level);
+        if(needed==0)progress=progress.withXp(0);
+        else if(progress.xp()>=needed)progress=progress.withXp(needed-1);
 
         if (hp < 0) hp = 0;
         if (atk < 0) atk = 0;
@@ -95,7 +111,7 @@ public record SpectrobeEntry(
         return new SpectrobeEntry(
                 id, species, color, stage, level,
                 hp, newHpCur, atk, def,
-                mineralsFed, mineralHpBonus, mineralAtkBonus, mineralDefBonus
+                mineralsFed, mineralHpBonus, mineralAtkBonus, mineralDefBonus, progress
         );
     }
 
@@ -107,7 +123,7 @@ public record SpectrobeEntry(
         return new SpectrobeEntry(
                 id, species, newColor, stage, level,
                 hp, hpCur, atk, def,
-                mineralsFed, mineralHpBonus, mineralAtkBonus, mineralDefBonus
+                mineralsFed, mineralHpBonus, mineralAtkBonus, mineralDefBonus, progress
         );
     }
 
@@ -115,7 +131,7 @@ public record SpectrobeEntry(
         return new SpectrobeEntry(
                 id, species, color, newStage, level,
                 hp, hpCur, atk, def,
-                mineralsFed, mineralHpBonus, mineralAtkBonus, mineralDefBonus
+                mineralsFed, mineralHpBonus, mineralAtkBonus, mineralDefBonus, progress
         );
     }
 
@@ -123,7 +139,7 @@ public record SpectrobeEntry(
         return new SpectrobeEntry(
                 id, species, color, stage, level,
                 newHp, newHpCur, newAtk, newDef,
-                mineralsFed, mineralHpBonus, mineralAtkBonus, mineralDefBonus
+                mineralsFed, mineralHpBonus, mineralAtkBonus, mineralDefBonus, progress
         );
     }
 
@@ -131,7 +147,7 @@ public record SpectrobeEntry(
         return new SpectrobeEntry(
                 id, species, color, stage, level,
                 hp, hpCur, atk, def,
-                newMineralsFed, mineralHpBonus, mineralAtkBonus, mineralDefBonus
+                newMineralsFed, mineralHpBonus, mineralAtkBonus, mineralDefBonus, progress
         );
     }
 
@@ -139,7 +155,7 @@ public record SpectrobeEntry(
         return new SpectrobeEntry(
                 id, species, color, stage, level,
                 hp, hpCur, atk, def,
-                mineralsFed, newHpBonus, newAtkBonus, newDefBonus
+                mineralsFed, newHpBonus, newAtkBonus, newDefBonus, progress
         );
     }
 
@@ -150,7 +166,7 @@ public record SpectrobeEntry(
                 mineralsFed + 1,
                 mineralHpBonus + Math.max(0, addHp),
                 mineralAtkBonus + Math.max(0, addAtk),
-                mineralDefBonus + Math.max(0, addDef)
+                mineralDefBonus + Math.max(0, addDef), progress
         );
     }
 }

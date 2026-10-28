@@ -22,6 +22,7 @@ public class IncubatorMenu extends AbstractContainerMenu {
     private static final int HOTBAR_START = 28;
     private static final int HOTBAR_END = 37;
     public static final int START_BUTTON_ID = 0;
+    public static final int STOP_BUTTON_ID = 1;
 
     private final Container incubatorContainer;
     private final ContainerData data;
@@ -32,7 +33,7 @@ public class IncubatorMenu extends AbstractContainerMenu {
                 id,
                 inventory,
                 new SimpleContainer(INCUBATOR_SLOT_COUNT),
-                new SimpleContainerData(4)
+                new SimpleContainerData(7)
         );
     }
 
@@ -48,7 +49,7 @@ public class IncubatorMenu extends AbstractContainerMenu {
                 incubatorContainer,
                 INCUBATOR_SLOT_COUNT
         );
-        checkContainerDataCount(data, 4);
+        checkContainerDataCount(data, 7);
 
         this.incubatorContainer = incubatorContainer;
         this.data = data;
@@ -57,16 +58,15 @@ public class IncubatorMenu extends AbstractContainerMenu {
         this.addSlot(new Slot(
                 incubatorContainer,
                 0,
-                93,
-                39
+                42,
+                55
         ) {
+            @Override public boolean mayPlace(ItemStack stack) {
+                return !isAwakening()&&!isDelivering()&&stack.getItem() instanceof FossilItem;
+            }
             @Override
             public boolean mayPickup(Player player) {
-                if (incubatorContainer instanceof IncubatorBlockEntity incubator) {
-                    return !incubator.isAwakening();
-                }
-
-                return true;
+                return !isAwakening()&&!isDelivering();
             }
 
             @Override
@@ -100,16 +100,27 @@ public class IncubatorMenu extends AbstractContainerMenu {
         return this.data.get(3);
     }
 
+    public boolean isPowered(){return data.get(4)!=0;}
+    public int getSignalSource(){return data.get(5);}
+    public boolean isDelivering(){return data.get(6)!=0;}
     public boolean canStart() {
         ItemStack fossilStack = this.getSlot(0).getItem();
 
         return !fossilStack.isEmpty()
                 && fossilStack.getItem() instanceof FossilItem
-                && !this.isAwakening();
+                && !this.isAwakening()&&this.isPowered()&&!this.isDelivering();
     }
 
     @Override
     public boolean clickMenuButton(Player player, int buttonId) {
+        if(!player.isAlive()||player.isSpectator()||!stillValid(player))return false;
+        if(buttonId==STOP_BUTTON_ID){
+            if(incubatorContainer instanceof IncubatorBlockEntity incubator&&incubator.isAwakening()
+                    &&incubator.getAwakeningProgress()<200&&player.getUUID().equals(incubator.getAwakeningPlayerUuid())){
+                incubator.cancelAwakening();return true;
+            }
+            return false;
+        }
         if (buttonId != START_BUTTON_ID) {
             return false;
         }
@@ -142,8 +153,8 @@ public class IncubatorMenu extends AbstractContainerMenu {
                 this.addSlot(new Slot(
                         inventory,
                         column + row * 9 + 9,
-                        8 + column * 18,
-                        140 + row * 18
+                        28 + column * 18,
+                        166 + row * 18
                 ));
             }
         }
@@ -154,8 +165,8 @@ public class IncubatorMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(
                     inventory,
                     column,
-                    8 + column * 18,
-                    198
+                    28 + column * 18,
+                    224
             ));
         }
     }

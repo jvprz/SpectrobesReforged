@@ -9,15 +9,25 @@
           "predicate": {
             "predicates": {
               "minecraft:enchantments": [
-                { "enchantments": "minecraft:silk_touch", "levels": { "min": 1 } }
+                {
+                  "enchantments": "minecraft:silk_touch",
+                  "levels": {
+                    "min": 1
+                  }
+                }
               ]
             }
           }
         },
-        { "condition": "minecraft:survives_explosion" }
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ],
       "entries": [
-        { "type": "minecraft:item", "name": "spectrobesreforged:deepslate_aurora_fossil_ore" }
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:deepslate_aurora_fossil_ore"
+        }
       ]
     },
     {
@@ -30,22 +40,99 @@
             "predicate": {
               "predicates": {
                 "minecraft:enchantments": [
-                  { "enchantments": "minecraft:silk_touch", "levels": { "min": 1 } }
+                  {
+                    "enchantments": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1
+                    }
+                  }
                 ]
               }
             }
           }
         },
-        { "condition": "minecraft:survives_explosion" }
+        {
+          "condition": "minecraft:survives_explosion"
+        }
       ],
       "entries": [
-        { "type": "minecraft:item", "name": "spectrobesreforged:segu_fossil",    "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:spiko_fossil",   "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:bartor_fossil",  "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:grilda_fossil",  "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:gejio_fossil",   "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:kubaku_fossil",  "weight": 1 },
-        { "type": "minecraft:item", "name": "spectrobesreforged:masetto_fossil", "weight": 1 }
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_aurora_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"bartor\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_aurora_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"gejio\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_aurora_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"grilda\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_aurora_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"kubaku\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_aurora_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"masetto\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_aurora_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"segu\"}"
+            }
+          ]
+        },
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:raw_aurora_fossil",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Fossil:\"spiko\"}"
+            }
+          ]
+        }
       ]
     }
   ]

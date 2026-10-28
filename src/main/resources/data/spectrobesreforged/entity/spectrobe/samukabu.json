@@ -1,0 +1,47 @@
+{
+  "id": 46,
+  "key": "samukabu",
+  "type": "flash",
+  "stage": "child",
+  "range": 3,
+  "stats": {
+    "hp": {
+      "base": 75,
+      "max": 145,
+      "increment": 8
+    },
+    "attack": {
+      "base": 50,
+      "max": 130,
+      "increment": 8
+    },
+    "defense": {
+      "base": 120,
+      "max": 190,
+      "increment": 10
+    },
+    "move_speed": 3,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "samurite",
+    "minerals_required": 5
+  },
+  "textures": [
+    "entity/spectrobe/samukabu/samukabu_color_0",
+    "entity/spectrobe/samukabu/samukabu_color_1",
+    "entity/spectrobe/samukabu/samukabu_color_2"
+  ],
+  "model_status": "temporary_individual",
+  "sources": {
+    "stats": "https://spectrobes.fandom.com/wiki/Samukabu",
+    "evolution": "https://spectrobes.fandom.com/wiki/Samukabu",
+    "range": "wiki infobox Search; existing ranges are not recalculated"
+  }
+}

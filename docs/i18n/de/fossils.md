@@ -1,5 +1,7 @@
 # Fossilien und Erkundung
 
+**Experimentell in 0.6.2-beta.3:** Fossilerz gibt eine rohe Probe. Grabe sie am Tisch aus, bevor der identifizierte Fund in den Inkubator kommt. Alte saubere Fossilien bleiben nutzbar. Siehe [Ausgrabungstest](getting-started.md#excavation). Die Tabelle zeigt mögliche identifizierte Ergebnisse.
+
 Fossilerze entstehen in ausgewählten Overworld-Biomen. Verwende eine **Eisenspitzhacke oder besser**. Corona gehört zu heißen, Aurora zu gemäßigten und Flash zu kalten Biomen. Die Steinvariante entsteht bei **Y 0 bis 72**, die Tiefenschiefervariante bei **Y -64 bis -1**. Das sind mögliche Bereiche, keine garantierten Fundstellen. Erkunde in alten Welten neue Chunks.
 
 {{BIOMES}}

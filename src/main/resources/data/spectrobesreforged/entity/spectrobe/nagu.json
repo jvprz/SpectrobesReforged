@@ -1,0 +1,47 @@
+{
+  "id": 13,
+  "key": "nagu",
+  "type": "flash",
+  "stage": "child",
+  "range": 4,
+  "stats": {
+    "hp": {
+      "base": 65,
+      "max": 115,
+      "increment": 7
+    },
+    "attack": {
+      "base": 70,
+      "max": 155,
+      "increment": 8
+    },
+    "defense": {
+      "base": 75,
+      "max": 125,
+      "increment": 7
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "naguryu",
+    "minerals_required": 4
+  },
+  "textures": [
+    "entity/spectrobe/nagu/nagu_color_0",
+    "entity/spectrobe/nagu/nagu_color_1",
+    "entity/spectrobe/nagu/nagu_color_2"
+  ],
+  "model_status": "temporary_individual",
+  "sources": {
+    "stats": "https://spectrobes.fandom.com/wiki/Nagu",
+    "evolution": "https://spectrobes.fandom.com/wiki/Nagu",
+    "range": "wiki infobox Search; existing ranges are not recalculated"
+  }
+}

@@ -4,4 +4,4 @@ Trois Krawl disposent de modèles animés, sons et attaques au corps à corps. L
 
 {{KRAWL}}
 
-Les [vortex](vortices.md) produisent trois ennemis identiques : **Blovant/Corona dans les biomes chauds**, **Viblova/Aurora vert dans les tempérés**, **Blova/Flash bleu ailleurs**. Le biome est vérifié lorsque le vortex atteint le joueur. Combattez avec les armes de Minecraft ; le combat piloté par une équipe de Spectrobes reste en développement.
+Les [vortex](vortices.md) génèrent trois Krawl identiques par participant : **Blovant/Corona en climat chaud, Viblova/Aurora vert en climat tempéré, Blova/Flash bleu en climat froid**. Le biome d’origine fixe le choix, conservé au déplacement et à la sauvegarde. Les tags priment sur la température de base ; consultez le guide des vortex. Combat avec les armes Minecraft ; combat en équipe Spectrobes encore en développement.

@@ -1,0 +1,47 @@
+{
+  "id": 40,
+  "key": "gejio",
+  "type": "aurora",
+  "stage": "child",
+  "range": 6,
+  "stats": {
+    "hp": {
+      "base": 122,
+      "max": 199,
+      "increment": 10
+    },
+    "attack": {
+      "base": 49,
+      "max": 99,
+      "increment": 9
+    },
+    "defense": {
+      "base": 69,
+      "max": 119,
+      "increment": 8
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "gejigen",
+    "minerals_required": 5
+  },
+  "textures": [
+    "entity/spectrobe/gejio/gejio_color_0",
+    "entity/spectrobe/gejio/gejio_color_1",
+    "entity/spectrobe/gejio/gejio_color_2"
+  ],
+  "model_status": "temporary_individual",
+  "sources": {
+    "stats": "https://spectrobes.fandom.com/wiki/Gejio",
+    "evolution": "https://spectrobes.fandom.com/wiki/Gejio",
+    "range": "wiki infobox Search; existing ranges are not recalculated"
+  }
+}

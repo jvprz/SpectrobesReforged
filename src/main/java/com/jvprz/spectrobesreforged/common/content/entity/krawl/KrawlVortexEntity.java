@@ -2,16 +2,14 @@ package com.jvprz.spectrobesreforged.common.content.entity.krawl;
 
 import com.jvprz.spectrobesreforged.common.feature.krawl.KrawlRegistry;
 import com.jvprz.spectrobesreforged.common.feature.krawl.factory.KrawlFactory;
-import com.jvprz.spectrobesreforged.common.feature.progression.ModProgression;
 import com.jvprz.spectrobesreforged.common.feature.vortex.VortexEncounters;
 import com.jvprz.spectrobesreforged.common.feature.vortex.VortexProgress;
-import com.jvprz.spectrobesreforged.common.registry.ModItems;
+import com.jvprz.spectrobesreforged.common.feature.vortex.VortexRules;
+import com.jvprz.spectrobesreforged.common.config.Config;
+import com.jvprz.spectrobesreforged.common.config.ClientConfig;
+import com.jvprz.spectrobesreforged.common.feature.vortex.VortexClimate;
+import com.jvprz.spectrobesreforged.common.feature.vortex.VortexEvents;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.biome.Biome;
-import com.jvprz.spectrobesreforged.SpectrobesReforged;
 import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;
 import com.jvprz.spectrobesreforged.common.registry.ModSounds;
@@ -35,26 +33,19 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import java.util.ArrayList;
 
 public final class KrawlVortexEntity extends Entity implements GeoEntity {
-    private static final TagKey<Biome> HOT_BIOMES = TagKey.create(Registries.BIOME,
-            ResourceLocation.fromNamespaceAndPath(SpectrobesReforged.MODID, "hot"));
-    private static final TagKey<Biome> TEMPERATE_BIOMES = TagKey.create(Registries.BIOME,
-            ResourceLocation.fromNamespaceAndPath(SpectrobesReforged.MODID, "temperate"));
-    private static final int VICTORY_EXPERIENCE = 15;
+    private final net.minecraft.server.level.ServerBossEvent raidBar;
+    private final java.util.Map<java.util.UUID,Long> joinRetry=new java.util.HashMap<>();
     public static final String ENCOUNTER_TAG = "SpectrobesVortex";
     private static final EntityDataAccessor<Boolean> ACTIVE = SynchedEntityData.defineId(
             KrawlVortexEntity.class, EntityDataSerializers.BOOLEAN);
@@ -85,6 +76,8 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
     private int dissolveTicks;
     private int contactCooldown;
     private ServerPlayer chaseTarget;
+    private String krawlKey = "";
+    private int warningCooldown;
     private int interpolationSteps;
     private Vec3 interpolationTarget = Vec3.ZERO;
 
@@ -101,6 +94,9 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
     public KrawlVortexEntity(EntityType<? extends KrawlVortexEntity> type, Level level) {
         super(type, level);
         setNoGravity(true);
+        raidBar=level.isClientSide?null:new net.minecraft.server.level.ServerBossEvent(
+                Component.translatable("message.spectrobesreforged.vortex.raid_bar",1),
+                net.minecraft.world.BossEvent.BossBarColor.RED,net.minecraft.world.BossEvent.BossBarOverlay.NOTCHED_10);
     }
 
     @Override protected void defineSynchedData(SynchedEntityData.Builder builder) { builder.define(ACTIVE, false); builder.define(CHASING, false); }
@@ -108,8 +104,8 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
     public float dissolveProgress(float partialTick) {
         return entityData.get(ACTIVE) ? Math.min(1.0F, (dissolveTicks + partialTick) / 16.0F) : 0;
     }
-    @Override protected void readAdditionalSaveData(CompoundTag tag) { idleTicks = tag.getInt("IdleTicks"); entityData.set(ACTIVE, tag.getBoolean("EncounterStarted")); }
-    @Override protected void addAdditionalSaveData(CompoundTag tag) { tag.putInt("IdleTicks", idleTicks); tag.putBoolean("EncounterStarted", entityData.get(ACTIVE)); }
+    @Override protected void readAdditionalSaveData(CompoundTag tag) { idleTicks = tag.getInt("IdleTicks"); krawlKey = VortexRules.supported(tag.getString("KrawlKey")) ? tag.getString("KrawlKey") : ""; entityData.set(ACTIVE, tag.getBoolean("EncounterStarted")); }
+    @Override protected void addAdditionalSaveData(CompoundTag tag) { tag.putInt("IdleTicks", idleTicks); tag.putString("KrawlKey", krawlKey); tag.putBoolean("EncounterStarted", entityData.get(ACTIVE)); }
 
     private void start(ServerPlayer player) {
         ServerLevel level = player.serverLevel();
@@ -122,37 +118,15 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
             player.displayClientMessage(Component.translatable("message.spectrobesreforged.vortex.peaceful"), true);
             return;
         }
-        // Select once for the whole wave at the encounter site, including manually summoned vortices.
-        var biome = level.getBiome(player.blockPosition());
-        String krawlKey = biome.is(HOT_BIOMES) ? "blovant"
-                : biome.is(TEMPERATE_BIOMES) ? "viblova" : "blova";
+        if(player.isCreative()||!player.isAlive()||player.isSpectator()||VortexEncounters.inActiveRaid(player))return;
+        // The origin fixes the wave: luring the same vortex across a biome border cannot reroll it.
+        if (krawlKey.isEmpty()) krawlKey = VortexClimate.krawl(level.getBiome(blockPosition()));
         var definition = KrawlRegistry.getByKey(krawlKey);
         if (definition == null) {
             player.displayClientMessage(Component.translatable("message.spectrobesreforged.vortex.unavailable"), true);
             return;
         }
-        var wave = new ArrayList<KrawlEntity>();
-        for (int attempt = 0; attempt < 24 && wave.size() < 3; attempt++) {
-            double angle = attempt * Math.PI * 2 / 8;
-            double radius = 3.5 + (attempt / 8) * 0.8;
-            BlockPos column = BlockPos.containing(player.getX() + Math.cos(angle) * radius,
-                    player.getY(), player.getZ() + Math.sin(angle) * radius);
-            if (!level.hasChunkAt(column)) continue;
-            for (int dy = 2; dy >= -3; dy--) {
-                BlockPos feet = column.offset(0, dy, 0);
-                var mob = KrawlFactory.create(level, definition);
-                mob.moveTo(feet.getX() + 0.5, feet.getY(), feet.getZ() + 0.5, 0, 0);
-                if (!level.getFluidState(feet).isEmpty()
-                        || !level.getBlockState(feet.below()).isSolidRender(level, feet.below())
-                        || !level.noCollision(mob)
-                        || wave.stream().anyMatch(other -> other.getBoundingBox().inflate(0.3).intersects(mob.getBoundingBox()))) continue;
-                mob.setPersistenceRequired();
-                mob.setTarget(player);
-                mob.getPersistentData().putUUID(ENCOUNTER_TAG, getUUID());
-                wave.add(mob);
-                break;
-            }
-        }
+        var wave = prepareWave(level,player);
         if (wave.size() != 3) { blocked(player); return; }
         var progress = new VortexProgress(player.getUUID(), wave.stream().map(Entity::getUUID).toList());
         if (!ledger.begin(getUUID(), progress)) return;
@@ -173,6 +147,98 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
         entityData.set(ACTIVE, true);
         level.playSound(null, player.blockPosition(), ModSounds.BATTLE_START.get(), SoundSource.HOSTILE, 0.9F, 1.0F);
         player.displayClientMessage(Component.translatable("message.spectrobesreforged.vortex.started"), false);
+        joinNearby(level,progress);
+        raidBar.addPlayer(player);raidBar.setProgress(1);
+        raidBar.setName(Component.translatable("message.spectrobesreforged.vortex.raid_bar",progress.playerCount()));
+    }
+
+    private java.util.List<KrawlEntity> prepareWave(ServerLevel level,ServerPlayer player) {
+        if(krawlKey.isEmpty())krawlKey=VortexClimate.krawl(level.getBiome(blockPosition()));
+        var definition=KrawlRegistry.getByKey(krawlKey);
+        if(definition==null)return java.util.List.of();
+        var wave = new ArrayList<KrawlEntity>();
+        for (int attempt = 0; attempt < 24 && wave.size() < 3; attempt++) {
+            double angle = attempt * Math.PI * 2 / 8;
+            double radius = 3.5 + (attempt / 8) * 0.8;
+            BlockPos column = BlockPos.containing(player.getX() + Math.cos(angle) * radius,
+                    player.getY(), player.getZ() + Math.sin(angle) * radius);
+            if (!level.hasChunkAt(column)) continue;
+            for (int dy = 2; dy >= -3; dy--) {
+                BlockPos feet = column.offset(0, dy, 0);
+                var ground=level.getBlockState(feet.below()).getCollisionShape(level,feet.below());
+                if(ground.isEmpty()||!level.getWorldBorder().isWithinBounds(feet))continue;
+                double surface=feet.below().getY()+ground.max(Direction.Axis.Y);
+                var mob = KrawlFactory.create(level, definition);
+                mob.moveTo(feet.getX() + 0.5, surface, feet.getZ() + 0.5, 0, 0);
+                if (!level.getFluidState(BlockPos.containing(mob.position())).isEmpty()
+                        || !level.noCollision(mob)
+                        || level.getEntitiesOfClass(KrawlEntity.class,mob.getBoundingBox().inflate(0.3)).stream().anyMatch(other->other.isAlive()&&!other.isRemoved())
+                        || wave.stream().anyMatch(other -> other.getBoundingBox().inflate(0.3).intersects(mob.getBoundingBox()))) continue;
+                mob.setPersistenceRequired();
+                mob.setTarget(player);
+                mob.getPersistentData().putUUID(ENCOUNTER_TAG, getUUID());
+                wave.add(mob);
+                break;
+            }
+        }
+        return wave.size()==3?wave:java.util.List.of();
+    }
+
+    private boolean eligible(ServerPlayer player){
+        return player.isAlive()&&!player.isSpectator()&&!player.isCreative()&&player.level()==level()&&player.distanceToSqr(this)<=32*32;
+    }
+
+    private void joinNearby(ServerLevel level,VortexProgress progress){
+        if(progress.remaining()==0)return;
+        for(var candidate:level.players())tryJoinRaid(candidate);
+    }
+
+    public boolean tryJoinRaid(ServerPlayer candidate){
+        if(!(level() instanceof ServerLevel level))return false;
+        var progress=VortexEncounters.get(level).find(getUUID());
+        if(progress==null||progress.status()!=VortexProgress.Status.ACTIVE||progress.remaining()==0
+                ||!eligible(candidate)||progress.containsPlayer(candidate.getUUID())||progress.playerCount()>=VortexProgress.MAX_PARTICIPANTS
+                ||VortexEncounters.inActiveRaid(candidate)||joinRetry.getOrDefault(candidate.getUUID(),0L)>level.getGameTime())return false;
+        joinRetry.put(candidate.getUUID(),level.getGameTime()+20);
+        var wave=prepareWave(level,candidate);if(wave.size()!=3)return false;
+        var added=new ArrayList<KrawlEntity>();
+        for(var mob:wave){if(!level.addFreshEntity(mob))break;added.add(mob);}
+        if(added.size()!=3||!progress.join(candidate.getUUID(),wave.stream().map(Entity::getUUID).toList())){added.forEach(Entity::discard);return false;}
+        SpectrobeManager.despawnBabyEverywhere(candidate.server,candidate);
+        candidate.displayClientMessage(Component.translatable("message.spectrobesreforged.vortex.joined"),false);
+        VortexEncounters.get(level).setDirty();return true;
+    }
+
+    private void updateRaid(ServerLevel level,VortexProgress progress){
+        if(level.getDifficulty()==Difficulty.PEACEFUL)progress.cancel();
+        if(progress.status()!=VortexProgress.Status.ACTIVE){finishEncounter(progress);return;}
+        if(tickCount%20==0)joinNearby(level,progress);
+        var nearby=new java.util.HashSet<java.util.UUID>();
+        for(var player:level.players())if(eligible(player)&&progress.containsPlayer(player.getUUID()))nearby.add(player.getUUID());
+        progress.advance(1,nearby);
+        if(tickCount%5==0){
+            var watchers=new java.util.HashSet<ServerPlayer>();
+            for(var player:level.players())if(player.isAlive()&&!player.isSpectator()&&progress.containsPlayer(player.getUUID())&&player.distanceToSqr(this)<=64*64)watchers.add(player);
+            for(var previous:java.util.Set.copyOf(raidBar.getPlayers()))if(!watchers.contains(previous))raidBar.removePlayer(previous);
+            watchers.forEach(raidBar::addPlayer);
+            raidBar.setName(Component.translatable("message.spectrobesreforged.vortex.raid_bar",progress.playerCount()));
+            raidBar.setProgress(progress.remaining()/(float)progress.members().size());
+        }
+        VortexEncounters.get(level).setDirty();
+        if(progress.status()!=VortexProgress.Status.ACTIVE)finishEncounter(progress);
+    }
+
+    public void finishEncounter(VortexProgress progress){
+        if(progress.status()==VortexProgress.Status.ACTIVE||!(level() instanceof ServerLevel level))return;
+        if(raidBar!=null)raidBar.removeAllPlayers();
+        for(var participant:progress.participants()){
+            var player=level.getServer().getPlayerList().getPlayer(participant.id());
+            if(player==null)continue;
+            VortexEvents.restAfterEncounter(player);
+            if(progress.status()==VortexProgress.Status.COMPLETED)VortexEncounters.payPending(player);
+            else player.displayClientMessage(Component.translatable("message.spectrobesreforged.vortex.cancelled"),false);
+        }
+        cleanup(level,progress);discard();
     }
 
     private void blocked(Player player) {
@@ -192,7 +258,7 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
             if (entityData.get(ACTIVE)) {
                 dissolveTicks = Math.min(16, dissolveTicks + 1);
             } else if (tickCount % 100 == 0) {
-                level().playLocalSound(getX(), getY(), getZ(), SoundEvents.PORTAL_AMBIENT,
+                level().playLocalSound(getX(), getY(), getZ(), ModSounds.VORTEX_AMBIENT.get(),
                         SoundSource.HOSTILE, 0.12F, 0.65F, false);
             }
             if (!entityData.get(ACTIVE) || dissolveTicks < 16) {
@@ -202,12 +268,14 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
             return;
         }
         if (!(level() instanceof ServerLevel level)) return;
+        if (krawlKey.isEmpty()) krawlKey = VortexClimate.krawl(level.getBiome(blockPosition()));
         var ledger = VortexEncounters.get(level);
         var progress = ledger.find(getUUID());
         if (progress == null) {
             idleTicks++;
             if (idleTicks >= 24000) { discard(); return; }
             if (contactCooldown > 0) contactCooldown--;
+            if (warningCooldown > 0) warningCooldown--;
             double beforeY = getY();
             pursue(level);
             // Do not undo a deliberate ledge climb with a downward settle on the same tick.
@@ -215,46 +283,7 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
             return;
         }
         entityData.set(ACTIVE, true);
-        if (progress.status() != VortexProgress.Status.ACTIVE) { discard(); return; }
-        if (tickCount % 20 != 0) return;
-        var owner = level.getPlayerByUUID(progress.owner());
-        boolean nearby = owner instanceof ServerPlayer && owner.isAlive() && !owner.isSpectator()
-                && owner.distanceToSqr(this) <= 32 * 32;
-        if (level.getDifficulty() == Difficulty.PEACEFUL) progress.cancel();
-        progress.advance(20, nearby);
-        ledger.setDirty();
-        if (progress.status() == VortexProgress.Status.COMPLETED && owner instanceof ServerPlayer player) {
-            // Terminal state is committed before issuing rewards; loading it again never reissues them.
-            for (int i = 0; i < 2; i++) {
-                var item = switch (random.nextInt(3)) {
-                    case 0 -> ModItems.POWER_C.get();
-                    case 1 -> ModItems.DEFENSE_C.get();
-                    default -> ModItems.HEALTH_C.get();
-                };
-                var reward = new ItemStack(item);
-                Vec3 forward = new Vec3(player.getLookAngle().x, 0, player.getLookAngle().z);
-                if (forward.lengthSqr() < 0.001) forward = new Vec3(0, 0, 1);
-                Vec3 drop = player.position().add(forward.normalize().scale(1.5)).add(0, 0.35, 0);
-                if (!level.getBlockState(BlockPos.containing(drop)).getCollisionShape(level,
-                        BlockPos.containing(drop)).isEmpty()) drop = player.position().add(0, 0.5, 0);
-                var loot = new ItemEntity(level, drop.x, drop.y, drop.z, reward);
-                loot.setDeltaMovement(0, 0.12, 0);
-                loot.setDefaultPickUpDelay();
-                level.addFreshEntity(loot);
-            }
-            ExperienceOrb.award(level, player.position().add(0, 0.5, 0), VICTORY_EXPERIENCE);
-            ModProgression.award(player, "seal_vortex");
-            player.displayClientMessage(Component.translatable("message.spectrobesreforged.vortex.completed"), false);
-            level.playSound(null, player.blockPosition(), ModSounds.BATTLE_END.get(), SoundSource.PLAYERS, 0.9F, 1.0F);
-        } else if (progress.status() == VortexProgress.Status.CANCELLED && owner != null) {
-            owner.displayClientMessage(Component.translatable("message.spectrobesreforged.vortex.cancelled"), false);
-        } else if (nearby) {
-            owner.displayClientMessage(Component.translatable("message.spectrobesreforged.vortex.remaining", progress.remaining()), true);
-        }
-        if (progress.status() != VortexProgress.Status.ACTIVE) {
-            cleanup(level, progress);
-            discard();
-        }
+        updateRaid(level,progress);
     }
 
     private void spawnSurfaceMotes() {
@@ -266,7 +295,8 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
             spawnKrawlGasBurst(scale);
             deathMoteCooldown = 20 + random.nextInt(31);
         }
-        int count = viewer.distanceToSqr(this) < 24 * 24 ? 24 : 6;
+        int baseCount = viewer.distanceToSqr(this) < 24 * 24 ? 24 : 6;
+        int count = ClientConfig.particles(baseCount);
         for (int i = 0; i < count; i++) {
             double height = (i + random.nextDouble()) / count;
             double angle = random.nextDouble() * Math.PI * 2;
@@ -278,7 +308,7 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
                     getZ() + Math.sin(angle) * radius,
                     getId(), height, angle);
         }
-        int shadowCount = count == 24 ? 36 : 8;
+        int shadowCount = ClientConfig.particles(baseCount == 24 ? 36 : 8);
         for (int i = 0; i < shadowCount; i++) {
             double height = (i + random.nextDouble()) / shadowCount;
             double angle = random.nextDouble() * Math.PI * 2;
@@ -308,7 +338,7 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
         if (state.getRenderShape() == RenderShape.INVISIBLE
                 || state.getCollisionShape(level(), ground).isEmpty()
                 || state.getCollisionShape(level(), ground).max(Direction.Axis.Y) + ground.getY() < getY() - 0.2) return;
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < ClientConfig.particles(3); i++) {
             double angle = random.nextDouble() * Math.PI * 2;
             level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state),
                     getX() + Math.cos(angle) * 0.22, getY() + 0.06,
@@ -320,7 +350,7 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
 
     private void spawnKrawlGasBurst(double scale) {
         // Small intermittent versions of the black/purple dust, portal and smoke death effect.
-        for (int i = 0; i < 15; i++) {
+        for (int i = 0; i < ClientConfig.particles(15); i++) {
             double height = 0.2 + random.nextDouble() * 0.8;
             double angle = random.nextDouble() * Math.PI * 2;
             double radius = (0.1 + height * 1.2) * scale;
@@ -356,15 +386,22 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
     }
 
     private void pursue(ServerLevel level) {
-        entityData.set(CHASING, false);
-        if (level.getDifficulty() == Difficulty.PEACEFUL) return;
+        if (level.getDifficulty() == Difficulty.PEACEFUL) { entityData.set(CHASING, false); return; }
         if (tickCount % 10 == 0 || chaseTarget == null || !chaseTarget.isAlive()
                 || chaseTarget.level() != level || chaseTarget.isSpectator()) {
-            chaseTarget = level.players().stream()
-                    .filter(p -> p.isAlive() && !p.isSpectator() && p.distanceToSqr(this) <= 24 * 24)
+            var nearest = level.players().stream()
+                    .filter(p -> p.isAlive() && !p.isCreative() && !p.isSpectator() && p.distanceToSqr(this) <= VortexRules.DETECTION_RADIUS * VortexRules.DETECTION_RADIUS)
                     .min(java.util.Comparator.comparingDouble(p -> p.distanceToSqr(this))).orElse(null);
+            if (nearest != null) chaseTarget = nearest;
+            else if (chaseTarget == null || !chaseTarget.isAlive() || chaseTarget.isSpectator()
+                    || chaseTarget.level() != level || chaseTarget.distanceToSqr(this) > VortexRules.RETENTION_RADIUS * VortexRules.RETENTION_RADIUS) chaseTarget = null;
         }
-        if (chaseTarget == null || chaseTarget.distanceToSqr(this) > 28 * 28) return;
+        if (chaseTarget == null || chaseTarget.distanceToSqr(this) > VortexRules.RETENTION_RADIUS * VortexRules.RETENTION_RADIUS) { entityData.set(CHASING, false); return; }
+        if (!entityData.get(CHASING) && warningCooldown == 0) {
+            chaseTarget.displayClientMessage(Component.translatable("message.spectrobesreforged.vortex.approaching",
+                    Component.translatable("spectrobe.type." + VortexRules.element(krawlKey))), true);
+            warningCooldown = 200;
+        }
         entityData.set(CHASING, true);
         if (contactCooldown == 0 && getBoundingBox().inflate(0.15).intersects(chaseTarget.getBoundingBox())) {
             start(chaseTarget);
@@ -372,7 +409,7 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
         }
         Vec3 direction = new Vec3(chaseTarget.getX() - getX(), 0, chaseTarget.getZ() - getZ());
         if (direction.lengthSqr() < 0.001) return;
-        Vec3 step = direction.normalize().scale(Math.min(0.045, direction.length()));
+        Vec3 step = direction.normalize().scale(Math.min(Config.vortexSpeed(), direction.length()));
         if (!tryMove(level, step)) {
             if (!tryMove(level, new Vec3(step.x, 0, 0))) tryMove(level, new Vec3(0, 0, step.z));
         }
@@ -404,7 +441,7 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
                 || !level.noCollision(this, destination)) return false;
 
         // Lift first when approaching a ledge; otherwise a partial diagonal step intersects its face.
-        double rise = Math.max(-0.08, Math.min(0.08, targetY - getY()));
+        double rise = Math.max(-0.16, Math.min(0.14, targetY - getY()));
         boolean movedVertically = false;
         if (Math.abs(rise) > 0.0001 && level.noCollision(this, getBoundingBox().move(0, rise, 0))) {
             move(MoverType.SELF, new Vec3(0, rise, 0));
@@ -426,6 +463,7 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
 
     @Override
     public void remove(RemovalReason reason) {
+        if(raidBar!=null)raidBar.removeAllPlayers();
         if (!level().isClientSide && level() instanceof ServerLevel level
                 && (reason == RemovalReason.KILLED || reason == RemovalReason.DISCARDED)) {
             var ledger = VortexEncounters.get(level);

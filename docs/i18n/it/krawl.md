@@ -4,4 +4,4 @@ Tre Krawl hanno modelli animati, suoni e attacchi corpo a corpo. Le uova permett
 
 {{KRAWL}}
 
-I [vortici](vortices.md) generano tre nemici uguali: **Blovant/Corona nei biomi caldi**, **Viblova/Aurora verdi nei temperati**, **Blova/Flash blu altrove**. Si controlla il bioma quando il vortice raggiunge il giocatore. Usa armi di Minecraft; il combattimento con una squadra di Spectrobes resta in sviluppo.
+I [vortici](vortices.md) generano tre Krawl uguali per partecipante: **Blovant/Corona nel caldo, Viblova/Aurora verdi nel temperato e Blova/Flash blu nel freddo**. Il bioma di origine fissa il tipo, salvato anche spostandosi. I tag hanno priorità sulla temperatura base; consulta la guida dei vortici. Usa armi Minecraft; combattimento di squadra Spectrobes ancora in sviluppo.

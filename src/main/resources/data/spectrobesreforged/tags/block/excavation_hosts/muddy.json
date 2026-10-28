@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:mud",
+    "minecraft:packed_mud",
+    "minecraft:clay",
+    "minecraft:dirt"
+  ]
+}

@@ -1,5 +1,7 @@
 # Fossili ed esplorazione
 
+**Sperimentale in 0.6.2-beta.3:** il minerale dà un fossile grezzo da scavare al tavolo prima dell’incubatrice. I vecchi fossili identificati restano validi. Vedi [la prova di scavo](getting-started.md#excavation). La tabella mostra i possibili risultati identificati.
+
 I minerali fossili si generano in biomi selezionati dell’Overworld. Usa un **piccone di ferro o superiore**. Corona: biomi caldi; Aurora: temperati; Flash: freddi. Variante di pietra: **Y 0–72**; ardesia profonda: **Y -64–-1**. Sono intervalli possibili, non posizioni garantite. Nei vecchi mondi esplora chunk nuovi.
 
 {{BIOMES}}

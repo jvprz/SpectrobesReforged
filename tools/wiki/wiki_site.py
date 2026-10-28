@@ -40,6 +40,9 @@ def render(root, docs, output, references, validate):
         shutil.copy2(file, shared / filename)
         asset_names[file.name] = filename
 
+    from item_cards import copy_icons
+    copy_icons(root, shared / 'items')
+
     replacements = {lang: references(root, lang) | {'VERSION':version} for lang in LANGUAGE_NAMES}
     news = json.loads((docs / 'news.json').read_text(encoding='utf-8'))
     manifest = []
@@ -63,15 +66,23 @@ def render(root, docs, output, references, validate):
                     source = re.sub(r'<!-- BEGIN AUTO:'+key+r' -->.*?<!-- END AUTO:'+key+r' -->',lambda _:value,source,flags=re.S)
                 source = re.sub(r'<!-- VERSION -->.*?<!-- /VERSION -->',lambda _:version,source)
             assert not re.search(r'\{\{[^}]+\}\}',source), f'Unresolved placeholder {language}/{slug}'
+            source = source.replace('__ITEM_ASSETS__', asset + '/items')
             md = markdown.Markdown(extensions=['tables','fenced_code','toc','attr_list'],extension_configs={'toc':{'permalink':True}})
             body = md.convert(source)
             body = re.sub(r'href="([a-z0-9-]+)\.md([^"]*)"',r'href="\1.html\2"',body)
+            # Keep semantic tables intact; the wrapper owns horizontal scrolling on phones.
+            def table_region(match):
+                content = match[0].replace('<th>', '<th scope="col">')
+                content = re.sub(r'<td>([+−\-]?\d[^<]*)</td>', r'<td class="numeric">\1</td>', content)
+                content = re.sub(r'<td>(Corona|Aurora|Flash)</td>', lambda m: '<td><span class="element-badge '+m[1].lower()+'">'+m[1]+'</span></td>', content)
+                return '<div class="table-scroll" tabindex="0" role="region" aria-label="'+escape(page['title'], quote=True)+'">'+content+'</div>'
+            body = re.sub(r'<table>.*?</table>', table_region, body, flags=re.S)
             nav = ''.join(f'<a href="{p["slug"]}.html"'+(' aria-current="page"' if p['slug']==slug else '')+f'>{escape(p["label"])}</a>' for p in navigation)
             pager=''.join(f'<a href="{p["slug"]}.html">{label} {escape(p["title"])}</a>' for p,label in [(navigation[position-1] if position else None,'←'),(navigation[position+1] if position+1<len(navigation) else None,ui['next'])] if p)
-            languages = ''.join(f'<option value="{destination(e,slug)}"'+(' selected' if e is edition else '')+f'>{escape(LANGUAGE_NAMES[e["language"]])}{" · "+version if edition["archived"] else ""}</option>' for e in editions if not e['archived'])
-            if edition['archived']: languages=f'<option selected value="{slug}.html">English · {escape(edition["version"])}</option>'+languages
+            languages = ''.join(f'<option data-language="{e["language"]}" value="{destination(e,slug)}"'+(' selected' if e is edition else '')+f'>{escape(LANGUAGE_NAMES[e["language"]])}{" · "+version if edition["archived"] else ""}</option>' for e in editions if not e['archived'])
+            if edition['archived']: languages=f'<option selected data-language="en" value="{slug}.html">English · {escape(edition["version"])}</option>'+languages
             choices=[e for e in editions if e['language']==language and not e['archived']]+[e for e in editions if e['archived']]
-            versions=''.join(f'<option value="{destination(e,slug)}"'+(' selected' if e is edition else '')+f'>{escape(e["version"])}{" · "+ui["current"] if not e["archived"] else " · English"}{" · "+ui["home"] if slug not in e["pages"] else ""}</option>' for e in choices)
+            versions=''.join(f'<option data-current="{str(not e["archived"]).lower()}" value="{destination(e,slug)}"'+(' selected' if e is edition else '')+f'>{escape(e["version"])}{" · "+ui["current"] if not e["archived"] else " · English"}{" · "+ui["home"] if slug not in e["pages"] else ""}</option>' for e in choices)
             banner=''
             if edition['archived']:
                 latest=next(e for e in editions if e['language']==language and not e['archived'])
@@ -95,12 +106,12 @@ def render(root, docs, output, references, validate):
 <meta name="theme-color" content="#101114"><link rel="icon" href="{asset_url('icon.png')}" type="image/png">
 <script>window.WIKI_UI={ui_json};</script><script src="{asset_url('theme.js')}"></script><link rel="stylesheet" href="{asset_url('wiki.css')}">
 <script src="assets/search-data.__SEARCH_HASH__.js" defer></script><script src="{asset_url('search.js')}" defer></script><script src="{asset_url('navigation.js')}" defer></script></head>
-<body class="{'home-page' if is_home else 'guide-page'}"><a class="skip" href="#main">{escape(ui['skip'])}</a>
+<body data-archived="{str(edition['archived']).lower()}" class="{'home-page' if is_home else 'guide-page'}"><a class="skip" href="#main">{escape(ui['skip'])}</a>
 <header class="topbar"><a class="brand" href="index.html"><img class="brand-icon" src="{asset_url('icon.png')}" alt="" width="48" height="48"><span>SPECTROBES REFORGED<small>{escape(ui['field'])}</small></span></a>
 <div class="header-links"><button id="theme-toggle" type="button" hidden>{escape(ui['theme'])}</button>
 <a class="icon-link" href="https://www.curseforge.com/minecraft/mc-mods/spectrobes-reforged" aria-label="{escape(ui['download'])}" title="{escape(ui['download'])}"><img src="{asset_url('download.svg')}" alt="" width="22" height="22"><span>{escape(ui['download'])}</span></a>
 <a class="icon-link" href="https://discord.gg/7QkScUWBe9" aria-label="Discord" title="Discord"><img src="{asset_url('discord.svg')}" alt="" width="24" height="24"><span>Discord</span></a></div></header>
-<div class="shell"><aside class="sidebar"><div class="edition-controls"><label for="language">{escape(ui['language'])}</label><select id="language" data-navigate>{languages}</select><label for="version">{escape(ui['version'])}</label><select id="version" data-navigate>{versions}</select><p class="edition-help">{escape(ui['editions_note'])}</p></div>
+<div class="shell"><aside class="sidebar"><div class="edition-controls"><label for="language">{escape(ui['language'])}</label><select id="language" data-navigate autocomplete="off">{languages}</select><label for="version">{escape(ui['version'])}</label><select id="version" data-navigate autocomplete="off">{versions}</select><p class="edition-help">{escape(ui['editions_note'])}</p></div>
 <span class="version">{escape(edition['version'])} · Minecraft 1.21.1</span><label for="search">{escape(ui['search'])}</label><input id="search" type="search" placeholder="{escape(ui['placeholder'])}" autocomplete="off" aria-controls="search-results"><div id="search-status" role="status" aria-live="polite"></div><ul id="search-results" hidden></ul>
 <details open><summary>{escape(ui['explore'])}</summary><nav aria-label="{escape(ui['guides'])}">{nav}</nav></details></aside>
 <main id="main">{banner}{introduction}{spotlight}<article>{body}</article><nav class="pager" aria-label="{escape(ui['pager'])}">{pager}</nav><footer>{escape(ui['footer'])} · <a href="https://github.com/jvprz/SpectrobesReforged/issues">{escape(ui['report'])}</a></footer></main>

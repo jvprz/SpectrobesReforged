@@ -1,0 +1,47 @@
+{
+  "id": 22,
+  "key": "bartor",
+  "type": "aurora",
+  "stage": "child",
+  "range": 3,
+  "stats": {
+    "hp": {
+      "base": 48,
+      "max": 90,
+      "increment": 7
+    },
+    "attack": {
+      "base": 100,
+      "max": 138,
+      "increment": 5
+    },
+    "defense": {
+      "base": 50,
+      "max": 120,
+      "increment": 11
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "bartolor",
+    "minerals_required": 3
+  },
+  "textures": [
+    "entity/spectrobe/bartor/bartor_color_0",
+    "entity/spectrobe/bartor/bartor_color_1",
+    "entity/spectrobe/bartor/bartor_color_2"
+  ],
+  "model_status": "temporary_individual",
+  "sources": {
+    "stats": "https://spectrobes.fandom.com/wiki/Bartor",
+    "evolution": "https://spectrobes.fandom.com/wiki/Bartor",
+    "range": "wiki infobox Search; existing ranges are not recalculated"
+  }
+}

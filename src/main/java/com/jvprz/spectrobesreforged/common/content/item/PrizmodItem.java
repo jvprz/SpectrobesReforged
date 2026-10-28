@@ -1,7 +1,5 @@
 package com.jvprz.spectrobesreforged.common.content.item;
 
-import com.jvprz.spectrobesreforged.common.feature.prizmod.PrizmodSync;
-import com.jvprz.spectrobesreforged.common.feature.prizmod.menu.PrizmodMenuProvider;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -28,11 +26,8 @@ public class PrizmodItem extends Item {
         if (!level.isClientSide
                 && player instanceof ServerPlayer serverPlayer) {
 
-            PrizmodSync.sync(serverPlayer);
+            com.jvprz.spectrobesreforged.common.feature.prizmod.PrizmodAccess.open(serverPlayer);
 
-            serverPlayer.openMenu(
-                    new PrizmodMenuProvider()
-            );
         }
 
         return InteractionResultHolder.sidedSuccess(

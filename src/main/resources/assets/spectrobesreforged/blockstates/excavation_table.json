@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "spectrobesreforged:block/excavation_table"
+    },
+    "facing=east": {
+      "model": "spectrobesreforged:block/excavation_table",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "spectrobesreforged:block/excavation_table",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "spectrobesreforged:block/excavation_table",
+      "y": 270
+    }
+  }
+}

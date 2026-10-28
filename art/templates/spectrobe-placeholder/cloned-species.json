@@ -1,0 +1,25 @@
+{
+  "species": [
+    "aoi",
+    "bartor",
+    "danawa",
+    "dongor",
+    "gejio",
+    "grilda",
+    "harumi",
+    "kasumi",
+    "kubaku",
+    "masetto",
+    "mesa",
+    "mossari",
+    "nagu",
+    "samukabu",
+    "tenkro",
+    "zoza"
+  ],
+  "template_sha256": {
+    "template.geo.json": "2831e6eff5b2b8cd1d4e0e7e7c4c8df7abd539d255d09a90c8d7fed83c2d6e5e",
+    "template.animation.json": "1970cd0cdba0a02f62f94732255271b44e60167b2a3c32fa30449eab67a7ab46",
+    "template.png": "f85ff271ad13758b83e428feb26812c0c98bab8f301d898654e00b29aed65177"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "parent": "spectrobesreforged:feed",
+  "display": {
+    "icon": {
+      "id": "spectrobesreforged:power_c"
+    },
+    "title": {
+      "translate": "advancement.spectrobesreforged.spectrobe_level_10.title"
+    },
+    "description": {
+      "translate": "advancement.spectrobesreforged.spectrobe_level_10.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "completed": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "requirements": [
+    [
+      "completed"
+    ]
+  ]
+}

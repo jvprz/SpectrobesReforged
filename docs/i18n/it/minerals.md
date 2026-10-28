@@ -17,3 +17,14 @@ Piccone di ferro o superiore, nell’Overworld:
 {{MINERAL_ORES}}
 
 {{RECIPES}}
+
+
+## Livelli e XP
+
+L’integrità del fossile dà **+1% a 70–84, +2% a 85–94 e +3% a 95–100**, arrotondato per difetto per ogni statistica base. Uno scavo perfetto aggiunge una corona dorata permanente dopo il nome del fossile e dello Spectrobe risvegliato. Qualità e corona sono separate. Le vecchie voci senza qualità conservano le statistiche.
+
+I minerali C/B/A/A+ danno **10/20/40/60% di un livello**, oltre agli effetti esistenti. Gli altri minerali attivi danno 25%; Diamond/Evolve restano inattivi. Livello massimo: **100**. Le statistiche crescono entro i limiti della specie. Un minerale può dare XP anche con una statistica al massimo. Se non cambia né XP né statistiche, non viene consumato.
+
+I Child guadagnano XP mangiando. Un’incursione completata assegna una vittoria e fino a 60 XP agli Adult/Evolved vivi di ogni partecipante, ridotti dopo la sua morte. I Child non ricevono XP di battaglia. Questi contatori preparano l’evoluzione futura senza attivarla.
+
+Vedi [Prizmod](prizmod.md) per nutrire dalla collezione.

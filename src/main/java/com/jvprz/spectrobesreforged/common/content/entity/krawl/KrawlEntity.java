@@ -124,6 +124,7 @@ public class KrawlEntity extends PathfinderMob implements GeoEntity {
     }
 
     public KrawlDefinition getDefinition() {
+        if(level().isClientSide)return com.jvprz.spectrobesreforged.common.network.SyncedGameData.krawl(this.entityData.get(KRAWL_KEY));
 
         String syncedKey = this.entityData.get(KRAWL_KEY);
 
@@ -148,7 +149,8 @@ public class KrawlEntity extends PathfinderMob implements GeoEntity {
     }
 
     private RawAnimation animation(String name, boolean loop) {
-        String id = "animation." + getDefinition().key() + "." + name;
+        var current=getDefinition();
+        String id = "animation." + (current==null?"blova":current.key()) + "." + name;
 
         return loop
                 ? RawAnimation.begin().thenLoop(id)
@@ -172,7 +174,18 @@ public class KrawlEntity extends PathfinderMob implements GeoEntity {
         refreshDimensions();
     }
 
+    public void refreshDefinitionFromRegistry() {
+        if(level().isClientSide)return;
+        var updated=KrawlRegistry.getByKey(this.entityData.get(KRAWL_KEY));
+        if(updated!=null){
+            float previousHealth=getHealth();
+            setDefinition(updated);
+            setHealth(Math.min(previousHealth,getMaxHealth()));
+        }
+    }
+
     private void applyDefinitionStats() {
+        if(level().isClientSide)return;
         KrawlDefinition currentDefinition = getDefinition();
 
         if (currentDefinition == null) {

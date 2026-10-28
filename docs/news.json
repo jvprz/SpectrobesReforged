@@ -1,85 +1,85 @@
 {
-  "date": "2026-10-23",
+  "date": "2026-10-28",
   "items": [
     {
-      "href": "vortices.html",
+      "href": "vortices.html#encounter-rules",
       "en": [
-        "Vortices with more presence",
-        "Animated block model, dense black and violet gas, ground dust and smoother terrain following."
+        "Cooperative raids",
+        "Three enemies per participant, a shared raid bar and personal end rewards."
       ],
       "es": [
-        "Vórtices con más presencia",
-        "Modelo de bloques animado, gas negro y morado denso, polvo del suelo y seguimiento del terreno mejorado."
+        "Incursiones cooperativas",
+        "Tres enemigos por participante, barra compartida y premios personales al terminar."
       ],
       "fr": [
-        "Des vortex plus présents",
-        "Modèle animé en blocs, gaz noir et violet dense, poussière du sol et déplacement amélioré."
+        "Raids coopératifs",
+        "Trois ennemis par participant, barre commune et récompenses personnelles finales."
       ],
       "de": [
-        "Wirbel mit mehr Präsenz",
-        "Animiertes Würfelmodell, dichtes schwarzes und violettes Gas, Bodenstaub und verbesserte Geländebewegung."
+        "Kooperative Überfälle",
+        "Drei Gegner je Teilnehmer, gemeinsame Leiste und persönliche Endbelohnung."
       ],
       "it": [
-        "Vortici più presenti",
-        "Modello animato a cubi, gas nero e viola denso, polvere del suolo e movimento migliorato."
+        "Incursioni cooperative",
+        "Tre nemici a partecipante, barra condivisa e premi personali finali."
       ],
       "pt-BR": [
-        "Vórtices com mais presença",
-        "Modelo animado em blocos, gás preto e roxo denso, poeira do chão e movimento melhorado."
+        "Incursões cooperativas",
+        "Três inimigos por participante, barra compartilhada e prêmios pessoais finais."
       ]
     },
     {
-      "href": "vortices.html#krawl-by-biome",
+      "href": "getting-started.html#cooperative-excavation",
       "en": [
-        "Your biome changes the encounter",
-        "Corona in hot biomes, green Aurora in temperate biomes and blue Flash elsewhere."
+        "Cooperative excavation",
+        "Share a specimen, see other cursors and reserve tools while using them."
       ],
       "es": [
-        "El bioma cambia el encuentro",
-        "Corona en cálidos, Aurora verdes en templados y Flash azules en los demás."
+        "Excavación cooperativa",
+        "Compartid pieza, ved los cursores y reservad herramientas mientras las usáis."
       ],
       "fr": [
-        "Le biome change la rencontre",
-        "Corona dans les biomes chauds, Aurora verts dans les tempérés et Flash bleus ailleurs."
+        "Excavation coopérative",
+        "Partagez un spécimen, voyez les curseurs et réservez les outils utilisés."
       ],
       "de": [
-        "Das Biom bestimmt die Gegner",
-        "Corona in heißen, grüne Aurora in gemäßigten Biomen und blaue Flash anderswo."
+        "Kooperative Ausgrabung",
+        "Fundstück teilen, Zeiger sehen und benutzte Werkzeuge reservieren."
       ],
       "it": [
-        "Il bioma cambia l’incontro",
-        "Corona nei caldi, Aurora verdi nei temperati e Flash blu negli altri biomi."
+        "Scavo cooperativo",
+        "Reperto condiviso, cursori visibili e strumenti riservati durante l’uso."
       ],
       "pt-BR": [
-        "O bioma muda o encontro",
-        "Corona nos quentes, Aurora verdes nos temperados e Flash azuis nos demais."
+        "Escavação cooperativa",
+        "Peça compartilhada, cursores visíveis e ferramentas reservadas durante o uso."
       ]
     },
     {
-      "href": "vortices.html",
+      "href": "advancements.html",
       "en": [
-        "A reward worth finishing for",
-        "Complete the three-Krawl encounter for two tier-C minerals and 15 experience points."
+        "Shared excavation credit",
+        "Existing excavation milestones now recognize eligible workers; one output item remains."
       ],
       "es": [
-        "Una recompensa por completar el combate",
-        "Derrota a los tres Krawl para conseguir dos minerales C y 15 puntos de experiencia."
+        "Reconocimiento de excavación compartida",
+        "Los logros existentes reconocen a quienes colaboren; sigue habiendo un solo objeto de salida."
       ],
       "fr": [
-        "Une récompense pour la victoire",
-        "Vainquez les trois Krawl pour obtenir deux minéraux C et 15 points d’expérience."
+        "Crédit de fouille partagé",
+        "Les succès existants reconnaissent les participants admissibles ; un seul objet de sortie."
       ],
       "de": [
-        "Belohnung für den vollständigen Sieg",
-        "Besiege die drei Krawl für zwei C-Mineralien und 15 Erfahrungspunkte."
+        "Gemeinsame Ausgrabung anerkennen",
+        "Bestehende Erfolge zählen für berechtigte Helfer; weiterhin ein einzelnes Fundstück."
       ],
       "it": [
-        "Una ricompensa per la vittoria",
-        "Sconfiggi i tre Krawl per due minerali C e 15 punti esperienza."
+        "Credito di scavo condiviso",
+        "Gli obiettivi esistenti riconoscono i collaboratori idonei; sempre un solo oggetto."
       ],
       "pt-BR": [
-        "Uma recompensa pela vitória",
-        "Derrote os três Krawl para receber dois minerais C e 15 pontos de experiência."
+        "Crédito de escavação compartilhado",
+        "Avanços existentes reconhecem colaboradores elegíveis; continua havendo um só objeto."
       ]
     }
   ]

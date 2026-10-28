@@ -30,6 +30,9 @@ def references(root, language="en"):
         identifier = identifier.split(':')[-1]
         return names.get('item.spectrobesreforged.' + identifier, identifier.replace('_', ' ').title())
 
+    from item_cards import ItemCards
+    cards = ItemCards(root, language)
+
     species = sorted((load(p) for p in (resources / 'entity/spectrobe').glob('*.json')),
                      key=lambda s: s['key'])
     assert species, 'No species definitions found'
@@ -39,7 +42,7 @@ def references(root, language="en"):
     for s in species:
         values = [f"{s['stats'][key]['base']} → {s['stats'][key]['max']}"
                   for key in ['hp', 'attack', 'defense']]
-        stats.append([s['key'].capitalize(), s['type'].capitalize(), *values,
+        stats.append([cards.icon('spectrobesreforged:'+s['key']+'_fossil', False) + ' ' + s['key'].capitalize(), s['type'].capitalize(), *values,
                       str(s['range'] * 2) + ' blocks'])
         evolution = s['evolution']
         evolutions.append([s['key'].capitalize(), evolution['to'].capitalize(),
@@ -54,9 +57,18 @@ def references(root, language="en"):
     drops = []
     for element in ['corona', 'aurora', 'flash']:
         loot = load(resources / f'loot_table/blocks/{element}_fossil_ore.json')
-        fossils = [entry['name'] for pool in loot['pools'] for entry in pool['entries']
-                   if entry.get('name', '').endswith('_fossil')]
-        drops.append([element.capitalize(), ', '.join(item(f) + ' (`' + f.split(':')[-1] + '`)' for f in fossils)])
+        fossils = []
+        for pool in loot['pools']:
+            for entry in pool['entries']:
+                name = entry.get('name', '')
+                if name.startswith('spectrobesreforged:raw_'):
+                    for function in entry.get('functions', []):
+                        if function.get('function') == 'minecraft:set_custom_data':
+                            match = re.search(r'Fossil:"([a-z_]+)"', function.get('tag', ''))
+                            if match: fossils.append('spectrobesreforged:' + match[1] + '_fossil')
+                elif name.endswith('_fossil'):
+                    fossils.append(name)
+        drops.append([element.capitalize(), ', '.join(cards.icon(f) + ' (`' + f.split(':')[-1] + '`)' for f in fossils)])
 
     java = (root / 'src/main/java/com/jvprz/spectrobesreforged/common/registry/ModItems.java').read_text(encoding='utf-8')
     mineral_rows = []
@@ -66,7 +78,7 @@ def references(root, language="en"):
         assert len(values) == 3, identifier
         cells = ['MAX' if mode == 'MAX' else ('—' if value == 'null' else f'{int(value):+d}')
                  for value, mode in values]
-        mineral_rows.append([item(identifier), '`' + identifier + '`', *cells])
+        mineral_rows.append([cards.icon('spectrobesreforged:'+identifier), '`' + identifier + '`', *cells])
     assert mineral_rows, 'No mineral registrations found'
 
     ore_rows = []
@@ -75,19 +87,23 @@ def references(root, language="en"):
         placements = load(resources / f'worldgen/placed_feature/{identifier}.json')['placement']
         height = next(p['height'] for p in placements if p['type'] == 'minecraft:height_range')
         loot = load(resources / f'loot_table/blocks/{identifier}.json')
-        pool = [entry['name'] for p in loot['pools'] for entry in p['entries']
-                if entry.get('name') != 'spectrobesreforged:' + identifier]
+        pool = []
+        for loot_pool in loot['pools']:
+            for entry in loot_pool['entries']:
+                name = entry.get('name', '')
+                if name == 'spectrobesreforged:' + identifier:
+                    continue
+                result = None
+                for function in entry.get('functions', []):
+                    if function.get('function') == 'minecraft:set_custom_data':
+                        match = re.search(r'Mineral:"([a-z_]+)"', function.get('tag', ''))
+                        if match: result = match[1]
+                label = item(name) + (' → ' + item(result) if result else '')
+                if label not in pool: pool.append(label)
         ore_rows.append([tier.upper().replace('_PLUS', '+'),
                          f"{height['min_inclusive']['absolute']} to {height['max_inclusive']['absolute']}",
-                         ', '.join(item(v) for v in pool)])
+                         ', '.join(pool)])
 
-    recipes = []
-    for file in sorted((resources / 'recipe').glob('*.json')):
-        recipe = load(file)
-        if recipe['type'] != 'minecraft:crafting_shapeless' or 'prizmod' in recipe['result']['id']:
-            continue
-        recipes.append([item(recipe['result']['id']),
-                        ' + '.join(item(v['item']) for v in recipe['ingredients'])])
     krawl_rows = []
     for file in sorted((resources / 'entity/krawl').glob('*.json')):
         k = load(file)
@@ -100,13 +116,19 @@ def references(root, language="en"):
         'EVOLUTIONS': table(['Child', 'Configured target', 'Mineral threshold', 'Target definition'], evolutions),
         'MINERALS': table(['Mineral', 'Item ID', 'HP', 'Attack', 'Defense'], mineral_rows),
         'MINERAL_ORES': table(['Tier', 'Y range', 'Non-Silk-Touch drops'], ore_rows),
-        'RECIPES': table(['Result', 'Ingredients'], recipes),
+        'RECIPES': '<div class="recipe-gallery">' + ''.join(cards.recipe(p.stem) for p in sorted((resources / 'recipe').glob('*.json')) if 'prizmod' not in p.stem and p.stem not in ['incubator','excavation_table']) + '</div>',
+        'PRIZMOD_RECIPE': cards.recipe('white_prizmod'),
+        'INCUBATOR_RECIPE': cards.recipe('incubator'),
+        'EXCAVATION_RECIPE': cards.recipe('excavation_table'),
+        'DYE_RECIPES': cards.group('dye_'),
+        'ITEM_CREDITS': cards.credits(),
         'KRAWL': table(['Krawl', 'Element', 'Rank', 'HP', 'Attack', 'Armor'], krawl_rows)
     }
+    result.update({'TOOL_'+tool.upper(): cards.icon('spectrobesreforged:excavation_'+tool) for tool in ['drill','blower','recovery','piton','fire','water','vacuum','blower_s','giga','blast']})
     if language != 'en':
         terms = load(Path(__file__).parent / 'table_terms.json')[language]
         pattern = re.compile(r'\b(' + '|'.join(re.escape(k) for k in sorted(terms, key=len, reverse=True)) + r')\b')
-        result = {key: pattern.sub(lambda match: terms[match[0]], value) for key, value in result.items()}
+        result = {key: ''.join(part if part.startswith('<') else pattern.sub(lambda match: terms[match[0]], part) for part in re.split(r'(<[^>]*>)', value)) for key, value in result.items()}
     return result
 
 

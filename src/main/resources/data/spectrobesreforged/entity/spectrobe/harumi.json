@@ -1,0 +1,47 @@
+{
+  "id": 7,
+  "key": "harumi",
+  "type": "flash",
+  "stage": "child",
+  "range": 7,
+  "stats": {
+    "hp": {
+      "base": 45,
+      "max": 90,
+      "increment": 7
+    },
+    "attack": {
+      "base": 50,
+      "max": 95,
+      "increment": 6
+    },
+    "defense": {
+      "base": 120,
+      "max": 200,
+      "increment": 10
+    },
+    "move_speed": 4,
+    "charge_speed": 0,
+    "support": {
+      "attack": 0,
+      "defense": 0,
+      "speed": 0,
+      "charge": 0
+    }
+  },
+  "evolution": {
+    "to": "harumite",
+    "minerals_required": 5
+  },
+  "textures": [
+    "entity/spectrobe/harumi/harumi_color_0",
+    "entity/spectrobe/harumi/harumi_color_1",
+    "entity/spectrobe/harumi/harumi_color_2"
+  ],
+  "model_status": "temporary_individual",
+  "sources": {
+    "stats": "User supplied Spectrobes Wiki table, 2026-10-28; https://spectrobes.fandom.com/wiki/Harumi",
+    "evolution": "https://spectrobes.fandom.com/wiki/Evolution",
+    "range": "User supplied wiki infobox for Kasumi; wiki list/infobox for the other species"
+  }
+}

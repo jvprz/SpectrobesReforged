@@ -18,5 +18,6 @@ public final class ClientKeyEvents {
     @SubscribeEvent
     public static void registerKeys(RegisterKeyMappingsEvent event) {
         event.register(ModKeybinds.RANGE_SCAN);
+        event.register(ModKeybinds.OPEN_PRIZMOD);
     }
 }

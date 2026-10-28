@@ -9,7 +9,7 @@ public class KrawlModel extends GeoModel<KrawlEntity> {
 
     @Override
     public ResourceLocation getModelResource(KrawlEntity entity) {
-        String key = entity.getDefinition().key();
+        String key = entity.getDefinition()==null?"blova":entity.getDefinition().key();
 
         return ResourceLocation.fromNamespaceAndPath(
                 SpectrobesReforged.MODID,
@@ -19,7 +19,7 @@ public class KrawlModel extends GeoModel<KrawlEntity> {
 
     @Override
     public ResourceLocation getTextureResource(KrawlEntity entity) {
-        String key = entity.getDefinition().key();
+        String key = entity.getDefinition()==null?"blova":entity.getDefinition().key();
 
         return ResourceLocation.fromNamespaceAndPath(
                 SpectrobesReforged.MODID,
@@ -32,7 +32,7 @@ public class KrawlModel extends GeoModel<KrawlEntity> {
         return ResourceLocation.fromNamespaceAndPath(
                 SpectrobesReforged.MODID,
                 "animations/entity/krawl/" +
-                        entity.getDefinition().key() +
+                        (entity.getDefinition()==null?"blova":entity.getDefinition().key()) +
                         ".animation.json"
         );
     }

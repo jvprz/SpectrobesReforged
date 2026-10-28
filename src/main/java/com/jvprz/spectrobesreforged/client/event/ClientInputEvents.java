@@ -18,14 +18,19 @@ public final class ClientInputEvents {
 
     private ClientInputEvents() {}
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = net.neoforged.bus.api.EventPriority.HIGHEST)
     public static void onClientTick(ClientTickEvent.Post event) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null) return;
 
         while (ModKeybinds.RANGE_SCAN.consumeClick()) {
-            System.out.println("R pressed");
-            PacketDistributor.sendToServer(new C2STriggerSpectrobeRangeScan());
+            if(mc.screen==null)PacketDistributor.sendToServer(new C2STriggerSpectrobeRangeScan());
+        }
+        while (ModKeybinds.OPEN_PRIZMOD.consumeClick()) {
+            if(mc.screen!=null)continue;
+            if(com.jvprz.spectrobesreforged.common.compat.OptionalEquipment.hasCurios()
+                    &&com.jvprz.spectrobesreforged.client.compat.CuriosKeys.routeToEquipment(mc.player,ModKeybinds.OPEN_PRIZMOD))continue;
+            PacketDistributor.sendToServer(new com.jvprz.spectrobesreforged.common.network.C2SOpenPrizmod());
         }
     }
 }

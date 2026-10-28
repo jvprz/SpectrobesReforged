@@ -31,7 +31,7 @@
   },
   "evolution": {
     "to": "segulos",
-    "minerals_required": 3
+    "minerals_required": 4
   },
   "textures": [
     "entity/spectrobe/segu/segu_color_0",
