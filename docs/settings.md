@@ -59,3 +59,11 @@ Curios also defaults to G. With both actions on the same key, G opens equipment 
 ## HUD layout and beta feedback
 
 Open **Mods → Spectrobes Reforged → Config → Configure HUD**. Drag the preview, scroll to resize (50–150%), toggle the panel or team slots, or reset. Preferences also expose horizontal/vertical percentages and scale; these settings are local and survive restarts. The default size is 85%. Use **Share feedback on Discord** to open the invitation after confirmation. A beta-only local chat message appears once when joining a world/server, with a clickable Discord invitation. It is not broadcast and does not repeat on respawn or dimension changes. Use the vertical HUD toggle for a team column; resize with the − / + buttons or the wheel.
+
+
+## Latest experimental builds
+
+The client preference **Show medals beside Spectrobe names** hides or shows name badges locally. Separate medal slots and saved medal data remain available.
+
+
+During play, press **Escape → Spectrobes** to open HUD settings, client preferences and feedback directly. Preferences opens only the client configuration. **Scanner volume** adjusts scanner sounds independently of the mod effects volume; Minecraft sound-category volumes still apply. Scanner pings are quieter and grouped within six ticks to avoid stacking sounds from nearby discoveries.

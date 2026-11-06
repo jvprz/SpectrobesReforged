@@ -5,7 +5,10 @@
       "Name": "minecraft:mud"
     },
     "ore": {
-      "Name": "spectrobesreforged:muddy_a_mineral_ore"
+      "Name": "spectrobesreforged:muddy_aurorium_ore",
+      "Properties": {
+        "grade": "2"
+      }
     },
     "biome_tag": "spectrobesreforged:excavation/muddy"
   }

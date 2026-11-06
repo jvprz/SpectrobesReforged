@@ -27,7 +27,9 @@ O companheiro aceita um Child vivo. Os seis espaços da equipe aceitam Adult/Evo
 
 A integridade do fóssil concede **+1% com 70–84, +2% com 85–94 e +3% com 95–100**, arredondando cada atributo base para baixo. Uma escavação perfeita adiciona uma coroa dourada permanente após o nome do fóssil e do Spectrobe desperto. Qualidade e coroa são salvas separadamente. Entradas antigas sem qualidade mantêm seus atributos.
 
-Minerais C/B/A/A+ dão **10/20/40/60% de um nível**, além dos efeitos existentes. Outros minerais ativos dão 25%; Diamond/Evolve continuam inativos. Nível máximo: **100**. Os atributos crescem até o limite da espécie. Um mineral ainda pode dar XP com seu atributo no máximo. Se nem XP nem atributos mudarem, ele não é consumido.
+Elementais C/B/A/A+/S dão **10/20/40/60/100% base** com afinidade igual, metade com outra, antes da curva de nível. Power/Defense/Health treinam apenas atributos e não dão XP. Outros minerais mantêm os efeitos.
+
+A eficiência dos minerais diminui gradualmente: **nível 1 → 100%, 25 → 80%, 50 → 60%, 75 → 45%, 100 → 35%** da porcentagem base. Um mineral base de 10% dá cerca de 6% no nível 50, arredondado para XP inteira acima. Após subir de nível, o restante usa a nova eficiência. Efeitos nos atributos, contador de minerais e XP de combate permanecem iguais. No nível máximo 100 não há mais ganho de XP.
 
 Children ganham XP pela alimentação. Concluir uma incursão dá uma vitória e até 60 XP aos Adult/Evolved vivos de cada participante, reduzidos após a morte desse jogador. Children não recebem XP de batalha. Esses contadores preparam a futura evolução sem ativá-la.
 
@@ -66,3 +68,14 @@ Companheiros Child não recebem dano de combate ou ambiental, incluindo flechas,
 ## HUD do companheiro e da equipe
 
 Um Child equipado mostra um painel compacto no canto superior esquerdo com retrato, medalhas, nível e XP. Seis espaços numerados representam a equipe; Adult/Evolved atribuídos mostram retrato e PV. Espaços vazios não ativam evolução nem combate. A tecla Prizmod segue os controles. Oculto com F1, depuração, menus, espectador ou sem companheiro e equipe.
+
+
+## Últimas versões de teste
+
+As medalhas têm espaços separados junto à visualização 3D. Passe o cursor em cada ícone para saber como foi obtida. Elas não cobrem mais os retratos.
+
+### Minerais e descobertas — teste experimental 14
+
+Elementais C/B/A/A+/S dão **10/20/40/60/100% base** com afinidade igual, metade com outra, antes da curva de nível. Power/Defense/Health treinam apenas atributos e não dão XP. Outros minerais mantêm os efeitos.
+
+Sementes: ATQ +1, DEF +1, PV +10. Limite compartilhado acumulável de uma semente por nível, máximo 100, respeitando a espécie; nenhuma XP. Evolve M completa minerais, L o nível definido, B as batalhas definidas. Requisito ausente ou já completo: sem consumo. Os Child atuais só exigem minerais. Sem evolução automática.

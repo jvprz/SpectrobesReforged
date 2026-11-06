@@ -17,9 +17,22 @@ import java.util.concurrent.CompletableFuture;
 @EventBusSubscriber(modid=SpectrobesReforged.MODID,value=Dist.CLIENT)
 public final class ClientSoundPreferences {
     private ClientSoundPreferences() {}
+    private static final com.jvprz.spectrobesreforged.common.feature.audio.SoundCooldown SCANNER_PINGS=
+            new com.jvprz.spectrobesreforged.common.feature.audio.SoundCooldown(6);
+    @SubscribeEvent public static void logout(net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent.LoggingOut event) {
+        SCANNER_PINGS.reset();
+    }
+
     @SubscribeEvent public static void sound(PlaySoundEvent event){
         SoundInstance sound=event.getSound();
         if(sound==null||!sound.getLocation().getNamespace().equals(SpectrobesReforged.MODID))return;
+        String path=sound.getLocation().getPath();
+        if(path.equals("scanner_found")) {
+            var level=net.minecraft.client.Minecraft.getInstance().level;
+            if(level!=null) {
+                if(!SCANNER_PINGS.accept(level.getGameTime())){event.setSound(null);return;}
+            }
+        }
         if(ClientConfig.volume()<=0 || (sound.getLocation().getPath().startsWith("scanner_")&&!ClientConfig.scanSounds())){
             event.setSound(null);return;
         }
@@ -36,7 +49,7 @@ public final class ClientSoundPreferences {
         public boolean isLooping(){return source.isLooping();}
         public boolean isRelative(){return source.isRelative();}
         public int getDelay(){return source.getDelay();}
-        public float getVolume(){return source.getVolume()*ClientConfig.volume();}
+        public float getVolume(){return source.getVolume()*ClientConfig.volume()*com.jvprz.spectrobesreforged.common.feature.audio.ModSoundBalance.gain(source.getLocation().getPath())*(source.getLocation().getPath().startsWith("scanner_")?ClientConfig.scannerVolume():1);}
         public float getPitch(){return source.getPitch();}
         public double getX(){return source.getX();}
         public double getY(){return source.getY();}

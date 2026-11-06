@@ -58,34 +58,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "spectrobesreforged:mud_raw_a_mineral",
-          "weight": 1,
+          "name": "spectrobesreforged:mud_raw_aurorium_mineral",
           "functions": [
             {
               "function": "minecraft:set_custom_data",
-              "tag": "{Mineral:\"power_a\",ExcavationTerrain:5,ExcavationRock:3}"
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "spectrobesreforged:mud_raw_a_mineral",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:set_custom_data",
-              "tag": "{Mineral:\"defense_a\",ExcavationTerrain:5,ExcavationRock:3}"
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "spectrobesreforged:mud_raw_a_mineral",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:set_custom_data",
-              "tag": "{Mineral:\"health_a\",ExcavationTerrain:5,ExcavationRock:3}"
+              "tag": "{Mineral:\"aurorium_a\",ExcavationTerrain:5,ExcavationRock:3}"
             }
           ]
         }

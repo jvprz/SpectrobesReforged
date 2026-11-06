@@ -3,7 +3,7 @@
 	"minecraft:geometry": [
 		{
 			"description": {
-				"identifier": "geometry.unknown",
+				"identifier": "geometry.komainu",
 				"texture_width": 64,
 				"texture_height": 64,
 				"visible_bounds_width": 2,
@@ -13,16 +13,16 @@
 			"bones": [
 				{
 					"name": "root",
-					"pivot": [0, 0, 0]
-				},
-				{
-					"name": "body",
-					"parent": "root",
 					"pivot": [0, 0, 0],
 					"cubes": [
 						{"origin": [-3, 4, -3], "size": [6, 6, 10], "uv": [0, 0]},
 						{"origin": [-4, 5, 2], "size": [8, 5, 5], "uv": [0, 45]}
 					]
+				},
+				{
+					"name": "body",
+					"parent": "root",
+					"pivot": [0, 0, 0]
 				},
 				{
 					"name": "head",
@@ -38,12 +38,27 @@
 					]
 				},
 				{
+					"name": "eyes",
+					"parent": "head",
+					"pivot": [0, 0, 0],
+					"cubes": [
+						{"origin": [-3.9, 11, -8.1], "size": [3, 2, 2], "uv": [54, 0]},
+						{"origin": [0.9, 11, -8.1], "size": [3, 2, 2], "uv": [54, 0]}
+					]
+				},
+				{
 					"name": "mouth",
 					"parent": "head",
 					"pivot": [0, 10, -5],
 					"cubes": [
-						{"origin": [-4, 8, -7.5], "size": [8, 2, 4], "pivot": [0, 10, -5], "rotation": [15, 0, 0], "uv": [30, 55]}
+						{"origin": [-3.9, 8, -7.5], "size": [7.8, 2, 4], "pivot": [-0.1, 10, -5], "rotation": [15, 0, 0], "uv": [31, 55]}
 					]
+				},
+				{
+					"name": "item",
+					"parent": "mouth",
+					"pivot": [0, 10, -7],
+					"rotation": [27.5, 0, 0]
 				},
 				{
 					"name": "leg_fl",
@@ -66,7 +81,7 @@
 					"parent": "root",
 					"pivot": [0, 7, 5],
 					"cubes": [
-						{"origin": [-4, 0, 4], "size": [3, 7, 3], "uv": [30, 32]}
+						{"origin": [-3.9, 0, 3.9], "size": [3, 7, 3], "uv": [30, 32]}
 					]
 				},
 				{
@@ -74,7 +89,7 @@
 					"parent": "root",
 					"pivot": [0, 7, 5],
 					"cubes": [
-						{"origin": [1, 0, 4], "size": [3, 7, 3], "uv": [32, 22]}
+						{"origin": [0.9, 0, 3.9], "size": [3, 7, 3], "uv": [32, 22]}
 					]
 				}
 			]

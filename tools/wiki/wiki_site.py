@@ -27,6 +27,20 @@ NAV_SECTIONS = [
 ['awakening','prizmod','spectrobes','gallery','minerals','advancements'],
 ['settings','troubleshooting','commands','about']]
 
+def news_visual(kind, asset):
+    def image(path, css, size):
+        return f'<img class="{css}" src="{escape(asset+"/"+path,quote=True)}" alt="" width="{size}" height="{size}" loading="lazy">'
+    if kind=='hud':
+        artwork='<span class="news-hud-preview">'+image('items/item/prizmod/white_prizmod.png','news-prizmod',40)+'<span class="news-hud-lines"><i></i><i></i><i></i></span><span class="news-hud-slots">'+('<i></i>'*6)+'</span></span>'+image('gallery/komainu/0.png','news-companion',160)
+    elif kind=='raid':
+        artwork='<span class="news-raid-bar"><i></i></span>'+image('gallery/krawl/viblova.png','news-krawl-left',160)+image('gallery/krawl/blovant.png','news-krawl-right',160)+image('gallery/krawl/blova.png','news-krawl-center',160)
+    elif kind=='excavation':
+        artwork=image('items/rendered/spectrobesreforged/excavation_table.png','news-table',64)+image('items/item/excavation/drill.png','news-tool-left',32)+image('items/item/excavation/blower.png','news-tool-right',32)+image('gallery/medals/coop.png','news-coop',24)
+    else:
+        return ''
+    return '<span class="news-visual news-visual-'+kind+'" aria-hidden="true">'+artwork+'</span>'
+
+
 def grouped_navigation(navigation, slug, language):
     by_slug={p['slug']:p for p in navigation};groups=[]
     for number,keys in enumerate(NAV_SECTIONS):
@@ -43,13 +57,16 @@ def grouped_navigation(navigation, slug, language):
 
 def render(root, docs, output, references, validate):
     version = re.search(r'^mod_version=(.+)$', (root / 'gradle.properties').read_text(encoding='utf-8'), re.M)[1].strip()
+    from creature_pages import detail_pages
     editions = []
     for language in LANGUAGE_NAMES:
         directory = docs if language == 'en' else docs / 'i18n' / language
         navigation = json.loads((directory / 'navigation.json').read_text(encoding='utf-8'))
-        editions.append(dict(version=version, language=language, navigation=navigation,
-            pages={p['slug']: (directory / (p['slug']+'.md')).read_text(encoding='utf-8') for p in navigation},
-            folder=output if language == 'en' else output / language, archived=False))
+        details=detail_pages(root,language)
+        pages={p['slug']: (directory / (p['slug']+'.md')).read_text(encoding='utf-8') for p in navigation}
+        pages.update({page['slug']:page['source'] for page in details})
+        editions.append(dict(version=version, language=language, navigation=navigation, details=details,
+            pages=pages,folder=output if language == 'en' else output / language, archived=False))
     for file in sorted((docs / 'versions').glob('*.json'), reverse=True):
         snapshot = json.loads(file.read_text(encoding='utf-8'))
         assert re.fullmatch(r'[a-zA-Z0-9.-]+', snapshot['version'])
@@ -86,7 +103,9 @@ def render(root, docs, output, references, validate):
         def destination(other, slug):
             actual = slug if slug in other['pages'] else 'index'
             return relative(other['folder'] / (actual+'.html'), folder)
-        for position, page in enumerate(navigation):
+        for page in navigation+edition.get('details',[]):
+            siblings=[p for p in edition['details'] if p['parent']==page['parent']] if page.get('parent') else navigation
+            position=siblings.index(page)
             slug = page['slug']; assert re.fullmatch(r'[a-z0-9-]+', slug)
             source = edition['pages'][slug]
             if not edition['archived']:
@@ -106,8 +125,8 @@ def render(root, docs, output, references, validate):
                 content = re.sub(r'<td>(Corona|Aurora|Flash)</td>', lambda m: '<td><span class="element-badge '+m[1].lower()+'">'+m[1]+'</span></td>', content)
                 return '<div class="table-scroll" tabindex="0" role="region" aria-label="'+escape(page['title'], quote=True)+'">'+content+'</div>'
             body = re.sub(r'<table>.*?</table>', table_region, body, flags=re.S)
-            nav = grouped_navigation(navigation,slug,language)
-            pager=''.join(f'<a href="{p["slug"]}.html">{label} {escape(p["title"])}</a>' for p,label in [(navigation[position-1] if position else None,'←'),(navigation[position+1] if position+1<len(navigation) else None,ui['next'])] if p)
+            nav = grouped_navigation(navigation,page.get('parent',slug),language)
+            pager=''.join(f'<a href="{p["slug"]}.html">{label} {escape(p["title"])}</a>' for p,label in [(siblings[position-1] if position else None,'←'),(siblings[position+1] if position+1<len(siblings) else None,ui['next'])] if p)
             languages = ''.join(f'<option data-language="{e["language"]}" value="{destination(e,slug)}"'+(' selected' if e is edition else '')+f'>{escape(LANGUAGE_NAMES[e["language"]])}{" · "+version if edition["archived"] else ""}</option>' for e in editions if not e['archived'])
             if edition['archived']: languages=f'<option selected data-language="en" value="{slug}.html">English · {escape(edition["version"])}</option>'+languages
             choices=[e for e in editions if e['language']==language and not e['archived']]+[e for e in editions if e['archived']]
@@ -118,7 +137,7 @@ def render(root, docs, output, references, validate):
                 banner=f'<aside class="archive-notice"><strong>{escape(ui["archive"])}</strong> {escape(edition["version"])} · {escape(ui["archive_note"])} <a href="{destination(latest,slug)}">{escape(ui["latest"])}</a></aside>'
             spotlight=''
             if slug=='index' and not edition['archived']:
-                cards=''.join(f'<a class="news-card" href="{escape(n["href"])}"><strong>{escape(n[language][0])}</strong><span>{escape(n[language][1])}</span><span class="news-arrow" aria-hidden="true">↗</span></a>' for n in news['items'])
+                cards=''.join(f'<a class="news-card" href="{escape(n["href"])}">{news_visual(n.get("visual"),asset)}<span class="news-copy"><strong>{escape(n[language][0])}</strong><span class="news-description">{escape(n[language][1])}</span></span></a>' for n in news['items'])
                 spotlight=f'<section class="release-spotlight" aria-labelledby="news-title"><div class="release-meta"><span>{escape(ui["news"])}</span><time datetime="{news["date"]}">{news["date"]}</time></div><h2 id="news-title">{escape(ui["release"])} {escape(version)}</h2><div class="news-grid">{cards}</div></section>'
             is_home = slug == 'index' and not edition['archived']
             introduction = ''
@@ -127,6 +146,19 @@ def render(root, docs, output, references, validate):
                 if match:
                     introduction = '<div class="home-intro">' + match[1] + '</div>'
                     body = body[match.end():]
+            article_attributes=' class="creature-profile" data-creature-profile' if page.get('parent') else ''
+            close_label={'en':'Close navigation','es':'Cerrar navegación','fr':'Fermer la navigation','de':'Navigation schließen','it':'Chiudi navigazione','pt-BR':'Fechar navegação'}[language]
+            contents_label={'en':'Contents','es':'Contenido','fr':'Sommaire','de':'Inhalt','it':'Indice','pt-BR':'Conteúdo'}[language]
+            chevron='<svg class="chevron" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="m5.5 7.5 4.5 4.5 4.5-4.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+            close_icon='<svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
+            page_tools=f''' <div class="page-tools"><div class="tool-control"><label for="language">{escape(ui['language'])}</label><span class="select-shell"><select id="language" data-navigate autocomplete="off">{languages}</select>{chevron}</span></div><div class="tool-control"><label for="version">{escape(ui['version'])}</label><span class="select-shell"><select id="version" data-navigate autocomplete="off">{versions}</select>{chevron}</span></div><details class="contents-popover"><summary><span>{escape(contents_label)}</span>{chevron}</summary><nav aria-label="{escape(ui['contents'])}">{md.toc}</nav></details><span class="tools-game-version">Minecraft 1.21.1</span></div>'''
+            # Preserve the original body used by search; presentation only decorates its heading.
+            display_body=body.replace('</h1>','</h1>'+page_tools,1)
+            if introduction:introduction=introduction.replace('</h1>','</h1>'+page_tools,1)
+            if slug=='spectrobes' and not edition['archived']:
+                figure=f'<a class="article-illustration" href="gallery.html#species-komainu"><img src="{asset}/gallery/komainu/0.png" alt="Komainu" width="160" height="160"></a>'
+                display_body=display_body.replace(page_tools,page_tools+figure,1)
+            breadcrumb = escape(ui['home']) if slug=='index' else f'<a href="index.html">{escape(ui["home"])}</a><span aria-hidden="true">/</span><span>{escape(page["label"])}</span>'
             ui_json=json.dumps(ui,ensure_ascii=False).replace('<','\\u003c')
             html=f'''<!doctype html>
 <html lang="{language}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -134,17 +166,18 @@ def render(root, docs, output, references, validate):
 <meta name="description" content="{escape(page['title'])} · Spectrobes Reforged {escape(edition['version'])}">
 <meta name="theme-color" content="#101114"><link rel="icon" href="{asset_url('icon.png')}" type="image/png">
 <script>window.WIKI_UI={ui_json};</script><script src="{asset_url('theme.js')}"></script><link rel="stylesheet" href="{asset_url('wiki.css')}">
-<script src="assets/search-data.__SEARCH_HASH__.js" defer></script><script src="{asset_url('search.js')}" defer></script><script src="{asset_url('navigation.js')}" defer></script></head>
+<script src="assets/search-data.__SEARCH_HASH__.js" defer></script><script src="{asset_url('search.js')}" defer></script><script src="{asset_url('navigation.js')}" defer></script><script src="{asset_url('creatures.js')}" defer></script></head>
 <body data-archived="{str(edition['archived']).lower()}" class="{'home-page' if is_home else 'guide-page'}"><a class="skip" href="#main">{escape(ui['skip'])}</a>
-<header class="topbar"><a class="brand" href="index.html"><img class="brand-icon" src="{asset_url('icon.png')}" alt="" width="48" height="48"><span>SPECTROBES REFORGED<small>{escape(ui['field'])}</small></span></a>
+<header class="topbar"><div class="topbar-inner"><button id="wiki-menu-toggle" class="menu-toggle" type="button" aria-controls="wiki-navigation" aria-expanded="false" aria-label="{escape(NAV_LABELS[language][4])}" hidden><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button><a class="brand" href="index.html"><img class="brand-icon" src="{asset_url('icon.png')}" alt="" width="48" height="48"><span>Spectrobes Reforged<small>Wiki</small></span></a>
+<div class="header-search"><label class="sr-only" for="search">{escape(ui['search'])}</label><input id="search" type="search" placeholder="{escape(ui['search'])}" autocomplete="off" aria-controls="search-results"><div id="search-status" role="status" aria-live="polite"></div><ul id="search-results" hidden></ul></div>
 <div class="header-links"><button id="theme-toggle" type="button" hidden>{escape(ui['theme'])}</button>
 <a class="icon-link" href="https://www.curseforge.com/minecraft/mc-mods/spectrobes-reforged" aria-label="{escape(ui['download'])}" title="{escape(ui['download'])}"><img src="{asset_url('download.svg')}" alt="" width="22" height="22"><span>{escape(ui['download'])}</span></a>
-<a class="icon-link" href="https://discord.gg/7QkScUWBe9" aria-label="Discord" title="Discord"><img src="{asset_url('discord.svg')}" alt="" width="24" height="24"><span>Discord</span></a></div></header>
-<div class="shell"><aside class="sidebar"><label for="search">{escape(ui['search'])}</label><input id="search" type="search" placeholder="{escape(ui['placeholder'])}" autocomplete="off" aria-controls="search-results"><div id="search-status" role="status" aria-live="polite"></div><ul id="search-results" hidden></ul>
-<details class="guide-menu" open><summary><span aria-hidden="true">☰</span> {escape(NAV_LABELS[language][4])}<small>{escape(page['label'])}</small></summary>{nav}</details>
-<div class="reading-options"><h2>{escape(NAV_LABELS[language][5])}</h2><div class="edition-controls"><label for="language">{escape(ui['language'])}</label><select id="language" data-navigate autocomplete="off">{languages}</select><label for="version">{escape(ui['version'])}</label><select id="version" data-navigate autocomplete="off">{versions}</select><p class="edition-help">{escape(ui['editions_note'])}</p></div><span class="version">{escape(edition['version'])} · Minecraft 1.21.1</span></div></aside>
-<main id="main">{banner}{introduction}{spotlight}<article>{body}</article><nav class="pager" aria-label="{escape(ui['pager'])}">{pager}</nav><footer>{escape(ui['footer'])} · <a href="https://github.com/jvprz/SpectrobesReforged/issues">{escape(ui['report'])}</a></footer></main>
-<aside class="contents"><span>{escape(ui['contents'])}</span><nav aria-label="{escape(ui['contents'])}">{md.toc}</nav></aside></div></body></html>'''
+<a class="icon-link" href="https://discord.gg/7QkScUWBe9" aria-label="Discord" title="Discord"><img src="{asset_url('discord.svg')}" alt="" width="24" height="24"><span>Discord</span></a></div></div></header>
+<button id="wiki-nav-backdrop" class="nav-backdrop" type="button" aria-label="{escape(close_label)}" hidden></button><div class="shell"><aside class="sidebar" id="wiki-navigation" role="dialog" aria-modal="true" aria-label="{escape(NAV_LABELS[language][4])}"><div class="drawer-heading"><div class="drawer-title"><img src="{asset_url('icon.png')}" alt="" width="32" height="32"><span><strong>{escape(NAV_LABELS[language][4])}</strong><small>Spectrobes Reforged</small></span></div><button id="wiki-menu-close" type="button" aria-label="{escape(close_label)}">{close_icon}</button></div>
+<div class="drawer-scroll"><details class="guide-menu" open><summary><span aria-hidden="true">☰</span> {escape(NAV_LABELS[language][4])}<small>{escape(page['label'])}</small></summary>{nav}</details></div>
+<div class="reading-options"><span class="version">{escape(edition['version'])} · Minecraft 1.21.1</span><p class="edition-help">{escape(ui['editions_note'])}</p></div></aside>
+<main id="main"><div class="page-context">{breadcrumb}<span class="page-edition">{escape(edition['version'])} · Minecraft 1.21.1</span></div>{banner}{introduction}{spotlight}<article{article_attributes}>{display_body}</article><nav class="pager" aria-label="{escape(ui['pager'])}">{pager}</nav><footer>{escape(ui['footer'])} · <a href="https://github.com/jvprz/SpectrobesReforged/issues">{escape(ui['report'])}</a></footer></main>
+</div></body></html>'''
             rendered_pages[slug] = html
             search.append(dict(title=page['title'],url=slug+'.html',text=re.sub(r'\s+',' ',re.sub(r'<[^>]+>',' ',body)).strip()))
         search_js = 'window.WIKI_SEARCH=' + json.dumps(search,ensure_ascii=False).replace('</','<\\/') + ';\n'

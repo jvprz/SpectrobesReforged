@@ -1,5 +1,7 @@
 # Fossils and exploration
 
+Geological pockets now remain fully buried, with at least two untouched cover blocks. Placement avoids exposed surfaces, cliffs, cave walls and water boundaries. Sandstone ores retain their authored side texture and use vanilla sandstone top and bottom faces. The Child scanner recognizes every current fossil and mineral ore host.
+
 **Experimental in 0.6.2-beta.3:** newly mined fossil ore gives a raw specimen. Excavate it at a table before using the identified fossil in the incubator. Existing clean fossils still work. See [the excavation playtest](getting-started.md#excavation). The table below lists the possible identified results, not direct raw-item drops.
 
 Fossil ores generate underground in selected Overworld biomes. Use an **iron pickaxe or better**: the bundled mining tags require an iron-tier tool.

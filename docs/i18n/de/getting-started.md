@@ -47,19 +47,18 @@ Stein, Erde und Deckschichten nutzen Minecraft-Blocktexturen. Heller loser Staub
 
 ### Geologische Taschen — 0.6.2-beta.6
 
-Umgebungsvorkommen erzeugen nun eine kleine vergrabene Tasche mit einem zentralen Erz. Eis (Flash) nur in verschneiten/gefrorenen Biomen; Sandstein (Corona) nur in der Wüste; roter Sandstein (Corona) in den drei Tafelbergvarianten; Schlamm (Aurora) nur in Sumpf und Mangrovensumpf. Alle vier Familien enthalten C/B/A/A+-Mineralien. Taschen sind 5–7 Blöcke breit und 3–5 hoch, ihr Zentrum liegt 2–6 Blöcke unter der Oberfläche. Nur erlaubter natürlicher Boden wird ersetzt, niemals Luft, Flüssigkeiten, andere Erze oder Stämme. Die zentrale Hülle muss in festen Boden und das passende Biom passen.
+Umgebungsvorkommen erzeugen nun eine kleine vergrabene Tasche mit einem zentralen Erz. Eis (Flash) nur in verschneiten/gefrorenen Biomen; Sandstein (Corona) nur in der Wüste; roter Sandstein (Corona) in den drei Tafelbergvarianten; Schlamm (Aurora) nur in Sumpf und Mangrovensumpf. Alle vier Familien enthalten C/B/A/A+-Mineralien. Taschen sind 5–7 Blöcke breit und 3–5 hoch, ihr Zentrum liegt 5–9 Blöcke unter der Oberfläche. Nur erlaubter natürlicher Boden wird ersetzt, niemals Luft, Flüssigkeiten, andere Erze oder Stämme. Die zentrale Hülle muss in festen Boden und das passende Biom passen.
 
 | ID | Fósil / Fossil | C / B / A / A+ |
 | --- | --- | --- |
-| `frozen` | `frozen_flash_fossil_ore` | `frozen_{c,b,a,a_plus}_mineral_ore` |
-| `sandy` | `sandy_corona_fossil_ore` | `sandy_{c,b,a,a_plus}_mineral_ore` |
-| `red_sandy` | `red_sandy_corona_fossil_ore` | `red_sandy_{c,b,a,a_plus}_mineral_ore` |
-| `muddy` | `muddy_aurora_fossil_ore` | `muddy_{c,b,a,a_plus}_mineral_ore` |
+| `frozen` | `frozen_flash_fossil_ore` | `frozen_flashium_ore` |
+| `sandy` | `sandy_corona_fossil_ore` | `sandy_coronium_ore` |
+| `red_sandy` | `red_sandy_corona_fossil_ore` | `red_sandy_coronium_ore` |
+| `muddy` | `muddy_aurora_fossil_ore` | `muddy_aurorium_ore` |
 
 Fossilien: 2 Versuche pro Chunk. Mineralien: C 1/2, B 1/4, A 1/12, A+ 1/32. Versuche können scheitern. Nur neue Chunks; normale temperaturabhängige Untergrunderze bleiben bestehen. Rohfunde behalten ihre rote Geologie und alte Grabungen ihre gespeicherten Schichten.
 
 
-Die zehn Ausgrabungswerkzeuge sind auch als Gegenstände im Kreativ-Werkzeugtab verfügbar (`excavation_drill`, `excavation_blower` usw.). Rezepte und Einsatz als Tischzutaten folgen später; der Tisch stellt seine Werkzeuge weiterhin ohne Inventargegenstände bereit.
 
 
 {{ITEM_CREDITS}}
@@ -84,7 +83,7 @@ Inventar öffnen und die **Curios-Ausrüstungsschaltfläche** wählen. Eine der 
 Es gibt **ein Ergebnis**, das einmal entnommen wird. Jeder berechtigte Helfer erhält einmal Ausgrabungs-EP und Entdeckungsnachweis; Zuschauen zählt nicht. Schließen speichert den Fortschritt. Der Server prüft Reservierungen, Entfernung und Aktionen. [Überfallregeln](vortices.md#encounter-rules).
 
 
-Zwei verschiedene Spieler müssen erfolgreich Werkzeuge am selben Fundstück benutzen, um das türkise Koop-Andenken ⚒ zu erhalten. Nur Öffnen zählt nicht. Es bleibt am gereinigten Fossil oder Mineral und am erweckten Spectrobe neben einer möglichen Krone. Keine Änderung von Werten, EP oder Belohnungen.
+Zwei verschiedene Spieler müssen erfolgreich Werkzeuge am selben Fundstück benutzen, um das Koop-Andenken <img class="medal-icon" src="__GALLERY_ASSETS__/medals/coop.png" alt="Koop-Medaille" width="16" height="16"> zu erhalten. Nur Öffnen zählt nicht. Es bleibt am gereinigten Fossil oder Mineral und am erweckten Spectrobe neben einer möglichen Krone. Keine Änderung von Werten, EP oder Belohnungen.
 
 
 [Gemeinsame Ausgrabung anerkennen](advancements.md): Wer erfolgreich ein Werkzeug am Fundstück benutzt hat und bei der Entnahme lebend, online und höchstens 8 Blöcke entfernt ist, erhält die passenden bestehenden Erfolge für manuelle Ausgrabung, perfekte Funde und Gelände. Jeder berechtigte Helfer erhält eine Entdeckung, den Katalogeintrag und normale Fertigkeits-EP; 10/100 Funde und Stufe 5 bleiben persönliche Schwellen. Auch der Entnehmende erhält Fortschritt. Zuschauen zählt nicht. Reparatur zählt für den Benutzer des Reparaturwerkzeugs; Erwecken und Training bleiben persönlich. Automatische Entnahme gibt keinen manuellen Fortschritt. Weiterhin nur ein Fundstück, kein neuer Koop-Erfolg.
@@ -93,9 +92,26 @@ Zwei verschiedene Spieler müssen erfolgreich Werkzeuge am selben Fundstück ben
 Der neue Tisch richtet sich zum platzierenden Spieler aus. Der gereinigte Fund hat Vorrang in der Vertiefung. Ein Rohfund kann im Eingang warten, wird aber erst nach Entnahme der Ausgabe bearbeitet; ein leerer Tisch zeigt nichts.
 
 
-Die Symbole heißen **Perfekt-Medaille** (♛) und **Koop-Medaille** (⚒). Der Gegenstand zeigt nur die Namen; die Bedingungen stehen in diesem Leitfaden.
+Die Symbole heißen **Perfekt-Medaille** (<img class="medal-icon" src="__GALLERY_ASSETS__/medals/crown.png" alt="Perfekt-Medaille" width="16" height="16">) und **Koop-Medaille** (<img class="medal-icon" src="__GALLERY_ASSETS__/medals/coop.png" alt="Koop-Medaille" width="16" height="16">). Der Gegenstand zeigt nur die Namen; die Bedingungen stehen in diesem Leitfaden.
 
 
 ## Handgebläse
 
-Benutzen/Rechtsklick halten: schiebt Kreaturen im Kegel bis fünf Blöcke weg. Feste Wände blockieren den Luftstrom. Kein direkter Schaden, kein Schieben von Spielern. 256 Haltbarkeit, ein Punkt alle fünf Ticks; im Kreativmodus kein Verschleiß. Das Minispiel bleibt unabhängig. Im Kreativinventar oder mit `/give @s spectrobesreforged:excavation_blower`, ohne neues Rezept.
+Rechtsklick halten: schiebt Kreaturen bis zu 5 Blöcke weg. Nicht durch Wände; verbraucht Haltbarkeit.
+
+## Tragbare Werkzeuge
+
+Alle zehn Gegenstände haben Rezepte und Funktionen außerhalb des Grabungstisches. Die virtuellen Tischwerkzeuge bleiben kostenlos verfügbar. Rezepte unter [Mineralien und Rezepte](minerals.md). Zwei beschädigte Werkzeuge lassen sich mit der Vanilla-Reparatur kombinieren.
+
+| Werkzeug | Außerhalb des Grabungstisches |
+| --- | --- |
+| {{TOOL_DRILL}} | Bohrt Stein und Erze schneller als eine Diamantspitzhacke. Verbraucht Haltbarkeit. |
+| {{TOOL_BLOWER}} | Rechtsklick halten: schiebt Kreaturen bis zu 5 Blöcke weg. Nicht durch Wände; verbraucht Haltbarkeit. |
+| {{TOOL_RECOVERY}} | Rechtsklick 1,6 s halten: heilt 2 Herzen. 24 Anwendungen; 30 s Abklingzeit. |
+| {{TOOL_PITON}} | Baut eine 3×3-Fläche in Blickrichtung ab. Haltbarkeit je Block; schleichen für einen einzelnen Block. |
+| {{TOOL_FIRE}} | Rechtsklick halten: schmilzt Eis und Schnee, reinigt aber keine gefrorenen Erze. Verbraucht Haltbarkeit. |
+| {{TOOL_WATER}} | Rechtsklick halten: sammelt Wasser, löscht Feuer und kühlt Lava oder Magma. Schleichen + Rechtsklick zum Ausgießen. Tank: 8 Eimer. |
+| {{TOOL_BLOWER_S}} | Rechtsklick halten: breiter Windstoß über 7 Blöcke, entfernt Schneeschichten. Höherer Haltbarkeitsverbrauch. |
+| {{TOOL_VACUUM}} | Rechtsklick halten: saugt Wasserquellen und Wasser aus wassergefüllten Blöcken. Schleichen + Rechtsklick zum Entleeren. Tank: 16 Eimer. |
+| {{TOOL_GIGA}} | Rechtsklick auf Erz: birgt eine bereits manuell ausgegrabene Art. 85 % Integrität; 32 Anwendungen; keine Medaillen oder Grabungs-EP. |
+| {{TOOL_BLAST}} | Rechtsklick auf Block: Ladung mit 3 s Zündschnur, Blockradius 2,5. Pro Lagerstätte 50 % Erfolg oder Verlust. 16 Ladungen; keine Medaillen. |

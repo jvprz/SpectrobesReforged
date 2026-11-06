@@ -14,6 +14,7 @@ public final class ExcavationCoop {
         if(!cursors.containsKey(id)&&cursors.size()>=MAX_VIEWERS)return false;
         cursors.putIfAbsent(id,new Cursor(id,name,-1,-1,0,false));return true;
     }
+    public boolean isEmpty(){return cursors.isEmpty();}
     public boolean contains(UUID id){return cursors.containsKey(id);}
     public Set<UUID> viewers(){return Set.copyOf(cursors.keySet());}
     public static boolean validTool(int tool){return switch(tool){case 0,1,4,5,6,7,8,9,12,13,14->true;default->false;};}

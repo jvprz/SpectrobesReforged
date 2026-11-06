@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "ICI",
+    "BDB",
+    "CRC"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "minecraft:copper_ingot"
+    },
+    "B": {
+      "item": "minecraft:blaze_rod"
+    },
+    "D": {
+      "item": "spectrobesreforged:excavation_drill"
+    },
+    "R": {
+      "item": "minecraft:magma_cream"
+    }
+  },
+  "result": {
+    "id": "spectrobesreforged:excavation_fire",
+    "count": 1
+  }
+}

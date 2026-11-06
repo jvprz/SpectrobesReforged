@@ -1,5 +1,7 @@
 # Fósiles y exploración
 
+Los depósitos quedan completamente enterrados, con al menos dos bloques de cobertura intacta. Su colocación evita superficies expuestas, acantilados, paredes de cuevas y límites con agua. Las menas de arenisca conservan su textura lateral original y usan las caras superior e inferior de arenisca vanilla. El escáner del Child reconoce todas las variantes actuales de fósiles y minerales.
+
 **Experimental en 0.6.2-beta.3:** el mineral fósil ahora entrega una pieza en bruto. Excávala en una mesa antes de introducir el fósil identificado en la incubadora. Los fósiles antiguos siguen funcionando. Consulta [la prueba de excavación](getting-started.md#excavation). La tabla muestra los resultados identificados posibles, no el botín directo en bruto.
 
 Los minerales fósiles aparecen en biomas seleccionados del Overworld. Usa **pico de hierro o superior**. Corona corresponde a biomas cálidos, Aurora a templados y Flash a fríos.

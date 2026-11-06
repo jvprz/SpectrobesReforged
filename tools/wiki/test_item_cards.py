@@ -59,11 +59,14 @@ class IllustratedRecipesTest(unittest.TestCase):
             folder=self.output if language=='en' else self.output/language
             page=(folder/'gallery.html').read_text(encoding='utf-8')
             self.assertEqual(22,len(re.findall('class="design-card"',page)))
-            self.assertEqual(6,page.count('data-provisional="false"'))
-            self.assertEqual(16,page.count('data-provisional="true"'))
+            self.assertEqual(7,page.count('data-provisional="false"'))
+            self.assertEqual(15,page.count('data-provisional="true"'))
             self.assertNotIn('__GALLERY_ASSETS__',page)
             self.assertIn('/gallery/komainu/0.png',page)
             self.assertIn('/gallery/spiko/0.png',page)
+            self.assertIn('/gallery/zoza/2.png',page)
+            self.assertIn('/gallery/zoza/icon_2.png',page)
+            self.assertIn('design-portraits',page)
 
     def test_grouped_navigation_has_four_sections_and_one_active_guide(self):
         import re

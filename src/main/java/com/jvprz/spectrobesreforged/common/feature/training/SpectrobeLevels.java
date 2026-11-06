@@ -39,15 +39,30 @@ public final class SpectrobeLevels {
         return Math.max(current,Math.min(boosted(stat.max(),quality),current+Math.max(0,delta)));
     }
     public static int mineralPercent(String id){
-        if(id.equals("diamond")||id.equals("evolve"))return 0;
-        return id.endsWith("_a_plus")?60:id.endsWith("_a")?40:id.endsWith("_b")?20:id.endsWith("_c")?10:25;
+        if(id.equals("diamond")||id.startsWith("evolve")||id.startsWith("power_")||id.startsWith("defense_")||id.startsWith("health_"))return 0;
+        return id.endsWith("_s")?100:id.endsWith("_a_plus")?60:id.endsWith("_a")?40:id.endsWith("_b")?20:id.endsWith("_c")?10:25;
+    }
+    // Balance anchors: level -> fraction of the mineral's base percentage.
+    private static final int[] MINERAL_LEVELS={1,25,50,75,100};
+    private static final double[] MINERAL_EFFICIENCY={1.0,.80,.60,.45,.35};
+    public static double mineralEfficiency(int level){
+        level=Math.clamp(level,1,MAX_LEVEL);
+        for(int i=1;i<MINERAL_LEVELS.length;i++)if(level<=MINERAL_LEVELS[i]){
+            double progress=(level-MINERAL_LEVELS[i-1])/(double)(MINERAL_LEVELS[i]-MINERAL_LEVELS[i-1]);
+            return MINERAL_EFFICIENCY[i-1]+progress*(MINERAL_EFFICIENCY[i]-MINERAL_EFFICIENCY[i-1]);
+        }
+        return MINERAL_EFFICIENCY[MINERAL_EFFICIENCY.length-1];
     }
     public static int mineralXp(SpectrobeEntry entry,int percent){
         if(entry.level()>=MAX_LEVEL||percent<=0)return 0;
         int level=entry.level(),current=entry.xp(),total=0;double remaining=percent;
         while(remaining>0&&level<MAX_LEVEL){
-            int needed=required(level)-current;double cost=needed*100.0/required(level);
-            if(remaining+1e-9<cost){total+=(int)Math.ceil(required(level)*remaining/100.0-1e-9);break;}
+            int needed=required(level)-current;
+            double efficiency=mineralEfficiency(level);
+            // Spend base-percentage budget at the current level's efficiency. When a mineral
+            // crosses a level boundary, its remainder uses the new level's lower efficiency.
+            double cost=needed*100.0/required(level)/efficiency;
+            if(remaining+1e-9<cost){total+=(int)Math.ceil(required(level)*remaining*efficiency/100.0-1e-9);break;}
             total+=needed;remaining-=cost;level++;current=0;
         }
         return total;

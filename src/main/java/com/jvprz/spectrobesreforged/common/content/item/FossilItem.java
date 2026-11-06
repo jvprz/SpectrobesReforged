@@ -24,8 +24,8 @@ public class FossilItem extends Item {
 
     @Override public Component getName(ItemStack stack) {
         var name=Component.empty().append(super.getName(stack));
-        if(RawFossilItem.data(stack).getBoolean("ExcavationCrown"))name.append(Component.literal(" ♛").withStyle(ChatFormatting.GOLD));
-        if(RawFossilItem.data(stack).getBoolean("ExcavationCooperative"))name.append(Component.literal(" ⚒").withStyle(ChatFormatting.AQUA));
+        if(RawFossilItem.data(stack).getBoolean("ExcavationCrown"))name.append(Component.literal(" ").append(com.jvprz.spectrobesreforged.common.feature.training.MedalSprites.perfect()));
+        if(RawFossilItem.data(stack).getBoolean("ExcavationCooperative"))name.append(Component.literal(" ").append(com.jvprz.spectrobesreforged.common.feature.training.MedalSprites.cooperative()));
         return name;
     }
     @Override

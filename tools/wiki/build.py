@@ -42,7 +42,9 @@ def references(root, language="en"):
     for s in species:
         values = [f"{s['stats'][key]['base']} → {s['stats'][key]['max']}"
                   for key in ['hp', 'attack', 'defense']]
-        stats.append([cards.icon('spectrobesreforged:'+s['key']+'_fossil', False) + ' ' + s['key'].capitalize(), s['type'].capitalize(), *values,
+        icon='icon_0.png' if (root/'src/main/resources/assets/spectrobesreforged/textures/gui/icons'/(s['key']+'.png')).is_file() else '0.png'
+        portrait='<a class="species-link" href="spectrobe-'+s['key']+'.html"><img class="item-icon" src="__GALLERY_ASSETS__/'+s['key']+'/'+icon+'" alt="" width="32" height="32" loading="lazy"><span>'+s['key'].capitalize()+'</span></a>'
+        stats.append([portrait, s['type'].capitalize(), *values,
                       str(s['range'] * 2) + ' blocks'])
         evolution = s['evolution']
         evolutions.append([s['key'].capitalize(), evolution['to'].capitalize(),
@@ -81,6 +83,13 @@ def references(root, language="en"):
         mineral_rows.append([cards.icon('spectrobesreforged:'+identifier), '`' + identifier + '`', *cells])
     assert mineral_rows, 'No mineral registrations found'
 
+    catalog=load(resources/'mineral_catalog.json')
+    for entry in catalog:
+        if entry['category'] in ('elemental','seed'):
+            identifier=entry['id']
+            mineral_rows.append([cards.icon('spectrobesreforged:'+identifier),'`'+identifier+'`',*[f'{value:+d}' for value in entry['stats']]])
+    discoveries=table(['Item','ID','Category','Status'],[[cards.icon('spectrobesreforged:'+e['id']),'`'+e['id']+'`',e['category'],'Prepared / pending' if e['prepared'] else 'Active'] for e in catalog])
+
     ore_rows = []
     for tier in ['c', 'b', 'a', 'a_plus']:
         identifier = tier + '_mineral_ore'
@@ -102,21 +111,22 @@ def references(root, language="en"):
                 if label not in pool: pool.append(label)
         ore_rows.append([tier.upper().replace('_PLUS', '+'),
                          f"{height['min_inclusive']['absolute']} to {height['max_inclusive']['absolute']}",
-                         ', '.join(pool)])
+                         ' / '.join(cards.icon('spectrobesreforged:raw_'+family+'_mineral')+' → '+cards.icon('spectrobesreforged:'+family+'_'+tier) for family in ['coronium','aurorium','flashium'])])
 
     krawl_rows = []
     for file in sorted((resources / 'entity/krawl').glob('*.json')):
         k = load(file)
-        krawl_rows.append([k['name'], k['element'].capitalize(), k['rank'].capitalize(),
+        krawl_rows.append(['<a href="krawl-'+k['key']+'.html">'+k['name']+'</a>', k['element'].capitalize(), k['rank'].capitalize(),
                            k['stats']['hp'], k['stats']['attack'], k['stats']['defense']])
     result = {
         'BIOMES': table(['Element', 'Included biomes'], biomes),
         'FOSSIL_DROPS': table(['Ore element', 'Possible fossil items'], drops),
         'SPECIES': table(['Species', 'Element', 'HP', 'Attack', 'Defense', 'Scan radius'], stats),
         'EVOLUTIONS': table(['Child', 'Configured target', 'Mineral threshold', 'Target definition'], evolutions),
+        'DISCOVERY_ITEMS': discoveries,
         'MINERALS': table(['Mineral', 'Item ID', 'HP', 'Attack', 'Defense'], mineral_rows),
         'MINERAL_ORES': table(['Tier', 'Y range', 'Non-Silk-Touch drops'], ore_rows),
-        'RECIPES': '<div class="recipe-gallery">' + ''.join(cards.recipe(p.stem) for p in sorted((resources / 'recipe').glob('*.json')) if 'prizmod' not in p.stem and p.stem not in ['incubator','excavation_table']) + '</div>',
+        'RECIPES': cards.organized_recipes(),
         'PRIZMOD_RECIPE': cards.recipe('white_prizmod'),
         'INCUBATOR_RECIPE': cards.recipe('incubator'),
         'EXCAVATION_RECIPE': cards.recipe('excavation_table'),
@@ -130,8 +140,12 @@ def references(root, language="en"):
         return list(hosts).index(d['host']),content
     environmental=[]
     for d in sorted(load(resources/'excavation_deposits.json'),key=deposit_order):
-        raw=hosts[d['host']]+'_raw_'+(d['element']+'_fossil' if d['element'] else d['grade']+'_mineral')
-        environmental.append([cards.icon('spectrobesreforged:'+d['id']),cards.icon('spectrobesreforged:'+raw)])
+        if d['element'] and d['element']!={'frozen':'flash','muddy':'aurora','sandy':'corona','red_sandy':'corona'}[d['host']]: continue
+        raw=hosts[d['host']]+'_raw_'+(d['element']+'_fossil' if d['element'] else {'frozen':'flashium','muddy':'aurorium','sandy':'coronium','red_sandy':'coronium'}[d['host']]+'_mineral')
+        family={'frozen':'flashium','muddy':'aurorium','sandy':'coronium','red_sandy':'coronium'}[d['host']]
+        identifier=d['id'] if d['element'] else d['host']+'_'+family+'_ore'
+        row=[cards.icon('spectrobesreforged:'+identifier),cards.icon('spectrobesreforged:'+raw)]
+        if row not in environmental: environmental.append(row)
     headers={'en':['Block','Raw specimen'],'es':['Bloque','Pieza en bruto'],'fr':['Bloc','Spécimen brut'],'de':['Block','Rohfund'],'it':['Blocco','Reperto grezzo'],'pt-BR':['Bloco','Peça bruta']}[language]
     result['ENVIRONMENTAL_ITEMS']=table(headers,environmental)
     from design_gallery import gallery, krawl_gallery

@@ -1,0 +1,7 @@
+{
+  "source_sha256": "4f0ee1622b8a8a2ef527abdfee0da900c64ed365c6b1fc2447a1ebd9cbbee36e",
+  "channels": 1,
+  "rate": 44100,
+  "duration_seconds": 0.8078458049886621,
+  "note": "Stereo averaged to mono for positional audio; vocal variations use runtime pitch/volume."
+}

@@ -9,7 +9,7 @@ public final class ModNetwork {
 
     public static void register(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar =
-                event.registrar(SpectrobesReforged.MODID).versioned("6");
+                event.registrar(SpectrobesReforged.MODID).versioned("13");
 
         registrar.playToClient(S2CExcavationCoop.TYPE,S2CExcavationCoop.STREAM_CODEC,
                 (packet,ctx)->ctx.enqueueWork(()->com.jvprz.spectrobesreforged.client.event.ClientPayloadHandlers.excavation(packet)));

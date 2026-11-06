@@ -59,3 +59,6 @@ Use an open surface in Easy, Normal or Hard, summon the vortex below, then switc
 
 
 An idle vortex blocks arrows with the vanilla shield-style rebound and sound, including Piercing arrows. A shot neither destroys it nor starts a raid. The invisible controller stops intercepting projectiles after the encounter begins.
+
+
+Power/Defense/Health come from completed vortices, not fresh excavations. Existing C/B quantities and death penalties remain; a death-free raid can additionally grant A/A+ food. With n participants (1–16), A+ chance is (5+n)/1000 and A chance is (30+3n)/1000. Separate death-free chances: 10% for one random seed and 1% for Evolve M. Extras are granted only with the final personal reward and are never rerolled by re-entry.

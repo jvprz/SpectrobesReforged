@@ -1,0 +1,9 @@
+{
+  "source": "flashium_a_plus.png",
+  "sha256": "5f44079b755878e56193b6b5092bfda166d032cd520cf001dbfd5f1fbb0b2cee",
+  "variants": [
+    "coronium_a_plus.png",
+    "aurorium_a_plus.png"
+  ],
+  "edit": "hue only; source unchanged"
+}

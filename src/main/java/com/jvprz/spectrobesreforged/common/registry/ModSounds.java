@@ -13,6 +13,9 @@ public final class ModSounds {
     public static final DeferredRegister<SoundEvent> SOUNDS =
             DeferredRegister.create(Registries.SOUND_EVENT, SpectrobesReforged.MODID);
 
+    public static final Supplier<SoundEvent> SPIKO_CRY = registerSound("entity.spiko.cry");
+    public static final Supplier<SoundEvent> KOMAINU_CRY = registerSound("entity.komainu.cry");
+
     public static final Supplier<SoundEvent> AWAKENING_CUE = registerSound("awakening_cue");
     public static final Supplier<SoundEvent> VORTEX_AMBIENT = registerSound("vortex_ambient");
 

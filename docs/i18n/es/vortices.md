@@ -59,3 +59,6 @@ Busca una superficie abierta en Fácil, Normal o Difícil, invoca el vórtice co
 
 
 El vórtice en persecución o en espera hace rebotar las flechas con el sonido y la respuesta de un escudo vanilla, incluidas las de Perforación. Dispararle no lo destruye ni inicia una incursión. Una vez comienza el encuentro, el controlador invisible deja de interceptar proyectiles.
+
+
+Power/Defense/Health se consiguen al completar vórtices, no en excavaciones nuevas. Se mantienen las cantidades C/B y las penalizaciones por muerte. Sin morir puede añadirse un A/A+: con n participantes (1–16), la probabilidad de A+ es (5+n)/1000 y la de A es (30+3n)/1000. Probabilidades independientes sin morir: 10% de una semilla aleatoria y 1% de Evolve M. Solo se entregan al completar el encuentro, sin repetir la tirada al salir o entrar.

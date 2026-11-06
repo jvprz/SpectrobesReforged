@@ -20,6 +20,17 @@ public final class Config {
     public static final ModConfigSpec.IntValue MAX_VORTICES = B.translation("spectrobesreforged.configuration.maxVortices")
             .comment("Loaded vortices per dimension before natural discovery stops; includes active encounters. Does not remove existing entities.").defineInRange("maxVortices",32,1,256);
     static { B.pop(); }
+    static { B.translation("spectrobesreforged.configuration.companions").push("companions"); }
+    public static final ModConfigSpec.BooleanValue LIVING_COMPANIONS = B.translation("spectrobesreforged.configuration.livingCompanions")
+            .comment("Experimental companion behavior: curiosity, nearby strolls, mineral attention and smoother following.").define("livingCompanions",true);
+    public static final ModConfigSpec.BooleanValue FETCH_MINERALS = B.translation("spectrobesreforged.configuration.fetchMinerals")
+            .comment("Collect nearby clean feeding minerals, carry them for the owner and eat one if ignored.").define("fetchMinerals",true);
+    public static final ModConfigSpec.IntValue MINERAL_PATIENCE = B.translation("spectrobesreforged.configuration.mineralPatience")
+            .comment("Seconds spent waiting near a living owner before eating a fetched mineral.").defineInRange("mineralPatienceSeconds",30,10,300);
+    public static boolean fetchMinerals() {return get(FETCH_MINERALS);}
+    public static int mineralPatienceTicks() {return get(MINERAL_PATIENCE)*20;}
+    public static boolean livingCompanions() { return get(LIVING_COMPANIONS); }
+    static { B.pop(); }
     public static final ModConfigSpec SPEC = B.build();
     private static <T> T get(ModConfigSpec.ConfigValue<T> value) { return SPEC.isLoaded()?value.get():value.getDefault(); }
     public static boolean naturalVortices() { return get(NATURAL_VORTICES); }

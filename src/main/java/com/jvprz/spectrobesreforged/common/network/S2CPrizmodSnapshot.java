@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.util.*;
 
 public record S2CPrizmodSnapshot(List<Entry> box,List<Entry> team,Entry baby) implements CustomPacketPayload {
-    private static final int WIRE_VERSION=5;
+    private static final int WIRE_VERSION=6;
     public static final Type<S2CPrizmodSnapshot> TYPE=new Type<>(ResourceLocation.fromNamespaceAndPath(SpectrobesReforged.MODID,"prizmod_snapshot"));
     public record Entry(UUID id,String species,int color,String stage,int level,int hp,int hpCur,int atk,int def,
                         int mineralsFed,int mineralHpBonus,int mineralAtkBonus,int mineralDefBonus,SpectrobeProgress progress,String element) {
@@ -19,7 +19,7 @@ public record S2CPrizmodSnapshot(List<Entry> box,List<Entry> team,Entry baby) im
         private int size(FriendlyByteBuf buf,int max){int count=buf.readVarInt();if(count<0||count>max)throw new IllegalArgumentException("Invalid Prizmod collection size");return count;}
         @Override public S2CPrizmodSnapshot decode(FriendlyByteBuf buf){
             int start=buf.readerIndex(),version=buf.readVarInt();
-            if(version==4||version==5)return read(buf,version);
+            if(version==4||version==5||version==6)return read(buf,version);
             try{if(version==2||version==3)return read(buf,version);}catch(RuntimeException malformedLegacy){}
             buf.readerIndex(start);return read(buf,1);
         }
@@ -36,6 +36,7 @@ public record S2CPrizmodSnapshot(List<Entry> box,List<Entry> team,Entry baby) im
             if(version>=3){fed=buf.readVarInt();hb=buf.readVarInt();ab=buf.readVarInt();db=buf.readVarInt();}
             SpectrobeProgress progress=version>=4?new SpectrobeProgress(buf.readVarInt(),buf.readBoolean(),buf.readVarInt(),buf.readVarInt()):SpectrobeProgress.EMPTY;
             if(version>=5&&buf.readBoolean())progress=progress.withCooperative();
+            if(version>=6)progress=progress.withSeeds(buf.readVarInt());
             return new Entry(id,species,color,stage,level,hp,cur,atk,def,fed,hb,ab,db,progress,version>=4?buf.readUtf(32):"unknown");
         }
         @Override public void encode(FriendlyByteBuf buf,S2CPrizmodSnapshot value){
@@ -47,7 +48,7 @@ public record S2CPrizmodSnapshot(List<Entry> box,List<Entry> team,Entry baby) im
             buf.writeUUID(e.id);buf.writeUtf(e.species);buf.writeVarInt(e.color);buf.writeUtf(e.stage);buf.writeVarInt(e.level);
             buf.writeVarInt(e.hp);buf.writeVarInt(e.hpCur);buf.writeVarInt(e.atk);buf.writeVarInt(e.def);buf.writeVarInt(e.mineralsFed);
             buf.writeVarInt(e.mineralHpBonus);buf.writeVarInt(e.mineralAtkBonus);buf.writeVarInt(e.mineralDefBonus);
-            buf.writeVarInt(e.progress.xp());buf.writeBoolean(e.progress.crown());buf.writeVarInt(e.progress.quality());buf.writeVarInt(e.progress.battles());buf.writeBoolean(e.progress.cooperative());buf.writeUtf(e.element);
+            buf.writeVarInt(e.progress.xp());buf.writeBoolean(e.progress.crown());buf.writeVarInt(e.progress.quality());buf.writeVarInt(e.progress.battles());buf.writeBoolean(e.progress.cooperative());buf.writeVarInt(e.progress.seeds());buf.writeUtf(e.element);
         }
     };
 }

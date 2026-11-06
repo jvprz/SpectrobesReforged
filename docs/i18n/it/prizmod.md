@@ -27,7 +27,9 @@ Il compagno deve essere un Child vivo. I sei posti della squadra accettano Adult
 
 L’integrità del fossile dà **+1% a 70–84, +2% a 85–94 e +3% a 95–100**, arrotondato per difetto per ogni statistica base. Uno scavo perfetto aggiunge una corona dorata permanente dopo il nome del fossile e dello Spectrobe risvegliato. Qualità e corona sono separate. Le vecchie voci senza qualità conservano le statistiche.
 
-I minerali C/B/A/A+ danno **10/20/40/60% di un livello**, oltre agli effetti esistenti. Gli altri minerali attivi danno 25%; Diamond/Evolve restano inattivi. Livello massimo: **100**. Le statistiche crescono entro i limiti della specie. Un minerale può dare XP anche con una statistica al massimo. Se non cambia né XP né statistiche, non viene consumato.
+Gli elementali C/B/A/A+/S danno **10/20/40/60/100% base** con affinità uguale, metà altrimenti, prima della curva per livello. Power/Defense/Health allenano solo statistiche e non danno XP. Gli altri minerali mantengono gli effetti.
+
+L’efficienza dei minerali diminuisce gradualmente: **livello 1 → 100%, 25 → 80%, 50 → 60%, 75 → 45%, 100 → 35%** della percentuale base. Un minerale base del 10% dà circa il 6% al livello 50, arrotondato all’XP intera superiore. Dopo un cambio di livello, il resto usa la nuova efficienza. Effetti sulle statistiche, conteggio dei minerali e XP di combattimento restano invariati. Al livello massimo 100 non si ottengono altre XP.
 
 I Child guadagnano XP mangiando. Un’incursione completata assegna una vittoria e fino a 60 XP agli Adult/Evolved vivi di ogni partecipante, ridotti dopo la sua morte. I Child non ricevono XP di battaglia. Questi contatori preparano l’evoluzione futura senza attivarla.
 
@@ -66,3 +68,14 @@ I compagni Child non subiscono danni di combattimento o ambientali: frecce, fuoc
 ## HUD del compagno e della squadra
 
 Un Child equipaggiato mostra in alto a sinistra un pannello compatto con ritratto, medaglie, livello e XP. Sei slot numerati rappresentano la squadra; Adult/Evolved assegnati mostrano ritratto e PS. Gli slot vuoti non attivano evoluzione o combattimento. Il tasto Prizmod segue i controlli. Nascosto con F1, debug, menu, spettatore o senza compagno e squadra.
+
+
+## Ultime versioni sperimentali
+
+Le medaglie hanno spazi separati accanto alla vista 3D. Passa il cursore su ogni icona per sapere come è stata ottenuta. Non coprono più i ritratti.
+
+### Minerali e ritrovamenti — prova sperimentale 14
+
+Gli elementali C/B/A/A+/S danno **10/20/40/60/100% base** con affinità uguale, metà altrimenti, prima della curva per livello. Power/Defense/Health allenano solo statistiche e non danno XP. Gli altri minerali mantengono gli effetti.
+
+Semi: ATT +1, DIF +1, PS +10. Limite condiviso cumulabile: un seme per livello, massimo 100, entro i massimi della specie; nessuna XP. Evolve M completa minerali, L il livello definito, B le battaglie definite. Requisito assente o già soddisfatto: nessun consumo. I Child attuali richiedono solo minerali. Nessuna evoluzione automatica.

@@ -59,3 +59,11 @@ Curios verwendet ebenfalls standardmäßig G. Bei gleicher Taste öffnet G ohne 
 ## HUD und Beta-Feedback
 
 Öffne **Mods → Spectrobes Reforged → Config → HUD anpassen**. Ziehe die Vorschau und skaliere sie mit dem Mausrad (50–150%). HUD und Teamplätze lassen sich ausblenden und zurücksetzen. Position und Größe werden lokal gespeichert. Standard: 85%. Der Discord-Knopf öffnet nach Bestätigung eine Einladung, mit einer lokalen Beta-Nachricht beim Verbinden, ohne Nachricht an andere Spieler und ohne Wiederholung beim Wiederbeleben oder Dimensionswechsel. Das vertikale HUD zeigt eine Teamspalte; − / + oder Mausrad ändern die Größe.
+
+
+## Neueste Testversionen
+
+Die Clientoption **Medaillen neben Spectrobe-Namen anzeigen** steuert Namensabzeichen nur lokal. Separate Plätze und gespeicherte Medaillen bleiben erhalten.
+
+
+Im Spiel öffnet **Escape → Spectrobes** direkt HUD-Einstellungen, Client-Einstellungen und Feedback. Einstellungen öffnet nur die Client-Konfiguration. **Scanner-Lautstärke** regelt den Scanner unabhängig von den Mod-Effekten; Minecraft-Soundkategorien gelten weiterhin. Scanner-Signale sind leiser und werden innerhalb von sechs Ticks zusammengefasst.

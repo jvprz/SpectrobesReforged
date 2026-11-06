@@ -5,7 +5,10 @@
       "Name": "minecraft:blue_ice"
     },
     "ore": {
-      "Name": "spectrobesreforged:frozen_a_mineral_ore"
+      "Name": "spectrobesreforged:frozen_flashium_ore",
+      "Properties": {
+        "grade": "2"
+      }
     },
     "biome_tag": "spectrobesreforged:excavation/frozen"
   }

@@ -26,7 +26,8 @@
       "pt-BR": [
         "Posição do HUD e feedback da beta",
         "Abra Mods → Spectrobes Reforged → Config → Posicionar HUD."
-      ]
+      ],
+      "visual": "hud"
     },
     {
       "href": "vortices.html#encounter-rules",
@@ -53,7 +54,8 @@
       "pt-BR": [
         "Incursões cooperativas",
         "Três inimigos por participante, barra compartilhada e prêmios pessoais finais."
-      ]
+      ],
+      "visual": "raid"
     },
     {
       "href": "getting-started.html#cooperative-excavation",
@@ -80,7 +82,8 @@
       "pt-BR": [
         "Escavação cooperativa",
         "Peça compartilhada, cursores visíveis e ferramentas reservadas durante o uso."
-      ]
+      ],
+      "visual": "excavation"
     }
   ]
 }

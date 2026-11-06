@@ -97,19 +97,18 @@ Stone, dirt and environmental covers use Minecraft’s block textures. Pale loos
 
 ### Geological pockets — 0.6.2-beta.6
 
-Environmental deposits now create a small buried pocket with one central ore, rather than requiring an existing host block. Ice pockets (Flash) occur only in snowy/frozen biomes; sandstone (Corona) only in desert; red sandstone (Corona) only in badlands, wooded badlands and eroded badlands; mud (Aurora) only in swamp and mangrove swamp. All four families also include C/B/A/A+ minerals. Pockets are 5–7 blocks wide and 3–5 high, with their centre 2–6 blocks below the surface heightmap. They replace selected natural ground blocks, never air, fluids, other ores or logs. The central shell must fit in solid permitted ground and stay in its allowed biome family.
+Environmental deposits now create a small buried pocket with one central ore, rather than requiring an existing host block. Ice pockets (Flash) occur only in snowy/frozen biomes; sandstone (Corona) only in desert; red sandstone (Corona) only in badlands, wooded badlands and eroded badlands; mud (Aurora) only in swamp and mangrove swamp. All four families also include C/B/A/A+ minerals. Pockets are 5–7 blocks wide and 3–5 high, with their centre 5–9 blocks below the surface heightmap. They replace selected natural ground blocks, never air, fluids, other ores or logs. The central shell must fit in solid permitted ground and stay in its allowed biome family.
 
 | ID | Fósil / Fossil | C / B / A / A+ |
 | --- | --- | --- |
-| `frozen` | `frozen_flash_fossil_ore` | `frozen_{c,b,a,a_plus}_mineral_ore` |
-| `sandy` | `sandy_corona_fossil_ore` | `sandy_{c,b,a,a_plus}_mineral_ore` |
-| `red_sandy` | `red_sandy_corona_fossil_ore` | `red_sandy_{c,b,a,a_plus}_mineral_ore` |
-| `muddy` | `muddy_aurora_fossil_ore` | `muddy_{c,b,a,a_plus}_mineral_ore` |
+| `frozen` | `frozen_flash_fossil_ore` | `frozen_flashium_ore` |
+| `sandy` | `sandy_corona_fossil_ore` | `sandy_coronium_ore` |
+| `red_sandy` | `red_sandy_corona_fossil_ore` | `red_sandy_coronium_ore` |
+| `muddy` | `muddy_aurora_fossil_ore` | `muddy_aurorium_ore` |
 
 Fossils: 2 attempts per chunk. Mineral attempts: C 1/2, B 1/4, A 1/12, A+ 1/32 per chunk. Attempts can fail on unsuitable ground. Only newly generated chunks are affected. Existing ordinary temperature-based underground ores remain. Raw pieces keep their geology, including red sand/red sandstone in the excavation table; existing excavations retain their saved layers.
 
 
-The ten excavation tools also exist as separate items in the Creative tools tab (`excavation_drill`, `excavation_blower`, etc.). Their crafting recipes and use as table ingredients are planned; the table currently supplies its tools without needing inventory items.
 
 
 {{ITEM_CREDITS}}
@@ -134,7 +133,7 @@ Open the same excavation table together: up to **16 operators** share one specim
 There is **one output**, consumed/extracted once. Every eligible worker receives excavation skill XP and the catalogue entry once. Closing the interface preserves specimen progress. The server validates tool ownership, distance and actions. [Raid rules and rewards](vortices.md#encounter-rules).
 
 
-Two different players must successfully use tools on the same specimen to earn the cyan ⚒ cooperative keepsake. Merely opening the table does not count. It persists on the clean fossil or mineral and on the awakened Spectrobe, alongside a possible crown. It changes no stats, XP or rewards.
+Two different players must successfully use tools on the same specimen to earn the <img class="medal-icon" src="__GALLERY_ASSETS__/medals/coop.png" alt="Cooperative medal" width="16" height="16"> cooperative keepsake. Merely opening the table does not count. It persists on the clean fossil or mineral and on the awakened Spectrobe, alongside a possible crown. It changes no stats, XP or rewards.
 
 
 [Shared excavation credit](advancements.md): Everyone who successfully used a tool on the specimen and is alive, online and within 8 blocks when it is extracted receives the existing manual excavation, perfect finding and terrain milestones where applicable. Each eligible worker gets one discovery, its catalogue entry and the normal excavation skill XP; counters for 10/100 discoveries and skill level 5 use personal progress. The extractor also receives credit. Merely watching does not count. Repair milestones belong to the player using Recovery; awakening and training milestones remain personal. Automatic extraction gives no manual excavation credit. There is still only one output item and no new cooperative advancement.
@@ -143,9 +142,26 @@ Two different players must successfully use tools on the same specimen to earn t
 The updated table faces the placing player. A clean output item has priority on its recessed surface. A raw piece can wait in the input, but cannot be worked on until the clean output is collected; an empty table shows nothing.
 
 
-The icons are named **Perfect medal** (♛) and **Cooperative medal** (⚒). Item tooltips show only these names; this guide contains their requirements.
+The icons are named **Perfect medal** (<img class="medal-icon" src="__GALLERY_ASSETS__/medals/crown.png" alt="Perfect medal" width="16" height="16">) and **Cooperative medal** (<img class="medal-icon" src="__GALLERY_ASSETS__/medals/coop.png" alt="Cooperative medal" width="16" height="16">). Item tooltips show only these names; this guide contains their requirements.
 
 
 ## Handheld blower
 
-Hold Use/right-click with the blower item to push mobs in a forward cone up to five blocks. Solid walls block the airflow. It causes no direct damage and does not push players. It has 256 durability, consuming one point per burst every five ticks; Creative mode does not consume durability. The excavation minigame blower remains independent. Obtain the item from the Creative tools tab or `/give @s spectrobesreforged:excavation_blower`; no new crafting recipe is added.
+Hold right-click: pushes mobs up to 5 blocks away. Cannot blow through walls; consumes durability.
+
+## Portable field tools
+
+These ten items now have crafting recipes and real uses outside the excavation table. The table still supplies its virtual tools without consuming these items. Recipes appear in [Minerals and recipes](minerals.md). Damaged tools can be combined using the vanilla repair recipe.
+
+| Tool | Outside the excavation table |
+| --- | --- |
+| {{TOOL_DRILL}} | Drills stone and ores faster than a diamond pickaxe. Mining consumes durability. |
+| {{TOOL_BLOWER}} | Hold right-click: pushes mobs up to 5 blocks away. Cannot blow through walls; consumes durability. |
+| {{TOOL_RECOVERY}} | Hold right-click for 1.6 s: restores 2 hearts. 24 uses; 30 s cooldown. |
+| {{TOOL_PITON}} | Mine a block: breaks a 3×3 plane oriented to your view. One durability per block; sneak to mine one block. |
+| {{TOOL_FIRE}} | Hold right-click: melts ice and snow. Does not clean frozen ores. Consumes durability. |
+| {{TOOL_WATER}} | Hold right-click: collects water, extinguishes fire and cools lava or magma. Sneak + right-click to pour water. Tank: 8 buckets. |
+| {{TOOL_BLOWER_S}} | Hold right-click: wide 7-block gust pushes mobs and clears surface snow. Higher durability cost. |
+| {{TOOL_VACUUM}} | Hold right-click: absorbs water sources and waterlogged blocks. Sneak + right-click to empty. Tank: 16 buckets. |
+| {{TOOL_GIGA}} | Right-click an ore: retrieves a clean specimen already excavated manually. 85% integrity; 32 uses; no medals or excavation XP. |
+| {{TOOL_BLAST}} | Right-click a block: places a charge with a 3 s fuse. Block radius: 2.5. Each deposit has a 50% chance to emerge clean or be lost. 16 charges; no medals. |

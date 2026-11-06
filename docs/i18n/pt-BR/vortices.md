@@ -59,3 +59,6 @@ Invoque o vórtice em terreno aberto e passe para Sobrevivência. Teste caminhad
 
 
 Um vórtice aguardando ou perseguindo rebate flechas como um escudo vanilla, com som de bloqueio, inclusive com Perfuração. Atirar não o destrói nem inicia uma incursão. Após o início da batalha o controlador invisível deixa de interceptar projéteis.
+
+
+Power/Defense/Health recompensam vórtices completos. Quantidades C/B e penalidades continuam. Sem morrer, há extras A/A+: para n jogadores, A+ (5+n)/1000, A (30+3n)/1000. Chances independentes: 10% de semente e 1% de Evolve M. Reentrar não repete o sorteio.

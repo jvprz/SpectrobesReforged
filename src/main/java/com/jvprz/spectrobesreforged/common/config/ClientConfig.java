@@ -27,6 +27,9 @@ public final class ClientConfig {
             .comment("Vortex particle density; Minecraft particle settings still apply.").defineEnum("vortexParticles",ParticleDensity.HIGH);
     public static final ModConfigSpec.IntValue EFFECT_VOLUME = B.translation("spectrobesreforged.configuration.effectVolume")
             .comment("Volume percentage of mod sound effects. Minecraft sound-category volumes also apply.").defineInRange("effectVolume",100,0,100);
+    public static final ModConfigSpec.IntValue SCANNER_VOLUME = B.translation("spectrobesreforged.configuration.scannerVolume")
+            .comment("Scanner volume percentage, multiplied by mod effects and Minecraft category volumes.").defineInRange("scannerVolume",100,0,100);
+    public static float scannerVolume() { return get(SCANNER_VOLUME)/100.0F; }
     public static final ModConfigSpec.EnumValue<ScanFeedback> SCAN_FEEDBACK = B.translation("spectrobesreforged.configuration.scanFeedback")
             .comment("Scanner feedback: visual, sound, or both. Does not change the server scan.").defineEnum("scanFeedback",ScanFeedback.BOTH);
     public static final ModConfigSpec.BooleanValue EXCAVATION_HINTS = B.translation("spectrobesreforged.configuration.excavationHints")
@@ -39,6 +42,8 @@ public final class ClientConfig {
     public static final ModConfigSpec.IntValue HUD_SCALE = B.translation("spectrobesreforged.configuration.hudScale").defineInRange("hudScale",85,50,150);
     public static final ModConfigSpec.BooleanValue HUD_TEAM = B.translation("spectrobesreforged.configuration.hudTeam").define("hudTeam",true);
     public static final ModConfigSpec.BooleanValue HUD_VERTICAL = B.translation("spectrobesreforged.configuration.hudVertical").define("hudVertical",false);
+    public static final ModConfigSpec.BooleanValue NAME_MEDALS=B.translation("spectrobesreforged.configuration.nameMedals").define("nameMedals",true);
+    public static boolean nameMedals() {return get(NAME_MEDALS);}
     public static boolean hudVertical() { return get(HUD_VERTICAL); }
     public static int hudHeight() { return !hudTeam() ? 62 : hudVertical() ? 220 : 94; }
     public static boolean hudEnabled() { return get(HUD_ENABLED); }

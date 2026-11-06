@@ -192,7 +192,16 @@ public class MineralItem extends Item {
         );
 
         updated=com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.award(updated,xpGain,species);
+        return finishFeeding(sp,entry,updated,stack,spectrobe);
+    }
+
+    protected boolean finishFeeding(ServerPlayer sp,SpectrobeEntry entry,SpectrobeEntry updated,ItemStack stack,SpectrobeEntity spectrobe) {
+        var data=sp.getData(ModAttachments.PRIZMOD.get());
         data.replaceEntry(entry.id(), updated);
+        if(spectrobe!=null && com.jvprz.spectrobesreforged.common.config.Config.livingCompanions()) {
+            com.jvprz.spectrobesreforged.common.feature.spectrobe.ai.MineralFetch.react(spectrobe,true);
+            spectrobe.reactToCare(true);
+        }
         ModProgression.award(sp, "feed");
 
         com.jvprz.spectrobesreforged.common.feature.training.SpectrobeTraining.syncActive(sp,updated);
@@ -269,7 +278,7 @@ public class MineralItem extends Item {
 
     @Override public Component getName(ItemStack stack) {
         var name=Component.empty().append(super.getName(stack));
-        if(RawFossilItem.data(stack).getBoolean("ExcavationCooperative"))name.append(Component.literal(" ⚒").withStyle(ChatFormatting.AQUA));
+        if(RawFossilItem.data(stack).getBoolean("ExcavationCooperative"))name.append(Component.literal(" ").append(com.jvprz.spectrobesreforged.common.feature.training.MedalSprites.cooperative()));
         return name;
     }
     @Override
@@ -280,7 +289,8 @@ public class MineralItem extends Item {
         addStatLine(tooltip, attack, attackMax, "tooltip.spectrobesreforged.minergy.attack", ChatFormatting.RED);
         addStatLine(tooltip, defense, defenseMax, "tooltip.spectrobesreforged.minergy.defense", ChatFormatting.BLUE);
 
-        tooltip.add(Component.translatable("tooltip.spectrobesreforged.training_xp",com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.mineralPercent(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(this).getPath())).withStyle(ChatFormatting.AQUA));
+        int xpPercent=com.jvprz.spectrobesreforged.common.feature.training.SpectrobeLevels.mineralPercent(net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(this).getPath());
+        if(xpPercent>0)tooltip.add(Component.translatable("tooltip.spectrobesreforged.training_xp",xpPercent).withStyle(ChatFormatting.AQUA));
         tooltip.add(Component.empty());
         tooltip.add(Component.translatable(description).withStyle(ChatFormatting.GRAY));
 

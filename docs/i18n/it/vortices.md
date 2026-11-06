@@ -59,3 +59,6 @@ Evoca il vortice su terreno libero e passa in Sopravvivenza. Prova camminata/cor
 
 
 Un vortice in attesa o all’inseguimento fa rimbalzare le frecce come uno scudo vanilla, con suono di blocco, anche con Perforazione. Sparare non lo distrugge e non avvia un’incursione. Dopo l’inizio del combattimento il controllore invisibile non intercetta più i proiettili.
+
+
+Power/Defense/Health premiano vortici completati. Quantità C/B e penalità restano. Senza morire: bonus A/A+; con n giocatori A+ (5+n)/1000, A (30+3n)/1000. Indipendentemente: 10% seme, 1% Evolve M. Rientrare non ripete il sorteggio.

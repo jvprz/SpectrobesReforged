@@ -9,6 +9,6 @@ public final class SpectrobeNames {
     public static Component name(String species,boolean crown,boolean cooperative){
         String fallback=species.isEmpty()?"?":Character.toUpperCase(species.charAt(0))+species.substring(1);
         var text=Component.empty().append(Component.translatableWithFallback("spectrobesreforged.spectrobe."+species,fallback));
-        if(crown)text.append(Component.literal(" ♛").withStyle(ChatFormatting.GOLD));if(cooperative)text.append(Component.literal(" ⚒").withStyle(ChatFormatting.AQUA));return text;
+        if(crown)text.append(Component.literal(" ").append(com.jvprz.spectrobesreforged.common.feature.training.MedalSprites.perfect()));if(cooperative)text.append(Component.literal(" ").append(com.jvprz.spectrobesreforged.common.feature.training.MedalSprites.cooperative()));return text;
     }
 }

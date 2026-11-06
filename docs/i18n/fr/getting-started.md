@@ -47,19 +47,18 @@ Pierre, terre et couvertures utilisent les textures de blocs de Minecraft. La po
 
 ### Poches géologiques — 0.6.2-beta.6
 
-Les dépôts créent une petite poche enterrée avec un minerai central, sans exiger de matériau hôte préexistant. Glace (Flash) uniquement dans les biomes enneigés ou gelés ; grès (Corona) dans le désert ; grès rouge (Corona) dans les trois variantes de badlands ; boue (Aurora) dans les marais et mangroves. Les quatre familles incluent les minéraux C/B/A/A+. Poches de 5–7 blocs de large et 3–5 de haut, centrées 2–6 blocs sous la surface. Seul le terrain naturel autorisé est remplacé, jamais air, fluides, autres minerais ou troncs. La coque centrale doit tenir dans le sol autorisé et son biome.
+Les dépôts créent une petite poche enterrée avec un minerai central, sans exiger de matériau hôte préexistant. Glace (Flash) uniquement dans les biomes enneigés ou gelés ; grès (Corona) dans le désert ; grès rouge (Corona) dans les trois variantes de badlands ; boue (Aurora) dans les marais et mangroves. Les quatre familles incluent les minéraux C/B/A/A+. Poches de 5–7 blocs de large et 3–5 de haut, centrées 5–9 blocs sous la surface. Seul le terrain naturel autorisé est remplacé, jamais air, fluides, autres minerais ou troncs. La coque centrale doit tenir dans le sol autorisé et son biome.
 
 | ID | Fósil / Fossil | C / B / A / A+ |
 | --- | --- | --- |
-| `frozen` | `frozen_flash_fossil_ore` | `frozen_{c,b,a,a_plus}_mineral_ore` |
-| `sandy` | `sandy_corona_fossil_ore` | `sandy_{c,b,a,a_plus}_mineral_ore` |
-| `red_sandy` | `red_sandy_corona_fossil_ore` | `red_sandy_{c,b,a,a_plus}_mineral_ore` |
-| `muddy` | `muddy_aurora_fossil_ore` | `muddy_{c,b,a,a_plus}_mineral_ore` |
+| `frozen` | `frozen_flash_fossil_ore` | `frozen_flashium_ore` |
+| `sandy` | `sandy_corona_fossil_ore` | `sandy_coronium_ore` |
+| `red_sandy` | `red_sandy_corona_fossil_ore` | `red_sandy_coronium_ore` |
+| `muddy` | `muddy_aurora_fossil_ore` | `muddy_aurorium_ore` |
 
 Fossiles : 2 essais par chunk. Minéraux : C 1/2, B 1/4, A 1/12, A+ 1/32. Échec possible en terrain inadapté. Seulement les nouveaux chunks ; les minerais souterrains ordinaires par température restent présents. Les pièces conservent leur géologie rouge et les fouilles existantes leurs couches sauvegardées.
 
 
-Les dix outils existent aussi comme objets dans l’onglet Créatif des outils (`excavation_drill`, `excavation_blower`, etc.). Leurs recettes et leur usage comme ingrédients de la table viendront plus tard ; la table fournit encore ses outils sans objets en inventaire.
 
 
 {{ITEM_CREDITS}}
@@ -84,7 +83,7 @@ Ouvrez la même table : jusqu’à **16 opérateurs** partagent un spécimen, se
 Il existe **un seul résultat**, extrait une seule fois. Chaque participant admissible reçoit une fois l’XP de compétence et la découverte ; regarder ne compte pas. Fermer conserve la progression. Le serveur vérifie réservations, distance et actions. [Règles des raids](vortices.md#encounter-rules).
 
 
-Deux joueurs différents doivent utiliser des outils avec succès sur le même spécimen pour obtenir le souvenir coopératif cyan ⚒. Ouvrir la table ne suffit pas. Il reste sur le fossile ou minéral propre et le Spectrobe éveillé, avec la couronne éventuelle. Aucun changement de statistiques, XP ou récompenses.
+Deux joueurs différents doivent utiliser des outils avec succès sur le même spécimen pour obtenir le souvenir coopératif <img class="medal-icon" src="__GALLERY_ASSETS__/medals/coop.png" alt="Médaille coopérative" width="16" height="16">. Ouvrir la table ne suffit pas. Il reste sur le fossile ou minéral propre et le Spectrobe éveillé, avec la couronne éventuelle. Aucun changement de statistiques, XP ou récompenses.
 
 
 [Crédit de fouille partagé](advancements.md): Chaque joueur ayant utilisé un outil avec succès sur le spécimen, vivant, connecté et à 8 blocs au plus lors de l’extraction, reçoit les succès existants de fouille manuelle, trouvaille parfaite et terrain applicables. Chaque participant admissible obtient une découverte, son catalogue et l’XP normale de compétence ; les seuils de 10/100 découvertes et niveau 5 restent personnels. La personne qui extrait reçoit aussi le crédit. Regarder ne compte pas. Réparer reste attribué à l’utilisateur de Récupération ; éveil et entraînement restent personnels. L’extraction automatique ne donne aucun crédit manuel. Un seul objet de sortie, aucun nouveau succès coopératif.
@@ -93,9 +92,26 @@ Deux joueurs différents doivent utiliser des outils avec succès sur le même s
 La nouvelle table fait face au joueur qui la pose. L’objet propre est prioritaire dans le creux. Une pièce brute peut attendre en entrée, mais aucun travail ne commence avant de récupérer la sortie ; vide, la table n’affiche rien.
 
 
-Les icônes se nomment **Médaille parfaite** (♛) et **Médaille coopérative** (⚒). L’objet affiche uniquement ces noms ; les conditions sont dans ce guide.
+Les icônes se nomment **Médaille parfaite** (<img class="medal-icon" src="__GALLERY_ASSETS__/medals/crown.png" alt="Médaille parfaite" width="16" height="16">) et **Médaille coopérative** (<img class="medal-icon" src="__GALLERY_ASSETS__/medals/coop.png" alt="Médaille coopérative" width="16" height="16">). L’objet affiche uniquement ces noms ; les conditions sont dans ce guide.
 
 
 ## Souffleur portatif
 
-Maintenez Utiliser/clic droit pour repousser les créatures jusqu’à cinq blocs devant vous. Les murs solides bloquent l’air. Aucun dégât direct ni poussée des joueurs. Durabilité : 256, un point toutes les cinq ticks, sans usure en Créatif. Le souffleur du mini-jeu reste indépendant. Disponible en Créatif ou avec `/give @s spectrobesreforged:excavation_blower`, sans nouvelle recette.
+Maintenez le clic droit : repousse les créatures à 5 blocs. Ne traverse pas les murs ; consomme de la durabilité.
+
+## Outils portables
+
+Les dix objets ont des recettes et des usages hors de la table. Les outils virtuels restent fournis par la table. Voir les recettes dans [Minéraux et recettes](minerals.md). Deux outils usés peuvent être combinés avec la réparation vanilla.
+
+| Outil | Hors de la table de fouille |
+| --- | --- |
+| {{TOOL_DRILL}} | Fore la pierre et les minerais plus vite qu’une pioche en diamant. Consomme de la durabilité. |
+| {{TOOL_BLOWER}} | Maintenez le clic droit : repousse les créatures à 5 blocs. Ne traverse pas les murs ; consomme de la durabilité. |
+| {{TOOL_RECOVERY}} | Maintenez le clic droit 1,6 s : rend 2 cœurs. 24 utilisations ; recharge de 30 s. |
+| {{TOOL_PITON}} | Mine un plan de 3×3 orienté selon le regard. Durabilité par bloc ; accroupissez-vous pour un seul bloc. |
+| {{TOOL_FIRE}} | Maintenez le clic droit : fait fondre glace et neige, sans nettoyer les minerais gelés. Consomme de la durabilité. |
+| {{TOOL_WATER}} | Maintenez le clic droit : recueille l’eau, éteint le feu et refroidit lave et magma. Accroupi + clic droit pour verser. Réservoir : 8 seaux. |
+| {{TOOL_BLOWER_S}} | Maintenez le clic droit : souffle large de 7 blocs et dégage la neige. Coût de durabilité supérieur. |
+| {{TOOL_VACUUM}} | Maintenez le clic droit : absorbe les sources d’eau et les blocs gorgés d’eau. Accroupi + clic droit pour vider. Réservoir : 16 seaux. |
+| {{TOOL_GIGA}} | Clic droit sur un minerai : extrait un spécimen déjà fouillé manuellement. Intégrité 85 % ; 32 utilisations ; sans médaille ni XP de fouille. |
+| {{TOOL_BLAST}} | Clic droit sur un bloc : charge à mèche de 3 s, rayon de blocs 2,5. Chaque dépôt a 50 % de chances de sortir propre ou d’être perdu. 16 charges ; sans médaille. |

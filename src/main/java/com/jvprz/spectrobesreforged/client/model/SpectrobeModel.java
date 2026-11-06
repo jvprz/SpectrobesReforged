@@ -11,6 +11,26 @@ import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.model.data.EntityModelData;
 
 public class SpectrobeModel extends GeoModel<SpectrobeEntity> {
+    private GeoBone carryingMouth;
+    private float originalMouthRotation;
+    private GeoBone correctedHead;
+    private AnimatedHeadLook.Pose originalHead;
+
+    /** Custom look offsets must never become the next frame's animation input. */
+    public void restoreAnimatedHead() {
+        if (carryingMouth != null) {
+            carryingMouth.setRotX(originalMouthRotation);
+            carryingMouth = null;
+        }
+        if (correctedHead == null) return;
+        var bone=correctedHead;
+        var pose=originalHead;
+        bone.setPosX(pose.x());bone.setPosY(pose.y());bone.setPosZ(pose.z());
+        bone.setRotX(pose.rx());bone.setRotY(pose.ry());bone.setRotZ(pose.rz());
+        correctedHead=null;
+        originalHead=null;
+    }
+
 
     @Override
     public ResourceLocation getModelResource(SpectrobeEntity entity) {
@@ -51,7 +71,18 @@ public class SpectrobeModel extends GeoModel<SpectrobeEntity> {
     public void setCustomAnimations(SpectrobeEntity animatable, long instanceId, AnimationState<SpectrobeEntity> animationState) {
         super.setCustomAnimations(animatable, instanceId, animationState);
 
-        if (animatable.isRangePaused()) {
+        // Hold half of Spiko's 22.5-degree cry opening while carrying a mineral.
+        // Apply after animation sampling, then restore after rendering to avoid pose accumulation.
+        if ("spiko".equals(animatable.getSpeciesKey()) && animatable.hasCarriedMineral()) {
+            GeoBone mouth = getAnimationProcessor().getBone("mouth");
+            if (mouth != null) {
+                carryingMouth = mouth;
+                originalMouthRotation = mouth.getRotX();
+                mouth.setRotX(Math.min(originalMouthRotation, -11.25F * Mth.DEG_TO_RAD));
+            }
+        }
+
+        if (animatable.isRangePaused() || animatable.getLifeGesture()==1 || (animatable.hasDetailedCompanionRig()&&animatable.getLifeGesture()>=2) || animatable.getReaction()!=0 || animatable.isPreviewAnimationFrozen()) {
             return;
         }
 
@@ -61,12 +92,34 @@ public class SpectrobeModel extends GeoModel<SpectrobeEntity> {
         EntityModelData modelData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
         if (modelData == null) return;
 
-        float yaw = Mth.clamp(modelData.netHeadYaw(), -20.0F, 20.0F);
-        float pitch = Mth.clamp(modelData.headPitch(), -10.0F, 15.0F);
-
-        float smooth = 0.25F;
-
-        head.setRotY(head.getRotY() + yaw * Mth.DEG_TO_RAD * smooth);
-        head.setRotX(head.getRotX() + pitch * Mth.DEG_TO_RAD * smooth);
+        boolean life=com.jvprz.spectrobesreforged.common.config.Config.livingCompanions();
+        float weight=life ? .65F : .25F;
+        float yaw=Mth.clamp(modelData.netHeadYaw(),-24,24)*Mth.DEG_TO_RAD*weight;
+        float pitch=Mth.clamp(modelData.headPitch(),-12,12)*Mth.DEG_TO_RAD*weight;
+        float roll=0;
+        if (life && !animationState.isMoving() && !com.jvprz.spectrobesreforged.common.config.ClientConfig.reducedMotion()) {
+            double time=animationState.getAnimationTick()+animatable.getId()*13.7;
+            roll=(float)Math.sin(time*.045)*.012F;
+            if(animatable.getLifeGesture()==2)roll+=.035F;
+            pitch+=(float)Math.sin(time*.08)*.008F;
+        }
+        // Keep every animated rotation and translation; never restore the bind pose here.
+        var animated=new AnimatedHeadLook.Pose(head.getPosX(),head.getPosY(),head.getPosZ(),head.getRotX(),head.getRotY(),head.getRotZ());
+        // Legacy rigs pivot at the origin rather than the neck. Compensate in model space,
+        // without modifying the artist's geometry, pivots, keyframes or child bones.
+        org.joml.Vector3f anchor=switch(animatable.getSpeciesKey()) {
+            case "komainu" -> new org.joml.Vector3f(0,10,-3);
+            case "spiko" -> new org.joml.Vector3f(0,5,-4);
+            case "vilar" -> new org.joml.Vector3f(0,15,-7);
+            default -> new org.joml.Vector3f(head.getPivotX(),head.getPivotY(),head.getPivotZ());
+        };
+        anchor.sub(head.getPivotX(),head.getPivotY(),head.getPivotZ());
+        if (animatable.hasDetailedCompanionRig()) {
+            correctedHead=head;
+            originalHead=animated;
+        }
+        var pose=AnimatedHeadLook.compose(animated,anchor,new org.joml.Vector3f(head.getScaleX(),head.getScaleY(),head.getScaleZ()),yaw,pitch,roll);
+        head.setRotX(pose.rx());head.setRotY(pose.ry());head.setRotZ(pose.rz());
+        head.setPosX(pose.x());head.setPosY(pose.y());head.setPosZ(pose.z());
     }
 }

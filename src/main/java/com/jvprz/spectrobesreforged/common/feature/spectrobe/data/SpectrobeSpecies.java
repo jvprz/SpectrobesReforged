@@ -95,12 +95,20 @@ public final class SpectrobeSpecies {
     public static final class EvolutionData {
         private final String to;
         private final int mineralsRequired;
+        private final int levelRequired,battlesRequired;
 
         public EvolutionData(String to, int mineralsRequired) {
-            this.to = normalizeKey(to);
-            this.mineralsRequired = Math.max(0, mineralsRequired);
+            this(to,mineralsRequired,0,0);
+        }
+        public EvolutionData(String to,int mineralsRequired,int levelRequired,int battlesRequired) {
+            this.to=normalizeKey(to);
+            this.mineralsRequired=Math.max(0,mineralsRequired);
+            this.levelRequired=Math.clamp(levelRequired,0,100);
+            this.battlesRequired=Math.max(0,battlesRequired);
         }
 
+        public int levelRequired(){return levelRequired;}
+        public int battlesRequired(){return battlesRequired;}
         public String to() { return to; }
         public int mineralsRequired() { return mineralsRequired; }
 

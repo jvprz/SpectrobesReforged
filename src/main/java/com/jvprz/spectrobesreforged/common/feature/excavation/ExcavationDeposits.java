@@ -9,6 +9,10 @@ import java.util.*;
 public final class ExcavationDeposits {
     public record Deposit(String id,String host,String element,String grade,int terrain,int rock) {
         public boolean fossil(){return !element.isEmpty();}
+        /** Only combinations used by natural world generation belong in the creative inventory. */
+        public boolean naturalFossil(){
+            return fossil()&&element.equals(switch(host){case "frozen"->"flash";case "muddy"->"aurora";default->"corona";});
+        }
         public String rawId(){
             String prefix=switch(host){case "frozen"->"ice";case "sandy"->"sand";case "red_sandy"->"red_sand";case "muddy"->"mud";default->throw new IllegalArgumentException(host);};
             return prefix+"_raw_"+(fossil()?element+"_fossil":grade+"_mineral");

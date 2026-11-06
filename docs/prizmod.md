@@ -27,7 +27,9 @@ The companion slot accepts one living Child. Six team slots accept Adult/Evolved
 
 Excavation integrity gives **+1% at 70–84, +2% at 85–94, +3% at 95–100**, rounded down per base stat. A perfect excavation adds a permanent gold crown after the fossil and awakened Spectrobe name. Quality is saved separately from the crown; old entries without quality retain their existing stats.
 
-Minerals C/B/A/A+ grant **10/20/40/60% of a level**, alongside their existing stat effects. Other active stat minerals grant 25%; Diamond/Evolve remain inactive. Level cap: **100**. Filling the XP bar raises stats gradually within species limits. Minerals can still be useful for XP when their stat is capped. No item is consumed if neither XP nor stats change.
+Elemental minerals C/B/A/A+/S provide **10/20/40/60/100% base level progress** with matching affinity, half otherwise, before the level-efficiency curve. Power/Defense/Health now train stats only and no longer grant XP. Other existing mixed/stat minerals retain their existing behavior.
+
+Mineral XP efficiency decreases smoothly between these balance points: **level 1 → 100%, 25 → 80%, 50 → 60%, 75 → 45%, 100 → 35%** of the base percentage. For example, a base 10% mineral grants about 6% at level 50 (rounded up to whole XP). If it crosses a level, the remaining portion uses the new level’s efficiency. Only mineral XP is reduced: stat effects and the one-mineral feeding counter are unchanged. Combat XP is unchanged. Level 100 remains the cap and grants no further XP.
 
 Children gain XP through feeding. Completed raids grant one victory and up to 60 training XP to living Adult/Evolved in each participant’s team, reduced after that player dies; Children gain no battle XP. These saved counters prepare future evolution without enabling it.
 
@@ -66,3 +68,14 @@ Child companions cannot take combat or environmental damage, including arrows, f
 ## Companion and team HUD
 
 Equipping a Child shows a compact Prizmod panel in the upper-left corner, with portrait, medals, level and XP progress. Six numbered slots below reserve the existing combat team; assigned Adult/Evolved members show their portraits and HP bars. Empty slots do not unlock evolution or combat. The displayed Prizmod key follows your controls. The panel hides with F1, debug view, menus or spectator mode, and when no companion or team is assigned.
+
+
+## Latest experimental builds
+
+Medals have separate slots beside the 3D preview. Hover each icon to see how it was earned. Collection medals no longer overlap portraits.
+
+### Minerals and discoveries — experimental playtest 14
+
+Elemental minerals C/B/A/A+/S provide **10/20/40/60/100% base level progress** with matching affinity, half otherwise, before the level-efficiency curve. Power/Defense/Health now train stats only and no longer grant XP. Other existing mixed/stat minerals retain their existing behavior.
+
+Seeds: ATK +1, DEF +1, HP +10; shared lifetime allowance of one seed per level, maximum 100, with species stat caps. Seeds give no XP and unused allowances accumulate. Evolve M satisfies minerals fed; Evolve L reaches the configured level; Evolve B satisfies battles. Missing or already-satisfied requirements consume nothing. Current Child definitions only have mineral requirements; L/B remain ready for future definitions. None initiates evolution.

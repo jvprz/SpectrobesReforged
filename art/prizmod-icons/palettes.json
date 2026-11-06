@@ -1,0 +1,463 @@
+{
+  "note": "Original hand-authored 16x16 silhouettes and alpha retained; species-specific contrast ramps updated to current texture variants. Source PNGs retained for repeatable edits.",
+  "sprites": {
+    "komainu": {
+      "source_sha256": "ce0919f9eee095b99a7922df62e76be1c6e3d0213178354266073f84cf28fa1d",
+      "variants": [
+        "komainu.png",
+        "komainu_color_1.png",
+        "komainu_color_2.png"
+      ]
+    },
+    "spiko": {
+      "source_sha256": "5c2656e4bd9080f9728a1c3445cc6c98a995ce95791d789fad5513dcd6a02a7c",
+      "variants": [
+        "spiko.png",
+        "spiko_color_1.png",
+        "spiko_color_2.png"
+      ]
+    },
+    "vilar": {
+      "source_sha256": "ae39dcbdf42d42ffe039d670735ad3af058685339c681254dbd3bda886ce48a4",
+      "variants": [
+        "vilar.png",
+        "vilar_color_1.png",
+        "vilar_color_2.png"
+      ]
+    },
+    "segu": {
+      "source_sha256": "efc02bccf8d472cef77117da0e6db1cbe017cc79d510d4b81940ab507c711bc3",
+      "variants": [
+        "segu.png",
+        "segu_color_1.png",
+        "segu_color_2.png"
+      ]
+    },
+    "inkana": {
+      "source_sha256": "edd454a71c1558b72cf06fd2024b424e34364f3ab778432d211f42532f628a15",
+      "variants": [
+        "inkana.png",
+        "inkana_color_1.png",
+        "inkana_color_2.png"
+      ]
+    },
+    "shakin": {
+      "source_sha256": "1cdb62c3edb0583430ffb48ecca6a33532ac175b438832020ae6a38c5cfefb1b",
+      "variants": [
+        "shakin.png",
+        "shakin_color_1.png",
+        "shakin_color_2.png"
+      ]
+    }
+  },
+  "ramps": {
+    "komainu": [
+      {
+        "body": [
+          "#760425",
+          "#ff4479"
+        ],
+        "trim": [
+          "#176269",
+          "#75f4e6"
+        ],
+        "nose": [
+          "#39102a",
+          "#93556b"
+        ]
+      },
+      {
+        "body": [
+          "#922b00",
+          "#ff942c"
+        ],
+        "trim": [
+          "#9b9600",
+          "#ffff5b"
+        ],
+        "nose": [
+          "#630a12",
+          "#d62025"
+        ]
+      },
+      {
+        "body": [
+          "#987000",
+          "#ffe329"
+        ],
+        "trim": [
+          "#404a7b",
+          "#a8b3df"
+        ],
+        "nose": [
+          "#4e151d",
+          "#b03937"
+        ]
+      }
+    ],
+    "spiko": [
+      {
+        "body": [
+          "#004737",
+          "#009f7a"
+        ],
+        "mark": [
+          "#7e9d00",
+          "#f4ff25"
+        ],
+        "horn": [
+          "#ab7b58",
+          "#ffefa1"
+        ],
+        "jaw": [
+          "#ab7b58",
+          "#ffefa1"
+        ],
+        "foot": [
+          "#780030",
+          "#fa005a"
+        ],
+        "eye": [
+          "#6d0008",
+          "#ee162c"
+        ]
+      },
+      {
+        "body": [
+          "#336d77",
+          "#9be6c7"
+        ],
+        "mark": [
+          "#19395f",
+          "#3e6e94"
+        ],
+        "horn": [
+          "#004b43",
+          "#009379"
+        ],
+        "jaw": [
+          "#687173",
+          "#d0d6d8"
+        ],
+        "foot": [
+          "#ab6600",
+          "#ffdd18"
+        ],
+        "eye": [
+          "#858700",
+          "#efff20"
+        ]
+      },
+      {
+        "body": [
+          "#0d6305",
+          "#7bc72a"
+        ],
+        "mark": [
+          "#c7834e",
+          "#ffd19d"
+        ],
+        "horn": [
+          "#748991",
+          "#e0edf8"
+        ],
+        "jaw": [
+          "#7d8d95",
+          "#deeaf4"
+        ],
+        "foot": [
+          "#33203f",
+          "#865b99"
+        ],
+        "eye": [
+          "#70004d",
+          "#ff20c5"
+        ]
+      }
+    ],
+    "vilar": [
+      {
+        "body": [
+          "#8b0700",
+          "#f13522"
+        ],
+        "gold": [
+          "#a77900",
+          "#ffcf26"
+        ],
+        "dark": [
+          "#341723",
+          "#6b3a44"
+        ],
+        "tan": [
+          "#96744a",
+          "#f4d893"
+        ],
+        "eye": [
+          "#a87b00",
+          "#ffe777"
+        ]
+      },
+      {
+        "body": [
+          "#9a3000",
+          "#ff8f16"
+        ],
+        "gold": [
+          "#a96b00",
+          "#ffd02b"
+        ],
+        "dark": [
+          "#3b1c12",
+          "#87482c"
+        ],
+        "tan": [
+          "#96744a",
+          "#f4d893"
+        ],
+        "eye": [
+          "#007e5d",
+          "#78ffd2"
+        ]
+      },
+      {
+        "body": [
+          "#937000",
+          "#ffe32b"
+        ],
+        "gold": [
+          "#301221",
+          "#81394c"
+        ],
+        "dark": [
+          "#393109",
+          "#857030"
+        ],
+        "tan": [
+          "#7e7c54",
+          "#d0c99f"
+        ],
+        "eye": [
+          "#00813f",
+          "#7fff95"
+        ]
+      }
+    ],
+    "segu": [
+      {
+        "body": [
+          "#568232",
+          "#c4f28a"
+        ],
+        "mark": [
+          "#8e8800",
+          "#ffef38"
+        ],
+        "dark": [
+          "#172419",
+          "#465635"
+        ],
+        "spike": [
+          "#26361e",
+          "#637445"
+        ],
+        "eye": [
+          "#a9aa00",
+          "#ffff4d"
+        ]
+      },
+      {
+        "body": [
+          "#0f5f2a",
+          "#4cc551"
+        ],
+        "mark": [
+          "#bc2628",
+          "#ff803a"
+        ],
+        "dark": [
+          "#04171b",
+          "#183b3f"
+        ],
+        "spike": [
+          "#12262a",
+          "#46645d"
+        ],
+        "eye": [
+          "#b6c4b1",
+          "#f4f5e7"
+        ]
+      },
+      {
+        "body": [
+          "#036e7d",
+          "#a3e5ed"
+        ],
+        "mark": [
+          "#a12a73",
+          "#fc87c3"
+        ],
+        "dark": [
+          "#051a20",
+          "#1b3b42"
+        ],
+        "spike": [
+          "#112b2d",
+          "#456760"
+        ],
+        "eye": [
+          "#238900",
+          "#73ef21"
+        ]
+      }
+    ],
+    "inkana": [
+      {
+        "stone": [
+          "#524031",
+          "#bb946c"
+        ],
+        "dark": [
+          "#271a18",
+          "#694336"
+        ],
+        "crest": [
+          "#9e3e00",
+          "#ff9b42"
+        ],
+        "gold": [
+          "#a78b37",
+          "#fff09b"
+        ],
+        "red": [
+          "#790d1b",
+          "#f22d3b"
+        ],
+        "fire": [
+          "#c42d00",
+          "#fff2a0"
+        ]
+      },
+      {
+        "stone": [
+          "#8b2505",
+          "#fa7f22"
+        ],
+        "dark": [
+          "#092d31",
+          "#3f8e87"
+        ],
+        "crest": [
+          "#a3440b",
+          "#ff9c4d"
+        ],
+        "gold": [
+          "#357c73",
+          "#a1e2bc"
+        ],
+        "red": [
+          "#aa6200",
+          "#ffd22a"
+        ],
+        "fire": [
+          "#d97400",
+          "#fff9a7"
+        ]
+      },
+      {
+        "stone": [
+          "#354a1f",
+          "#b7cb74"
+        ],
+        "dark": [
+          "#0b222c",
+          "#2b5360"
+        ],
+        "crest": [
+          "#8b9b08",
+          "#edff72"
+        ],
+        "gold": [
+          "#4d9229",
+          "#b7ed7a"
+        ],
+        "red": [
+          "#9c8a00",
+          "#ffde23"
+        ],
+        "fire": [
+          "#777800",
+          "#fff48f"
+        ]
+      }
+    ],
+    "shakin": [
+      {
+        "body": [
+          "#501582",
+          "#ac41ef"
+        ],
+        "blade": [
+          "#75a9ad",
+          "#e6fffa"
+        ],
+        "armor": [
+          "#b18e17",
+          "#fff16b"
+        ],
+        "eye": [
+          "#117a2e",
+          "#8af895"
+        ],
+        "seam": [
+          "#7e161c",
+          "#e8424d"
+        ]
+      },
+      {
+        "body": [
+          "#691f62",
+          "#d65ab7"
+        ],
+        "blade": [
+          "#8e7099",
+          "#e4cbe6"
+        ],
+        "armor": [
+          "#2b805f",
+          "#a0edbd"
+        ],
+        "eye": [
+          "#8b8519",
+          "#efe38a"
+        ],
+        "seam": [
+          "#7d3425",
+          "#ce7753"
+        ]
+      },
+      {
+        "body": [
+          "#063f79",
+          "#238bdb"
+        ],
+        "blade": [
+          "#81adaf",
+          "#e1f5ef"
+        ],
+        "armor": [
+          "#824420",
+          "#de9d63"
+        ],
+        "eye": [
+          "#137b36",
+          "#8ae395"
+        ],
+        "seam": [
+          "#7e2222",
+          "#d94b46"
+        ]
+      }
+    ]
+  }
+}

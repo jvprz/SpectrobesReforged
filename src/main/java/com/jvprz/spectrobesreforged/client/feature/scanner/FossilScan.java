@@ -1,7 +1,6 @@
 package com.jvprz.spectrobesreforged.client.feature.scanner;
 
-import com.jvprz.spectrobesreforged.common.content.block.FossilOreBlock;
-import com.jvprz.spectrobesreforged.common.content.block.MineralOreBlock;
+import com.jvprz.spectrobesreforged.common.feature.scanner.ScanTargets;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
@@ -27,10 +26,7 @@ public final class FossilScan {
     public boolean tick(ClientLevel level, BlockPos center, double radius, int depth, int limit) {
         return tick(level.getGameTime(), center, radius, depth, limit,
                 level.getMinBuildHeight(), level.getMaxBuildHeight(), level::hasChunkAt,
-                pos -> {
-                    var block = level.getBlockState(pos).getBlock();
-                    return block instanceof FossilOreBlock || block instanceof MineralOreBlock;
-                });
+                pos -> ScanTargets.kind(level.getBlockState(pos)) != null);
     }
 
     boolean tick(long gameTime, BlockPos center, double radius, int depth, int limit,

@@ -13,8 +13,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import com.jvprz.spectrobesreforged.client.feature.scanner.FossilScan;
-import com.jvprz.spectrobesreforged.common.content.block.FossilOreBlock;
-import com.jvprz.spectrobesreforged.common.content.block.MineralOreBlock;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -313,9 +311,8 @@ public final class SpectrobeRangeRenderer {
     }
 
     private static ScanTargetType getTrackedTargetType(BlockState state) {
-        if (state.getBlock() instanceof FossilOreBlock) return ScanTargetType.FOSSIL;
-        if (state.getBlock() instanceof MineralOreBlock) return ScanTargetType.MINERAL;
-        return null;
+        var kind=com.jvprz.spectrobesreforged.common.feature.scanner.ScanTargets.kind(state);
+        return kind==null?null:kind==com.jvprz.spectrobesreforged.common.feature.scanner.ScanTargets.Kind.FOSSIL?ScanTargetType.FOSSIL:ScanTargetType.MINERAL;
     }
 
     private static void detectFossilsOnSweep(ClientLevel level, SpectrobeEntity spectrobe, float sweepAngle) {

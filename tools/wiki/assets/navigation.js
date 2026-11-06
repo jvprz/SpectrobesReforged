@@ -39,8 +39,52 @@ editionSelects.forEach(select => {
     window.location.assign(option.value);
   });
 });
-const mobile = window.matchMedia('(max-width: 760px)');
-const menu = document.querySelector('.guide-menu');
-function fitNavigation() { if (menu) menu.open = !mobile.matches; }
-fitNavigation();
-mobile.addEventListener('change', fitNavigation);
+// Header navigation is an accessible drawer; reading stays centered on the page.
+const menuButton = document.querySelector('#wiki-menu-toggle');
+const drawer = document.querySelector('#wiki-navigation');
+const closeButton = document.querySelector('#wiki-menu-close');
+const backdrop = document.querySelector('#wiki-nav-backdrop');
+const guideMenu = document.querySelector('.guide-menu');
+if (menuButton && drawer && closeButton && backdrop) {
+  document.documentElement.classList.add('wiki-enhanced');
+  menuButton.hidden = false;
+  if (guideMenu) guideMenu.open = true;
+  function setMenu(open, restoreFocus = true) {
+    document.body.dataset.menuOpen = String(open);
+    menuButton.setAttribute('aria-expanded', String(open));
+    backdrop.hidden = !open;
+    if (open) {
+      document.querySelectorAll('.contents-popover[open]').forEach(element => { element.open = false; });
+      closeButton.focus({preventScroll:true});
+      const scrollRegion=drawer.querySelector('.drawer-scroll');
+      if(scrollRegion)scrollRegion.scrollTop=0;
+    }
+    else if (restoreFocus) menuButton.focus();
+  }
+  menuButton.addEventListener('click', () => setMenu(document.body.dataset.menuOpen !== 'true'));
+  closeButton.addEventListener('click', () => setMenu(false));
+  backdrop.addEventListener('click', () => setMenu(false));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') {
+      if (document.body.dataset.menuOpen === 'true') setMenu(false);
+      document.querySelectorAll('.contents-popover[open]').forEach(element => {
+        const restore=element.contains(document.activeElement);element.open=false;
+        if(restore)element.querySelector('summary').focus();
+      });
+    }
+    if (event.key !== 'Tab' || document.body.dataset.menuOpen !== 'true') return;
+    const stops = [...drawer.querySelectorAll('a,button,select,input')].filter(element => !element.hidden && element.getClientRects().length);
+    if (event.shiftKey && document.activeElement === stops[0]) { event.preventDefault(); stops.at(-1).focus(); }
+    else if (!event.shiftKey && document.activeElement === stops.at(-1)) { event.preventDefault(); stops[0].focus(); }
+  });
+}
+
+// Contents acts as one compact popover: dismiss on selection, outside click or Escape.
+for (const contents of document.querySelectorAll('.contents-popover')) {
+  contents.addEventListener('click', event => {
+    if (event.target.closest('nav a')) contents.open = false;
+  });
+  document.addEventListener('pointerdown', event => {
+    if (contents.open && !contents.contains(event.target)) contents.open = false;
+  });
+}

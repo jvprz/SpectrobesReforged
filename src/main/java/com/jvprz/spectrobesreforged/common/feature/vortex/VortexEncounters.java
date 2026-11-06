@@ -58,7 +58,16 @@ public final class VortexEncounters extends SavedData {
         var entries=new ListTag();
         encounters.forEach((id,p)->{
             var e=new CompoundTag();e.putUUID("Id",id);e.putUUID("Owner",p.owner());e.putString("Status",p.status().name());e.putInt("Elapsed",p.elapsed());e.putInt("Absent",p.absent());
-            var members=new ListTag();for(UUID mob:p.members()){var m=new CompoundTag();m.putUUID("Id",mob);m.putBoolean("Defeated",p.defeated().contains(mob));members.add(m);}e.put("Members",members);
+            // Copy the defeated snapshot once per raid, not once per enemy.
+            var defeated=p.defeated();
+            var members=new ListTag();
+            for(UUID mob:p.members()){
+                var member=new CompoundTag();
+                member.putUUID("Id",mob);
+                member.putBoolean("Defeated",defeated.contains(mob));
+                members.add(member);
+            }
+            e.put("Members",members);
             var players=new ListTag();for(var member:p.participants()){var a=new CompoundTag();a.putUUID("Id",member.id());a.putInt("Deaths",member.deaths());a.putBoolean("Fallen",member.fallen());a.putBoolean("Claimed",member.claimed());players.add(a);}e.put("Participants",players);entries.add(e);
         });tag.put("Encounters",entries);return tag;
     }

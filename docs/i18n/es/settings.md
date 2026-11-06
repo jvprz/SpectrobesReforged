@@ -59,3 +59,11 @@ Curios también usa G por defecto. Si ambas acciones comparten tecla, G abre el 
 ## Posición del HUD y feedback de la beta
 
 Abre **Mods → Spectrobes Reforged → Configurar → Colocar HUD**. Arrastra la vista previa, usa la rueda para cambiar el tamaño (50–150%), activa u oculta el panel y los huecos del equipo, o restablece. Las preferencias también ofrecen posición horizontal/vertical en porcentaje y escala; son ajustes locales que se conservan al reiniciar. El tamaño inicial es 85%. **Dar feedback en Discord** abre la invitación tras confirmar. Durante la beta aparece un mensaje local al entrar al mundo/servidor con la invitación a Discord. No se envía a los demás ni se repite al morir o cambiar de dimensión. Activa HUD vertical para colocar el equipo en columna y ajusta el tamaño con − / + o la rueda.
+
+
+## Últimas compilaciones de prueba
+
+La preferencia de cliente **Mostrar medallas junto al nombre del Spectrobe** permite ocultar o mostrar los distintivos del nombre solo para ti. Se mantienen los huecos separados y las medallas guardadas.
+
+
+Durante la partida, pulsa **Escape → Spectrobes** para abrir directamente los ajustes del HUD, las preferencias de cliente y el feedback. Preferencias abre solo la configuración del cliente. **Volumen del escáner** ajusta sus sonidos independientemente del volumen de efectos del mod; siguen aplicándose las categorías de sonido de Minecraft. Los avisos del escáner son más suaves y se agrupan en ventanas de seis ticks para evitar que varios hallazgos suenen a la vez.

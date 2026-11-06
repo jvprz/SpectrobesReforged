@@ -59,3 +59,6 @@ Invoquez le vortex ci-dessous sur un terrain ouvert, puis passez en Survie. Test
 
 
 Un vortex en attente ou en poursuite fait rebondir les flèches avec le son et la réponse d’un bouclier vanilla, même avec Perforation. Tirer ne le détruit pas et ne déclenche pas de raid. Le contrôleur invisible cesse d’intercepter les projectiles après le début du combat.
+
+
+Power/Defense/Health récompensent les vortex terminés. Quantités C/B et pénalités conservées ; bonus A/A+ possibles sans mort. Pour n joueurs : A+ (5+n)/1000, A (30+3n)/1000. Sans mort : 10% de graine et 1% d’Evolve M, tirages indépendants. Aucun nouveau tirage en rentrant.

@@ -16,11 +16,17 @@ public final class ModSettingsScreen extends Screen {
     public ModSettingsScreen(ModContainer container, Screen parent) {
         super(label("settings")); this.container=container; this.parent=parent;
     }
+    private void openClientPreferences() {
+        net.neoforged.fml.config.ModConfigs.getConfigSet(net.neoforged.fml.config.ModConfig.Type.CLIENT).stream()
+                .filter(config->config.getModId().equals(container.getModId())).findFirst()
+                .ifPresent(config->minecraft.setScreen(new ConfigurationScreen.ConfigurationSectionScreen(
+                        this,net.neoforged.fml.config.ModConfig.Type.CLIENT,config,label("preferences"))));
+    }
     static Component label(String key) { return Component.translatable("spectrobesreforged.ui."+key); }
     @Override protected void init() {
         int x=width/2-110, y=height/2-65;
         addRenderableWidget(Button.builder(label("hud"),b->minecraft.setScreen(new HudLayoutScreen(this))).bounds(x,y,220,20).build());
-        addRenderableWidget(Button.builder(label("preferences"),b->minecraft.setScreen(new ConfigurationScreen(container,this))).bounds(x,y+26,220,20).build());
+        addRenderableWidget(Button.builder(label("preferences"),b->openClientPreferences()).bounds(x,y+26,220,20).build());
         addRenderableWidget(Button.builder(label("discord"),b->minecraft.setScreen(new ConfirmLinkScreen(accepted->{
             if(accepted) Util.getPlatform().openUri("https://discord.gg/7QkScUWBe9");
             minecraft.setScreen(this);

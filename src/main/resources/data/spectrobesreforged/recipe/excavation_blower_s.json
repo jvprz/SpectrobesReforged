@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "CDC",
+    "BSB",
+    " R "
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:copper_block"
+    },
+    "D": {
+      "item": "minecraft:diamond_block"
+    },
+    "B": {
+      "item": "minecraft:iron_block"
+    },
+    "S": {
+      "item": "spectrobesreforged:excavation_blower"
+    },
+    "R": {
+      "item": "minecraft:redstone_block"
+    }
+  },
+  "result": {
+    "id": "spectrobesreforged:excavation_blower_s",
+    "count": 1
+  }
+}

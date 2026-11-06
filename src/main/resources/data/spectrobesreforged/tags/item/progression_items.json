@@ -68,6 +68,13 @@
     "spectrobesreforged:muddy_corona_fossil_ore",
     "spectrobesreforged:mud_raw_corona_fossil",
     "spectrobesreforged:muddy_flash_fossil_ore",
-    "spectrobesreforged:mud_raw_flash_fossil"
+    "spectrobesreforged:mud_raw_flash_fossil",
+    "spectrobesreforged:raw_coronium_mineral",
+    "spectrobesreforged:raw_aurorium_mineral",
+    "spectrobesreforged:raw_flashium_mineral",
+    "spectrobesreforged:ice_raw_flashium_mineral",
+    "spectrobesreforged:sand_raw_coronium_mineral",
+    "spectrobesreforged:red_sand_raw_coronium_mineral",
+    "spectrobesreforged:mud_raw_aurorium_mineral"
   ]
 }

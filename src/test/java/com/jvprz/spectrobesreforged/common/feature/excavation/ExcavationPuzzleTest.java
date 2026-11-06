@@ -11,6 +11,26 @@ class ExcavationPuzzleTest {
         for (int i = 0; i < 10; i++) cells[i] = (byte) (ExcavationPuzzle.FOSSIL | (i < uncovered ? 0 : ExcavationPuzzle.DUST));
         return ExcavationPuzzle.restore(cells, health, ticks, damaged);
     }
+    @Test void repeatedProgressReadsStayCorrectAcrossToolsLayersTicksAndRestore() {
+        for(int terrain=0;terrain<=ExcavationPuzzle.MUD;terrain++) {
+            var puzzle=new ExcavationPuzzle(mask(),42,terrain,2);
+            var random=new java.util.Random(91);
+            for(int step=0;step<250;step++) {
+                int total=0,exposed=0;
+                for(byte cell:puzzle.snapshot())if((cell&ExcavationPuzzle.FOSSIL)!=0){
+                    total++;
+                    if((cell&(7|ExcavationPuzzle.DUST|ExcavationPuzzle.COVER))==0)exposed++;
+                }
+                int expected=puzzle.overburden()>0?0:exposed*100/total;
+                assertEquals(expected,puzzle.percent());
+                assertEquals(expected,puzzle.percent());
+                if(step%25==0)puzzle=ExcavationPuzzle.restore(puzzle.state());
+                int tool=step<2?ExcavationPuzzle.TAP:random.nextInt(ExcavationPuzzle.TAP+1);
+                puzzle.work(random.nextInt(10),0,tool,5,true);
+                puzzle.tick();
+            }
+        }
+    }
     @Test void seededLayoutIsStableAndSnapshotsCannotMutateIt() {
         var a = new ExcavationPuzzle(mask(), 123); var b = new ExcavationPuzzle(mask(), 123);
         assertArrayEquals(a.snapshot(), b.snapshot());

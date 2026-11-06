@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "spectrobesreforged:block/sandy_coronium_ore",
+    "top": "minecraft:block/sandstone_top",
+    "bottom": "minecraft:block/sandstone_bottom"
+  }
+}

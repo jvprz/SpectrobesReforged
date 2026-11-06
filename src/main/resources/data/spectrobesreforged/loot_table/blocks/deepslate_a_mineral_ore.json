@@ -58,34 +58,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "spectrobesreforged:raw_a_mineral",
-          "weight": 1,
+          "name": "spectrobesreforged:raw_aurorium_mineral",
           "functions": [
             {
               "function": "minecraft:set_custom_data",
-              "tag": "{Mineral:\"power_a\"}"
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "spectrobesreforged:raw_a_mineral",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:set_custom_data",
-              "tag": "{Mineral:\"defense_a\"}"
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "spectrobesreforged:raw_a_mineral",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:set_custom_data",
-              "tag": "{Mineral:\"health_a\"}"
+              "tag": "{Mineral:\"aurorium_a\"}"
             }
           ]
         }

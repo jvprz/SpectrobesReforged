@@ -49,19 +49,18 @@ La piedra, la tierra y las cubiertas ambientales usan texturas de bloques de Min
 
 ### Bolsas geológicas — 0.6.2-beta.6
 
-Los depósitos ambientales ahora crean una pequeña bolsa enterrada con una mena central, sin necesitar que ya exista su material anfitrión. Hielo (Flash) solo en biomas nevados o congelados; arenisca (Corona) solo en desierto; arenisca roja (Corona) solo en badlands, badlands boscosas y erosionadas; barro (Aurora) solo en pantano y manglar. Las cuatro familias incluyen minerales C/B/A/A+. Los parches miden 5–7 bloques de ancho y 3–5 de alto, con el centro 2–6 bloques bajo la altura de superficie. Sustituyen terreno natural seleccionado, nunca aire, fluidos, otras menas ni troncos. La cubierta central debe caber en terreno sólido permitido y dentro de su familia de biomas.
+Los depósitos ambientales ahora crean una pequeña bolsa enterrada con una mena central, sin necesitar que ya exista su material anfitrión. Hielo (Flash) solo en biomas nevados o congelados; arenisca (Corona) solo en desierto; arenisca roja (Corona) solo en badlands, badlands boscosas y erosionadas; barro (Aurora) solo en pantano y manglar. Las cuatro familias incluyen minerales C/B/A/A+. Los parches miden 5–7 bloques de ancho y 3–5 de alto, con el centro 5–9 bloques bajo la altura de superficie. Sustituyen terreno natural seleccionado, nunca aire, fluidos, otras menas ni troncos. La cubierta central debe caber en terreno sólido permitido y dentro de su familia de biomas.
 
 | ID | Fósil / Fossil | C / B / A / A+ |
 | --- | --- | --- |
-| `frozen` | `frozen_flash_fossil_ore` | `frozen_{c,b,a,a_plus}_mineral_ore` |
-| `sandy` | `sandy_corona_fossil_ore` | `sandy_{c,b,a,a_plus}_mineral_ore` |
-| `red_sandy` | `red_sandy_corona_fossil_ore` | `red_sandy_{c,b,a,a_plus}_mineral_ore` |
-| `muddy` | `muddy_aurora_fossil_ore` | `muddy_{c,b,a,a_plus}_mineral_ore` |
+| `frozen` | `frozen_flash_fossil_ore` | `frozen_flashium_ore` |
+| `sandy` | `sandy_corona_fossil_ore` | `sandy_coronium_ore` |
+| `red_sandy` | `red_sandy_corona_fossil_ore` | `red_sandy_coronium_ore` |
+| `muddy` | `muddy_aurora_fossil_ore` | `muddy_aurorium_ore` |
 
 Fósiles: 2 intentos por chunk. Minerales: C 1/2, B 1/4, A 1/12 y A+ 1/32 intentos por chunk. Los intentos pueden fallar si el terreno no sirve. Solo afecta a chunks nuevos. Se mantienen las menas subterráneas normales por temperatura. Las piezas conservan su geología, incluida arena/arenisca roja en la mesa; las excavaciones existentes mantienen sus capas guardadas.
 
 
-Las diez herramientas de excavación también existen como objetos en la pestaña de herramientas de Creativo (`excavation_drill`, `excavation_blower`, etc.). Sus recetas y su uso para craftear la mesa quedan para después; la mesa sigue ofreciendo sus herramientas sin exigir objetos en el inventario.
 
 
 {{ITEM_CREDITS}}
@@ -86,7 +85,7 @@ Abrid la misma mesa: hasta **16 operadores** comparten pieza, capas, polvo, calo
 Hay **un único resultado**, que se extrae una sola vez. Cada colaborador elegible recibe una vez la XP de excavación y el registro del descubrimiento; mirar no cuenta. Cerrar conserva el progreso de la pieza. El servidor comprueba reservas, distancia y acciones. [Reglas y premios de incursión](vortices.md#encounter-rules).
 
 
-Dos jugadores distintos deben utilizar herramientas con éxito en la misma pieza para obtener el recuerdo cooperativo ⚒ en cian. Abrir la mesa sin trabajar no cuenta. Se conserva en el fósil o mineral limpio y en el Spectrobe despierto, junto a la corona si corresponde. No modifica estadísticas, XP ni recompensas.
+Dos jugadores distintos deben utilizar herramientas con éxito en la misma pieza para obtener el recuerdo cooperativo <img class="medal-icon" src="__GALLERY_ASSETS__/medals/coop.png" alt="Medalla cooperativa" width="16" height="16">. Abrir la mesa sin trabajar no cuenta. Se conserva en el fósil o mineral limpio y en el Spectrobe despierto, junto a la corona si corresponde. No modifica estadísticas, XP ni recompensas.
 
 
 [Reconocimiento de excavación compartida](advancements.md): Quienes hayan utilizado una herramienta con éxito en la pieza y estén vivos, conectados y a 8 bloques o menos al extraerla reciben los logros existentes de excavación manual, hallazgo perfecto y terreno que correspondan. Cada colaborador elegible obtiene un descubrimiento, su registro y la XP normal de habilidad; los logros de 10/100 hallazgos y nivel 5 se calculan con su progreso personal. Quien extrae también recibe crédito. Mirar no cuenta. Reparar corresponde a quien utiliza Recuperación; despertar y entrenar siguen siendo personales. La extracción automática no concede progreso manual. Sigue habiendo un solo objeto de salida y ningún logro cooperativo nuevo.
@@ -95,9 +94,26 @@ Dos jugadores distintos deben utilizar herramientas con éxito en la misma pieza
 La mesa nueva se orienta hacia quien la coloca. El objeto limpio tiene prioridad visual en la bandeja. Puede esperar una pieza en bruto en la entrada, pero no se puede trabajar hasta recoger la salida; la mesa vacía no muestra nada.
 
 
-Los iconos se llaman **Medalla perfecta** (♛) y **Medalla cooperativa** (⚒). El objeto muestra únicamente sus nombres; los requisitos se consultan en esta guía.
+Los iconos se llaman **Medalla perfecta** (<img class="medal-icon" src="__GALLERY_ASSETS__/medals/crown.png" alt="Medalla perfecta" width="16" height="16">) y **Medalla cooperativa** (<img class="medal-icon" src="__GALLERY_ASSETS__/medals/coop.png" alt="Medalla cooperativa" width="16" height="16">). El objeto muestra únicamente sus nombres; los requisitos se consultan en esta guía.
 
 
 ## Soplador de mano
 
-Mantén Usar/clic derecho con el ítem soplador para empujar criaturas en un cono frontal de hasta cinco bloques. Los muros sólidos bloquean el aire. No causa daño directo ni empuja jugadores. Tiene 256 puntos de durabilidad y gasta uno por ráfaga cada cinco ticks; en Creativo no se desgasta. El soplador del minijuego es independiente. Está en herramientas de Creativo o con `/give @s spectrobesreforged:excavation_blower`; todavía no tiene receta.
+Mantén clic derecho: empuja mobs hasta 5 bloques. No atraviesa paredes; consume durabilidad.
+
+## Herramientas portátiles
+
+Los diez objetos ya tienen crafteos y funciones fuera de la mesa. La mesa sigue proporcionando sus herramientas virtuales sin consumir estos objetos. Las recetas están en [Minerales y recetas](minerals.md). Puedes combinar dos herramientas gastadas mediante la reparación vanilla.
+
+| Herramienta | Fuera de la mesa de excavación |
+| --- | --- |
+| {{TOOL_DRILL}} | Taladro: pica piedra y menas más rápido que un pico de diamante. Pierde durabilidad al picar. |
+| {{TOOL_BLOWER}} | Mantén clic derecho: empuja mobs hasta 5 bloques. No atraviesa paredes; consume durabilidad. |
+| {{TOOL_RECOVERY}} | Mantén clic derecho durante 1,6 s: recupera 2 corazones. 24 usos; espera de 30 s. |
+| {{TOOL_PITON}} | Pica un bloque: rompe un área de 3×3 según la dirección de la mirada. Un punto de durabilidad por bloque; agáchate para picar solo uno. |
+| {{TOOL_FIRE}} | Mantén clic derecho: derrite hielo y nieve. No limpia menas congeladas. Consume durabilidad. |
+| {{TOOL_WATER}} | Mantén clic derecho: recoge agua, apaga fuego y enfría lava o magma. Agáchate + clic derecho para verter agua. Depósito: 8 cubos. |
+| {{TOOL_BLOWER_S}} | Mantén clic derecho: ráfaga amplia de 7 bloques que empuja mobs y limpia nieve superficial. Consume más durabilidad. |
+| {{TOOL_VACUUM}} | Mantén clic derecho: absorbe bloques fuente de agua y agua de bloques anegados. Agáchate + clic derecho para vaciar. Depósito: 16 cubos. |
+| {{TOOL_GIGA}} | Clic derecho sobre una mena: extrae una pieza limpia que ya hayas excavado a mano. Integridad 85 %; 32 usos; sin medallas ni XP de excavación. |
+| {{TOOL_BLAST}} | Clic derecho sobre un bloque: coloca una carga con mecha de 3 s. Radio de bloques: 2,5. Cada depósito tiene 50 % de salir limpio o perderse. 16 cargas; sin medallas. |

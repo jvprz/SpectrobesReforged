@@ -40,7 +40,7 @@ public final class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
     private final List<FeedButton> feedButtons=new ArrayList<>();
     public PrizmodScreen(PrizmodMenu menu,Inventory inventory,Component title){super(menu,inventory,title);imageWidth=366;imageHeight=238;}
     private Component text(String key,Object... args){return Component.translatable("gui.spectrobesreforged.prizmod_ui."+key,args);}
-    private Component name(ClientPrizmodState.Entry entry){return SpectrobeNames.name(entry.species(),entry.crowned(),entry.cooperative());}
+    private Component name(ClientPrizmodState.Entry entry){return SpectrobeNames.name(entry.species(),com.jvprz.spectrobesreforged.common.config.ClientConfig.nameMedals()&&entry.crowned(),com.jvprz.spectrobesreforged.common.config.ClientConfig.nameMedals()&&entry.cooperative());}
     private List<Hit> entries(){
         String query=search==null?"":search.getValue().trim().toLowerCase(Locale.ROOT);
         List<Hit> result=new ArrayList<>();
@@ -91,7 +91,7 @@ public final class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         private ItemStack stack(){var slots=minerals();int at=feedPage*6+row;return at<slots.size()?minecraft.player.getInventory().getItem(slots.get(at)):ItemStack.EMPTY;}
         @Override protected void renderWidget(GuiGraphics g,int mx,int my,float partial){
             var stack=stack();g.fill(getX(),getY(),getX()+width,getY()+height,isHoveredOrFocused()?0xff3b5865:0xff293d48);g.renderItem(stack,getX()+2,getY()+2);
-            g.drawString(font,font.plainSubstrByWidth(stack.getHoverName().getString(),104),getX()+23,getY()+6,0xffe5edf0,false);
+            g.drawString(font,net.minecraft.locale.Language.getInstance().getVisualOrder(font.substrByWidth(stack.getHoverName(),104)),getX()+23,getY()+6,0xffe5edf0,false);
             g.drawString(font,Component.literal("×"+stack.getCount()),getX()+132,getY()+6,0xff9dc8db,false);
         }
     }
@@ -102,7 +102,7 @@ public final class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
     }
     private void refresh(){
         page=Math.min(page,pages()-1);var selected=selection();if(selected==null)feeding=false;
-        filterButton.setMessage(filter==0?text("all"):filter==4?Component.literal("♛"):Component.translatable("tooltip.spectrobesreforged.type."+new String[]{"","corona","aurora","flash"}[filter]));
+        filterButton.setMessage(filter==0?text("all"):filter==4?com.jvprz.spectrobesreforged.common.feature.training.MedalSprites.perfect():Component.translatable("tooltip.spectrobesreforged.type."+new String[]{"","corona","aurora","flash"}[filter]));
         filterButton.setTooltip(Tooltip.create(text("filter_hint")));
         sortButton.setMessage(text(sortLevel?"sort_level":"sort_name"));sortButton.setTooltip(Tooltip.create(text("sort_hint")));
         previous.active=page>0;next.active=page<pages()-1;
@@ -143,7 +143,7 @@ public final class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         return super.keyPressed(key,scanCode,modifiers);
     }
     private void crown(GuiGraphics g,int x,int y){
-        g.fill(x,y+2,x+8,y+6,0xffffd35c);g.fill(x,y,x+2,y+3,0xffffeaa0);g.fill(x+3,y-1,x+5,y+3,0xffffeaa0);g.fill(x+6,y,x+8,y+3,0xffffeaa0);g.fill(x+1,y+6,x+7,y+7,0xffc48d30);
+        g.drawString(font,com.jvprz.spectrobesreforged.common.feature.training.MedalSprites.perfect(),x,y,0xffffffff,false);
     }
     private void icon(GuiGraphics g,ClientPrizmodState.Entry e,int x,int y,int size){if(e!=null)g.blit(SpectrobeIcons.icon(e.species(),e.color()),x,y,0,0,size,size,size,size);}
     private void renderPreview(GuiGraphics g,ClientPrizmodState.Entry entry,int x,int y,int mouseX,int mouseY){
@@ -186,10 +186,11 @@ public final class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
     private void card(GuiGraphics g,ClientPrizmodState.Entry e,int x,int y){
         panel(g,x,y,42,28);if(e==null)return;
         if(e.id().equals(selected))g.renderOutline(leftPos+x,topPos+y,42,28,0xff83d2f2);
-        icon(g,e,leftPos+x+3,topPos+y+2,20);
-        g.drawString(font,Component.literal(""+e.level()),leftPos+x+25,topPos+y+17,0xffc4dae4,false);
-        if(e.crowned())crown(g,leftPos+x+29,topPos+y+4);
-        if(e.cooperative())g.drawString(font,"⚒",leftPos+x+5,topPos+y+4,0xff7ee8e3,false);
+        icon(g,e,leftPos+x+3,topPos+y+3,16);
+        g.drawString(font,Component.literal(""+e.level()),leftPos+x+23,topPos+y+14,0xffc4dae4,false);
+        int badge=leftPos+x+23;
+        if(e.crowned()){crown(g,badge,topPos+y+3);badge+=9;}
+        if(e.cooperative())g.drawString(font,com.jvprz.spectrobesreforged.common.feature.training.MedalSprites.cooperative(),badge,topPos+y+3,0xffffffff,false);
         int color=e.hpCur()==0?0xffd36b67:0xff73cfa9;g.fill(leftPos+x+3,topPos+y+24,leftPos+x+3+(int)(35L*e.hpCur()/Math.max(1,e.hp())),topPos+y+26,color);
     }
     @Override protected void renderBg(GuiGraphics g,float partial,int mouseX,int mouseY){
@@ -207,18 +208,21 @@ public final class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         else renderDetails(g,selection.entry,mouseX,mouseY);
         panel(g,10,207,174,27);g.drawString(font,text("companion"),leftPos+15,topPos+210,0xff8db7cc,false);
         var baby=ClientPrizmodState.BABY;
-        g.drawString(font,font.plainSubstrByWidth(baby==null?text("empty").getString():name(baby).getString(),130),leftPos+15,topPos+222,0xffdbe8ee,false);icon(g,baby,leftPos+161,topPos+213,16);
+        g.drawString(font,net.minecraft.locale.Language.getInstance().getVisualOrder(font.substrByWidth(baby==null?text("empty"):SpectrobeNames.name(baby.species(),false),130)),leftPos+15,topPos+222,0xffdbe8ee,false);icon(g,baby,leftPos+161,topPos+213,16);
+        if(baby!=null){int bx=leftPos+136;if(baby.crowned()){crown(g,bx,topPos+209);bx+=11;}if(baby.cooperative())g.drawString(font,com.jvprz.spectrobesreforged.common.feature.training.MedalSprites.cooperative(),bx,topPos+209,0xffffffff,false);}
         g.drawString(font,text("team_label"),leftPos+196,topPos+205,0xff8db7cc,false);
-        for(int i=0;i<6;i++){int x=196+i*26;panel(g,x,216,22,18);var entry=i<ClientPrizmodState.TEAM.size()?ClientPrizmodState.TEAM.get(i):null;icon(g,entry,leftPos+x+3,topPos+217,16);if(entry!=null&&entry.crowned())crown(g,leftPos+x+13,topPos+216);}
+        for(int i=0;i<6;i++){int x=196+i*26;panel(g,x,216,22,18);var entry=i<ClientPrizmodState.TEAM.size()?ClientPrizmodState.TEAM.get(i):null;icon(g,entry,leftPos+x+1,topPos+218,entry!=null&&(entry.crowned()||entry.cooperative())?12:16);if(entry!=null&&entry.crowned())crown(g,leftPos+x+14,topPos+217);if(entry!=null&&entry.cooperative())g.drawString(font,com.jvprz.spectrobesreforged.common.feature.training.MedalSprites.cooperative(),leftPos+x+14,topPos+225,0xffffffff,false);}
     }
     private void renderDetails(GuiGraphics g,ClientPrizmodState.Entry e,int mouseX,int mouseY){
         int x=leftPos+198,y=topPos;
-        String title=font.plainSubstrByWidth(SpectrobeNames.name(e.species(),false).getString(),135);
-        g.drawString(font,title,x,y+29,0xffe1f0f5,false);if(e.crowned())crown(g,x+font.width(title)+4,y+30);
-        if(e.cooperative())g.drawString(font,"⚒",x+font.width(title)+(e.crowned()?17:4),y+30,0xff7ee8e3,false);
+        String title=font.plainSubstrByWidth(SpectrobeNames.name(e.species(),false).getString(),154);
+        g.drawString(font,title,x,y+29,0xffe1f0f5,false);
         if(feeding){g.drawString(font,text("choose_mineral"),x,y+42,0xffa3c8da,false);if(minerals().isEmpty())g.drawWordWrap(font,text("no_minerals"),x,y+73,145,0xffb5c8d4);return;}
         g.drawString(font,Component.empty().append(Component.translatable("spectrobe.stage."+e.stage().toLowerCase(Locale.ROOT))).append(" · ").append(e.element().equals("unknown")?Component.literal("?"):Component.translatable("tooltip.spectrobesreforged.type."+e.element())),x,y+43,0xff9eb6c5,false);
         renderPreview(g,e,x,y+52,mouseX,mouseY);
+        int mx=x+60;
+        if(e.crowned()){medalSlot(g,com.jvprz.spectrobesreforged.common.feature.training.MedalSprites.perfect(),mx,y+82);mx+=16;}
+        if(e.cooperative())medalSlot(g,com.jvprz.spectrobesreforged.common.feature.training.MedalSprites.cooperative(),mx,y+82);
         g.drawString(font,text("level",e.level()),x+60,y+59,0xff9cdbf7,false);
         g.drawString(font,e.quality()<0?text("quality_unknown"):text("quality",SpectrobeLevels.qualityPercent(e.quality())),x+60,y+73,0xffdfcf8e,false);
         g.drawString(font,text("health",e.hpCur(),e.hp()),x,y+94,0xff9fd8b9,false);
@@ -228,9 +232,20 @@ public final class PrizmodScreen extends AbstractContainerScreen<PrizmodMenu> {
         g.fill(x,y+131,x+150,y+135,0xff0e1b24);g.fill(x,y+131,x+(needed==0?150:(int)Math.min(150,150L*e.xp()/needed)),y+135,0xff69bce5);
         g.drawString(font,text("counters",e.mineralsFed(),e.battles()),x,y+142,0xff93a9b7,false);
     }
+    private void medalSlot(GuiGraphics g,Component medal,int x,int y){g.fill(x,y,x+13,y+11,0xff14232e);g.drawString(font,medal,x+2,y+1,0xffffffff,false);}
+    private boolean medalTooltip(GuiGraphics g,int mouseX,int mouseY){
+        var selected=selection();if(selected==null||feeding)return false;
+        var entry=selected.entry;int x=leftPos+258,y=topPos+82;
+        if(entry.crowned()){
+            if(mouseX>=x&&mouseX<x+13&&mouseY>=y&&mouseY<y+11){g.renderTooltip(font,List.of(Component.translatable("tooltip.spectrobesreforged.excavation_crown"),Component.translatable("tooltip.spectrobesreforged.medal_perfect_obtained")),Optional.empty(),mouseX,mouseY);return true;}x+=16;
+        }
+        if(entry.cooperative()&&mouseX>=x&&mouseX<x+13&&mouseY>=y&&mouseY<y+11){g.renderTooltip(font,List.of(Component.translatable("tooltip.spectrobesreforged.excavation_cooperative"),Component.translatable("tooltip.spectrobesreforged.medal_cooperative_obtained")),Optional.empty(),mouseX,mouseY);return true;}
+        return false;
+    }
     @Override protected void renderLabels(GuiGraphics g,int x,int y){}
     @Override public void render(GuiGraphics g,int mouseX,int mouseY,float partial){
         super.render(g,mouseX,mouseY,partial);
+        if(medalTooltip(g,mouseX,mouseY))return;
         var hit=hit(mouseX,mouseY);if(hit!=null)g.renderTooltip(font,List.of(name(hit.entry),text("level",hit.entry.level()),text("health",hit.entry.hpCur(),hit.entry.hp()),text("quality",SpectrobeLevels.qualityPercent(hit.entry.quality())),text("evolution_pending")),Optional.empty(),mouseX,mouseY);
         for(var button:feedButtons)if(button.visible&&button.isHovered()){
             var stack=button.stack();var selected=selection();

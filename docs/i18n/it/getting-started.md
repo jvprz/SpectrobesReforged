@@ -47,19 +47,18 @@ Pietra, terra e coperture usano le texture dei blocchi di Minecraft. La polvere 
 
 ### Sacche geologiche — 0.6.2-beta.6
 
-I depositi creano una piccola sacca sepolta con un minerale centrale. Ghiaccio (Flash) solo nei biomi nevosi o gelati; arenaria (Corona) nel deserto; arenaria rossa (Corona) nelle tre varianti di badlands; fango (Aurora) in paludi e mangrovie. Tutte le famiglie includono minerali C/B/A/A+. Sacche larghe 5–7 blocchi e alte 3–5, con centro 2–6 blocchi sotto la superficie. Si sostituisce solo terreno naturale consentito, mai aria, fluidi, altri minerali o tronchi. Il guscio centrale deve essere nel terreno solido e nel bioma adatto.
+I depositi creano una piccola sacca sepolta con un minerale centrale. Ghiaccio (Flash) solo nei biomi nevosi o gelati; arenaria (Corona) nel deserto; arenaria rossa (Corona) nelle tre varianti di badlands; fango (Aurora) in paludi e mangrovie. Tutte le famiglie includono minerali C/B/A/A+. Sacche larghe 5–7 blocchi e alte 3–5, con centro 5–9 blocchi sotto la superficie. Si sostituisce solo terreno naturale consentito, mai aria, fluidi, altri minerali o tronchi. Il guscio centrale deve essere nel terreno solido e nel bioma adatto.
 
 | ID | Fósil / Fossil | C / B / A / A+ |
 | --- | --- | --- |
-| `frozen` | `frozen_flash_fossil_ore` | `frozen_{c,b,a,a_plus}_mineral_ore` |
-| `sandy` | `sandy_corona_fossil_ore` | `sandy_{c,b,a,a_plus}_mineral_ore` |
-| `red_sandy` | `red_sandy_corona_fossil_ore` | `red_sandy_{c,b,a,a_plus}_mineral_ore` |
-| `muddy` | `muddy_aurora_fossil_ore` | `muddy_{c,b,a,a_plus}_mineral_ore` |
+| `frozen` | `frozen_flash_fossil_ore` | `frozen_flashium_ore` |
+| `sandy` | `sandy_corona_fossil_ore` | `sandy_coronium_ore` |
+| `red_sandy` | `red_sandy_corona_fossil_ore` | `red_sandy_coronium_ore` |
+| `muddy` | `muddy_aurora_fossil_ore` | `muddy_aurorium_ore` |
 
 Fossili: 2 tentativi per chunk. Minerali: C 1/2, B 1/4, A 1/12, A+ 1/32. Il terreno inadatto può impedire la generazione. Solo nuovi chunk; restano i normali minerali sotterranei per temperatura. I reperti conservano la geologia rossa e gli scavi esistenti gli strati salvati.
 
 
-I dieci strumenti sono anche oggetti nella scheda Creativa degli strumenti (`excavation_drill`, `excavation_blower`, ecc.). Ricette e uso come ingredienti del tavolo arriveranno più avanti; il tavolo continua a fornire gli strumenti senza oggetti in inventario.
 
 
 {{ITEM_CREDITS}}
@@ -84,7 +83,7 @@ Aprite lo stesso tavolo: fino a **16 operatori** condividono reperto, strati, po
 C’è **un solo risultato**, estratto una sola volta. Ogni collaboratore idoneo riceve una volta XP di scavo e scoperta; osservare non conta. Chiudere conserva il progresso. Il server verifica prenotazioni, distanza e azioni. [Regole delle incursioni](vortices.md#encounter-rules).
 
 
-Due giocatori diversi devono usare strumenti con successo sullo stesso reperto per ottenere il ricordo cooperativo ciano ⚒. Aprire il tavolo non basta. Resta sul fossile o minerale pulito e sullo Spectrobe risvegliato, insieme all’eventuale corona. Non cambia statistiche, XP o premi.
+Due giocatori diversi devono usare strumenti con successo sullo stesso reperto per ottenere il ricordo cooperativo <img class="medal-icon" src="__GALLERY_ASSETS__/medals/coop.png" alt="Medaglia cooperativa" width="16" height="16">. Aprire il tavolo non basta. Resta sul fossile o minerale pulito e sullo Spectrobe risvegliato, insieme all’eventuale corona. Non cambia statistiche, XP o premi.
 
 
 [Credito di scavo condiviso](advancements.md): Chi ha usato uno strumento con successo sul reperto ed è vivo, connesso ed entro 8 blocchi all’estrazione riceve gli obiettivi esistenti di scavo manuale, ritrovamento perfetto e terreno applicabili. Ogni collaboratore idoneo riceve una scoperta, catalogo e XP normali di abilità; 10/100 scoperte e livello 5 seguono il progresso personale. Anche chi estrae riceve credito. Guardare non conta. Riparare spetta all’utilizzatore di Recupero; risveglio e allenamento restano personali. L’estrazione automatica non dà progresso manuale. Sempre un solo oggetto, nessun nuovo obiettivo cooperativo.
@@ -93,9 +92,26 @@ Due giocatori diversi devono usare strumenti con successo sullo stesso reperto p
 Il nuovo tavolo guarda il giocatore che lo posiziona. L’oggetto pulito ha priorità nella vaschetta. Un reperto grezzo può attendere in ingresso, ma non si lavora finché l’uscita non viene ritirata; il tavolo vuoto non mostra nulla.
 
 
-Le icone si chiamano **Medaglia perfetta** (♛) e **Medaglia cooperativa** (⚒). L’oggetto mostra solo i nomi; i requisiti sono in questa guida.
+Le icone si chiamano **Medaglia perfetta** (<img class="medal-icon" src="__GALLERY_ASSETS__/medals/crown.png" alt="Medaglia perfetta" width="16" height="16">) e **Medaglia cooperativa** (<img class="medal-icon" src="__GALLERY_ASSETS__/medals/coop.png" alt="Medaglia cooperativa" width="16" height="16">). L’oggetto mostra solo i nomi; i requisiti sono in questa guida.
 
 
 ## Soffiatore portatile
 
-Tieni premuto Usa/clic destro per spingere creature in un cono fino a cinque blocchi. I muri solidi bloccano l’aria. Nessun danno diretto o spinta ai giocatori. Durabilità 256: un punto ogni cinque tick, nessun consumo in Creativa. Il soffiatore del minigioco resta indipendente. In Creativa o con `/give @s spectrobesreforged:excavation_blower`, senza nuova ricetta.
+Tieni premuto il tasto destro: spinge creature fino a 5 blocchi. Non attraversa muri; consuma durabilità.
+
+## Attrezzi portatili
+
+I dieci oggetti hanno ricette e usi fuori dal tavolo. Gli attrezzi virtuali restano forniti dal tavolo. Ricette in [Minerali e ricette](minerals.md). Due attrezzi usurati possono essere combinati con la riparazione vanilla.
+
+| Attrezzo | Fuori dal tavolo di scavo |
+| --- | --- |
+| {{TOOL_DRILL}} | Perfora pietra e minerali più velocemente di un piccone di diamante. Consuma durabilità. |
+| {{TOOL_BLOWER}} | Tieni premuto il tasto destro: spinge creature fino a 5 blocchi. Non attraversa muri; consuma durabilità. |
+| {{TOOL_RECOVERY}} | Tieni premuto il tasto destro per 1,6 s: recupera 2 cuori. 24 utilizzi; attesa di 30 s. |
+| {{TOOL_PITON}} | Scava un piano di 3×3 orientato allo sguardo. Durabilità per blocco; accovacciati per un solo blocco. |
+| {{TOOL_FIRE}} | Tieni premuto il tasto destro: scioglie ghiaccio e neve, senza pulire i minerali congelati. Consuma durabilità. |
+| {{TOOL_WATER}} | Tieni premuto il tasto destro: raccoglie acqua, spegne fuoco e raffredda lava o magma. Accovacciati + tasto destro per versare. Serbatoio: 8 secchi. |
+| {{TOOL_BLOWER_S}} | Tieni premuto il tasto destro: raffica ampia di 7 blocchi che spinge creature e rimuove neve. Consumo maggiore. |
+| {{TOOL_VACUUM}} | Tieni premuto il tasto destro: assorbe sorgenti d’acqua e acqua dai blocchi impregnati. Accovacciati + tasto destro per svuotare. Serbatoio: 16 secchi. |
+| {{TOOL_GIGA}} | Tasto destro su un minerale: estrae un reperto già scavato manualmente. Integrità 85 %; 32 utilizzi; niente medaglie o XP di scavo. |
+| {{TOOL_BLAST}} | Tasto destro su un blocco: carica con miccia di 3 s, raggio blocchi 2,5. Ogni deposito ha il 50 % di uscire pulito o andare perso. 16 cariche; niente medaglie. |

@@ -169,6 +169,20 @@ public final class ModBlocks {
                     )
             );
 
+    public static final java.util.Map<String,DeferredBlock<Block>> ELEMENTAL_MINERAL_ORES=elementalMineralOres();
+    private static java.util.Map<String,DeferredBlock<Block>> elementalMineralOres(){
+        var result=new java.util.LinkedHashMap<String,DeferredBlock<Block>>();
+        for(String id:java.util.List.of("coronium_ore","aurorium_ore","flashium_ore","deepslate_coronium_ore","deepslate_aurorium_ore","deepslate_flashium_ore","frozen_flashium_ore","sandy_coronium_ore","red_sandy_coronium_ore","muddy_aurorium_ore")){
+            String family=id.contains("coronium")?"coronium":id.contains("aurorium")?"aurorium":"flashium";
+            String host=id.substring(0,id.indexOf(family));host=host.isEmpty()?"stone":host.substring(0,host.length()-1);
+            final String material=host;
+            result.put(id,BLOCKS.register(id,()->new com.jvprz.spectrobesreforged.common.content.block.ElementalMineralOreBlock(family,material,
+                    BlockBehaviour.Properties.of().strength(material.equals("deepslate")?3f:material.equals("frozen")?2.5f:1.5f,6f)
+                            .sound(material.equals("frozen")?SoundType.GLASS:material.equals("muddy")?SoundType.MUD:material.equals("deepslate")?SoundType.DEEPSLATE:SoundType.STONE).requiresCorrectToolForDrops())));
+        }
+        return java.util.Collections.unmodifiableMap(result);
+    }
+
     public static final java.util.Map<String, DeferredBlock<Block>> ENVIRONMENTAL_ORES = environmentalOres();
     private static java.util.Map<String, DeferredBlock<Block>> environmentalOres() {
         var entries=new java.util.LinkedHashMap<String, DeferredBlock<Block>>();

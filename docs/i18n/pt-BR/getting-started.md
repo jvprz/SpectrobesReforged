@@ -47,19 +47,18 @@ Pedra, terra e coberturas usam texturas de blocos do Minecraft. A poeira clara s
 
 ### Bolsas geológicas — 0.6.2-beta.6
 
-Os depósitos agora criam pequenas bolsas enterradas com um minério central. Gelo (Flash) apenas em biomas nevados ou congelados; arenito (Corona) no deserto; arenito vermelho (Corona) nas três variantes de badlands; lama (Aurora) em pântanos e manguezais. As quatro famílias incluem minerais C/B/A/A+. Bolsas de 5–7 blocos de largura e 3–5 de altura, com centro 2–6 blocos abaixo da superfície. Substituem apenas terreno natural permitido, nunca ar, fluidos, outros minérios ou troncos. A camada central deve caber em solo sólido e no bioma adequado.
+Os depósitos agora criam pequenas bolsas enterradas com um minério central. Gelo (Flash) apenas em biomas nevados ou congelados; arenito (Corona) no deserto; arenito vermelho (Corona) nas três variantes de badlands; lama (Aurora) em pântanos e manguezais. As quatro famílias incluem minerais C/B/A/A+. Bolsas de 5–7 blocos de largura e 3–5 de altura, com centro 5–9 blocos abaixo da superfície. Substituem apenas terreno natural permitido, nunca ar, fluidos, outros minérios ou troncos. A camada central deve caber em solo sólido e no bioma adequado.
 
 | ID | Fósil / Fossil | C / B / A / A+ |
 | --- | --- | --- |
-| `frozen` | `frozen_flash_fossil_ore` | `frozen_{c,b,a,a_plus}_mineral_ore` |
-| `sandy` | `sandy_corona_fossil_ore` | `sandy_{c,b,a,a_plus}_mineral_ore` |
-| `red_sandy` | `red_sandy_corona_fossil_ore` | `red_sandy_{c,b,a,a_plus}_mineral_ore` |
-| `muddy` | `muddy_aurora_fossil_ore` | `muddy_{c,b,a,a_plus}_mineral_ore` |
+| `frozen` | `frozen_flash_fossil_ore` | `frozen_flashium_ore` |
+| `sandy` | `sandy_corona_fossil_ore` | `sandy_coronium_ore` |
+| `red_sandy` | `red_sandy_corona_fossil_ore` | `red_sandy_coronium_ore` |
+| `muddy` | `muddy_aurora_fossil_ore` | `muddy_aurorium_ore` |
 
 Fósseis: 2 tentativas por chunk. Minerais: C 1/2, B 1/4, A 1/12, A+ 1/32. Tentativas podem falhar em terreno inadequado. Apenas chunks novos; minérios subterrâneos normais por temperatura continuam. Peças mantêm a geologia vermelha e escavações existentes preservam suas camadas.
 
 
-As dez ferramentas também existem como itens na aba Criativa de ferramentas (`excavation_drill`, `excavation_blower` etc.). Receitas e uso como ingredientes da mesa ficam para depois; a mesa continua fornecendo ferramentas sem exigir itens no inventário.
 
 
 {{ITEM_CREDITS}}
@@ -84,7 +83,7 @@ Abram a mesma mesa: até **16 operadores** compartilham peça, camadas, poeira, 
 Há **um único resultado**, extraído uma vez. Cada colaborador elegível recebe uma vez XP de escavação e registro da descoberta; observar não conta. Fechar preserva o progresso. O servidor verifica reservas, distância e ações. [Regras das incursões](vortices.md#encounter-rules).
 
 
-Dois jogadores diferentes precisam usar ferramentas com sucesso na mesma peça para obter a lembrança cooperativa ciano ⚒. Só abrir a mesa não conta. Ela fica no fóssil ou mineral limpo e no Spectrobe despertado, junto da coroa quando houver. Não altera atributos, XP ou prêmios.
+Dois jogadores diferentes precisam usar ferramentas com sucesso na mesma peça para obter a lembrança cooperativa ciano <img class="medal-icon" src="__GALLERY_ASSETS__/medals/coop.png" alt="Medalha cooperativa" width="16" height="16">. Só abrir a mesa não conta. Ela fica no fóssil ou mineral limpo e no Spectrobe despertado, junto da coroa quando houver. Não altera atributos, XP ou prêmios.
 
 
 [Crédito de escavação compartilhado](advancements.md): Quem usou uma ferramenta com sucesso na peça e estiver vivo, conectado e a até 8 blocos ao extraí-la recebe os avanços existentes de escavação manual, achado perfeito e terreno aplicáveis. Cada colaborador elegível recebe uma descoberta, catálogo e XP normal de habilidade; 10/100 descobertas e nível 5 usam progresso pessoal. Quem extrai também recebe crédito. Observar não conta. Reparar cabe ao usuário de Recuperação; despertar e treino continuam pessoais. Extração automática não concede progresso manual. Continua havendo um só objeto, sem novo avanço cooperativo.
@@ -93,9 +92,26 @@ Dois jogadores diferentes precisam usar ferramentas com sucesso na mesma peça p
 A nova mesa fica voltada para quem a coloca. O objeto limpo tem prioridade na bandeja. Uma peça bruta pode esperar na entrada, mas só pode ser trabalhada após retirar a saída; a mesa vazia não mostra nada.
 
 
-Os ícones se chamam **Medalha perfeita** (♛) e **Medalha cooperativa** (⚒). O objeto mostra apenas os nomes; os requisitos estão neste guia.
+Os ícones se chamam **Medalha perfeita** (<img class="medal-icon" src="__GALLERY_ASSETS__/medals/crown.png" alt="Medalha perfeita" width="16" height="16">) e **Medalha cooperativa** (<img class="medal-icon" src="__GALLERY_ASSETS__/medals/coop.png" alt="Medalha cooperativa" width="16" height="16">). O objeto mostra apenas os nomes; os requisitos estão neste guia.
 
 
 ## Soprador portátil
 
-Segure Usar/clique direito para empurrar criaturas em um cone de até cinco blocos. Paredes sólidas bloqueiam o ar. Sem dano direto ou empurrão em jogadores. Durabilidade 256: um ponto a cada cinco ticks, sem desgaste no Criativo. O soprador do minijogo permanece independente. No Criativo ou com `/give @s spectrobesreforged:excavation_blower`, sem nova receita.
+Segure o botão direito: empurra criaturas até 5 blocos. Não atravessa paredes; consome durabilidade.
+
+## Ferramentas portáteis
+
+Os dez itens têm receitas e usos fora da mesa. As ferramentas virtuais continuam disponíveis na mesa. Receitas em [Minerais e receitas](minerals.md). Duas ferramentas gastas podem ser combinadas com o reparo vanilla.
+
+| Ferramenta | Fora da mesa de escavação |
+| --- | --- |
+| {{TOOL_DRILL}} | Perfura pedra e minérios mais rápido que uma picareta de diamante. Consome durabilidade. |
+| {{TOOL_BLOWER}} | Segure o botão direito: empurra criaturas até 5 blocos. Não atravessa paredes; consome durabilidade. |
+| {{TOOL_RECOVERY}} | Segure o botão direito por 1,6 s: recupera 2 corações. 24 usos; espera de 30 s. |
+| {{TOOL_PITON}} | Minera um plano de 3×3 conforme a direção do olhar. Durabilidade por bloco; agache para minerar só um. |
+| {{TOOL_FIRE}} | Segure o botão direito: derrete gelo e neve sem limpar minérios congelados. Consome durabilidade. |
+| {{TOOL_WATER}} | Segure o botão direito: coleta água, apaga fogo e esfria lava ou magma. Agache + botão direito para despejar. Tanque: 8 baldes. |
+| {{TOOL_BLOWER_S}} | Segure o botão direito: rajada ampla de 7 blocos que empurra criaturas e limpa neve. Consumo maior. |
+| {{TOOL_VACUUM}} | Segure o botão direito: absorve fontes de água e água de blocos alagados. Agache + botão direito para esvaziar. Tanque: 16 baldes. |
+| {{TOOL_GIGA}} | Botão direito num minério: extrai uma peça já escavada manualmente. Integridade 85 %; 32 usos; sem medalhas ou XP de escavação. |
+| {{TOOL_BLAST}} | Botão direito num bloco: carga com pavio de 3 s, raio de blocos 2,5. Cada depósito tem 50 % de sair limpo ou se perder. 16 cargas; sem medalhas. |

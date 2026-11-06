@@ -30,14 +30,14 @@ public final class ModTabs {
                     .icon(()->ModItems.WHITE_PRIZMOD.get().getDefaultInstance())
                     .displayItems((parameters,output)->{
                         output.accept(ModItems.WHITE_PRIZMOD.get());
-                        output.accept(ModItems.EXCAVATION_TABLE.get());
-                        output.accept(ModItems.INCUBATOR.get());
-                        ModItems.EXCAVATION_TOOLS.values().forEach(tool->output.accept(tool.get()));
-                        // All cosmetic variants stay together after the functional equipment.
+                        // Keep the complete Prizmod palette together, then machines and tools.
                         for(var item:List.of(ModItems.LIGHT_GRAY_PRIZMOD,ModItems.GRAY_PRIZMOD,ModItems.BLACK_PRIZMOD,
                                 ModItems.BROWN_PRIZMOD,ModItems.RED_PRIZMOD,ModItems.ORANGE_PRIZMOD,ModItems.YELLOW_PRIZMOD,
                                 ModItems.LIME_PRIZMOD,ModItems.GREEN_PRIZMOD,ModItems.CYAN_PRIZMOD,ModItems.LIGHT_BLUE_PRIZMOD,
                                 ModItems.BLUE_PRIZMOD,ModItems.PURPLE_PRIZMOD,ModItems.MAGENTA_PRIZMOD,ModItems.PINK_PRIZMOD))output.accept(item.get());
+                        output.accept(ModItems.EXCAVATION_TABLE.get());
+                        output.accept(ModItems.INCUBATOR.get());
+                        ModItems.EXCAVATION_TOOLS.values().forEach(tool->output.accept(tool.get()));
                     }).build());
     public static final DeferredHolder<CreativeModeTab,CreativeModeTab> SPECTROBES_FOSSILS_TAB =
             CREATIVE_MODE_TABS.register("spectrobes_fossils",()->category("spectrobes_fossils","spectrobes_tools")
@@ -46,7 +46,7 @@ public final class ModTabs {
                         output.accept(ModItems.RAW_CORONA_FOSSIL.get());
                         output.accept(ModItems.RAW_AURORA_FOSSIL.get());
                         output.accept(ModItems.RAW_FLASH_FOSSIL.get());
-                        com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.all().stream().filter(d->d.fossil())
+                        com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.all().stream().filter(d->d.naturalFossil())
                                 .sorted(Comparator.comparingInt(com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.Deposit::hostOrder).thenComparingInt(d->d.contentOrder()))
                                 .forEach(d->output.accept(ModItems.ENVIRONMENTAL_RAWS.get(d.rawId()).get()));
                         // Every registered fossil is now playable; group by Corona / Aurora / Flash.
@@ -59,26 +59,37 @@ public final class ModTabs {
                     }).build());
     public static final DeferredHolder<CreativeModeTab,CreativeModeTab> SPECTROBES_MINERALS_TAB =
             CREATIVE_MODE_TABS.register("spectrobes_minerals",()->category("spectrobes_minerals","spectrobes_fossils")
-                    .icon(()->ModItems.POWER_C.get().getDefaultInstance())
+                    .icon(()->ModMineralLoot.ELEMENTALS.get("flashium_a_plus").get().getDefaultInstance())
                     .displayItems((parameters,output)->{
-                        for(var item:List.of(ModItems.RAW_C_MINERAL,ModItems.RAW_B_MINERAL,ModItems.RAW_A_MINERAL,ModItems.RAW_A_PLUS_MINERAL))output.accept(item.get());
-                        com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.all().stream().filter(d->!d.fossil())
-                                .sorted(Comparator.comparingInt(com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.Deposit::hostOrder).thenComparingInt(d->d.contentOrder()))
-                                .forEach(d->output.accept(ModItems.ENVIRONMENTAL_RAWS.get(d.rawId()).get()));
+                        ModItems.RAW_ELEMENTAL_MINERALS.values().forEach(item->output.accept(item.get()));
+                        ModMineralLoot.ELEMENTALS.values().forEach(item->output.accept(item.get()));
                         // Stat families C -> B -> A -> A+, then combinations, rare minerals and Chroma.
                         for(DeferredItem<Item> item:ModItems.ALL_MINERALS)output.accept(item.get());
+                        ModMineralLoot.SEEDS.values().forEach(item->output.accept(item.get()));
+                        ModMineralLoot.EVOLVE.values().forEach(item->output.accept(item.get()));
+                    }).build());
+    public static final DeferredHolder<CreativeModeTab,CreativeModeTab> SPECTROBES_DISCOVERIES_TAB =
+            CREATIVE_MODE_TABS.register("spectrobes_discoveries",()->category("spectrobes_discoveries","spectrobes_minerals")
+                    .icon(()->ModMineralLoot.LOOT.get("cube_alpha").get().getDefaultInstance())
+                    .displayItems((parameters,output)->{
+                        ModMineralLoot.MATERIALS.values().forEach(item->output.accept(item.get()));
+                        for(String id:List.of("relic_crystal","neo"))output.accept(ModMineralLoot.LOOT.get(id).get());
+                        for(String cube:ModMineralLoot.CUBES)output.accept(ModMineralLoot.LOOT.get("cube_"+cube).get());
+                        for(String shape:ModMineralLoot.MYSTERIES)output.accept(ModMineralLoot.LOOT.get("mystery_stone_"+shape).get());
                     }).build());
     public static final DeferredHolder<CreativeModeTab,CreativeModeTab> SPECTROBES_BLOCKS_TAB =
-            CREATIVE_MODE_TABS.register("spectrobes_blocks",()->category("spectrobes_blocks","spectrobes_minerals")
+            CREATIVE_MODE_TABS.register("spectrobes_blocks",()->category("spectrobes_blocks","spectrobes_discoveries")
                     .icon(()->ModItems.CORONA_FOSSIL_ORE_ITEM.get().getDefaultInstance())
                     .displayItems((parameters,output)->{
                         for (String material:List.of("","deepslate_")) {
-                            for (String content:List.of("corona_fossil","aurora_fossil","flash_fossil","c_mineral","b_mineral","a_mineral","a_plus_mineral"))
+                            for (String content:List.of("corona_fossil","aurora_fossil","flash_fossil","coronium","aurorium","flashium"))
                                 output.accept(net.minecraft.core.registries.BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath(SpectrobesReforged.MODID,material+content+"_ore")));
                         }
-                        com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.all().stream()
-                                .sorted(Comparator.comparingInt(com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.Deposit::hostOrder).thenComparingInt(d->d.contentOrder()))
-                                .forEach(d->output.accept(ModItems.ENVIRONMENTAL_ORES.get(d.id()).get()));
+                        for(String host:List.of("frozen","sandy","red_sandy","muddy")){
+                            com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.all().stream().filter(d->d.naturalFossil()&&d.host().equals(host))
+                                    .sorted(Comparator.comparingInt(d->d.contentOrder())).forEach(d->output.accept(ModItems.ENVIRONMENTAL_ORES.get(d.id()).get()));
+                            ModItems.ELEMENTAL_MINERAL_ORES.forEach((id,item)->{if(id.startsWith(host+"_"))output.accept(item.get());});
+                        }
                     }).build());
     public static final DeferredHolder<CreativeModeTab,CreativeModeTab> SPECTROBES_SPAWN_EGGS_TAB =
             CREATIVE_MODE_TABS.register("spectrobes_spawn_eggs",()->category("spectrobes_spawn_eggs","spectrobes_blocks")

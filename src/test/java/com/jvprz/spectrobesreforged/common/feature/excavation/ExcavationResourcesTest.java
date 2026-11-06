@@ -13,16 +13,16 @@ class ExcavationResourcesTest {
             return JsonParser.parseReader(new InputStreamReader(stream,StandardCharsets.UTF_8)).getAsJsonObject();
         }
     }
-    @Test void allEightMineralOresKeepSilkTouchAndFixThreePossibleResultsInRawDrops() throws Exception {
+    @Test void allEightMineralOresKeepSilkTouchAndDropAnElementalSpecimen() throws Exception {
         for(String grade:new String[]{"c","b","a","a_plus"})for(String prefix:new String[]{"","deepslate_"}){
             String ore=prefix+grade+"_mineral_ore";
             var pools=resource("data/spectrobesreforged/loot_table/blocks/"+ore+".json").getAsJsonArray("pools");
             assertEquals("spectrobesreforged:"+ore,pools.get(0).getAsJsonObject().getAsJsonArray("entries").get(0).getAsJsonObject().get("name").getAsString());
-            var raw=pools.get(1).getAsJsonObject().getAsJsonArray("entries");assertEquals(3,raw.size());
+            var raw=pools.get(1).getAsJsonObject().getAsJsonArray("entries");assertEquals(1,raw.size());
             for(int i=0;i<raw.size();i++){
-                var entry=raw.get(i).getAsJsonObject();assertEquals("spectrobesreforged:raw_"+grade+"_mineral",entry.get("name").getAsString());
+                var entry=raw.get(i).getAsJsonObject();assertEquals("spectrobesreforged:raw_aurorium_mineral",entry.get("name").getAsString());
                 var function=entry.getAsJsonArray("functions").get(0).getAsJsonObject();assertEquals("minecraft:set_custom_data",function.get("function").getAsString());
-                String result=new String[]{"power","defense","health"}[i]+"_"+grade;
+                String result="aurorium_"+grade;
                 assertEquals("{Mineral:\""+result+"\"}",function.get("tag").getAsString());assertNotNull(ExcavationMasks.get(result));
             }
         }

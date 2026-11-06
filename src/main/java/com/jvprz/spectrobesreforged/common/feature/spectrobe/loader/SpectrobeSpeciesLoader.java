@@ -96,7 +96,9 @@ public class SpectrobeSpeciesLoader extends SimpleJsonResourceReloadListener {
                 SpectrobeSpecies.EvolutionData evolution =
                         new SpectrobeSpecies.EvolutionData(
                                 evolutionJson.get("to").getAsString(),
-                                evolutionJson.get("minerals_required").getAsInt()
+                                evolutionJson.get("minerals_required").getAsInt(),
+                                evolutionJson.has("level_required")?evolutionJson.get("level_required").getAsInt():0,
+                                evolutionJson.has("battles_required")?evolutionJson.get("battles_required").getAsInt():0
                         );
 
                 List<String> textures =

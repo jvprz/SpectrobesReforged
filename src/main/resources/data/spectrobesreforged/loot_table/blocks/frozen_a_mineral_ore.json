@@ -58,34 +58,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "spectrobesreforged:ice_raw_a_mineral",
-          "weight": 1,
+          "name": "spectrobesreforged:ice_raw_flashium_mineral",
           "functions": [
             {
               "function": "minecraft:set_custom_data",
-              "tag": "{Mineral:\"power_a\",ExcavationTerrain:2,ExcavationRock:0}"
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "spectrobesreforged:ice_raw_a_mineral",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:set_custom_data",
-              "tag": "{Mineral:\"defense_a\",ExcavationTerrain:2,ExcavationRock:0}"
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "spectrobesreforged:ice_raw_a_mineral",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:set_custom_data",
-              "tag": "{Mineral:\"health_a\",ExcavationTerrain:2,ExcavationRock:0}"
+              "tag": "{Mineral:\"flashium_a\",ExcavationTerrain:2,ExcavationRock:0}"
             }
           ]
         }

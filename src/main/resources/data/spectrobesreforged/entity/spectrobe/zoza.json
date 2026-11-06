@@ -38,7 +38,7 @@
     "entity/spectrobe/zoza/zoza_color_1",
     "entity/spectrobe/zoza/zoza_color_2"
   ],
-  "model_status": "temporary_individual",
+  "model_status": "custom",
   "sources": {
     "stats": "https://spectrobes.fandom.com/wiki/Zoza",
     "evolution": "https://spectrobes.fandom.com/wiki/Zoza",

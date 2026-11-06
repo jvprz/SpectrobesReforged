@@ -233,7 +233,7 @@ public final class KrawlVortexEntity extends Entity implements GeoEntity {
             for(var previous:java.util.Set.copyOf(raidBar.getPlayers()))if(!watchers.contains(previous))raidBar.removePlayer(previous);
             watchers.forEach(raidBar::addPlayer);
             raidBar.setName(Component.translatable("message.spectrobesreforged.vortex.raid_bar",progress.playerCount()));
-            raidBar.setProgress(progress.remaining()/(float)progress.members().size());
+            raidBar.setProgress(progress.remaining()/(float)progress.memberCount());
         }
         VortexEncounters.get(level).setDirty();
         if(progress.status()!=VortexProgress.Status.ACTIVE)finishEncounter(progress);

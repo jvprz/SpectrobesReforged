@@ -58,34 +58,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "spectrobesreforged:sand_raw_b_mineral",
-          "weight": 1,
+          "name": "spectrobesreforged:sand_raw_coronium_mineral",
           "functions": [
             {
               "function": "minecraft:set_custom_data",
-              "tag": "{Mineral:\"power_b\",ExcavationTerrain:1,ExcavationRock:2}"
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "spectrobesreforged:sand_raw_b_mineral",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:set_custom_data",
-              "tag": "{Mineral:\"defense_b\",ExcavationTerrain:1,ExcavationRock:2}"
-            }
-          ]
-        },
-        {
-          "type": "minecraft:item",
-          "name": "spectrobesreforged:sand_raw_b_mineral",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "minecraft:set_custom_data",
-              "tag": "{Mineral:\"health_b\",ExcavationTerrain:1,ExcavationRock:2}"
+              "tag": "{Mineral:\"coronium_b\",ExcavationTerrain:1,ExcavationRock:2}"
             }
           ]
         }

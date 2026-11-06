@@ -1,0 +1,362 @@
+[
+  {
+    "id": "coronium_c",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "coronium_b",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "coronium_a",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "coronium_a_plus",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "coronium_s",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "aurorium_c",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "aurorium_b",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "aurorium_a",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "aurorium_a_plus",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "aurorium_s",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "flashium_c",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "flashium_b",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "flashium_a",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "flashium_a_plus",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "flashium_s",
+    "category": "elemental",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "hp_seed",
+    "category": "seed",
+    "prepared": false,
+    "stats": [
+      10,
+      0,
+      0
+    ]
+  },
+  {
+    "id": "atk_seed",
+    "category": "seed",
+    "prepared": false,
+    "stats": [
+      0,
+      1,
+      0
+    ]
+  },
+  {
+    "id": "def_seed",
+    "category": "seed",
+    "prepared": false,
+    "stats": [
+      0,
+      0,
+      1
+    ]
+  },
+  {
+    "id": "evolve_m",
+    "category": "evolve",
+    "prepared": false
+  },
+  {
+    "id": "evolve_l",
+    "category": "evolve",
+    "prepared": false
+  },
+  {
+    "id": "evolve_b",
+    "category": "evolve",
+    "prepared": false
+  },
+  {
+    "id": "metalium",
+    "category": "material",
+    "prepared": true
+  },
+  {
+    "id": "titanium",
+    "category": "material",
+    "prepared": true
+  },
+  {
+    "id": "marble",
+    "category": "material",
+    "prepared": true
+  },
+  {
+    "id": "cube_alpha",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_beta",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_gamma",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_delta",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_epsilon",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_zeta",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_eta",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_theta",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_iota",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_kappa",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_lambda",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_mu",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_nu",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_xi",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_omicron",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_pi",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_rho",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_sigma",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_tau",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "cube_upsilon",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "relic_crystal",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "neo",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "mystery_stone_skull",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "mystery_stone_plate",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "mystery_stone_piggy_bank",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "mystery_stone_seed_pod",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "mystery_stone_saucer",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "mystery_stone_chest",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "mystery_stone_question_mark",
+    "category": "collectible",
+    "prepared": true
+  },
+  {
+    "id": "mystery_stone_gift",
+    "category": "collectible",
+    "prepared": true
+  }
+]

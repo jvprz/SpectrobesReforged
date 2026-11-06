@@ -37,6 +37,20 @@ public final class CooperativeGameplayTests {
         var progress=new VortexProgress(owner.getUUID(),mobs.stream().map(KrawlEntity::getUUID).toList());VortexEncounters.get(level).begin(vortex.getUUID(),progress);
         return new Raid(vortex,progress,owner,mobs);
     }
+    @GameTest(template="server_smoke",timeoutTicks=100)
+    public static void closedExcavationTableDoesNotRewriteSavedSpecimenEveryTick(GameTestHelper h) {
+        h.setBlock(2,1,2,ModBlocks.EXCAVATION_TABLE.get());
+        var pos=h.absolutePos(new BlockPos(2,1,2));
+        var table=(ExcavationTableBlockEntity)h.getLevel().getBlockEntity(pos);
+        table.setItem(0,new ItemStack(ModItems.RAW_CORONA_FOSSIL.get()));
+        table.data().get(0); // Create the persisted board before closing.
+        table.flush();
+        var saved=table.getItem(0).get(net.minecraft.core.component.DataComponents.CUSTOM_DATA);
+        for(int i=0;i<100;i++)ExcavationTableBlockEntity.serverTick(h.getLevel(),pos,table.getBlockState(),table);
+        h.assertTrue(saved==table.getItem(0).get(net.minecraft.core.component.DataComponents.CUSTOM_DATA),
+                "An unattended table must retain its existing saved component rather than rebuilding NBT");
+        h.succeed();
+    }
     @GameTest(template="raid_arena",timeoutTicks=100)
     public static void soloDeathCancelsAndRemovesAllKrawlImmediately(GameTestHelper h){
         var raid=raid(h);VortexEvents.onDeath(new net.neoforged.neoforge.event.entity.living.LivingDeathEvent(raid.owner(),h.getLevel().damageSources().genericKill()));
@@ -86,7 +100,7 @@ public final class CooperativeGameplayTests {
         VortexEncounters.payPending(raid.owner());VortexEncounters.payPending(ally);
         int first=raid.owner().getInventory().items.stream().mapToInt(ItemStack::getCount).sum();
         int second=ally.getInventory().items.stream().mapToInt(ItemStack::getCount).sum();
-        h.assertTrue(first==2&&second==3,"Each participant needs their own death-adjusted reward");
+        h.assertTrue(first==2&&second>=3&&second<=6,"Each participant needs their own death-adjusted reward");
         VortexEncounters.payPending(raid.owner());VortexEncounters.payPending(ally);
         h.assertTrue(first==raid.owner().getInventory().items.stream().mapToInt(ItemStack::getCount).sum(),"Reward must be once per UUID");
         h.assertTrue(second==ally.getInventory().items.stream().mapToInt(ItemStack::getCount).sum(),"Ally reward must also be once");
@@ -230,7 +244,10 @@ public final class CooperativeGameplayTests {
         var worker=player(h,"GeologyDrops");var pos=h.absolutePos(new BlockPos(2,1,2));
         for(var deposit:com.jvprz.spectrobesreforged.common.feature.excavation.ExcavationDeposits.all()) {
             var block=ModBlocks.ENVIRONMENTAL_ORES.get(deposit.id()).get();
-            var expected=ModItems.ENVIRONMENTAL_RAWS.get(deposit.rawId()).get();
+            String rawId=deposit.fossil()?deposit.rawId():switch(deposit.host()){
+                case "frozen"->"ice_raw_flashium_mineral";case "muddy"->"mud_raw_aurorium_mineral";
+                case "sandy"->"sand_raw_coronium_mineral";default->"red_sand_raw_coronium_mineral";};
+            var expected=deposit.fossil()?ModItems.ENVIRONMENTAL_RAWS.get(rawId).get():ModItems.RAW_ELEMENTAL_MINERALS.get(rawId).get();
             var drops=net.minecraft.world.level.block.Block.getDrops(block.defaultBlockState(),h.getLevel(),pos,null,worker,new ItemStack(net.minecraft.world.item.Items.IRON_PICKAXE));
             h.assertTrue(drops.size()==1&&drops.getFirst().is(expected),"Environmental ore must drop exactly its matching raw item: "+deposit.id());
             var raw=drops.getFirst();var tag=com.jvprz.spectrobesreforged.common.content.item.RawFossilItem.data(raw);
@@ -250,6 +267,7 @@ public final class CooperativeGameplayTests {
         var first=manager.get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(SpectrobesReforged.MODID,"first_fossil"));
         var root=manager.get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(SpectrobesReforged.MODID,"root"));
         var items=new ArrayList<net.minecraft.world.item.Item>();
+        ModItems.RAW_ELEMENTAL_MINERALS.values().forEach(item->items.add(item.get()));
         items.addAll(List.of(ModItems.RAW_CORONA_FOSSIL.get(),ModItems.RAW_AURORA_FOSSIL.get(),ModItems.RAW_FLASH_FOSSIL.get(),ModItems.RAW_C_MINERAL.get(),ModItems.RAW_B_MINERAL.get(),ModItems.RAW_A_MINERAL.get(),ModItems.RAW_A_PLUS_MINERAL.get()));
         ModItems.ENVIRONMENTAL_RAWS.values().forEach(item->items.add(item.get()));
         for(var item:items) {

@@ -4,7 +4,7 @@ package com.jvprz.spectrobesreforged.common.feature.excavation;
 public record ExcavationProfile(int rock, int coverLayers, int openingLayers, int minDepth, int maxDepth) {
     public static final int STONE=0, DEEPSLATE=1, SANDSTONE=2, CLAY=3, RED_SANDSTONE=4;
     public static ExcavationProfile forSpecimen(String key,int terrain,int rock) {
-        int difficulty=key.endsWith("_a_plus")?3:key.endsWith("_a")?2:key.endsWith("_b")?1:
+        int difficulty=(key.endsWith("_a_plus")||key.endsWith("_s"))?3:key.endsWith("_a")?2:key.endsWith("_b")?1:
                 key.equals("vilar")||key.equals("inkana")||key.equals("spiko")?1:0;
         int minimum=difficulty>=2||rock==DEEPSLATE?3:2;
         int maximum=difficulty==0&&rock!=DEEPSLATE?3:4;

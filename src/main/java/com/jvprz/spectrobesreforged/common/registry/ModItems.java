@@ -21,12 +21,28 @@ public final class ModItems {
     public static final DeferredRegister.Items ITEMS =
             DeferredRegister.createItems(SpectrobesReforged.MODID);
 
+    static {
+        ModMineralLoot.register(ITEMS);
+        // Registry aliases migrate saved stacks without registering duplicate gameplay items.
+        for(var alias:java.util.Map.of("uranium","aurorium_s","chrome","flashium_s","evolve","evolve_m","titanium_plate","titanium").entrySet())
+            ITEMS.addAlias(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(SpectrobesReforged.MODID,alias.getKey()),
+                    net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(SpectrobesReforged.MODID,alias.getValue()));
+    }
+
     /** Separate components ready for future table recipes; the table still supplies its tools. */
     public static final java.util.Map<String,DeferredItem<Item>> EXCAVATION_TOOLS = excavationTools();
     private static java.util.Map<String,DeferredItem<Item>> excavationTools() {
         var result=new java.util.LinkedHashMap<String,DeferredItem<Item>>();
         for(String tool:List.of("drill","blower","recovery","piton","fire","water","blower_s","vacuum","giga","blast")) {
-            result.put(tool,ITEMS.register("excavation_"+tool,()->tool.equals("blower")?new BlowerItem():new Item(new Item.Properties().stacksTo(1))));
+            result.put(tool,ITEMS.register("excavation_"+tool,()->switch(tool){
+                case "drill"->new FieldMiningToolItem(false);case "piton"->new FieldMiningToolItem(true);
+                case "blower"->new BlowerItem();case "blower_s"->new BlowerItem(true);
+                case "fire"->new FluidFieldToolItem(FluidFieldToolItem.Kind.FIRE);
+                case "water"->new FluidFieldToolItem(FluidFieldToolItem.Kind.WATER);
+                case "vacuum"->new FluidFieldToolItem(FluidFieldToolItem.Kind.VACUUM);
+                case "recovery"->new RecoveryFieldToolItem();case "giga"->new ExtractionFieldToolItem(false);
+                case "blast"->new ExtractionFieldToolItem(true);default->throw new IllegalArgumentException(tool);
+            }));
         }
         return java.util.Collections.unmodifiableMap(result);
     }
@@ -35,6 +51,26 @@ public final class ModItems {
     public static final DeferredItem<Item> RAW_CORONA_FOSSIL = ITEMS.register("raw_corona_fossil", () -> new RawFossilItem(SpectrobeType.CORONA, new Item.Properties()));
     public static final DeferredItem<Item> RAW_AURORA_FOSSIL = ITEMS.register("raw_aurora_fossil", () -> new RawFossilItem(SpectrobeType.AURORA, new Item.Properties()));
     public static final DeferredItem<Item> RAW_FLASH_FOSSIL = ITEMS.register("raw_flash_fossil", () -> new RawFossilItem(SpectrobeType.FLASH, new Item.Properties()));
+
+    /** Portable specimens distinguish element and host; grade is stored on each stack. */
+    public static final java.util.Map<String,DeferredItem<Item>> RAW_ELEMENTAL_MINERALS = rawElementalMinerals();
+    private static java.util.Map<String,DeferredItem<Item>> rawElementalMinerals() {
+        var result=new java.util.LinkedHashMap<String,DeferredItem<Item>>();
+        for(String id:List.of("raw_coronium_mineral","raw_aurorium_mineral","raw_flashium_mineral","ice_raw_flashium_mineral","sand_raw_coronium_mineral","red_sand_raw_coronium_mineral","mud_raw_aurorium_mineral")) {
+            result.put(id,ITEMS.register(id,()->{
+                String family=id.contains("coronium")?"coronium":id.contains("aurorium")?"aurorium":"flashium";
+                var tag=new net.minecraft.nbt.CompoundTag(); tag.putString("MineralFamily",family);
+                if(id.startsWith("ice_"))tag.putInt("ExcavationTerrain",2);
+                if(id.startsWith("sand_")||id.startsWith("red_sand_"))tag.putInt("ExcavationTerrain",1);
+                if(id.startsWith("mud_"))tag.putInt("ExcavationTerrain",5);
+                if(id.startsWith("sand_"))tag.putInt("ExcavationRock",2);
+                if(id.startsWith("red_sand_"))tag.putInt("ExcavationRock",4);
+                if(id.startsWith("mud_"))tag.putInt("ExcavationRock",3);
+                return new RawMineralItem("c",new Item.Properties().component(net.minecraft.core.component.DataComponents.CUSTOM_DATA,net.minecraft.world.item.component.CustomData.of(tag)));
+            }));
+        }
+        return java.util.Collections.unmodifiableMap(result);
+    }
 
     public static final DeferredItem<Item> RAW_C_MINERAL = ITEMS.register("raw_c_mineral", () -> new RawMineralItem("c"));
     public static final DeferredItem<Item> RAW_B_MINERAL = ITEMS.register("raw_b_mineral", () -> new RawMineralItem("b"));
@@ -366,31 +402,6 @@ public final class ModItems {
                             12, VAL, 12, VAL, 12, VAL,
                             "tooltip.spectrobesreforged.mineral.pearl"));
 
-    // Minerals tier epic
-    public static final DeferredItem<Item> URANIUM =
-            ITEMS.register("uranium",
-                    () -> new MineralItem(new Item.Properties().rarity(Rarity.EPIC),
-                            -16, VAL,
-                            null, MAX,
-                            -16, VAL,
-                            "tooltip.spectrobesreforged.mineral.uranium"));
-
-    public static final DeferredItem<Item> TITANIUM =
-            ITEMS.register("titanium",
-                    () -> new MineralItem(new Item.Properties().rarity(Rarity.EPIC),
-                            -16, VAL,
-                            -16, VAL,
-                            null, MAX,
-                            "tooltip.spectrobesreforged.mineral.titanium"));
-
-    public static final DeferredItem<Item> CHROME =
-            ITEMS.register("chrome",
-                    () -> new MineralItem(new Item.Properties().rarity(Rarity.EPIC),
-                            null, MAX,
-                            -16, VAL,
-                            -16, VAL,
-                            "tooltip.spectrobesreforged.mineral.chrome"));
-
     public static final DeferredItem<Item> SAPPHIRE =
             ITEMS.register("sapphire",
                     () -> new MineralItem(new Item.Properties().rarity(Rarity.RARE),
@@ -421,37 +432,31 @@ public final class ModItems {
                             -15, VAL, -15, VAL, -15, VAL,
                             "tooltip.spectrobesreforged.mineral.gold"));
 
-    public static final DeferredItem<Item> EVOLVE =
-            ITEMS.register("evolve",
-                    () -> new MineralItem(new Item.Properties().rarity(Rarity.EPIC),
-                            0, VAL, 0, VAL, 0, VAL,
-                            "tooltip.spectrobesreforged.mineral.evolve"));
-
     public static final DeferredItem<Item> CHROMA_0 =
             ITEMS.register("chroma_0",
                     () -> new ChromaMineralItem(
-                            new Item.Properties().rarity(Rarity.RARE),
+                            new Item.Properties().rarity(Rarity.RARE).component(net.minecraft.core.component.DataComponents.ENCHANTMENT_GLINT_OVERRIDE,true),
                             0
                     ));
 
     public static final DeferredItem<Item> CHROMA_1 =
             ITEMS.register("chroma_1",
                     () -> new ChromaMineralItem(
-                            new Item.Properties().rarity(Rarity.RARE),
+                            new Item.Properties().rarity(Rarity.RARE).component(net.minecraft.core.component.DataComponents.ENCHANTMENT_GLINT_OVERRIDE,true),
                             1
                     ));
 
     public static final DeferredItem<Item> CHROMA_2 =
             ITEMS.register("chroma_2",
                     () -> new ChromaMineralItem(
-                            new Item.Properties().rarity(Rarity.RARE),
+                            new Item.Properties().rarity(Rarity.RARE).component(net.minecraft.core.component.DataComponents.ENCHANTMENT_GLINT_OVERRIDE,true),
                             2
                     ));
 
     public static final List<DeferredItem<Item>> ALL_MINERALS = List.of(
             POWER_C, POWER_B, POWER_A, POWER_A_PLUS, DEFENSE_C, DEFENSE_B, DEFENSE_A, DEFENSE_A_PLUS, HEALTH_C, HEALTH_B, HEALTH_A, HEALTH_A_PLUS, AGATE, LAZULI, GRAPHITE, GARNET, ONYX, TOPAZ,
-            JADE, AMBER, ZIRCON, OPAL, COBALT, CITRINE, FLUORITE, CORAL, SYLVITE, SPINAL, AZURITE, QUARTZ, URANIUM, TITANIUM, CHROME, PLATINUM, PEARL, SAPPHIRE, EMERALD, RUBY, DIAMOND, GOLD,
-            EVOLVE, CHROMA_0, CHROMA_1, CHROMA_2
+            JADE, AMBER, ZIRCON, OPAL, COBALT, CITRINE, FLUORITE, CORAL, SYLVITE, SPINAL, AZURITE, QUARTZ, PLATINUM, PEARL, SAPPHIRE, EMERALD, RUBY, DIAMOND, GOLD,
+            CHROMA_0, CHROMA_1, CHROMA_2
     );
 
     // Tools
@@ -551,6 +556,12 @@ public final class ModItems {
             }));
         }
         return java.util.Collections.unmodifiableMap(entries);
+    }
+    public static final java.util.Map<String,DeferredItem<BlockItem>> ELEMENTAL_MINERAL_ORES=elementalMineralOres();
+    private static java.util.Map<String,DeferredItem<BlockItem>> elementalMineralOres(){
+        var result=new java.util.LinkedHashMap<String,DeferredItem<BlockItem>>();
+        ModBlocks.ELEMENTAL_MINERAL_ORES.forEach((id,block)->result.put(id,ITEMS.registerSimpleBlockItem(id,block)));
+        return java.util.Collections.unmodifiableMap(result);
     }
     public static final java.util.Map<String,DeferredItem<BlockItem>> ENVIRONMENTAL_ORES = environmentalOres();
     private static java.util.Map<String,DeferredItem<BlockItem>> environmentalOres() {

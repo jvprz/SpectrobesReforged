@@ -5,7 +5,10 @@
       "Name": "minecraft:sandstone"
     },
     "ore": {
-      "Name": "spectrobesreforged:sandy_c_mineral_ore"
+      "Name": "spectrobesreforged:sandy_coronium_ore",
+      "Properties": {
+        "grade": "0"
+      }
     },
     "biome_tag": "spectrobesreforged:excavation/sandy"
   }

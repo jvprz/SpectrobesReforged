@@ -9,5 +9,6 @@ public final class ModFeatures {
  private ModFeatures(){}
  private static final DeferredRegister<Feature<?>> FEATURES=DeferredRegister.create(Registries.FEATURE,SpectrobesReforged.MODID);
  public static final java.util.function.Supplier<ExcavationPatchFeature> EXCAVATION_PATCH=FEATURES.register("excavation_patch",ExcavationPatchFeature::new);
+ public static final java.util.function.Supplier<com.jvprz.spectrobesreforged.common.worldgen.ElementalMineralOreFeature> ELEMENTAL_MINERAL_ORE=FEATURES.register("elemental_mineral_ore",com.jvprz.spectrobesreforged.common.worldgen.ElementalMineralOreFeature::new);
  public static void register(IEventBus bus){FEATURES.register(bus);}
 }

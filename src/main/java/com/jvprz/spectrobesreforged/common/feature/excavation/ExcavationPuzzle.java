@@ -13,6 +13,7 @@ public final class ExcavationPuzzle {
     private final byte[] cells;
     private int integrity = 100, elapsedTicks, stress, heat, gas, repairs, overburden, terrain;
     private int rock;
+    private int cachedPercent = -1;
     private int idleTicks, lastX = -100, lastY = -100, strokes;
     private boolean damaged, automatic;
     private long randomState;
@@ -107,12 +108,13 @@ public final class ExcavationPuzzle {
     }
     public int percent() {
         if (overburden > 0) return 0;
+        if (cachedPercent >= 0) return cachedPercent;
         int total = 0, exposed = 0;
         for (byte c : cells) if ((c & FOSSIL) != 0) {
             total++;
             if ((c & (7 | DUST | COVER)) == 0) exposed++;
         }
-        return exposed * 100 / total;
+        return cachedPercent = exposed * 100 / total;
     }
     public boolean canExtract() { return integrity > 0 && percent() >= 90; }
     public boolean crowned() { return canExtract() && percent() == 100 && integrity == 100
@@ -132,6 +134,11 @@ public final class ExcavationPuzzle {
     }
     public boolean work(int x, int y, int tool) { return work(x, y, tool, 1, false); }
     public boolean work(int x, int y, int tool, int skillLevel, boolean catalogued) {
+        // Only tool strokes change the grid; ticks affect timing, heat and stress.
+        cachedPercent = -1;
+        return applyTool(x, y, tool, skillLevel, catalogued);
+    }
+    private boolean applyTool(int x, int y, int tool, int skillLevel, boolean catalogued) {
         if (integrity <= 0 || automatic || x < 0 || y < 0 || x >= WIDTH || y >= WIDTH || tool < 0 || tool > TAP) return false;
         if (overburden > 0) {
             if (tool != TAP) return false;

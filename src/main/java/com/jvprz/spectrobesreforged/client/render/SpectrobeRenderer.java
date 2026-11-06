@@ -12,6 +12,7 @@ public class SpectrobeRenderer extends GeoEntityRenderer<SpectrobeEntity> {
     public SpectrobeRenderer(EntityRendererProvider.Context context) {
         super(context, new SpectrobeModel());
         this.shadowRadius = 0.25f;
+        addRenderLayer(new CarriedMineralLayer(this));
     }
 
     @Override
@@ -26,6 +27,10 @@ public class SpectrobeRenderer extends GeoEntityRenderer<SpectrobeEntity> {
         // Si luego el scale depende del stage: entity.getStage() => 0.75/1.0/1.15 etc.
         float scale = 0.75f;
         poseStack.scale(scale, scale, scale);
-        super.render(entity, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
+        try {
+            super.render(entity, entityYaw, partialTicks, poseStack, bufferSource, packedLight);
+        } finally {
+            ((SpectrobeModel)getGeoModel()).restoreAnimatedHead();
+        }
     }
 }

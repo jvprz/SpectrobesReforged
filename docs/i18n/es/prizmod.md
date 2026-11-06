@@ -27,7 +27,9 @@ El compañero admite un Child vivo. Los seis huecos del equipo aceptan Adult/Evo
 
 La integridad del fósil concede **+1% con 70–84, +2% con 85–94 y +3% con 95–100**, redondeando hacia abajo cada estadística base. Una excavación perfecta añade una corona dorada permanente detrás del nombre del fósil y del Spectrobe despierto. Corona y calidad se guardan por separado; las entradas antiguas sin calidad conservan sus estadísticas.
 
-Los minerales C/B/A/A+ aportan **10/20/40/60% de un nivel**, además de sus efectos actuales en estadísticas. Los demás minerales activos aportan 25%; Diamond/Evolve siguen sin efecto. El nivel máximo es **100**. Al llenar la barra, las estadísticas crecen gradualmente dentro de los límites de la especie. Si una estadística ya está al máximo, el mineral puede seguir dando XP. Si no cambia ni XP ni estadísticas, no se consume.
+Los elementales C/B/A/A+/S aportan **10/20/40/60/100% base de un nivel** con afinidad coincidente y la mitad con otra afinidad, antes de aplicar la curva por nivel. Power/Defense/Health solo entrenan estadísticas y ya no dan XP. Los minerales mixtos y especiales anteriores conservan sus efectos.
+
+La eficacia de XP de los minerales disminuye gradualmente entre estos puntos: **nivel 1 → 100%, 25 → 80%, 50 → 60%, 75 → 45%, 100 → 35%** del porcentaje base. Por ejemplo, un mineral base del 10% aporta aproximadamente un 6% a nivel 50 (redondeado hacia arriba a XP entera). Si cruza de nivel, la parte restante usa la eficacia del nuevo nivel. Solo se reduce la XP del mineral: sus efectos en estadísticas y el contador de un mineral ingerido no cambian. La XP de combate tampoco cambia. El nivel 100 sigue siendo el máximo y no admite más XP.
 
 Los Child obtienen XP mediante alimentación. Al completar una incursión, cada Adult/Evolved vivo del equipo de cada participante recibe una victoria y hasta 60 XP, reducidos si ese jugador murió. Los Child no reciben XP de batalla. Estos contadores preparan la futura evolución sin activarla.
 
@@ -66,3 +68,14 @@ Los compañeros Child no reciben daño de combate ni ambiental: flechas, fuego, 
 ## HUD del compañero y equipo
 
 Al equipar un Child aparece un panel compacto del Prizmod arriba a la izquierda, con retrato, medallas, nivel y progreso de XP. Debajo hay seis casillas numeradas para el equipo: los Adult/Evolved asignados muestran retrato y barra de PS. Los huecos vacíos no activan evolución ni combate. La tecla indicada para abrir el Prizmod respeta tus controles. El panel se oculta con F1, depuración, menús o modo espectador, y cuando no hay compañero ni equipo asignados.
+
+
+## Últimas compilaciones de prueba
+
+Las medallas tienen huecos propios junto a la vista 3D. Pasa el cursor sobre cada icono para ver cómo se obtuvo. En la colección ya no se superponen al retrato.
+
+### Minerales y hallazgos — prueba experimental 14
+
+Los elementales C/B/A/A+/S aportan **10/20/40/60/100% base de un nivel** con afinidad coincidente y la mitad con otra afinidad, antes de aplicar la curva por nivel. Power/Defense/Health solo entrenan estadísticas y ya no dan XP. Los minerales mixtos y especiales anteriores conservan sus efectos.
+
+Semillas: ATQ +1, DEF +1 y PS +10. Límite compartido acumulable de una semilla por nivel, máximo 100, respetando los máximos de la especie; no dan XP. Evolve M completa minerales ingeridos; L alcanza el nivel requerido; B completa el número de combates. Si el requisito no existe o ya está cumplido, no se consume. Los Child actuales solo tienen requisito de minerales: L/B quedan listos para futuras definiciones. Ninguno inicia la evolución.

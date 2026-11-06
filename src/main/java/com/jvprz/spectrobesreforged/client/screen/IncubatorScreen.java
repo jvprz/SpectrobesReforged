@@ -111,7 +111,7 @@ public class IncubatorScreen extends AbstractContainerScreen<IncubatorMenu> {
             }
         }
         var fossil=menu.getSlot(0).getItem();
-        g.drawString(font,font.plainSubstrByWidth(fossil.isEmpty()?text("fossil").getString():fossil.getHoverName().getString(),104),leftPos+96,topPos+40,0xffdceaf0,false);
+        g.drawString(font,net.minecraft.locale.Language.getInstance().getVisualOrder(font.substrByWidth(fossil.isEmpty()?text("fossil"):fossil.getHoverName(),104)),leftPos+96,topPos+40,0xffdceaf0,false);
         g.drawString(font,text("variant",menu.getSelectedColor()),leftPos+96,topPos+53,color,false);
         for(int band=0;band<3;band++){
             int x=96+band*38;boolean selected=menu.getSelectedColor()==band;

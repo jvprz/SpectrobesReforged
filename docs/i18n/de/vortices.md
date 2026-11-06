@@ -59,3 +59,6 @@ Den Wirbel auf freiem Gelände beschwören und auf Überleben wechseln. Gehen/Sp
 
 
 Ein wartender oder verfolgender Wirbel lässt Pfeile wie ein Vanilla-Schild mit Blockgeräusch abprallen, auch mit Durchschuss. Ein Schuss zerstört ihn nicht und startet keinen Überfall. Nach Kampfbeginn fängt der unsichtbare Controller keine Projektile mehr ab.
+
+
+Power/Defense/Health sind Belohnungen abgeschlossener Vortices. C/B-Mengen und Todesabzüge bleiben. Ohne Tod sind A/A+-Extras möglich: bei n Spielern A+ (5+n)/1000, A (30+3n)/1000. Unabhängig: 10% Samen, 1% Evolve M. Wiedereintritt würfelt nicht neu.

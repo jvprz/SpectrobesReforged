@@ -19,7 +19,7 @@ public final class ExcavationSpecimen {
     public static boolean accepts(ItemStack stack) { return stack.getItem() instanceof RawFossilItem || stack.getItem() instanceof RawMineralItem; }
     public static List<String> candidates(ItemStack stack) {
         if (stack.getItem() instanceof RawFossilItem fossil) return fossil.candidates();
-        if (stack.getItem() instanceof RawMineralItem mineral) return mineral.candidates();
+        if (stack.getItem() instanceof RawMineralItem mineral) return mineral.candidates(stack);
         return List.of();
     }
 }

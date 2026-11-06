@@ -59,3 +59,11 @@ Curios usa G per impostazione predefinita. Se i tasti coincidono, G apre l’equ
 ## Posizione HUD e feedback beta
 
 Apri **Mods → Spectrobes Reforged → Config → Posiziona HUD**. Trascina il pannello e usa la rotella (50–150%). Puoi nascondere HUD o slot e ripristinare le impostazioni. Posizione e dimensione restano salvate localmente. Dimensione iniziale: 85%. Il pulsante Discord apre un invito dopo conferma, con un messaggio locale della beta a ogni accesso, senza invio agli altri giocatori o ripetizione dopo morte o cambio dimensione. Attiva HUD verticale per una colonna e usa − / + o la rotella per la dimensione.
+
+
+## Ultime versioni sperimentali
+
+L’opzione client **Mostra medaglie accanto al nome dello Spectrobe** controlla i distintivi del nome solo localmente. Gli spazi separati e le medaglie salvate restano disponibili.
+
+
+Durante il gioco, premi **Esc → Spectrobes** per accedere a HUD, preferenze client e feedback. Preferenze apre solo la configurazione client. **Volume scanner** regola questi suoni separatamente dagli effetti del mod; restano attive le categorie audio di Minecraft. I segnali sono più delicati e raggruppati entro sei tick per evitare sovrapposizioni.

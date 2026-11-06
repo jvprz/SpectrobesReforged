@@ -32,6 +32,7 @@ public final class ExcavationTableBlockEntity extends BlockEntity implements Con
     private UUID viewer;
     private int status, lastReward, feedback;
     private final ExcavationCoop coop=new ExcavationCoop();
+    private final ExcavationCursorSync cursorSync=new ExcavationCursorSync();
     private final java.util.Set<UUID> contributors = new java.util.HashSet<>();
     private final ContainerData data = new ContainerData() {
         @Override public int get(int i) {
@@ -113,7 +114,7 @@ public final class ExcavationTableBlockEntity extends BlockEntity implements Con
         if(viewer==null)viewer=player.getUUID();return true;
     }
     public void release(Player player){
-        flush();coop.leave(player.getUUID());
+        flush();coop.leave(player.getUUID());cursorSync.forget(player.getUUID());
         if(player.getUUID().equals(viewer))viewer=coop.viewers().stream().findFirst().orElse(null);
     }
     public void cursor(ServerPlayer player,int x,int y,int tool,boolean using){
@@ -124,25 +125,33 @@ public final class ExcavationTableBlockEntity extends BlockEntity implements Con
     public ContainerData dataFor(Player player){
         return new ContainerData(){
             public int get(int index){
-                var skill=player.getData(ModAttachments.EXCAVATION.get());
-                return switch(index){case 11->skill.level();case 12->skill.progress();case 13->skill.knows(resultPath)?1:0;default->data.get(index);};
+                // Grid synchronization reads 1,024 entries: only skill headers need the attachment.
+                return switch(index){
+                    case 11->player.getData(ModAttachments.EXCAVATION.get()).level();
+                    case 12->player.getData(ModAttachments.EXCAVATION.get()).progress();
+                    case 13->player.getData(ModAttachments.EXCAVATION.get()).knows(resultPath)?1:0;
+                    default->data.get(index);
+                };
             }
             public void set(int index,int value){}public int getCount(){return DATA_COUNT;}
         };
     }
     public static void serverTick(Level level,BlockPos pos,BlockState state,ExcavationTableBlockEntity table){
+        // release() already persists a normal close. Persist a stale/disconnected final viewer once.
+        if(table.coop.isEmpty())return;
         for(var id:table.coop.viewers()){
             var player=level.getPlayerByUUID(id);
             if(player==null||!player.isAlive()||!(player.containerMenu instanceof ExcavationMenu menu)||menu.table()!=table||!table.stillValid(player)){
-                table.coop.leave(id);if(id.equals(table.viewer))table.viewer=table.coop.viewers().stream().findFirst().orElse(null);
+                table.coop.leave(id);table.cursorSync.forget(id);if(id.equals(table.viewer))table.viewer=table.coop.viewers().stream().findFirst().orElse(null);
             }
         }
-        if(table.coop.viewers().isEmpty()){table.flush();return;}
+        if(table.coop.isEmpty()){table.flush();return;}
         table.ensurePuzzle();
         if(table.status==1&&table.puzzle!=null&&table.items.get(1).isEmpty()){table.puzzle.tick();if(level.getGameTime()%20==0)table.flush();}
         if(level.getGameTime()%4==0){
             var snapshot=table.coop.snapshot(level.getGameTime());
-            for(var id:table.coop.viewers())if(level.getPlayerByUUID(id) instanceof ServerPlayer player&&player.containerMenu instanceof ExcavationMenu menu)
+            for(var id:table.coop.viewers())if(level.getPlayerByUUID(id) instanceof ServerPlayer player&&player.containerMenu instanceof ExcavationMenu menu
+                    &&table.cursorSync.shouldSend(id,menu.containerId,snapshot))
                 net.neoforged.neoforge.network.PacketDistributor.sendToPlayer(player,new com.jvprz.spectrobesreforged.common.network.S2CExcavationCoop(menu.containerId,snapshot));
         }
     }
@@ -153,7 +162,12 @@ public final class ExcavationTableBlockEntity extends BlockEntity implements Con
         boolean fossil = stack.getItem() instanceof RawFossilItem;
         specimenKey = tag.getString(fossil ? "Fossil" : "Mineral");
         var candidates = ExcavationSpecimen.candidates(stack);
-        if (specimenKey.isEmpty()) specimenKey = candidates.get(level.random.nextInt(candidates.size()));
+        // Keep started legacy boards, but migrate unopened legacy stat-food specimens.
+        if(!fossil&&!tag.contains("Excavation")&&specimenKey.matches("(power|defense|health)_(c|b|a|a_plus)"))specimenKey="";
+        if (specimenKey.isEmpty()) {
+            var normal=candidates.stream().filter(key->!key.endsWith("_s")).toList();
+            specimenKey=normal.get(level.random.nextInt(normal.size()));
+        }
         // Both the result and element/grade must match this raw specimen, including edited item data.
         if (!candidates.contains(specimenKey)) { specimenKey = ""; return; }
         resultPath = specimenKey + (fossil ? "_fossil" : "");
@@ -279,7 +293,7 @@ public final class ExcavationTableBlockEntity extends BlockEntity implements Con
         tag.putInt("ExcavationReward", lastReward);
     }
     @Override protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries); ContainerHelper.loadAllItems(tag, items, registries); reset(); viewer = null; coop.clear();
+        super.loadAdditional(tag, registries); ContainerHelper.loadAllItems(tag, items, registries); reset(); viewer = null; coop.clear(); cursorSync.clear();
         if (items.getFirst().isEmpty()) {
             int outcome = tag.getInt("ExcavationOutcome");
             if (outcome == 2 || outcome == 3) status = outcome;

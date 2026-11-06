@@ -9,6 +9,33 @@ import static org.junit.jupiter.api.Assertions.*;
 class TrainingTest {
  private SpectrobeEntry entry(){return new SpectrobeEntry(UUID.randomUUID(),"komainu",0,"CHILD",1,120,100,65,55,0,0,0,0);}
  private SpectrobeSpecies species(){return new SpectrobeSpecies(1,"komainu",SpectrobeType.CORONA,SpectrobeStage.CHILD,3,new SpectrobeStats(new StatGrowth(120,200,1),new StatGrowth(65,125,1),new StatGrowth(55,105,1),0,0,null),null,List.of());}
+ @Test void mineralEfficiencyMatchesAgreedAnchorsAndDecreasesSmoothly(){
+  int[] levels={1,25,50,75,100};double[] expected={1,.8,.6,.45,.35};
+  for(int i=0;i<levels.length;i++)assertEquals(expected[i],SpectrobeLevels.mineralEfficiency(levels[i]),1e-9);
+  for(int level=2;level<=100;level++){
+   double previous=SpectrobeLevels.mineralEfficiency(level-1),current=SpectrobeLevels.mineralEfficiency(level);
+   assertTrue(current<previous);assertTrue(previous-current<.01);
+  }
+  assertEquals(1,SpectrobeLevels.mineralEfficiency(-10));assertEquals(.35,SpectrobeLevels.mineralEfficiency(1000),1e-9);
+ }
+ @Test void mineralRewardFallsWithLevelButCombatAndMineralCounterAreUnchanged(){
+  var low=entry();var high=entry().withLevelProgress(50,entry().progress().withXp(0)).withMineralsFed(7);
+  assertEquals(10,SpectrobeLevels.mineralXp(low,10));
+  assertEquals(80,SpectrobeLevels.mineralXp(high,10)); // 6% of 1,325 XP, rounded up.
+  assertEquals(60,SpectrobeLevels.award(high,60,species()).xp()); // Combat XP is not reduced.
+  var trained=SpectrobeLevels.award(high,SpectrobeLevels.mineralXp(high,10),species());
+  assertEquals(7,trained.mineralsFed());
+  assertEquals(0,SpectrobeLevels.mineralXp(high,0));
+ }
+ @Test void crossingALevelUsesTheNewEfficiencyAndCannotOverflowTheLevelCap(){
+  var e=entry().withLevelProgress(49,entry().progress().withXp(SpectrobeLevels.required(49)-1));
+  int xp=SpectrobeLevels.mineralXp(e,60);
+  var next=SpectrobeLevels.award(e,xp,species());
+  assertEquals(50,next.level());assertTrue(next.xp()>0&&next.xp()<SpectrobeLevels.required(50)*.37);
+  var last=entry().withLevelProgress(99,entry().progress().withXp(SpectrobeLevels.required(99)-1));
+  assertEquals(1,SpectrobeLevels.mineralXp(last,60));
+  assertEquals(100,SpectrobeLevels.award(last,1,species()).level());
+ }
  @Test void qualityThresholdsAndBirthBonus(){
   int[] q={-1,0,69,70,84,85,94,95,100},v={0,0,0,1,1,2,2,3,3};
   for(int i=0;i<q.length;i++)assertEquals(v[i],SpectrobeLevels.qualityPercent(q[i]));
@@ -33,7 +60,7 @@ class TrainingTest {
   var saved=PrizmodData.CODEC.encodeStart(JsonOps.INSTANCE,d).getOrThrow();var loaded=PrizmodData.CODEC.parse(JsonOps.INSTANCE,saved).getOrThrow();assertEquals(e,loaded.getBoxAt(0));assertEquals(e.progress(),loaded.getBabySlot().orElseThrow().progress());
  }
  @Test void oldSaveUsesNeutralQualityWithoutLosingStats(){
-  var e=entry();var json=SpectrobeEntry.CODEC.encodeStart(JsonOps.INSTANCE,e).getOrThrow().getAsJsonObject();json.remove("progress");var loaded=SpectrobeEntry.CODEC.parse(JsonOps.INSTANCE,json).getOrThrow();assertEquals(e,loaded);assertEquals(-1,loaded.excavationQuality());assertEquals(0,loaded.xp());assertFalse(loaded.crowned());
+  var e=entry();var json=SpectrobeEntry.CODEC.encodeStart(JsonOps.INSTANCE,e).getOrThrow().getAsJsonObject();json.remove("progress");var loaded=SpectrobeEntry.CODEC.parse(JsonOps.INSTANCE,json).getOrThrow();assertEquals(e,loaded);assertEquals(-1,loaded.excavationQuality());assertEquals(0,loaded.xp());assertFalse(loaded.crowned());assertEquals(0,loaded.progress().seeds());
  }
  @Test void staleTransferAndIncompatibleSwapAreAtomic(){
   var d=new PrizmodData();var child=entry();var adult=entry().withStage("ADULT");d.addToBox(adult);d.setBabySlot(child);
@@ -47,7 +74,7 @@ class TrainingTest {
   assertTrue(PrizmodTransfers.move(d,2,0,0,Integer.MAX_VALUE,a.id()));assertEquals(List.of(b,c,a),d.getBox());assertTrue(d.getBabySlot().isEmpty());
  }
  @Test void automaticExcavationsDoNotCount(){var p=new ExcavationProgress();p.complete("x",0);assertEquals(0,p.completed());p.complete("x",20);assertEquals(1,p.completed());assertEquals(20,p.xp());var copy=ExcavationProgress.CODEC.parse(JsonOps.INSTANCE,ExcavationProgress.CODEC.encodeStart(JsonOps.INSTANCE,p).getOrThrow()).getOrThrow();assertEquals(1,copy.completed());}
- @Test void mineralRanks(){assertEquals(10,SpectrobeLevels.mineralPercent("power_c"));assertEquals(20,SpectrobeLevels.mineralPercent("power_b"));assertEquals(40,SpectrobeLevels.mineralPercent("power_a"));assertEquals(60,SpectrobeLevels.mineralPercent("power_a_plus"));}
+ @Test void mineralRanks(){assertEquals(10,SpectrobeLevels.mineralPercent("coronium_c"));assertEquals(20,SpectrobeLevels.mineralPercent("coronium_b"));assertEquals(40,SpectrobeLevels.mineralPercent("coronium_a"));assertEquals(60,SpectrobeLevels.mineralPercent("coronium_a_plus"));}
  @Test void fullIntegrityAutomaticallyShowsPermanentCrown(){
   var perfect=entry().withProgress(new SpectrobeProgress(0,false,100,0));
   assertTrue(perfect.crowned());assertTrue(perfect.withColor(2).withHpCur(50).crowned());

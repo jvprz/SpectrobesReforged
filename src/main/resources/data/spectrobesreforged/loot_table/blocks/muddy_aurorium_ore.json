@@ -1,0 +1,223 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:match_tool",
+          "predicate": {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "minecraft:silk_touch",
+                  "levels": {
+                    "min": 1
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:muddy_aurorium_ore",
+          "functions": [
+            {
+              "function": "minecraft:copy_state",
+              "block": "spectrobesreforged:muddy_aurorium_ore",
+              "properties": [
+                "grade"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "predicates": {
+                "minecraft:enchantments": [
+                  {
+                    "enchantments": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        },
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "spectrobesreforged:muddy_aurorium_ore",
+          "properties": {
+            "grade": "0"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:mud_raw_aurorium_mineral",
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Mineral:\"aurorium_c\",MineralFamily:\"aurorium\",ExcavationTerrain:5,ExcavationRock:3}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "predicates": {
+                "minecraft:enchantments": [
+                  {
+                    "enchantments": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        },
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "spectrobesreforged:muddy_aurorium_ore",
+          "properties": {
+            "grade": "1"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:mud_raw_aurorium_mineral",
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Mineral:\"aurorium_b\",MineralFamily:\"aurorium\",ExcavationTerrain:5,ExcavationRock:3}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "predicates": {
+                "minecraft:enchantments": [
+                  {
+                    "enchantments": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        },
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "spectrobesreforged:muddy_aurorium_ore",
+          "properties": {
+            "grade": "2"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:mud_raw_aurorium_mineral",
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Mineral:\"aurorium_a\",MineralFamily:\"aurorium\",ExcavationTerrain:5,ExcavationRock:3}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "predicates": {
+                "minecraft:enchantments": [
+                  {
+                    "enchantments": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "condition": "minecraft:survives_explosion"
+        },
+        {
+          "condition": "minecraft:block_state_property",
+          "block": "spectrobesreforged:muddy_aurorium_ore",
+          "properties": {
+            "grade": "3"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "spectrobesreforged:mud_raw_aurorium_mineral",
+          "functions": [
+            {
+              "function": "minecraft:set_custom_data",
+              "tag": "{Mineral:\"aurorium_a_plus\",MineralFamily:\"aurorium\",ExcavationTerrain:5,ExcavationRock:3}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

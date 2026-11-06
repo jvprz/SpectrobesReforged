@@ -80,5 +80,23 @@
         "type": "event"
       }
     ]
+  },
+  "entity.komainu.cry": {
+    "subtitle": "subtitles.spectrobesreforged.komainu_cry",
+    "sounds": [
+      {
+        "name": "spectrobesreforged:entity/spectrobe/komainu/cry",
+        "attenuation_distance": 12
+      }
+    ]
+  },
+  "entity.spiko.cry": {
+    "subtitle": "subtitles.spectrobesreforged.spiko_cry",
+    "sounds": [
+      {
+        "name": "spectrobesreforged:entity/spectrobe/spiko/cry",
+        "attenuation_distance": 12
+      }
+    ]
   }
 }

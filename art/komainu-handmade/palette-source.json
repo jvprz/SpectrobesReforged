@@ -1,0 +1,4 @@
+{
+  "base_sha256": "61c721c041607a75932ba4a9065d6461dc68affb8a8e7acc03d5ec71ca2c8e30",
+  "note": "Handmade base remains byte-identical; both recolors only replace RGB and preserve all pixel positions and alpha."
+}

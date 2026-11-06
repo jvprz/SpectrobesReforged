@@ -28,6 +28,7 @@ public final class VortexProgress {
     public Status status(){return status;}
     public int elapsed(){return elapsed;}
     public int absent(){return absent;}
+    public int memberCount(){return members.size();}
     public int remaining(){return members.size()-defeated.size();}
     public boolean join(UUID player,Collection<UUID> wave){
         if(status!=Status.ACTIVE||player==null||participants.containsKey(player)||participants.size()>=MAX_PARTICIPANTS

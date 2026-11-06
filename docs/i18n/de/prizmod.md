@@ -27,7 +27,9 @@ Der Begleiterplatz akzeptiert einen lebenden Child. Die sechs Teamplätze akzept
 
 Fossilintegrität gibt **+1% bei 70–84, +2% bei 85–94 und +3% bei 95–100**, pro Basiswert abgerundet. Eine perfekte Ausgrabung verleiht eine dauerhafte goldene Krone hinter dem Fossilnamen und später dem Namen des erweckten Spectrobe. Qualität und Krone werden getrennt gespeichert. Alte Einträge ohne Qualität behalten ihre Werte.
 
-C/B/A/A+-Mineralien geben **10/20/40/60% eines Levels** zusätzlich zu ihren bisherigen Werteänderungen. Andere aktive Mineralien geben 25%; Diamond/Evolve bleiben wirkungslos. Höchstlevel: **100**. Werte wachsen bis zur Artgrenze. Auch bei maximalem Wert kann ein Mineral XP geben. Ohne XP- oder Werteänderung wird es nicht verbraucht.
+Elementare Mineralien C/B/A/A+/S geben **10/20/40/60/100% Basisfortschritt** bei gleicher Eigenschaft, sonst die Hälfte, vor der Levelkurve. Power/Defense/Health trainieren nur Werte und geben keine XP mehr. Andere Mineralien behalten ihre Effekte.
+
+Die Mineral-XP-Effizienz sinkt allmählich: **Level 1 → 100%, 25 → 80%, 50 → 60%, 75 → 45%, 100 → 35%** des Basisprozentsatzes. Ein Mineral mit 10% Basiswert gibt auf Level 50 etwa 6%, auf ganze XP aufgerundet. Nach einem Levelwechsel nutzt der Rest die neue Effizienz. Werteänderungen, Mineralzähler und Kampf-XP bleiben unverändert. Auf Höchstlevel 100 gibt es keine weitere XP.
 
 Children erhalten XP durch Füttern. Ein abgeschlossener Überfall gibt lebenden Adult/Evolved jedes Teilnehmers einen Sieg und bis zu 60 Trainings-XP, nach dessen Tod verringert. Children erhalten keine Kampf-XP. Diese Zähler bereiten spätere Entwicklung vor, aktivieren sie aber nicht.
 
@@ -66,3 +68,14 @@ Child-Begleiter erleiden keinen Kampf- oder Umgebungsschaden, einschließlich Pf
 ## Begleiter- und Team-HUD
 
 Ein ausgerüsteter Child zeigt oben links ein kompaktes Prizmod-Feld mit Porträt, Medaillen, Stufe und EP. Sechs nummerierte Plätze stehen für das Team; zugewiesene Adult/Evolved zeigen Porträt und LP. Leere Plätze aktivieren weder Entwicklung noch Kampf. Die Prizmod-Taste folgt den Einstellungen. Bei F1, Debugansicht, Menüs, Zuschauermodus oder ohne Begleiter/Team verborgen.
+
+
+## Neueste Testversionen
+
+Medaillen haben eigene Plätze neben der 3D-Vorschau. Fahre mit der Maus darüber, um die Herkunft zu sehen. Sie verdecken keine Porträts mehr.
+
+### Mineralien und Funde — experimenteller Test 14
+
+Elementare Mineralien C/B/A/A+/S geben **10/20/40/60/100% Basisfortschritt** bei gleicher Eigenschaft, sonst die Hälfte, vor der Levelkurve. Power/Defense/Health trainieren nur Werte und geben keine XP mehr. Andere Mineralien behalten ihre Effekte.
+
+Samen: ANG +1, VER +1, LP +10. Gemeinsames angespartes Limit: ein Samen pro Level, höchstens 100, innerhalb der Artgrenzen; keine XP. Evolve M erfüllt Mineralien, L das definierte Level, B definierte Kämpfe. Keine oder erfüllte Bedingung: kein Verbrauch. Aktuelle Child-Arten haben nur Mineralienbedingungen. Keine automatische Evolution.

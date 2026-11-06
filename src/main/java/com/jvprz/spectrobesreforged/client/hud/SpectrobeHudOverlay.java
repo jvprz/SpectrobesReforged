@@ -59,11 +59,11 @@ public final class SpectrobeHudOverlay {
         g.fill(x + 8, y + 54, x + 42, y + 56, accent);
         if (child != null) {
             portrait(g, child, x + 10, y + 24, 30);
-            String name = mc.font.plainSubstrByWidth(SpectrobeNames.name(child.species(), false).getString(), 83);
+            String name = mc.font.plainSubstrByWidth(SpectrobeNames.name(child.species(), false).getString(), 107);
             g.drawString(mc.font, name, x + 49, y + 24, TEXT, false);
-            int badgeX = x + 52 + mc.font.width(name);
-            if (child.crowned()) { g.drawString(mc.font, "♛", badgeX, y + 24, 0xffffd16d, false); badgeX += 10; }
-            if (child.cooperative()) g.drawString(mc.font, "⚒", badgeX, y + 24, 0xff7ee8e3, false);
+            int badgeX = x + 65;
+            if (child.crowned()) { g.drawString(mc.font, com.jvprz.spectrobesreforged.common.feature.training.MedalSprites.perfect(), badgeX, y + 5, 0xffffffff, false); badgeX += 10; }
+            if (child.cooperative()) g.drawString(mc.font, com.jvprz.spectrobesreforged.common.feature.training.MedalSprites.cooperative(), badgeX, y + 5, 0xffffffff, false);
             g.drawString(mc.font, mc.font.plainSubstrByWidth(Component.translatable("gui.spectrobesreforged.hud.child_level", child.level()).getString(), 107), x + 49, y + 37, MUTED, false);
             int required = SpectrobeLevels.required(child.level());
             float progress = required == 0 ? 1 : Mth.clamp(child.xp() / (float) required, 0, 1);

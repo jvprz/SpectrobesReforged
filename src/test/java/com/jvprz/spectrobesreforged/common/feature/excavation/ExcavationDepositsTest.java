@@ -33,7 +33,9 @@ class ExcavationDepositsTest {
             assertEquals("spectrobesreforged:excavation_patch",feature.get("type").getAsString());
             var config=feature.getAsJsonObject("config");
             assertEquals("spectrobesreforged:excavation/"+d.host(),config.get("biome_tag").getAsString());
-            assertEquals("spectrobesreforged:"+d.id(),config.getAsJsonObject("ore").get("Name").getAsString());
+            String family=Map.of("frozen","flashium","sandy","coronium","red_sandy","coronium","muddy","aurorium").get(d.host());
+            assertEquals("spectrobesreforged:"+(d.fossil()?d.id():d.host()+"_"+family+"_ore"),config.getAsJsonObject("ore").get("Name").getAsString());
+            if(!d.fossil())assertEquals(Integer.toString(List.of("c","b","a","a_plus").indexOf(d.grade())),config.getAsJsonObject("ore").getAsJsonObject("Properties").get("grade").getAsString());
             assertEquals("minecraft:"+Map.of("frozen","blue_ice","sandy","sandstone","red_sandy","red_sandstone","muddy","mud").get(d.host()),config.getAsJsonObject("host").get("Name").getAsString());
             var placed=load("data/spectrobesreforged/worldgen/placed_feature/"+d.id()+".json");assertEquals("spectrobesreforged:"+d.id(),placed.get("feature").getAsString());
             var pools=load("data/spectrobesreforged/loot_table/blocks/"+d.id()+".json").getAsJsonArray("pools");assertEquals("spectrobesreforged:"+d.id(),pools.get(0).getAsJsonObject().getAsJsonArray("entries").get(0).getAsJsonObject().get("name").getAsString());
@@ -43,8 +45,13 @@ class ExcavationDepositsTest {
                 assertTrue(data.contains(d.fossil()?"Fossil:":"Mineral:"));
             }
             load("assets/spectrobesreforged/blockstates/"+d.id()+".json");
-            var model=load("assets/spectrobesreforged/models/block/"+d.id()+".json");assertEquals("minecraft:block/cube_all",model.get("parent").getAsString());
-            var hostTexture=model.getAsJsonObject("textures").get("all").getAsString();assertTrue(hostTexture.startsWith("spectrobesreforged:block/"));
+            var model=load("assets/spectrobesreforged/models/block/"+d.id()+".json");
+            boolean sand=d.host().equals("sandy")||d.host().equals("red_sandy");
+            assertEquals("minecraft:block/"+(sand?"cube_bottom_top":"cube_all"),model.get("parent").getAsString());
+            if(sand){String base=d.host().equals("sandy")?"sandstone":"red_sandstone";
+                assertEquals("minecraft:block/"+base+"_top",model.getAsJsonObject("textures").get("top").getAsString());
+                assertEquals("minecraft:block/"+base+"_bottom",model.getAsJsonObject("textures").get("bottom").getAsString());}
+            var hostTexture=model.getAsJsonObject("textures").get(sand?"side":"all").getAsString();assertTrue(hostTexture.startsWith("spectrobesreforged:block/"));
             try(var texture=getClass().getResourceAsStream("/assets/spectrobesreforged/textures/"+hostTexture.split(":")[1]+".png")){assertNotNull(texture);}
             var item=load("assets/spectrobesreforged/models/item/"+d.id()+".json");assertEquals("spectrobesreforged:block/"+d.id(),item.get("parent").getAsString());
         }

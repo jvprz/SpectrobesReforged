@@ -27,7 +27,9 @@ Le compagnon doit être un Child vivant. Les six places d’équipe acceptent Ad
 
 L’intégrité du fossile donne **+1% à 70–84, +2% à 85–94 et +3% à 95–100**, arrondi vers le bas par statistique de base. Une fouille parfaite ajoute une couronne dorée permanente après le nom du fossile puis du Spectrobe éveillé. Qualité et couronne sont distinctes. Les anciennes entrées sans qualité conservent leurs statistiques.
 
-Les minéraux C/B/A/A+ donnent **10/20/40/60% d’un niveau**, en plus des effets existants. Les autres minéraux actifs donnent 25% ; Diamond/Evolve restent inactifs. Niveau maximum : **100**. Les statistiques progressent dans les limites de l’espèce. Un minéral peut encore donner de l’XP si sa statistique est au maximum. Sans changement de statistique ni d’XP, il n’est pas consommé.
+Les minéraux élémentaires C/B/A/A+/S donnent **10/20/40/60/100% de base** avec la même affinité, moitié sinon, avant la courbe de niveau. Power/Defense/Health entraînent uniquement les statistiques et ne donnent plus d’XP. Les autres minéraux gardent leurs effets.
+
+L’efficacité des minéraux diminue progressivement : **niveau 1 → 100%, 25 → 80%, 50 → 60%, 75 → 45%, 100 → 35%** du pourcentage de base. Un minéral de base à 10% apporte environ 6% au niveau 50, arrondi au point d’XP supérieur. Après un changement de niveau, le reste utilise la nouvelle efficacité. Les effets sur les statistiques, le compteur de minéraux et l’XP de combat restent inchangés. Au niveau maximal 100, aucun gain d’XP supplémentaire.
 
 Les Children gagnent de l’XP en mangeant. Un raid terminé donne une victoire et jusqu’à 60 XP à chaque Adult/Evolved vivant de chaque participant, réduits après sa mort. Les Children ne gagnent pas d’XP de combat. Ces compteurs préparent une évolution future sans l’activer.
 
@@ -66,3 +68,14 @@ Les compagnons Child ne subissent aucun dégât de combat ou environnemental : f
 ## HUD du compagnon et de l’équipe
 
 Un Child équipé affiche un panneau compact en haut à gauche : portrait, médailles, niveau et XP. Six emplacements numérotés représentent l’équipe ; les Adult/Evolved assignés montrent portrait et PV. Les emplacements vides n’activent ni évolution ni combat. La touche du Prizmod suit vos commandes. Masqué avec F1, débogage, menus, spectateur ou sans compagnon ni équipe.
+
+
+## Dernières versions expérimentales
+
+Les médailles ont leurs emplacements près de la vue 3D. Survolez une icône pour voir comment elle a été obtenue. Elles ne recouvrent plus les portraits.
+
+### Minéraux et découvertes — test expérimental 14
+
+Les minéraux élémentaires C/B/A/A+/S donnent **10/20/40/60/100% de base** avec la même affinité, moitié sinon, avant la courbe de niveau. Power/Defense/Health entraînent uniquement les statistiques et ne donnent plus d’XP. Les autres minéraux gardent leurs effets.
+
+Graines : ATQ +1, DEF +1, PV +10. Limite commune cumulable d’une graine par niveau, maximum 100, plafonds de l’espèce ; aucune XP. Evolve M remplit les minéraux, L le niveau défini, B les combats définis. Sans condition ou si elle est déjà remplie, rien n’est consommé. Les Child actuels n’ont que la condition de minéraux. Pas d’évolution automatique.
